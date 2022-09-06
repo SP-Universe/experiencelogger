@@ -1,0 +1,60 @@
+{
+    "name": "nlp/nlp-silverstripe",
+    "type": "silverstripe-recipe",
+    "description": "The SilverStripe Framework Installer",
+    "require": {
+        "php": "^7.4 || ^8",
+        "silverstripe/recipe-plugin": "^1.2",
+        "silverstripe/recipe-cms": "^4",
+        "dnadesign/silverstripe-elemental": "^4",
+        "ext-json": "*",
+        "colymba/gridfield-bulk-editing-tools": "^3.0",
+        "undefinedoffset/sortablegridfield": "^2.0",
+        "symbiote/silverstripe-contextawareupload": "^2.0",
+        "jonom/focuspoint": "^4.0"
+    },
+    "require-dev": {
+        "sminnee/phpunit": "^5.7",
+        "sminnee/phpunit-mock-objects": "^3.4.5",
+        "silverleague/ideannotator": "^3",
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/src/"
+        }
+    },
+    "extra": {
+        "expose": [
+            "app/client/dist",
+            "app/client/icons"
+        ],
+        "resources-dir": "_resources",
+        "project-files-installed": [
+            "app/.htaccess",
+            "app/_config.php",
+            "app/_config/mimevalidator.yml",
+            "app/_config/mysite.yml",
+            "app/src/Page.php",
+            "app/src/PageController.php"
+        ],
+        "public-files-installed": [
+            ".htaccess",
+            "index.php",
+            "web.config"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "scripts": {
+        "lint": "vendor/bin/phpcs",
+        "fix": "vendor/bin/phpcbf"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/recipe-plugin": true,
+            "silverstripe/vendor-plugin": true
+        }
+    }
+}

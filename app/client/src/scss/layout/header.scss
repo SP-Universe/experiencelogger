@@ -1,0 +1,183 @@
+.header {
+    overflow: visible;
+    max-width: $maxWidth;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: transparent;
+    width: 100%;
+    filter: none;
+
+    .header_nav{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .nav_brand{
+        height: 100%;
+        width: 300px;
+        padding: 20px 10px 10px;
+        @media screen and (max-width: 991px) {
+          display: block;
+        }
+        img {
+          width: 100%;
+        }
+      }
+
+      .nav_menu{
+
+        .nav_link {
+          text-decoration: none;
+          display: inline-block;
+          margin: 10px 0;
+          padding: 10px 30px;
+          font-family: Commissioner, sans-serif;
+          color: #1e3755;
+          font-size: 17px;
+          line-height: 20px;
+          font-weight: 400;
+          text-align: center;
+
+          &:hover {
+            background-color: #1e3755;
+            color: #fff;
+          }
+    
+          &:active {
+            background-color: #14273d;
+          }
+    
+          &:focus {
+            background-color: #2d5381;
+            color: #fff;
+          }
+
+          &.nav_link--active {
+            background-color: #1e3755;
+            color: #fff;
+          }
+        }
+
+        @media screen and (max-width: 991px) {
+          display: none;
+        }
+      }
+    
+      .nav_button{
+        display: none;
+        
+
+        @media screen and (max-width: 991px) {
+          display: inline-block;
+          position: relative;
+          top: 0px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          cursor: pointer;
+          
+          .bar1, .bar2, .bar3, .bar4 {
+            width: 35px;
+            height: 5px;
+            background-color: $ColorPrimary;
+            transition: 0.4s;
+            position: absolute;
+          }
+
+          .bar1{
+            top: 6px;
+            .body--show & {
+              opacity: 0;
+            }
+          }
+
+          .bar2{
+            top: 18px;
+            .body--show & {
+              opacity: 1;
+              transform-origin: center;
+              transform: rotate(45deg);
+            }
+          }
+
+          .bar3{
+            opacity: 0;
+            top: 18px;
+            .body--show &{
+              opacity: 1;
+              transform-origin: center;
+              transform: rotate(-45deg);
+            }
+          }
+
+          .bar4{
+            top: 30px;
+            .body--show &{
+              opacity: 0;
+            }
+          }
+        }
+      }
+
+      .nav_mobile{
+        display: none;
+
+        @media screen and (max-width: 991px) {
+          display: block;
+        }
+
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+
+        width: 100%;
+        position: absolute;
+        top: 100px;
+        z-index: 100;
+
+        background-color: #ffffffd1;
+
+        ul{
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          
+          li{
+            border-bottom: 1px solid $ColorPrimary;
+            a{
+              display: block;
+              color: $ColorPrimary;
+              text-decoration: none;
+              padding: 10px 20px;
+              flex-direction: row;
+              justify-content: space-between;
+              flex-wrap: wrap;
+              align-items: center;
+              font-family: Commissioner, sans-serif;
+              color: #1e3755;
+              font-size: 17px;
+              line-height: 55px;
+              font-weight: 400;
+            }
+
+            &:first-of-type{
+              border-top: 1px solid $ColorPrimary;
+            }
+
+            &:last-of-type{
+              border-bottom: 3px solid $ColorPrimary;
+            }
+          }
+        }
+
+        .body--show & {
+          max-height: 100vh;
+          opacity: 1;
+        }
+      }
+    }
+
+    @media screen and (max-width: 991px) {
+      padding-bottom: 0px;
+    }
+  }

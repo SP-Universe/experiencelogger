@@ -1,0 +1,21 @@
+.section.section--text{
+    .section_content{
+        .text_title{
+            color: $ColorPrimary;
+        }
+    }
+
+    &.section--text-center {
+        .text_title{
+            text-align: center;
+        }
+        .text_content {
+            text-align: center;
+
+            @media screen and (max-width: 991px) {
+                padding-right: 34px;
+                padding-left: 34px;
+            }
+        }
+    }
+}

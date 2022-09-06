@@ -1,0 +1,26 @@
+{
+  "name": "silverstripe-template",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "Adiwidjaja Teamworks GmbH",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn development",
+    "development": "npx mix",
+    "watch": "npx mix watch",
+    "build": "npx mix --production"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.7",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "laravel-mix": "^6.0.41",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.1.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "glightbox": "^3.0.9",
+    "include-media": "^1.4.10"
+  }
+}
