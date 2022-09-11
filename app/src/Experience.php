@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Docs;
+namespace App\ExperienceDatabase;
 
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
@@ -22,9 +22,9 @@ use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
  * @property int $LocationID
  * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\Assets\Image Image()
- * @method \App\Docs\Location Location()
- * @method \SilverStripe\ORM\ManyManyList|\App\Docs\ExperienceData[] ExperienceData()
- * @method \SilverStripe\ORM\ManyManyList|\App\Docs\ExperienceSeat[] ExperienceSeats()
+ * @method \App\ExperienceDatabase\ExperienceLocation Location()
+ * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
+ * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
  */
 class Experience extends DataObject
 {
@@ -38,7 +38,7 @@ class Experience extends DataObject
     private static $has_one = [
         "LayoutSVG" => File::class,
         "Image" => Image::class,
-        "Location" => Location::class,
+        "Location" => ExperienceLocation::class,
     ];
 
     private static $many_many = [
@@ -53,18 +53,10 @@ class Experience extends DataObject
         "ExperienceSeats",
     ];
 
-    private static $default_sort = "SortOrder ASC";
-
     private static $field_labels = [
-        "Title" => "Titel",
-        "Type" => "Typ",
-        "Description" => "Beschreibung",
-        "LayoutSVG" => "Sitz-Layout",
-        "Image" => "Bild",
-        "Location" => "Standort",
-        "Seats" => "Sitze",
-        "Data" => "Daten",
     ];
+
+    private static $default_sort = "SortOrder ASC";
 
     private static $table_name = "Experience";
 
@@ -76,15 +68,6 @@ class Experience extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-
-        $fields->removeByName("SortOrder");
-        $fields->removeByName("ExperienceData");
-
-        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
-        $sorter = new GridFieldSortableRows('SortOrder');
-        $gridFieldConfig->addComponent($sorter);
-        $gridfield = new GridField("ExperienceData", "Infos", $this->ExperienceData(), $gridFieldConfig);
-        $fields->addFieldToTab('Root.Infos', $gridfield);
 
         return $fields;
     }

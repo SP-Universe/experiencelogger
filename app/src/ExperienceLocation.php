@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Docs;
+namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
 
@@ -12,9 +12,8 @@ use SilverStripe\ORM\DataObject;
  * @property string $OpeningDate
  * @property string $Address
  * @property string $Description
- * @method \SilverStripe\ORM\ManyManyList|\App\Docs\Experience[] Experiences()
  */
-class Location extends DataObject
+class ExperienceLocation extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
@@ -22,10 +21,6 @@ class Location extends DataObject
         "OpeningDate" => "Date",
         "Address" => "Varchar(255)",
         "Description" => "HTMLText",
-    ];
-
-    private static $belongs_many_many = [
-        "Experiences" => Experience::class
     ];
 
     private static $default_sort = "Title ASC";
@@ -46,7 +41,7 @@ class Location extends DataObject
         "Title", "Type", "Description",
     ];
 
-    private static $table_name = "Location";
+    private static $table_name = "ExperienceLocation";
 
     private static $singular_name = "Location";
     private static $plural_name = "Locations";

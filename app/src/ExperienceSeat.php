@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Docs;
+namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
 
@@ -11,8 +11,6 @@ use SilverStripe\ORM\DataObject;
  * @property string $Seat
  * @property int $Coord1
  * @property int $Coord2
- * @property int $ParentID
- * @method \App\Docs\Experience Parent()
  */
 class ExperienceSeat extends DataObject
 {
@@ -23,11 +21,11 @@ class ExperienceSeat extends DataObject
         "Coord2" => "Int",
     ];
 
-    private static $has_one = [
+    private static $belongs = [
         "Parent" => Experience::class
     ];
 
-    private static $default_sort = "Title ASC";
+    private static $default_sort = "Row ASC, Seat ASC";
 
     private static $field_labels = [
         "Row" => "Reihe",

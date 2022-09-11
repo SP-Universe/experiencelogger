@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Docs;
+namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
@@ -15,7 +15,7 @@ use SilverStripe\Security\Permission;
  * @property string $Source
  * @property int $SortOrder
  * @property int $ParentID
- * @method \App\Docs\Experience Parent()
+ * @method \App\ExperienceDatabase\Experience Parent()
  */
 class ExperienceData extends DataObject
 {

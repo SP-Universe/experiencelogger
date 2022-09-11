@@ -1,5 +1,5 @@
 <?php
-namespace App\Docs;
+namespace App\ExperienceDatabase;
 
 use SilverStripe\Admin\ModelAdmin;
 
@@ -12,7 +12,7 @@ class ExperienceAdmin extends ModelAdmin
 
     private static $managed_models = array (
         Experience::class,
-        Location::class,
+        ExperienceLocation::class,
     );
 
     private static $url_segment = "experiences";
