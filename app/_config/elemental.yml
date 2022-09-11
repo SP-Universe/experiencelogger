@@ -1,8 +1,0 @@
----
-Name: app-elemental
----
-Page:
-  extensions:
-    - DNADesign\Elemental\Extensions\ElementalPageExtension
-  disallowed_elements:
-    - DNADesign\Elemental\Models\ElementContent

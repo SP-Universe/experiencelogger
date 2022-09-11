@@ -9,9 +9,9 @@ namespace {
  *
  * @property \Page dataRecord
  * @method \Page data()
- * @mixin \Page dataRecord
+ * @mixin \Page
  */
-    class PageController extends ContentController
+class PageController extends ContentController
     {
         /**
          * An array of actions that can be accessed via a request. Each array element should be an action name, and the

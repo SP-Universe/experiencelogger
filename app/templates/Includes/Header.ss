@@ -5,9 +5,9 @@
         </a>
         <div class="nav_menu">
             <% loop $Menu(1) %>
-            <% if $MenuPosition != "footer" %>
-            <a href="$Link" class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">$MenuTitle</a>
-            <% end_if %>
+                <% if $MenuPosition != "footer" %>
+                    <a href="$Link" class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">$MenuTitle</a>
+                <% end_if %>
             <% end_loop %>
         </div>
         <div class="nav_button" data-behaviour="toggle-menu">
