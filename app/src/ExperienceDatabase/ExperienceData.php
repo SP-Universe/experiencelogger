@@ -28,17 +28,7 @@ class ExperienceData extends DataObject
         "SortOrder" => "Int",
     ];
 
-    private static $api_access = [
-        'view' => [
-            'Title',
-            'Type',
-            'Description',
-            'MoreInfo',
-            'Source',
-            'SortOrder',
-        ],
-        'edit' => []
-    ];
+    private static $api_access = true;
 
     private static $default_sort = "SortOrder ASC";
 
@@ -58,6 +48,8 @@ class ExperienceData extends DataObject
 
     private static $summary_fields = [
         "Title" => "Titel",
+        "Type" => "Typ",
+        "Description" => "Beschreibung",
     ];
 
     private static $searchable_fields = [

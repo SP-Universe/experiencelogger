@@ -52,10 +52,24 @@ class Experience extends DataObject
         "ExperienceSeats",
     ];
 
-    private static $field_labels = [
+    private static $summary_fields = [
+        "Title" => "Titel",
+        "Type" => "Typ",
+        "State" => "Status",
+        "Parent.Title" => "Location",
     ];
 
-    private static $default_sort = "Title ASC";
+    private static $field_labels = [
+        "Title" => "Titel",
+        "Type" => "Typ",
+        "State" => "Status",
+        "Description" => "Beschreibung",
+        "LayoutSVG" => "Sitz-Layout",
+        "Image" => "Bild",
+        "Parent.Title" => "Ort",
+    ];
+
+    private static $default_sort = "State ASC, Type ASC, Title ASC";
 
     private static $table_name = "Experience";
 

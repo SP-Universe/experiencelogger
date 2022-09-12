@@ -20,45 +20,45 @@ class ExperienceSeat extends DataObject
     private static $db = [
         "Row" => "Varchar(255)",
         "Seat" => "Varchar(255)",
+        "Wagon" => "Varchar(255)",
+        "Train" => "Varchar(255)",
         "Coord1" => "Int",
         "Coord2" => "Int",
+        "Info" => "Varchar(255)",
     ];
 
-    private static $api_access = [
-        'view' => [
-            'Row',
-            'Seat',
-            'Coord1',
-            'Coord2',
-        ],
-        'edit' => []
-    ];
+    private static $api_access = true;
 
     private static $has_one = [
         "Parent" => Experience::class
     ];
 
-    private static $default_sort = "Row ASC, Seat ASC";
+    private static $default_sort = "Train ASC, Wagon ASC, Row ASC, Seat ASC";
 
     private static $field_labels = [
         "Row" => "Reihe",
         "Seat" => "Sitz",
+        "Wagon" => "Wagen",
+        "Train" => "Zug",
         "Coord1" => "X-Koordinate",
         "Coord2" => "Y-Koordinate",
     ];
 
     private static $summary_fields = [
-        "Title" => "Titel",
+        "Train" => "Zug",
+        "Wagon" => "Wagen",
+        "Row" => "Reihe",
+        "Seat" => "Sitz",
     ];
 
     private static $searchable_fields = [
-        "Row", "Seat"
+        "Train", "Wagon", "Row", "Seat"
     ];
 
     private static $table_name = "ExperienceSeat";
 
-    private static $singular_name = "Sitz";
-    private static $plural_name = "Sitze";
+    private static $singular_name = "Sitzplatz";
+    private static $plural_name = "Sitzplätze";
 
     private static $url_segment = "seat";
 
