@@ -11,8 +11,8 @@ class ExperienceAdmin extends ModelAdmin
 {
 
     private static $managed_models = array (
-        Experience::class,
         ExperienceLocation::class,
+        Experience::class,
     );
 
     private static $url_segment = "experiences";
