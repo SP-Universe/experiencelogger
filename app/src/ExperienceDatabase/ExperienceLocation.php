@@ -3,6 +3,7 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Permission;
 
 /**
  * Class \App\Database\Location
@@ -12,6 +13,7 @@ use SilverStripe\ORM\DataObject;
  * @property string $OpeningDate
  * @property string $Address
  * @property string $Description
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\Experience[] Experiences()
  */
 class ExperienceLocation extends DataObject
 {
@@ -22,6 +24,16 @@ class ExperienceLocation extends DataObject
         "Address" => "Varchar(255)",
         "Description" => "HTMLText",
     ];
+
+    private static $has_many = [
+        "Experiences" => Experience::class,
+    ];
+
+    private static $owns = [
+        "Experiences",
+    ];
+
+    private static $api_access = true;
 
     private static $default_sort = "Title ASC";
 
@@ -38,7 +50,7 @@ class ExperienceLocation extends DataObject
     ];
 
     private static $searchable_fields = [
-        "Title", "Type", "Description",
+        "Title", "Type", "Description", "Experiences.Title"
     ];
 
     private static $table_name = "ExperienceLocation";
@@ -52,5 +64,25 @@ class ExperienceLocation extends DataObject
     {
         $fields = parent::getCMSFields();
         return $fields;
+    }
+
+    public function canView($member = null)
+    {
+        return true;
+    }
+
+    public function canEdit($member = null)
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function canDelete($member = null)
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function canCreate($member = null, $context = [])
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 }

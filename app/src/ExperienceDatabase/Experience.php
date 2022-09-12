@@ -6,42 +6,41 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 /**
  * Class \App\Database\Experience
  *
  * @property string $Title
  * @property string $Type
+ * @property string $State
  * @property string $Description
- * @property int $SortOrder
  * @property int $LayoutSVGID
  * @property int $ImageID
- * @property int $LocationID
+ * @property int $ParentID
  * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\Assets\Image Image()
- * @method \App\ExperienceDatabase\ExperienceLocation Location()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
+ * @method \App\ExperienceDatabase\ExperienceLocation Parent()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
  */
 class Experience extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
         "Type" => "Enum('Coaster, Flatride, Waterride, Trackride, Show, Walkthrough, Convention, Scare House, Escaperoom, Other', 'Other')",
+        "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Description" => "HTMLText",
-        "SortOrder" => "Int",
     ];
+
+    private static $api_access = true;
 
     private static $has_one = [
         "LayoutSVG" => File::class,
         "Image" => Image::class,
-        "Location" => ExperienceLocation::class,
+        "Parent" => ExperienceLocation::class,
     ];
 
-    private static $many_many = [
+    private static $has_many = [
         "ExperienceData" => ExperienceData::class,
         "ExperienceSeats" => ExperienceSeat::class,
     ];
@@ -56,7 +55,7 @@ class Experience extends DataObject
     private static $field_labels = [
     ];
 
-    private static $default_sort = "SortOrder ASC";
+    private static $default_sort = "Title ASC";
 
     private static $table_name = "Experience";
 
@@ -68,6 +67,8 @@ class Experience extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->removeByName("ParentID");
 
         return $fields;
     }

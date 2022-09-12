@@ -3,6 +3,7 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Permission;
 
 /**
  * Class \App\Database\ExperienceSeat
@@ -11,6 +12,8 @@ use SilverStripe\ORM\DataObject;
  * @property string $Seat
  * @property int $Coord1
  * @property int $Coord2
+ * @property int $ParentID
+ * @method \App\ExperienceDatabase\Experience Parent()
  */
 class ExperienceSeat extends DataObject
 {
@@ -21,7 +24,17 @@ class ExperienceSeat extends DataObject
         "Coord2" => "Int",
     ];
 
-    private static $belongs = [
+    private static $api_access = [
+        'view' => [
+            'Row',
+            'Seat',
+            'Coord1',
+            'Coord2',
+        ],
+        'edit' => []
+    ];
+
+    private static $has_one = [
         "Parent" => Experience::class
     ];
 
@@ -53,5 +66,25 @@ class ExperienceSeat extends DataObject
     {
         $fields = parent::getCMSFields();
         return $fields;
+    }
+
+    public function canView($member = null)
+    {
+        return true;
+    }
+
+    public function canEdit($member = null)
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function canDelete($member = null)
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function canCreate($member = null, $context = [])
+    {
+        return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 }

@@ -10,7 +10,8 @@
         "undefinedoffset/sortablegridfield": "^2.0",
         "jonom/focuspoint": "^4.0",
         "dnadesign/silverstripe-elemental": "^4",
-        "dnadesign/silverstripe-elemental-userforms": "3.x-dev"
+        "dnadesign/silverstripe-elemental-userforms": "3.x-dev",
+        "silverstripe/restfulserver": "dev-master"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",

@@ -28,6 +28,18 @@ class ExperienceData extends DataObject
         "SortOrder" => "Int",
     ];
 
+    private static $api_access = [
+        'view' => [
+            'Title',
+            'Type',
+            'Description',
+            'MoreInfo',
+            'Source',
+            'SortOrder',
+        ],
+        'edit' => []
+    ];
+
     private static $default_sort = "SortOrder ASC";
 
     private static $inline_editable = false;
