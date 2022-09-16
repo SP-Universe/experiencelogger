@@ -27,7 +27,7 @@ class Experience extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
-        "Type" => "Enum('Coaster, Flatride, Waterride, Trackride, Show, Walkthrough, Area, Restaurant, Character, Event, Convention, Scare House, Escaperoom, Other', 'Other')",
+        "Type" => "Enum('Coaster, Flatride, Waterride, Trackride, Show, Walkthrough, Area, Playground, Restaurant, Character, Event, Convention, Scare House, Escaperoom, Other', 'Other')",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Description" => "HTMLText",
     ];

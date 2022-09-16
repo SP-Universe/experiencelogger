@@ -10,8 +10,11 @@ use SilverStripe\Security\Permission;
  *
  * @property string $Row
  * @property string $Seat
+ * @property string $Wagon
+ * @property string $Train
  * @property int $Coord1
  * @property int $Coord2
+ * @property string $Info
  * @property int $ParentID
  * @method \App\ExperienceDatabase\Experience Parent()
  */
