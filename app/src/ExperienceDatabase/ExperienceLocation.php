@@ -2,6 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
+use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 
@@ -13,6 +14,8 @@ use SilverStripe\Security\Permission;
  * @property string $OpeningDate
  * @property string $Address
  * @property string $Description
+ * @property int $ImageID
+ * @method \SilverStripe\Assets\Image Image()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\Experience[] Experiences()
  */
 class ExperienceLocation extends DataObject
@@ -29,8 +32,13 @@ class ExperienceLocation extends DataObject
         "Experiences" => Experience::class,
     ];
 
+    private static $has_one = [
+        "Image" => Image::class,
+    ];
+
     private static $owns = [
         "Experiences",
+        "Image"
     ];
 
     private static $api_access = true;
@@ -86,5 +94,10 @@ class ExperienceLocation extends DataObject
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function getFormattedName()
+    {
+        return str_replace(' ', '_', $this->Title);
     }
 }

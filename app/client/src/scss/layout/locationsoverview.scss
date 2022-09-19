@@ -1,0 +1,73 @@
+.section.section--locationsoverview{
+    .section_content{
+        .location_list{
+            padding-left: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .location_entry{
+                background-color: $ColorPrimaryLight;
+                border-radius: 20px;
+                display: flex;
+                height: 100%;
+
+                .location_entry_image{
+                    width: 30%;
+                    padding: 0;
+                    transform: scale(1.02);
+                    border-radius: 20px;
+                    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+                    background-color: $ColorPrimary;
+                    background-size: cover;
+                }
+
+                .location_entry_content{
+                    width: 70%;
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+            }
+        }
+
+        .experience_list{
+            padding-left: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .experience_entry{
+                background-color: $ColorPrimaryLight;
+                border-radius: 20px;
+                display: flex;
+                height: 100%;
+                overflow: hidden;
+
+                .experience_entry_image{
+                    width: 30%;
+                    padding: 0;
+                    transform: scale(1.02);
+                    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+                    background-color: $ColorPrimary;
+                    clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+                    background-size: cover;
+                }
+
+                .experience_entry_content{
+                    width: 70%;
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+            }
+        }
+
+        .source{
+            display: block;
+            font-size: 12px;
+        }
+    }
+}

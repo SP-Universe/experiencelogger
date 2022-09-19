@@ -5,15 +5,19 @@
 @import "normalize";
 @import "variables";
 @import "typography";
+@import "forms";
 
 @import "layout/footer.scss";
 @import "layout/header.scss";
 
+@import "layout/imagetext.scss";
 @import "layout/textimage.scss";
 @import "layout/text.scss";
+@import "layout/locationsoverview.scss";
 
 .section {
     max-width: $maxWidth;
+    padding: 0 20px;
 }
 
 .section_content{

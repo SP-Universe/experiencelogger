@@ -1,20 +1,40 @@
 body{
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 18px;
     font-weight: 400;
+    color: $ColorBlack;
 }
 
 h1, h2, h3, h4, h5{
     font-weight: 700;
-
+    color: $ColorPrimary;
+    margin: 0 0 5px 0;
 }
 
 h1{
-    font-size: 35px;
+    font-size: 40px;
     font-weight: 700;
+    line-height: 1;
+    margin: 10px 0;
+}
+
+h2{
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+h3{
+    font-size: 25px;
+    font-weight: 700;
+}
+
+p{
+    margin: 0;
 }
 
 a{
     cursor: pointer;
     text-decoration: none;
+    color: $ColorPrimary;
 }

@@ -13,6 +13,7 @@ use SilverStripe\Security\Permission;
  * @property string $Description
  * @property string $MoreInfo
  * @property string $Source
+ * @property string $SourceLink
  * @property int $SortOrder
  * @property int $ParentID
  * @method \App\ExperienceDatabase\Experience Parent()
@@ -21,10 +22,11 @@ class ExperienceData extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
-        "Type" => "Enum('Opening Day, Closing Day, Manufacturer, Model, Max kmh, Max Gradient, Max Driving Time, Roomsize, Other', 'Other')",
+        "Type" => "Enum('Opening Day, Closing Day, Manufacturer, Model, Max kmh, Max Gradient, Max Driving Time, Roomsize, Previous Names, Other', 'Other')",
         "Description" => "HTMLText",
         "MoreInfo" => "Varchar(255)",
         "Source" => "Varchar(255)",
+        "SourceLink" => "Varchar(255)",
         "SortOrder" => "Int",
     ];
 

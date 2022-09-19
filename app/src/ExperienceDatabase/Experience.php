@@ -106,4 +106,9 @@ class Experience extends DataObject
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
+
+    public function getFormattedName()
+    {
+        return str_replace(' ', '_', $this->Title);
+    }
 }
