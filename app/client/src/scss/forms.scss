@@ -3,20 +3,32 @@ fieldset{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
 
-    .field{
-        width: 100%;
-        label{
-            display: block;
-            margin: 10px 0 2px 0 ;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-        input{
-            border-radius: 10px;
-            border: 0;
-            background-color: $ColorPrimaryLight;
-            padding: 5px 10px;
-        }
-    }
+.field{
+    width: 100%;
+    max-width: $maxWidthContent;
+}
+
+label{
+    display: block;
+    margin: 10px 0 2px 0 ;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+input{
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    background-color: $ColorWhite;
+    padding: 5px 10px;
+}
+
+textarea{
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    background-color: $ColorWhite;
+    padding: 5px 10px;
 }

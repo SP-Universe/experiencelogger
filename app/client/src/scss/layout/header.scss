@@ -34,30 +34,29 @@ header {
                 .nav_link {
                     text-decoration: none;
                     display: inline-block;
-                    color: $ColorWhite;
                     font-size: 17px;
                     line-height: 20px;
                     font-weight: 400;
                     text-align: center;
+                }
 
-                    &:hover {
-                        background-color: $ColorPrimary;
-                        color: $ColorWhite;
-                    }
+                &:hover {
+                    background-color: $ColorPrimary;
+                    color: $ColorWhite;
+                }
 
-                    &:active {
-                        background-color: $ColorPrimary;
-                    }
+                &:active {
+                    background-color: $ColorPrimary;
+                }
 
-                    &:focus {
-                        background-color: $ColorSecondary;
-                        color: $ColorWhite;
-                    }
+                &:focus {
+                    background-color: $ColorSecondary;
+                    color: $ColorWhite;
+                }
 
-                    &.nav_link--active {
-                        background-color: $ColorPrimary;
-                        color: $ColorWhite;
-                    }
+                &.nav_link--active {
+                    background-color: $ColorPrimary;
+                    color: $ColorWhite;
                 }
             }
 
@@ -89,6 +88,7 @@ header {
                             width: 100%;
                             height: 100%;
                             padding: 20px 10px;
+                            color: $ColorWhite;
                         }
                     }
                 }

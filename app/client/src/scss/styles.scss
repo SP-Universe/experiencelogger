@@ -6,6 +6,7 @@
 @import "variables";
 @import "typography";
 @import "forms";
+@import "animations";
 
 @import "layout/footer.scss";
 @import "layout/header.scss";
@@ -15,9 +16,14 @@
 @import "layout/text.scss";
 @import "layout/locationsoverview.scss";
 
+body{
+    background-color: rgb(230, 230, 230);
+}
+
 .section {
     max-width: $maxWidth;
     padding: 0 20px;
+    margin: 0 auto;
 }
 
 .section_content{

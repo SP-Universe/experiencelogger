@@ -22,3 +22,11 @@
         </div>
     </div>
 </header>
+
+<div class="section section--headertitle">
+    <div class="section_content">
+        <% if $ShowTitle %>
+            <h1>$Title</h1>
+        <% end_if %>
+    </div>
+</div>

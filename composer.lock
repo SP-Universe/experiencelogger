@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f6664561cbd7db4c8c30bfb6801071f",
+    "content-hash": "58656f99e43a05efa892ebdec1d12303",
     "packages": [
         {
             "name": "bramus/ansi-php",
@@ -2075,56 +2075,6 @@
             "time": "2021-11-05T16:50:12+00:00"
         },
         {
-            "name": "psr/event-dispatcher",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\EventDispatcher\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Standard interfaces for event handling.",
-            "keywords": [
-                "events",
-                "psr",
-                "psr-14"
-            ],
-            "support": {
-                "issues": "https://github.com/php-fig/event-dispatcher/issues",
-                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
-            },
-            "time": "2019-01-08T18:20:26+00:00"
-        },
-        {
             "name": "psr/http-client",
             "version": "1.0.1",
             "source": {
@@ -2386,6 +2336,59 @@
             "time": "2017-10-23T01:57:42+00:00"
         },
         {
+            "name": "purplespider/silverstripe-basic-gallery-extension",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/purplespider/silverstripe-basic-gallery-extension.git",
+                "reference": "be52b3df2142f4b24ba30b691a2b825442faec29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/purplespider/silverstripe-basic-gallery-extension/zipball/be52b3df2142f4b24ba30b691a2b825442faec29",
+                "reference": "be52b3df2142f4b24ba30b691a2b825442faec29",
+                "shasum": ""
+            },
+            "require": {
+                "colymba/gridfield-bulk-editing-tools": "3.*",
+                "silverstripe/cms": "^4.1",
+                "silverstripe/framework": "^4.1",
+                "silverstripe/lumberjack": "2.*",
+                "symbiote/silverstripe-gridfieldextensions": "^3"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client/dist"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "James Cocker",
+                    "email": "ssmodules@pswd.biz"
+                }
+            ],
+            "description": "Silverstripe CMS Image Gallery Extension",
+            "homepage": "https://github.com/purplespider/silverstripe-basic-gallery-extension",
+            "keywords": [
+                "bulk",
+                "extension",
+                "gallery",
+                "image",
+                "photo",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/purplespider/silverstripe-basic-gallery-extension/issues",
+                "source": "https://github.com/purplespider/silverstripe-basic-gallery-extension/tree/3.0.0"
+            },
+            "time": "2021-07-16T11:44:12+00:00"
+        },
+        {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
             "source": {
@@ -2621,6 +2624,73 @@
                 "source": "https://github.com/silverstripe/silverstripe-assets/tree/1.11.0"
             },
             "time": "2022-06-27T04:27:04+00:00"
+        },
+        {
+            "name": "silverstripe/blog",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-blog.git",
+                "reference": "02fb20d1a3c74c3c232a5b3d6ef085e99f075831"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-blog/zipball/02fb20d1a3c74c3c232a5b3d6ef085e99f075831",
+                "reference": "02fb20d1a3c74c3c232a5b3d6ef085e99f075831",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/asset-admin": "^1.0",
+                "silverstripe/assets": "^1.0",
+                "silverstripe/cms": "^4.0",
+                "silverstripe/lumberjack": "^2.0",
+                "silverstripe/tagfield": "^2.0"
+            },
+            "replace": {
+                "micmania1/silverstripe-blog": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "suggest": {
+                "silverstripe/comments": "This module adds comments to your blog.",
+                "silverstripe/widgets": "Some widgets come with the blog which are compatible with the widgets module."
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client/dist",
+                    "client/images"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\Blog\\": "src/",
+                    "SilverStripe\\Blog\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Strong",
+                    "email": "github@michaelstrong.co.uk"
+                }
+            ],
+            "description": "A fresh take on blogging in Silverstripe set out to tackle the issue of a cluttered Site Tree.",
+            "keywords": [
+                "blog",
+                "news",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/silverstripe/silverstripe-blog/issues",
+                "source": "https://github.com/silverstripe/silverstripe-blog/tree/master"
+            },
+            "time": "2022-08-08T23:47:22+00:00"
         },
         {
             "name": "silverstripe/campaign-admin",
@@ -2865,64 +2935,17 @@
             "time": "2022-05-04T01:29:41+00:00"
         },
         {
-            "name": "silverstripe/event-dispatcher",
-            "version": "0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/silverstripe/silverstripe-event-dispatcher.git",
-                "reference": "30f89c649b50d5560d83650af82d55ff38deeaec"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-event-dispatcher/zipball/30f89c649b50d5560d83650af82d55ff38deeaec",
-                "reference": "30f89c649b50d5560d83650af82d55ff38deeaec",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3 || ^8.0",
-                "psr/event-dispatcher": "^1",
-                "silverstripe/framework": "^4.10",
-                "symfony/event-dispatcher": "^4.4 || ^5"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3.0"
-            },
-            "type": "silverstripe-vendormodule",
-            "autoload": {
-                "psr-4": {
-                    "SilverStripe\\EventDispatcher\\": "src/",
-                    "SilverStripe\\EventDispatcher\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Publish and subscribe to events in Silverstripe CMS or your Silverstripe application",
-            "keywords": [
-                "cms",
-                "events",
-                "silverstripe"
-            ],
-            "support": {
-                "issues": "https://github.com/silverstripe/silverstripe-event-dispatcher/issues",
-                "source": "https://github.com/silverstripe/silverstripe-event-dispatcher/tree/0.1.3"
-            },
-            "time": "2021-10-28T10:56:37+00:00"
-        },
-        {
             "name": "silverstripe/framework",
-            "version": "4.11.6",
+            "version": "4.11.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-framework.git",
-                "reference": "051e74a2893d3b356ec2425a92b24c65f0d8bf9b"
+                "reference": "7e9ced08245adb51201c016a672b1db87eb871b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/051e74a2893d3b356ec2425a92b24c65f0d8bf9b",
-                "reference": "051e74a2893d3b356ec2425a92b24c65f0d8bf9b",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/7e9ced08245adb51201c016a672b1db87eb871b7",
+                "reference": "7e9ced08245adb51201c016a672b1db87eb871b7",
                 "shasum": ""
             },
             "require": {
@@ -3037,37 +3060,39 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-framework/issues",
-                "source": "https://github.com/silverstripe/silverstripe-framework/tree/4.11.6"
+                "source": "https://github.com/silverstripe/silverstripe-framework/tree/4.11.7"
             },
-            "time": "2022-08-01T08:42:47+00:00"
+            "time": "2022-09-08T00:45:09+00:00"
         },
         {
             "name": "silverstripe/graphql",
-            "version": "4.0.0",
+            "version": "3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-graphql.git",
-                "reference": "8e66e64953a6675bc7726a2421292cecafb93c1c"
+                "reference": "727085095854ba721f62e925cdcb929ec823e8ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-graphql/zipball/8e66e64953a6675bc7726a2421292cecafb93c1c",
-                "reference": "8e66e64953a6675bc7726a2421292cecafb93c1c",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-graphql/zipball/727085095854ba721f62e925cdcb929ec823e8ba",
+                "reference": "727085095854ba721f62e925cdcb929ec823e8ba",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.3",
-                "guzzlehttp/psr7": "^2",
-                "m1/env": "^2.1",
-                "php": "^7.4 || ^8.0",
-                "silverstripe/event-dispatcher": "^0.1.2",
-                "silverstripe/framework": "^4.11",
+                "silverstripe/framework": "^4.10",
                 "silverstripe/vendor-plugin": "^1.0",
-                "webonyx/graphql-php": "^14.0"
+                "webonyx/graphql-php": "^14"
+            },
+            "conflict": {
+                "dnadesign/silverstripe-elemental": "<4.6",
+                "silverstripe/admin": "<1.8",
+                "silverstripe/asset-admin": "<1.8",
+                "silverstripe/campaign-admin": "<1.8",
+                "silverstripe/cms": "<1.8",
+                "silverstripe/versioned-admin": "<1.8"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.5",
-                "silverstripe/versioned": "^1.0@dev",
                 "squizlabs/php_codesniffer": "^3.0"
             },
             "suggest": {
@@ -3088,9 +3113,172 @@
             "description": "GraphQL server for SilverStripe models and other data",
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-graphql/issues",
-                "source": "https://github.com/silverstripe/silverstripe-graphql/tree/4.0.0"
+                "source": "https://github.com/silverstripe/silverstripe-graphql/tree/3.8.1"
             },
-            "time": "2022-06-23T07:11:13+00:00"
+            "time": "2022-07-06T23:18:22+00:00"
+        },
+        {
+            "name": "silverstripe/linkfield",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-linkfield.git",
+                "reference": "636c6792ebf8c266e802814956eb1a8a954f92a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-linkfield/zipball/636c6792ebf8c266e802814956eb1a8a954f92a7",
+                "reference": "636c6792ebf8c266e802814956eb1a8a954f92a7",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/admin": "^1.7",
+                "silverstripe/asset-admin": "^1.7",
+                "silverstripe/cms": "^4.7",
+                "silverstripe/graphql": "^3.4",
+                "silverstripe/vendor-plugin": "^1"
+            },
+            "require-dev": {
+                "silverstripe/recipe-testing": "^1 || ^2"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev",
+                    "dev-1": "1.x-dev"
+                },
+                "expose": [
+                    "client/dist",
+                    "client/lang"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\LinkField\\": "src/",
+                    "SilverStripe\\LinkField\\Tests\\": "tests/php/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Rainville",
+                    "email": "maxime@silverstripe.com"
+                }
+            ],
+            "description": "Add advanced link functionality to Silverstripe.",
+            "support": {
+                "issues": "https://github.com/silverstripe/silverstripe-linkfield/issues",
+                "source": "https://github.com/silverstripe/silverstripe-linkfield/tree/1"
+            },
+            "time": "2022-06-29T20:16:36+00:00"
+        },
+        {
+            "name": "silverstripe/login-forms",
+            "version": "4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-login-forms.git",
+                "reference": "bf5785c2c624dc8fc955f420e3937d20062a9a88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/bf5785c2c624dc8fc955f420e3937d20062a9a88",
+                "reference": "bf5785c2c624dc8fc955f420e3937d20062a9a88",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "silverstripe/framework": "^4.10"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client/dist"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\LoginForms\\": "src/",
+                    "SilverStripe\\LoginForms\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A collection of templates for the CMS login screens",
+            "homepage": "https://github.com/silverstripe/login-forms",
+            "keywords": [
+                "login",
+                "silverstripe",
+                "styling",
+                "template"
+            ],
+            "support": {
+                "issues": "https://github.com/silverstripe/login-forms/issues",
+                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/4.7.0"
+            },
+            "time": "2022-05-04T01:29:41+00:00"
+        },
+        {
+            "name": "silverstripe/lumberjack",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-lumberjack.git",
+                "reference": "569e5af9354d8c238bb76d8de60d00373e50f6b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-lumberjack/zipball/569e5af9354d8c238bb76d8de60d00373e50f6b7",
+                "reference": "569e5af9354d8c238bb76d8de60d00373e50f6b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "silverstripe/cms": "^4.0",
+                "silverstripe/framework": "^4.10"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "css",
+                    "javascript"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\Lumberjack\\": "src/",
+                    "SilverStripe\\Lumberjack\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Strong",
+                    "email": "mstrong@silverstripe.org"
+                }
+            ],
+            "description": "A module to make managing pages in a GridField easy without losing any of the functionality that you're used to in the CMS.",
+            "support": {
+                "issues": "https://github.com/silverstripe/silverstripe-lumberjack/issues",
+                "source": "https://github.com/silverstripe/silverstripe-lumberjack/tree/2.2.0"
+            },
+            "time": "2022-04-26T05:57:56+00:00"
         },
         {
             "name": "silverstripe/mimevalidator",
@@ -3599,6 +3787,64 @@
             "time": "2022-02-18T09:08:25+00:00"
         },
         {
+            "name": "silverstripe/tagfield",
+            "version": "2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverstripe/silverstripe-tagfield.git",
+                "reference": "3d6a77fff185e9f84566d8c198ac286463ee2e15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-tagfield/zipball/3d6a77fff185e9f84566d8c198ac286463ee2e15",
+                "reference": "3d6a77fff185e9f84566d8c198ac286463ee2e15",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "silverstripe/framework": "^4.10",
+                "silverstripe/versioned": "^1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client/dist"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "SilverStripe\\TagField\\": "src/",
+                    "SilverStripe\\TagField\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christopher Pitt",
+                    "email": "chris@silverstripe.com",
+                    "homepage": "http://github.com/assertchris"
+                }
+            ],
+            "description": "Tag field for SilverStripe",
+            "keywords": [
+                "field",
+                "silverstripe",
+                "tag"
+            ],
+            "support": {
+                "issues": "http://github.com/silverstripe/silverstripe-tagfield/issues",
+                "source": "https://github.com/silverstripe/silverstripe-tagfield/tree/2.10.0"
+            },
+            "time": "2022-08-02T07:00:56+00:00"
+        },
+        {
             "name": "silverstripe/userforms",
             "version": "5.13.1",
             "source": {
@@ -4059,6 +4305,73 @@
             "time": "2022-08-01T01:22:09+00:00"
         },
         {
+            "name": "symbiote/silverstripe-memberprofiles",
+            "version": "4.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symbiote/silverstripe-memberprofiles.git",
+                "reference": "32ab6544a80153ba0c3336bb5062450e3bfa2003"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symbiote/silverstripe-memberprofiles/zipball/32ab6544a80153ba0c3336bb5062450e3bfa2003",
+                "reference": "32ab6544a80153ba0c3336bb5062450e3bfa2003",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "silverstripe/cms": "^4.0"
+            },
+            "replace": {
+                "ajshort/silverstripe-memberprofiles": "self.version",
+                "silverstripe-australia/memberprofiles": "self.version",
+                "silverstripe/memberprofiles": "self.version"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "suggest": {
+                "symbiote/silverstripe-gridfieldextensions": "Allows drag-and-drop reordering of fields"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "client"
+                ],
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symbiote\\MemberProfiles\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Symbiote",
+                    "homepage": "https://www.symbiote.com.au/"
+                }
+            ],
+            "description": "Member registration and profile management",
+            "keywords": [
+                "member",
+                "profile",
+                "registration",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/symbiote/silverstripe-memberprofiles/issues",
+                "source": "https://github.com/symbiote/silverstripe-memberprofiles/tree/master"
+            },
+            "time": "2020-06-01T06:10:23+00:00"
+        },
+        {
             "name": "symfony/cache",
             "version": "v4.4.44",
             "source": {
@@ -4360,170 +4673,6 @@
             "homepage": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.2"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-01-02T09:55:41+00:00"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v5.4.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
-                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1|^3",
-                "symfony/event-dispatcher-contracts": "^2|^3",
-                "symfony/polyfill-php80": "^1.16"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<4.4"
-            },
-            "provide": {
-                "psr/event-dispatcher-implementation": "1.0",
-                "symfony/event-dispatcher-implementation": "2.0"
-            },
-            "require-dev": {
-                "psr/log": "^1|^2|^3",
-                "symfony/config": "^4.4|^5.0|^6.0",
-                "symfony/dependency-injection": "^4.4|^5.0|^6.0",
-                "symfony/error-handler": "^4.4|^5.0|^6.0",
-                "symfony/expression-language": "^4.4|^5.0|^6.0",
-                "symfony/http-foundation": "^4.4|^5.0|^6.0",
-                "symfony/service-contracts": "^1.1|^2|^3",
-                "symfony/stopwatch": "^4.4|^5.0|^6.0"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/event-dispatcher/tree/v5.4.9"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-05-05T16:45:39+00:00"
-        },
-        {
-            "name": "symfony/event-dispatcher-contracts",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "7bc61cc2db649b4637d331240c5346dcc7708051"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/7bc61cc2db649b4637d331240c5346dcc7708051",
-                "reference": "7bc61cc2db649b4637d331240c5346dcc7708051",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.2",
-                "psr/event-dispatcher": "^1"
-            },
-            "suggest": {
-                "symfony/event-dispatcher-implementation": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.0-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Contracts\\EventDispatcher\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Generic abstractions related to dispatching event",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "abstractions",
-                "contracts",
-                "decoupling",
-                "interfaces",
-                "interoperability",
-                "standards"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.0.2"
             },
             "funding": [
                 {
@@ -5798,6 +5947,61 @@
             "time": "2022-08-02T15:47:23+00:00"
         },
         {
+            "name": "tractorcow/silverstripe-sliderfield",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tractorcow/silverstripe-sliderfield.git",
+                "reference": "804b0b494daa2fd93966d67c0a2a5249296817f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tractorcow/silverstripe-sliderfield/zipball/804b0b494daa2fd93966d67c0a2a5249296817f7",
+                "reference": "804b0b494daa2fd93966d67c0a2a5249296817f7",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/cms": "^4.0",
+                "silverstripe/vendor-plugin": "^1.0"
+            },
+            "default-branch": true,
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                },
+                "expose": [
+                    "client/dist"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "TractorCow\\Sliderfield\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Damian Mooyman",
+                    "email": "damian.mooyman@gmail.com"
+                }
+            ],
+            "description": "Simple slider field for Silverstripe",
+            "keywords": [
+                "jQueryUI",
+                "silverstripe",
+                "slider"
+            ],
+            "support": {
+                "issues": "https://github.com/tractorcow/silverstripe-sliderfield/issues",
+                "source": "https://github.com/tractorcow/silverstripe-sliderfield/tree/master"
+            },
+            "time": "2020-05-27T01:51:50+00:00"
+        },
+        {
             "name": "ua-parser/uap-php",
             "version": "v3.9.14",
             "source": {
@@ -5989,6 +6193,69 @@
                 }
             ],
             "time": "2022-04-13T16:25:32+00:00"
+        },
+        {
+            "name": "wilr/silverstripe-googlesitemaps",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wilr/silverstripe-googlesitemaps.git",
+                "reference": "6adb11b5bfd7698736beda77722b0969defdba64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wilr/silverstripe-googlesitemaps/zipball/6adb11b5bfd7698736beda77722b0969defdba64",
+                "reference": "6adb11b5bfd7698736beda77722b0969defdba64",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/framework": "^4"
+            },
+            "replace": {
+                "silverstripe/googlesitemaps": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                },
+                "expose": [
+                    "images",
+                    "css"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wilr\\GoogleSitemaps\\": "src/",
+                    "Wilr\\GoogleSitemaps\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Will Rossiter",
+                    "email": "will@fullscreen.io"
+                }
+            ],
+            "description": "SilverStripe support for the Google Sitemaps XML, enabling Google and other search engines to see all urls on your site. This helps your SilverStripe website rank well in search engines, and to encourage the information on your site to be discovered quickly.",
+            "homepage": "https://github.com/wilr/silverstripe-googlesitemaps",
+            "keywords": [
+                "googlesitemaps",
+                "seo",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/wilr/silverstripe-googlesitemaps/issues",
+                "source": "https://github.com/wilr/silverstripe-googlesitemaps/tree/2.2.1"
+            },
+            "time": "2021-12-15T18:42:33+00:00"
         }
     ],
     "packages-dev": [
@@ -6336,14 +6603,18 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "silverstripe/blog": 20,
         "dnadesign/silverstripe-elemental-userforms": 20,
+        "silverstripe/linkfield": 20,
+        "tractorcow/silverstripe-sliderfield": 20,
         "silverstripe/restfulserver": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4 || ^8"
+        "php": "^7.4 || ^8",
+        "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

@@ -15,7 +15,9 @@ use SilverStripe\Security\Permission;
  * @property string $Address
  * @property string $Description
  * @property int $ImageID
+ * @property int $IconID
  * @method \SilverStripe\Assets\Image Image()
+ * @method \SilverStripe\Assets\Image Icon()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\Experience[] Experiences()
  */
 class ExperienceLocation extends DataObject
@@ -34,14 +36,16 @@ class ExperienceLocation extends DataObject
 
     private static $has_one = [
         "Image" => Image::class,
+        "Icon" => Image::class,
     ];
 
     private static $owns = [
         "Experiences",
-        "Image"
+        "Image",
+        "Icon",
     ];
 
-    private static $api_access = true;
+    private static $api_access = ['view' => ['Title', 'Type', 'OpeningDate', 'Address', 'Description', 'Experiences', 'LocationImage', 'LocationIcon']];
 
     private static $default_sort = "Type ASC, Title ASC";
 
@@ -69,6 +73,16 @@ class ExperienceLocation extends DataObject
     private static $plural_name = "Orte";
 
     private static $url_segment = "location";
+
+    public function getLocationImage()
+    {
+        return $this->Image()->exists() ? $this->Image()->getAbsoluteURL() : null;
+    }
+
+    public function getLocationIcon()
+    {
+        return $this->Icon()->exists() ? $this->Icon()->getAbsoluteURL() : null;
+    }
 
     public function getCMSFields()
     {

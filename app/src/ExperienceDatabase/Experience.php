@@ -32,7 +32,7 @@ class Experience extends DataObject
         "Description" => "HTMLText",
     ];
 
-    private static $api_access = true;
+    private static $api_access = ['view' => ['Title', 'Type', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
         "LayoutSVG" => File::class,
@@ -77,6 +77,11 @@ class Experience extends DataObject
     private static $plural_name = "Experiences";
 
     private static $url_segment = "experience";
+
+    public function getExperienceImage()
+    {
+        return $this->Image()->exists() ? $this->Image()->getAbsoluteURL() : null;
+    }
 
     public function getCMSFields()
     {

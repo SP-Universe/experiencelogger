@@ -16,17 +16,26 @@ h1{
     font-weight: 700;
     line-height: 1;
     margin: 10px 0;
+
+
 }
 
 h2{
     font-size: 30px;
     font-weight: 700;
     line-height: 1;
+
+    @include media("<=medium") {
+        font-size: 22px;
+    }
 }
 
 h3{
     font-size: 25px;
     font-weight: 700;
+    @include media("<=medium") {
+        font-size: 20px;
+    }
 }
 
 p{
