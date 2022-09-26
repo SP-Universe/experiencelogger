@@ -5,21 +5,23 @@ namespace App\ExperienceDatabase;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 
 /**
  * Class \App\Database\Experience
  *
  * @property string $Title
- * @property string $Type
  * @property string $State
  * @property string $Description
  * @property int $LayoutSVGID
  * @property int $ImageID
  * @property int $ParentID
+ * @property int $TypeID
  * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
+ * @method \App\ExperienceDatabase\ExperienceType Type()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
  */
@@ -27,17 +29,17 @@ class Experience extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
-        "Type" => "Enum('Coaster, Flatride, Waterride, Trackride, Show, Walkthrough, Area, Playground, Restaurant, Character, Event, Convention, Scare House, Escaperoom, Other', 'Other')",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Description" => "HTMLText",
     ];
 
-    private static $api_access = ['view' => ['Title', 'Type', 'State', 'Description', 'ExperienceImage', 'ParentID']];
+    private static $api_access = ['view' => ['Title', 'Type.SingularName', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
-        "LayoutSVG" => File::class,
         "Image" => Image::class,
         "Parent" => ExperienceLocation::class,
+        "Type" => ExperienceType::class,
+        "LayoutSVG" => File::class,
     ];
 
     private static $has_many = [
@@ -54,14 +56,14 @@ class Experience extends DataObject
 
     private static $summary_fields = [
         "Title" => "Titel",
-        "Type" => "Typ",
+        "Type.Title" => "Typ",
         "State" => "Status",
         "Parent.Title" => "Location",
     ];
 
     private static $field_labels = [
         "Title" => "Titel",
-        "Type" => "Typ",
+        "Type.Title" => "Typ",
         "State" => "Status",
         "Description" => "Beschreibung",
         "LayoutSVG" => "Sitz-Layout",
@@ -69,7 +71,7 @@ class Experience extends DataObject
         "Parent.Title" => "Ort",
     ];
 
-    private static $default_sort = "State ASC, Type ASC, Title ASC";
+    private static $default_sort = "State ASC, Title ASC";
 
     private static $table_name = "Experience";
 
@@ -88,6 +90,7 @@ class Experience extends DataObject
         $fields = parent::getCMSFields();
 
         $fields->removeByName("ParentID");
+        $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceType::get()->map('ID', 'Title')));
 
         return $fields;
     }

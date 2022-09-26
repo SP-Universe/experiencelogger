@@ -9,7 +9,7 @@ use SilverStripe\Security\Permission;
 /**
  * Class \App\Database\ExperienceSeat
  *
- * @property string $SingularName
+ * @property string $Title
  * @property string $PluralName
  * @property int $IconID
  * @method \SilverStripe\Assets\Image Icon()
@@ -17,16 +17,20 @@ use SilverStripe\Security\Permission;
 class ExperienceDataType extends DataObject
 {
     private static $db = [
-        "SingularName" => "Varchar(255)",
+        "Title" => "Varchar(255)",
         "PluralName" => "Varchar(255)",
+    ];
+
+    private static $belongs_many = [
+        "ExperienceData" => ExperienceData::class,
     ];
 
     private static $api_access = true;
 
-    private static $default_sort = "SingularName ASC";
+    private static $default_sort = "Title ASC";
 
     private static $field_labels = [
-        "SingularName" => "Singular Name",
+        "Title" => "Singular Name",
         "PluralName" => "Plural Name",
     ];
 
@@ -35,11 +39,11 @@ class ExperienceDataType extends DataObject
     ];
 
     private static $summary_fields = [
-        "SingularName" => "Name",
+        "Title" => "Name",
     ];
 
     private static $searchable_fields = [
-        "SingularName", "PluralName"
+        "Title", "PluralName"
     ];
 
     private static $table_name = "ExperienceDataType";
