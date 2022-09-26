@@ -33,6 +33,7 @@
     "extra": {
         "expose": [
             "app/client/dist",
+            "app/client/src/images",
             "app/client/icons"
         ],
         "resources-dir": "_resources",
