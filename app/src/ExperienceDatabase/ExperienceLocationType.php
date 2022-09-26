@@ -11,20 +11,18 @@ use SilverStripe\Security\Permission;
  *
  * @property string $Title
  * @property string $PluralName
- * @property bool $IsLongText
  * @property int $IconID
  * @method \SilverStripe\Assets\Image Icon()
  */
-class ExperienceDataType extends DataObject
+class ExperienceLocationType extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
         "PluralName" => "Varchar(255)",
-        "IsLongText" => "Boolean",
     ];
 
     private static $belongs_many = [
-        "ExperienceData" => ExperienceData::class,
+        "ExperienceLocation" => ExperienceLocation::class,
     ];
 
     private static $api_access = true;
@@ -34,7 +32,6 @@ class ExperienceDataType extends DataObject
     private static $field_labels = [
         "Title" => "Singular Name",
         "PluralName" => "Plural Name",
-        "IsLongText" => "Is long text",
     ];
 
     private static $has_one = [
@@ -49,12 +46,12 @@ class ExperienceDataType extends DataObject
         "Title", "PluralName"
     ];
 
-    private static $table_name = "ExperienceDataType";
+    private static $table_name = "ExperienceLocationType";
 
-    private static $singular_name = "Data Type";
-    private static $plural_name = "Data Types";
+    private static $singular_name = "Location Type";
+    private static $plural_name = "Location Types";
 
-    private static $url_segment = "datatype";
+    private static $url_segment = "locationtype";
 
     public function getCMSFields()
     {

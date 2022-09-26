@@ -7,20 +7,20 @@ use SilverStripe\Admin\ModelAdmin;
  * Class \App\Database\ExperienceAdmin
  *
  */
-class ExperienceAdmin extends ModelAdmin
+class TypesAdmin extends ModelAdmin
 {
 
     private static $managed_models = array (
-        Experience::class,
         ExperienceType::class,
         ExperienceDataType::class,
+        ExperienceLocationType::class,
     );
 
-    private static $url_segment = "experiences";
+    private static $url_segment = "types";
 
-    private static $menu_title = "Experiences";
+    private static $menu_title = "Types";
 
-    private static $menu_icon = "app/client/icons/docs.svg";
+    private static $menu_icon = "app/client/icons/types.svg";
 
     public function init()
     {

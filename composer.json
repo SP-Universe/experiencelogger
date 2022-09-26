@@ -19,7 +19,8 @@
         "tractorcow/silverstripe-sliderfield": "dev-master",
         "wilr/silverstripe-googlesitemaps": "^2.2",
         "silverstripe/restfulserver": "dev-master",
-        "symbiote/silverstripe-memberprofiles": "~4.0"
+        "symbiote/silverstripe-memberprofiles": "~4.0",
+        "ryanpotter/silverstripe-cms-theme": "^3.4"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",

@@ -14,14 +14,14 @@ use SilverStripe\Security\Permission;
  * @property string $Title
  * @property string $State
  * @property string $Description
- * @property int $LayoutSVGID
  * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
- * @method \SilverStripe\Assets\File LayoutSVG()
+ * @property int $LayoutSVGID
  * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
  * @method \App\ExperienceDatabase\ExperienceType Type()
+ * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
  */
@@ -55,20 +55,20 @@ class Experience extends DataObject
     ];
 
     private static $summary_fields = [
-        "Title" => "Titel",
-        "Type.Title" => "Typ",
+        "CMSThumbnail" => "Image",
+        "Title" => "Title",
+        "Type.Title" => "Type",
         "State" => "Status",
-        "Parent.Title" => "Location",
     ];
 
     private static $field_labels = [
-        "Title" => "Titel",
-        "Type.Title" => "Typ",
+        "Title" => "Title",
+        "Type.Title" => "Type",
         "State" => "Status",
-        "Description" => "Beschreibung",
-        "LayoutSVG" => "Sitz-Layout",
-        "Image" => "Bild",
-        "Parent.Title" => "Ort",
+        "Description" => "Description",
+        "LayoutSVG" => "Seat-Layout",
+        "Image" => "Image",
+        "Parent.Title" => "Location",
     ];
 
     private static $default_sort = "State ASC, Title ASC";
@@ -93,6 +93,13 @@ class Experience extends DataObject
         $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceType::get()->map('ID', 'Title')));
 
         return $fields;
+    }
+
+    public function getCMSThumbnail()
+    {
+        if ($image = $this->Image()) {
+            return $image->CMSThumbnail();
+        }
     }
 
     public function canView($member = null)

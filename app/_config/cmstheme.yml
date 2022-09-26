@@ -1,0 +1,28 @@
+SilverStripe\SiteConfig\SiteConfig:
+  cms_logo: '_resources/app/client/src/images/ExperienceLogger-Icon-White.svg'
+  cms_logo_width: 60 # Optional width constraint
+
+SilverStripe\Admin\LeftAndMain:
+  cms_background: '#266056'
+  cms_border_color: '#1F4F47'
+  cms_color: '#fff'
+  cms_hover_background: '#1A423B'
+  cms_hover_color: currentColor
+  cms_active_background: '#1A423B'
+  cms_active_color: currentColor
+  cms_drawer_background: '#22564D'
+  cms_drawer_color: 'inherit'
+  cms_icon_color: currentColor
+  menu_groups:
+    Other:
+      icon_class: 'fa fa-folder' # (optional) Defaults to 'fa fa-folder'
+      priority: -100 # (optional) Defaults to menu item order
+      items:
+        - SilverStripe-SiteConfig-SiteConfig
+        - SilverStripe-Admin-SecurityAdmin
+        - SilverStripe-CampaignAdmin-CampaignAdmin
+        - SilverStripe-VersionedAdmin-ArchiveAdmin
+        - SilverStripe-Reports-ReportAdmin
+
+SilverStripe\Admin\SecurityAdmin:
+  menu_priority: -1

@@ -50,17 +50,17 @@ class ExperienceLocation extends DataObject
     private static $default_sort = "Type ASC, Title ASC";
 
     private static $field_labels = [
-        "Title" => "Titel",
-        "Type" => "Typ",
-        "OpeningDate" => "Eröffnung",
-        "Address" => "Adresse",
-        "Description" => "Beschreibung",
+        "Title" => "Title",
+        "Type" => "Type",
+        "OpeningDate" => "Opening Date",
+        "Address" => "Adress",
+        "Description" => "Description",
     ];
 
     private static $summary_fields = [
-        "Title" => "Titel",
-        "Type" => "Typ",
-        "Address" => "Adresse",
+        "Title" => "Title",
+        "Type" => "Type",
+        "Address" => "Adress",
     ];
 
     private static $searchable_fields = [
@@ -69,8 +69,8 @@ class ExperienceLocation extends DataObject
 
     private static $table_name = "ExperienceLocation";
 
-    private static $singular_name = "Ort";
-    private static $plural_name = "Orte";
+    private static $singular_name = "Location";
+    private static $plural_name = "Locations";
 
     private static $url_segment = "location";
 
