@@ -33,7 +33,7 @@ class Experience extends DataObject
         "Description" => "HTMLText",
     ];
 
-    private static $api_access = ['view' => ['Title', 'Type.SingularName', 'State', 'Description', 'ExperienceImage', 'ParentID']];
+    private static $api_access = ['view' => ['Title', 'ExperienceType', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
         "Image" => Image::class,
@@ -57,13 +57,13 @@ class Experience extends DataObject
     private static $summary_fields = [
         "CMSThumbnail" => "Image",
         "Title" => "Title",
-        "Type.Title" => "Type",
+        "ExperienceType" => "Type",
         "State" => "Status",
     ];
 
     private static $field_labels = [
         "Title" => "Title",
-        "Type.Title" => "Type",
+        "ExperienceType" => "Type",
         "State" => "Status",
         "Description" => "Description",
         "LayoutSVG" => "Seat-Layout",
@@ -83,6 +83,11 @@ class Experience extends DataObject
     public function getExperienceImage()
     {
         return $this->Image()->exists() ? $this->Image()->getAbsoluteURL() : null;
+    }
+
+    public function getExperienceType()
+    {
+        return $this->Type()->exists() ? $this->Type()->Title : null;
     }
 
     public function getCMSFields()
