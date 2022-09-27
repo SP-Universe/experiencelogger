@@ -3,6 +3,7 @@
 namespace {
 
 use SilverStripe\Assets\Image;
+use SilverStripe\Security\Member;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 
     use SilverStripe\Assets\File;
@@ -10,6 +11,8 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 
     use SilverStripe\Forms\DropdownField;
     use SilverStripe\CMS\Model\SiteTree;
+    use SilverStripe\Security\Security;
+    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
     /**
  * Class \Page
@@ -52,6 +55,16 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
             $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerbild"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
+        }
+
+        public function getCurrentUser()
+        {
+            return Security::getCurrentUser();
+        }
+
+        public function getProfilePage()
+        {
+            return MemberProfilePage::get()->first();
         }
     }
 }

@@ -14,7 +14,7 @@ header {
         position: relative;
         padding: 0 10px;
         display: flex;
-        justify-content: center;
+        width: 100%;
 
         .nav_brand{
             height: 80px;
@@ -28,128 +28,17 @@ header {
             }
         }
 
-        .nav_menu{
-            display: flex;
+        .userimage{
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            color: $ColorPrimary;
 
-            a{
-                margin: 10px 0;
-                padding: 10px 30px;
-                .nav_link {
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 17px;
-                    line-height: 20px;
-                    font-weight: 400;
-                    text-align: center;
-                }
-
-                &:hover {
-                    background-color: $ColorPrimary;
-                    color: $ColorWhite;
-                }
-
-                &:active {
-                    background-color: $ColorPrimary;
-                }
-
-                &:focus {
-                    background-color: $ColorSecondary;
-                    color: $ColorWhite;
-                }
-
-                &.nav_link--active {
-                    background-color: $ColorPrimary;
-                    color: $ColorWhite;
-                }
-            }
-
-            @include media("<=desktop") {
-                display: none;
-
-                .body--show & {
-                    position: absolute;
-                    top: 80px;
-                    left: 0;
-                    right: 0;
-                    padding: 0;
-                    margin: 0;
-                    z-index: 100;
-                    list-style: none;
-                    display: flex;
-                    flex-direction: column;
-                    background-color: $ColorSecondary;
-
-                    a{
-                        width: 100%;
-                        padding: 0;
-                        margin: 2px 0;
-                        text-align: center;
-
-                        .nav_link{
-                            display: block;
-                            background-color: $ColorPrimary;
-                            width: 100%;
-                            height: 100%;
-                            padding: 20px 10px;
-                            color: $ColorWhite;
-                        }
-                    }
-                }
-            }
-        }
-
-        .nav_button{
-            display: none;
-
-            @include media("<=desktop") {
-                display: inline-block;
-                position: relative;
-                top: 0px;
-                right: 30px;
-                width: 35px;
-                height: 35px;
-                cursor: pointer;
-
-                .bar1, .bar2, .bar3, .bar4 {
-                    width: 35px;
-                    height: 5px;
-                    background-color: $ColorPrimary;
-                    transition: 0.4s;
-                    position: absolute;
-                }
-
-                .bar1{
-                    top: 6px;
-                    .body--show & {
-                    opacity: 0;
-                    }
-                }
-
-                .bar2{
-                    top: 18px;
-                    .body--show & {
-                    opacity: 1;
-                    transform-origin: center;
-                    transform: rotate(45deg);
-                    }
-                }
-
-                .bar3{
-                    opacity: 0;
-                    top: 18px;
-                    .body--show &{
-                    opacity: 1;
-                    transform-origin: center;
-                    transform: rotate(-45deg);
-                    }
-                }
-
-                .bar4{
-                    top: 30px;
-                    .body--show &{
-                    opacity: 0;
-                    }
-                }
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
         }
     }
