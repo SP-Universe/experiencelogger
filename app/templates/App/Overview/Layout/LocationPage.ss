@@ -10,7 +10,7 @@
                     </div>
                     <div class="location_entry_content">
                         <h2 class="location_title">$Title</h2>
-                        <h4>$Type</h4>
+                        <h4>$Type.Title</h4>
                         <p>$Address</p>
                         <p>$Experiences.Count Experiences</p>
                     </div>

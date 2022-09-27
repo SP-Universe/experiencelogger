@@ -1,3 +1,13 @@
 SilverStripe\Security\Member:
   extensions:
     - App\Extensions\ExperienceMemberExtension
+
+SilverStripe\MimeValidator\MimeUploadValidator:
+  MimeTypes:
+    svg:
+      - 'image/svg+xml'
+      - 'image/svg'
+
+SilverStripe\Assets\File:
+    allowed_extensions:
+    - svg

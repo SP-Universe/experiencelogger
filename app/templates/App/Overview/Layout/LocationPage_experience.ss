@@ -6,7 +6,11 @@
             <div class="experiencedata_list">
                 <% loop $ExperienceData %>
                     <div class="experiencedata_entry_content">
-                        <h2>$Title</h2>
+                        <% if $AlternativeTitle %>
+                            <h2>$AlternativeTitle</h2>
+                        <% else %>
+                            <h2>$Type.Title</h2>
+                        <% end_if %>
                         <p>$Description</p>
                         <% if $MoreInfo %>
                             <a href="$MoreInfo" class="moreinfo">More Info</a>

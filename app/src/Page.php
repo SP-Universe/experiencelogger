@@ -2,7 +2,11 @@
 
 namespace {
 
-use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Assets\Image;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+
+    use SilverStripe\Assets\File;
+    use SilverStripe\Forms\CheckboxField;
 
     use SilverStripe\Forms\DropdownField;
     use SilverStripe\CMS\Model\SiteTree;
@@ -14,8 +18,10 @@ use SilverStripe\Forms\CheckboxField;
  * @property bool $ShowTitle
  * @property int $ElementalAreaID
  * @property int $HeaderImageID
+ * @property int $MenuIconID
  * @method \DNADesign\Elemental\Models\ElementalArea ElementalArea()
- * @method \Image HeaderImage()
+ * @method \SilverStripe\Assets\Image HeaderImage()
+ * @method \SilverStripe\Assets\File MenuIcon()
  * @mixin \DNADesign\Elemental\Extensions\ElementalPageExtension
  */
     class Page extends SiteTree
@@ -27,6 +33,12 @@ use SilverStripe\Forms\CheckboxField;
 
         private static $has_one = [
             "HeaderImage" => Image::class,
+            "MenuIcon" => File::class,
+        ];
+
+        private static $owns = [
+            "HeaderImage",
+            "MenuIcon",
         ];
 
         public function getCMSFields()
@@ -37,6 +49,8 @@ use SilverStripe\Forms\CheckboxField;
                 "footer" => "Footer",
             ]), "Content");
             $fields->addFieldToTab("Root.Main", new CheckboxField("ShowTitle", "Titel anzeigen"), "Content");
+            $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerbild"), "Content");
+            $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
         }
     }
