@@ -47,7 +47,7 @@ class ExperienceLocation extends DataObject
         "Icon",
     ];
 
-    private static $api_access = ['view' => ['Title', 'Type', 'OpeningDate', 'Address', 'Description', 'Experiences', 'LocationImage', 'LocationIcon']];
+    private static $api_access = ['view' => ['Title', 'LocationType', 'OpeningDate', 'Address', 'Description', 'Experiences', 'LocationImage', 'LocationIcon']];
 
     private static $default_sort = "Title ASC";
 
@@ -61,7 +61,7 @@ class ExperienceLocation extends DataObject
 
     private static $summary_fields = [
         "Title" => "Title",
-        "Type.Title" => "Type",
+        "LocationType" => "Type",
         "Address" => "Adress",
     ];
 
@@ -84,6 +84,11 @@ class ExperienceLocation extends DataObject
     public function getLocationIcon()
     {
         return $this->Icon()->exists() ? $this->Icon()->getAbsoluteURL() : null;
+    }
+
+    public function getLocationType()
+    {
+        return $this->Type()->exists() ? $this->Type()->Title : null;
     }
 
     public function getCMSFields()

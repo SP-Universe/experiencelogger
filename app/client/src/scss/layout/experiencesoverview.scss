@@ -6,7 +6,7 @@
         justify-content: space-between;
 
         .location_sidebar{
-            margin: 20px 0;
+            margin: 20px 0 0 0;
             padding: 15px;
             grid-column: 1/2;
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
@@ -15,15 +15,23 @@
             height: auto;
             overflow: hidden;
 
+            .sideinfo{
+                padding: 0px 0 0 10px;
+                margin: 0 0 0 3px;
+                font-size: 14px;
+                border-left: 2px solid $ColorPrimary;
+            }
+
             .location_title{
                 background-color: $ColorPrimary;
-                margin: -15px;
+                margin: -15px -15px 40px -15px;
                 color: $ColorWhite;
-                padding: 15px;
+                padding: 15px 15px 5px 15px;
                 position: relative;
 
                 h1{
                     color: $ColorWhite;
+                    margin-top: 0;
                 }
 
                 &::after{
