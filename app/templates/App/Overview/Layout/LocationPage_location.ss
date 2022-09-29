@@ -14,8 +14,8 @@
                 <% if $Experiences.Filter("State", "Defunct").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Defunct").Count Defunct</p><% end_if %>
                 <% if $Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
                 <hr/>
-                <% loop $ExperienceTypes %>
-                    <p>$Up.Experiences.Filter("TypeID", $ID).Count $PluralName</p>
+                <% loop $GroupedExperiences %>
+                    <p>$Children.Count $Children.First.Type.PluralName</p>
                 <% end_loop %>
                 <hr/>
                 $Description

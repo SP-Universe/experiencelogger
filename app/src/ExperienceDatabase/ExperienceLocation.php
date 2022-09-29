@@ -4,6 +4,7 @@ namespace App\ExperienceDatabase;
 
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\GroupedList;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 
@@ -125,14 +126,19 @@ class ExperienceLocation extends DataObject
 
     public function getExperienceTypes()
     {
-        $experienceTypes = ExperienceType::get();
+        /* $experienceTypes = ExperienceType::get();
         //Check if Experiences includes Experiences of this Type
         foreach ($experienceTypes as $experienceType) {
             $experiences = $this->Experiences()->filter("TypeID", $experienceType->ID);
             if ($experiences->count() == 0) {
                 $experienceTypes->remove($experienceType);
             }
-        }
-        return $experienceTypes;
+        } */
+        //return $experienceTypes;
+    }
+
+    public function getGroupedExperiences()
+    {
+        return GroupedList::create($this->Experiences())->GroupedBy("TypeID");
     }
 }
