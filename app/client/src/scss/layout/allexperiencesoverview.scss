@@ -1,48 +1,6 @@
 .section.section--allexperiencesoverview{
     .section_content{
 
-        .location_sidebar{
-            margin: 20px 0 0 0;
-            padding: 15px 15px 20px 15px;
-            grid-column: 1/2;
-            box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
-            border-radius: 20px;
-            background-color: $ColorWhite;
-            height: auto;
-            overflow: hidden;
-
-            .sideinfo{
-                padding: 0px 0 0 10px;
-                margin: 0 0 0 3px;
-                font-size: 14px;
-                border-left: 2px solid $ColorPrimary;
-            }
-
-            .location_title{
-                background-color: $ColorPrimary;
-                margin: -15px -15px 40px -15px;
-                color: $ColorWhite;
-                padding: 15px 15px 5px 15px;
-                position: relative;
-
-                h1{
-                    color: $ColorWhite;
-                    margin-top: 0;
-                }
-
-                &::after{
-                    content:"";
-                    position: absolute;
-                    bottom: -30px;
-                    left: 0;
-                    background-color: $ColorPrimary;
-                    height: 30px;
-                    width: 100%;
-                    clip-path: polygon(0 0, 0% 100%, 100% 0);
-                }
-            }
-        }
-
         .location_experiences{
             grid-column: 2/-1;
 
@@ -108,65 +66,6 @@
                     max-height: 500px;
                     opacity: 1;
                     margin-top: -10px;
-                }
-            }
-
-            .experience_list{
-                padding-left: 2px;
-                display: flex;
-                flex-direction: column;
-                margin: -15px 0;
-
-                .experience_entry{
-                    background-color: $ColorWhite;
-                    border-radius: 20px;
-                    display: flex;
-                    height: 100%;
-                    overflow: hidden;
-                    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
-                    box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
-                    margin: 10px 0;
-
-                    .experience_entry_image{
-                        width: 30%;
-                        padding: 0;
-                        transform: scale(1.02);
-                        box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
-                        background-color: $ColorPrimary;
-                        clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
-                        background-size: cover;
-                    }
-
-                    .experience_entry_content{
-                        width: 70%;
-                        padding: 20px;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                    }
-
-                    &.show{
-                        opacity: 1;
-                        max-height: 400px;
-                    }
-
-                    &.hide{
-                        opacity: 0;
-                        max-height: 0;
-                        margin: 0;
-                    }
-
-                    &.hidebyfilter{
-                        opacity: 0;
-                        max-height: 0;
-                        margin: 0;
-                    }
-
-                    @include media("<=medium") {
-                        .experience_entry_image{
-                            width: 50%;
-                        }
-                    }
                 }
             }
 

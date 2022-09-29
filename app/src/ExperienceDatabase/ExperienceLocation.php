@@ -61,7 +61,7 @@ class ExperienceLocation extends DataObject
 
     private static $summary_fields = [
         "Title" => "Title",
-        "LocationType" => "Type",
+        "Type.Title" => "Type",
         "Address" => "Adress",
     ];
 
@@ -121,5 +121,18 @@ class ExperienceLocation extends DataObject
     public function getFormattedName()
     {
         return str_replace(' ', '_', $this->Title);
+    }
+
+    public function getExperienceTypes()
+    {
+        $experienceTypes = ExperienceType::get();
+        //Check if Experiences includes Experiences of this Type
+        foreach ($experienceTypes as $experienceType) {
+            $experiences = $this->Experiences()->filter("TypeID", $experienceType->ID);
+            if ($experiences->count() == 0) {
+                $experienceTypes->remove($experienceType);
+            }
+        }
+        return $experienceTypes;
     }
 }

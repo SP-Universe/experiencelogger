@@ -6,6 +6,8 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Security\Permission;
 
 /**
@@ -17,10 +19,12 @@ use SilverStripe\Security\Permission;
  * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
+ * @property int $AreaID
  * @property int $LayoutSVGID
  * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
  * @method \App\ExperienceDatabase\ExperienceType Type()
+ * @method \App\ExperienceDatabase\Experience Area()
  * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
@@ -33,18 +37,23 @@ class Experience extends DataObject
         "Description" => "HTMLText",
     ];
 
-    private static $api_access = ['view' => ['Title', 'ExperienceType', 'State', 'Description', 'ExperienceImage', 'ParentID']];
+    private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
         "Image" => Image::class,
         "Parent" => ExperienceLocation::class,
         "Type" => ExperienceType::class,
+        "Area" => Experience::class,
         "LayoutSVG" => File::class,
     ];
 
     private static $has_many = [
         "ExperienceData" => ExperienceData::class,
         "ExperienceSeats" => ExperienceSeat::class,
+    ];
+
+    private static $belongs_many = [
+        "Experiences" => Experience::class,
     ];
 
     private static $owns = [
@@ -55,9 +64,9 @@ class Experience extends DataObject
     ];
 
     private static $summary_fields = [
-        "CMSThumbnail" => "Image",
         "Title" => "Title",
-        "ExperienceType" => "Type",
+        "Type.Title" => "Type",
+        "Area.Title" => "Area",
         "State" => "Status",
     ];
 
@@ -69,9 +78,10 @@ class Experience extends DataObject
         "LayoutSVG" => "Seat-Layout",
         "Image" => "Image",
         "Parent.Title" => "Location",
+        "Area" => "Area",
     ];
 
-    private static $default_sort = "State ASC, Title ASC";
+    private static $default_sort = "State ASC, TypeID ASC, AreaID ASC, Title ASC";
 
     private static $table_name = "Experience";
 
@@ -90,6 +100,11 @@ class Experience extends DataObject
         return $this->Type()->exists() ? $this->Type()->Title : null;
     }
 
+    public function getExperienceArea()
+    {
+        return $this->Area()->exists() ? $this->Area()->Title : null;
+    }
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -97,14 +112,15 @@ class Experience extends DataObject
         $fields->removeByName("ParentID");
         $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceType::get()->map('ID', 'Title')));
 
-        return $fields;
-    }
+        $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;
+        $parentID = $this->ParentID;
+        $experiencemap = Experience::get()->filter([
+            'TypeID' => $areatypeID,
+            'ParentID' => $parentID,
+        ])->map('ID', 'Title');
 
-    public function getCMSThumbnail()
-    {
-        if ($image = $this->Image()) {
-            return $image->CMSThumbnail();
-        }
+        $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
+        return $fields;
     }
 
     public function canView($member = null)

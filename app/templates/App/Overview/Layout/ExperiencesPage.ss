@@ -22,7 +22,11 @@
                         </div>
                         <div class="experience_entry_content">
                             <h2 class="experience_title">$Title</h2>
-                            <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title</h4>
+                            <h4 class="experience_parent">$Parent.Title</h4>
+                            <div class="flex_part">
+                                <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title</h4>
+                                <% if $Area %> <span>in $Area.Title </span><% end_if %>
+                            </div>
                             <p>$State</p>
                         </div>
                     </a>
