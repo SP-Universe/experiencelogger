@@ -44,7 +44,7 @@ class ExperienceData extends DataObject
     private static $inline_editable = false;
 
     private static $field_labels = [
-        "AlternativeTitle" => "Title",
+        "AlternativeTitle" => "Alternative Title (optional)",
         "Type" => "Type",
         "Description" => "Description",
         "MoreInfo" => "More Information",

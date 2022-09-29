@@ -114,12 +114,14 @@ class Experience extends DataObject
 
         $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;
         $parentID = $this->ParentID;
-        $experiencemap = Experience::get()->filter([
-            'TypeID' => $areatypeID,
-            'ParentID' => $parentID,
-        ])->map('ID', 'Title');
+        if ($areatypeID) {
+            $experiencemap = Experience::get()->filter([
+                'TypeID' => $areatypeID,
+                'ParentID' => $parentID,
+            ])->map('ID', 'Title');
 
-        $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
+            $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
+        }
         return $fields;
     }
 
@@ -145,6 +147,7 @@ class Experience extends DataObject
 
     public function getFormattedName()
     {
-        return str_replace(' ', '_', $this->Title);
+        $formattedName = $this->ID . "--" . $this->Title;
+        return $formattedName;
     }
 }

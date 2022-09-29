@@ -22,11 +22,9 @@ class ExperiencesPageController extends PageController
     public function experience()
     {
         $id = $this->getRequest()->param("ID");
-        $deformatted = str_replace('_', ' ', $id);
-        $deformatted = str_replace('%ae', 'ä', $deformatted);
-        $deformatted = str_replace('%oe', 'ö', $deformatted);
-        $deformatted = str_replace('%ue', 'ü', $deformatted);
-        $article = Experience::get()->filter("Title", $deformatted)->first();
+        $exploded = explode("--", $id);
+
+        $article = Experience::get()->filter("ID", $exploded[0])->first();
         return array(
             "Experience" => $article,
         );
