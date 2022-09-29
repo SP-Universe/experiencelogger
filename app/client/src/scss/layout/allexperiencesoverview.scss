@@ -1,10 +1,5 @@
-.section.section--experiencesoverview{
+.section.section--allexperiencesoverview{
     .section_content{
-
-        display: grid;
-        grid-template-columns: 30% 65%;
-        justify-content: space-between;
-        align-items: flex-start;
 
         .location_sidebar{
             margin: 20px 0 0 0;
@@ -52,7 +47,68 @@
             grid-column: 2/-1;
 
             .search_bar{
+                display: flex;
+                align-items: center;
                 margin: 20px auto;
+
+                .advancedfilters_toggle{
+                    height: 48px;
+                    margin-left: 10px;
+                    color: $ColorPrimary;
+                    opacity: 0.5;
+
+                    &.active{
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .advancedfilters{
+                max-height: 0px;
+                opacity: 0;
+                overflow: hidden;
+                transition: 0.3s ease-in-out;
+
+                .experiences_filter{
+                    background-color: $ColorPrimary;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    padding: 10px;
+                    height: auto;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: $ColorWhite;
+                    gap: 5px;
+
+                    p{
+                        padding: 5px;
+                    }
+
+                    .filterbutton{
+                        background-color: $ColorSecondary;
+                        color: $ColorWhite;
+                        padding: 5px 10px;
+                        border-radius: 10px;
+
+                        &.inactive{
+                            background-color: $ColorPrimary;
+                            outline:1px solid $ColorSecondary;
+                            opacity: 0.7;
+                        }
+                    }
+
+                    &:last-of-type{
+                        margin-bottom: 30px;
+                    }
+                }
+
+                &.active{
+                    max-height: 500px;
+                    opacity: 1;
+                    margin-top: -10px;
+                }
             }
 
             .experience_list{
@@ -96,8 +152,14 @@
 
                     &.hide{
                         opacity: 0;
-                    max-height: 0;
-                    margin: 0;
+                        max-height: 0;
+                        margin: 0;
+                    }
+
+                    &.hidebyfilter{
+                        opacity: 0;
+                        max-height: 0;
+                        margin: 0;
                     }
 
                     @include media("<=medium") {

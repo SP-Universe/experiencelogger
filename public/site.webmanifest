@@ -1,0 +1,35 @@
+{
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+    "name": "ExperienceLogger",
+    "short_name": "ExperienceLogger",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#E6E6E6",
+    "theme_color": "#266056",
+    "description": "Log all your experiences in one place",
+    "icons": [{
+      "src": "_resources/app/client/src/images/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }, {
+      "src": "_resources/app/client/src/images/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }, {
+      "src": "_resources/app/client/src/images/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }, {
+      "src": "_resources/app/client/src/images/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "_resources/app/client/src/images/icon-168.png",
+      "sizes": "168x168",
+      "type": "image/png"
+    }, {
+      "src": "_resources/app/client/src/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }]
+  }

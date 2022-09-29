@@ -48,4 +48,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         })
     }
+
+    const advancedsearchbutton = document.querySelector('.advancedfilters_toggle');
+    const advancedFilters = document.querySelector('.advancedfilters');
+
+    if(advancedsearchbutton) {
+        advancedsearchbutton.addEventListener('click', function() {
+            advancedsearchbutton.classList.toggle('active');
+            advancedFilters.classList.toggle('active');
+        });
+    }
+
+    const experiences = document.querySelectorAll('.experience_entry');
+    let searchExperienceFilters = document.querySelectorAll('.filterbutton');
+    if(searchExperienceFilters) {
+        searchExperienceFilters.forEach(filter => {
+            const filterTypeValue = filter.getAttribute('data-filter').toLowerCase();
+            filter.addEventListener('click', function(e) {
+                e.preventDefault();
+                filter.classList.toggle("inactive");
+
+                experiences.forEach(experience => {
+                    const experienceType = experience.querySelector('.experience_type').textContent.toLowerCase();
+                    if (experienceType == filterTypeValue) {
+                        experience.classList.toggle('hidebyfilter');
+                    }
+                })
+            });
+        })
+    }
 });
