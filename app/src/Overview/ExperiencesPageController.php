@@ -16,19 +16,7 @@ class ExperiencesPageController extends PageController
 {
 
     private static $allowed_actions = [
-        "experience"
     ];
-
-    public function experience()
-    {
-        $id = $this->getRequest()->param("ID");
-        $exploded = explode("--", $id);
-
-        $article = Experience::get()->filter("ID", $exploded[0])->first();
-        return array(
-            "Experience" => $article,
-        );
-    }
 
     public function getExperiences()
     {

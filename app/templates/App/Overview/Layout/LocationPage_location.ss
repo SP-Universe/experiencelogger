@@ -1,7 +1,7 @@
 <% with $Location %>
     <div class="section section--experiencesoverview">
         <div class="section_content">
-            <a class="backbutton" href="$Top.Link('')">Zurück</a>
+            <a class="backbutton" onclick="window.history.back();">Zurück</a>
             <div class="location_sidebar">
                 <div class="location_title">
                     <div class="backgroundimage">$Image.FocusFill(400,200)</div>
@@ -33,18 +33,7 @@
                 </div>
                 <div class="experience_list">
                     <% loop $Experiences %>
-                        <a href="$Top.Link('experience')/$FormattedName" class="experience_entry">
-                            <div class="experience_entry_image" style="background-image: url($Image.FocusFill(400,200).Url)">
-                            </div>
-                            <div class="experience_entry_content">
-                                <h2 class="experience_title">$Title</h2>
-                                <div class="flex_part">
-                                    <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title</h4>
-                                    <% if $Area %> <span>in $Area.Title </span><% end_if %>
-                                </div>
-                                <p>$State</p>
-                            </div>
-                        </a>
+                        <% include ExperienceCard %>
                     <% end_loop %>
                 </div>
             </div>

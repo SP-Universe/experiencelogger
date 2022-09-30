@@ -22,6 +22,8 @@ class LocationPageController extends PageController
         "location",
         "experience",
         "changeFavourite",
+        "addLog",
+        "finishLog",
     ];
 
     public function login($data, $form)
@@ -74,6 +76,27 @@ class LocationPageController extends PageController
                 $currentUser->FavouritePlaces()->add($id);
             }
         }
+
+        return $this->redirect($this->Link());
+    }
+
+    public function addLog()
+    {
+        $id = $this->getRequest()->param("ID");
+        $currentUser = Security::getCurrentUser();
+        $exploded = explode("--", $id);
+        $article = Experience::get()->filter("ID", $exploded[0])->first();
+
+        return array(
+            "Experience" => $article,
+        );
+    }
+
+    public function finishLog()
+    {
+        $id = $this->getRequest()->param("ID");
+        $currentUser = Security::getCurrentUser();
+
 
         return $this->redirect($this->Link());
     }

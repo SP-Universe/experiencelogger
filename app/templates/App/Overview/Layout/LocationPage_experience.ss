@@ -2,7 +2,7 @@
     <div class="section section--experienceentry">
         <div class="section_content">
         <div class="experience_block <% if not $Image %>noimage<% end_if %>">
-                <a class="backbutton" href="$Top.Link('')">Zurück</a>
+                <a class="backbutton" onclick="window.history.back();">Zurück</a>
                 <% if $Image %>
                     <div class="experienceimage">
                         $Image.FocusFill(1000, 600)

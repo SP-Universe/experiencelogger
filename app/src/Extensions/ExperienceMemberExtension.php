@@ -23,4 +23,9 @@ class ExperienceMemberExtension extends DataExtension
     private static $many_many = [
         "FavouritePlaces" => ExperienceLocation::class,
     ];
+
+    public function LogCount($id)
+    {
+        return 31;
+    }
 }

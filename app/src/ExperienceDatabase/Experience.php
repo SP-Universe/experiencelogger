@@ -3,11 +3,12 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\Assets\File;
+use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Security\Permission;
 
 /**
@@ -103,6 +104,18 @@ class Experience extends DataObject
     public function getExperienceArea()
     {
         return $this->Area()->exists() ? $this->Area()->Title : null;
+    }
+
+    public function getLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("experience/") . $this->getFormattedName();
+    }
+
+    public function getAddLogLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("addLog/") . $this->getFormattedName();
     }
 
     public function getCMSFields()
