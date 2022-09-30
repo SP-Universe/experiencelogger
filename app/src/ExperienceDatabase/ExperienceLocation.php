@@ -2,9 +2,11 @@
 
 namespace App\ExperienceDatabase;
 
+use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\GroupedList;
+use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 
@@ -99,6 +101,35 @@ class ExperienceLocation extends DataObject
         return $fields;
     }
 
+
+    //FUNCTIONS
+    public function getFormattedName()
+    {
+        return str_replace(' ', '_', $this->Title);
+    }
+
+    public function getIsFavourite()
+    {
+        $member = Security::getCurrentUser();
+        if ($member) {
+            return $member->FavouritePlaces()->find('ID', $this->ID) ? true : false;
+        }
+        return false;
+    }
+
+    public function getGroupedExperiences()
+    {
+        return GroupedList::create($this->Experiences())->GroupedBy("TypeID");
+    }
+
+    public function getLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("location/") . $this->getFormattedName();
+    }
+
+
+    //PERMISSIONS
     public function canView($member = null)
     {
         return true;
@@ -117,28 +148,5 @@ class ExperienceLocation extends DataObject
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
-    }
-
-    public function getFormattedName()
-    {
-        return str_replace(' ', '_', $this->Title);
-    }
-
-    public function getExperienceTypes()
-    {
-        /* $experienceTypes = ExperienceType::get();
-        //Check if Experiences includes Experiences of this Type
-        foreach ($experienceTypes as $experienceType) {
-            $experiences = $this->Experiences()->filter("TypeID", $experienceType->ID);
-            if ($experiences->count() == 0) {
-                $experienceTypes->remove($experienceType);
-            }
-        } */
-        //return $experienceTypes;
-    }
-
-    public function getGroupedExperiences()
-    {
-        return GroupedList::create($this->Experiences())->GroupedBy("TypeID");
     }
 }

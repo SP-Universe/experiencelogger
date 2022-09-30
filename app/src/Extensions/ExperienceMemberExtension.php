@@ -10,7 +10,7 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property \SilverStripe\Security\Member|\App\Extensions\ExperienceMemberExtension $owner
  * @property string $DateOfBirth
  * @property string $Nickname
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavoritePlaces()
+ * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
  */
 class ExperienceMemberExtension extends DataExtension
 {
@@ -19,7 +19,8 @@ class ExperienceMemberExtension extends DataExtension
         'DateOfBirth' => 'Date',
         'Nickname' => 'Varchar(255)',
     ];
+
     private static $many_many = [
-        "FavoritePlaces" => ExperienceLocation::class,
+        "FavouritePlaces" => ExperienceLocation::class,
     ];
 }

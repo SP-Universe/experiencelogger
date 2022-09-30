@@ -3,18 +3,26 @@
 
         display: grid;
         grid-template-columns: 30% 65%;
+        grid-template-rows: auto auto auto;
         justify-content: space-between;
         align-items: flex-start;
+
+        .backbutton{
+            grid-column: 1;
+            grid-row: 1;
+        }
 
         .location_sidebar{
             margin: 20px 0 0 0;
             padding: 15px 15px 20px 15px;
-            grid-column: 1/2;
+            grid-row: 2/3;
+            grid-column: 1/-1;
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
             background-color: $ColorWhite;
             height: auto;
             overflow: hidden;
+            position: relative;
 
             .sideinfo{
                 padding: 0px 0 0 10px;
@@ -25,7 +33,7 @@
 
             .location_title{
                 background-color: $ColorPrimary;
-                margin: -15px -15px 40px -15px;
+                margin: -15px -15px 10px -15px;
                 color: $ColorWhite;
                 padding: 15px 15px 35px 15px;
                 position: relative;
@@ -54,10 +62,25 @@
                     }
                 }
             }
+
+            .location_favouritemarker{
+                position: relative;
+                width: 100%;
+                display: block;
+                svg{
+                    position: absolute;
+                    top: -15px;
+                    right: 0px;
+                }
+
+                color: $ColorSecondary;
+                font-size: 20px;
+            }
         }
 
         .location_experiences{
-            grid-column: 2/-1;
+            grid-row: 3/4;
+            grid-column: 1/-1;
 
             .search_bar{
                 margin: 20px auto;
@@ -66,6 +89,17 @@
             .source{
                 display: block;
                 font-size: 12px;
+            }
+        }
+
+        @include media(">medium") {
+            .location_sidebar{
+                grid-row: 2/3;
+                grid-column: 1/2;
+            }
+            .location_experiences{
+                grid-row: 2/3;
+                grid-column: 2/-1;
             }
         }
     }

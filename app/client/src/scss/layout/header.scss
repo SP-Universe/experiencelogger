@@ -7,20 +7,27 @@ header {
     width: 100%;
     filter: none;
 
+
     .header_nav{
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: relative;
-        padding: 0 10px;
+        padding: 0 20px;
         display: flex;
         width: 100%;
+        position: relative;
+        height: 80px;
 
         .nav_brand{
-            height: 80px;
-            width: 80px;
+            height: 100%;
+            aspect-ratio: 1;
             padding: 10px 10px 0px;
-            @media screen and (max-width: 991px) {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            @include media(">desktop") {
                 display: block;
             }
             img {
@@ -34,6 +41,10 @@ header {
             height: 50px;
             overflow: hidden;
             color: $ColorPrimary;
+
+            &.noimage{
+                background-color: $ColorPrimary;
+            }
 
             img{
                 width: 100%;

@@ -1,10 +1,12 @@
 <?php
 namespace App\Overview;
 
-use App\ExperienceDatabase\Experience;
 use PageController;
-use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\Security\Security;
+use SilverStripe\Control\HTTPRequest;
+use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
+use App\ExperienceDatabase\ExperienceLocation;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -18,7 +20,8 @@ class LocationPageController extends PageController
 
     private static $allowed_actions = [
         "location",
-        "experience"
+        "experience",
+        "changeFavourite",
     ];
 
     public function login($data, $form)
@@ -57,6 +60,22 @@ class LocationPageController extends PageController
         return array(
             "Experience" => $article,
         );
+    }
+
+    public function changeFavourite()
+    {
+        $id = $this->getRequest()->param("ID");
+        $currentUser = Security::getCurrentUser();
+
+        if ($currentUser) {
+            if ($currentUser->FavouritePlaces()->find("ID", $id)) {
+                $currentUser->FavouritePlaces()->removeByID($id);
+            } else {
+                $currentUser->FavouritePlaces()->add($id);
+            }
+        }
+
+        return $this->redirect($this->Link());
     }
 
     public function getLocations()

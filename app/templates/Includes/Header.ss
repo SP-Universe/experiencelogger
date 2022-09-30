@@ -6,9 +6,13 @@
             <img src="_resources/app/client/icons/ExperienceLogger-Symbol.svg">
         </a>
         <% if $CurrentUser %>
-            <a href="$ProfilePage.Link" class="userimage">
-                $CurrentUser.BlogProfileImage.FocusFill(50,50)
-            </a>
+            <% if $CurrentUser.BlogProfileImage %>
+                <a href="$ProfilePage.Link" class="userimage">
+                    $CurrentUser.BlogProfileImage.FocusFill(50,50)
+                </a>
+            <% else %>
+                <a href="$ProfilePage.Link" class="userimage noimage"></a>
+            <% end_if %>
         <% else %>
             <a href="$ProfilePage.Link" class="userimage">
                 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -34,12 +38,4 @@
             <% end_if %>
         <% end_loop %>
     </ul>
-</div>
-
-<div class="section section--headertitle">
-    <div class="section_content">
-        <% if $ShowTitle %>
-            <h1>$Title</h1>
-        <% end_if %>
-    </div>
 </div>

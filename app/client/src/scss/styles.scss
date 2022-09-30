@@ -8,26 +8,29 @@
 @import "animations";
 @import "typography";
 
-@import "layout/footer.scss";
 @import "layout/header.scss";
 @import "layout/navigation.scss";
 
-@import "layout/textimage.scss";
 @import "layout/text.scss";
 @import "layout/locationsoverview.scss";
 @import "layout/experiencesoverview.scss";
 @import "layout/allexperiencesoverview.scss";
 @import "layout/experienceslist.scss";
+@import "layout/locationslist.scss";
 @import "layout/experienceentry.scss";
+
+@import "elements/TextImageElement";
+@import "elements/FavouritePlacesElement";
 
 body{
     background-color: rgb(230, 230, 230);
+    margin-bottom: 120px;
 }
 
 .section {
     max-width: $maxWidth;
     padding: 0 20px;
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
 }
 
 .section_content{

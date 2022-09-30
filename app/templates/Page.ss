@@ -20,6 +20,5 @@
 <% include Header %>
 $Layout
 <script src="$Mix("/js/main.js")"></script>
-<% include Footer %>
 </body>
 </html>
