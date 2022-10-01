@@ -4,9 +4,6 @@ namespace App\Elements;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\Assets\Image;
-use SilverStripe\LinkField\Models\Link;
-use SilverStripe\LinkField\Form\LinkField;
-use SilverStripe\Forms\DropdownField;
 
 /**
  * Class \App\Elements\TextImageElement

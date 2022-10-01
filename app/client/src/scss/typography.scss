@@ -40,10 +40,21 @@ h3{
 
 p{
     margin: 0;
+
+    &.centered{
+        text-align: center;
+    }
 }
 
 a{
     cursor: pointer;
     text-decoration: none;
     color: $ColorPrimary;
+
+    &.button{
+        background-color: $ColorPrimary;
+        color: $ColorWhite;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
 }

@@ -1,0 +1,66 @@
+.section.section--loggingform{
+    .section_content{
+
+        h1,h2{
+            text-align: center;
+            margin: 20px 0 10px 0;
+        }
+
+        .logging_form{
+
+            .logging_group{
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-evenly;
+                gap: 0px;
+                margin-bottom: 20px;
+
+                label{
+                    margin-top: 10px;
+                }
+
+                .group_entry{
+                    background-color: $ColorWhite;
+                    border-radius: 20px;
+                    box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
+                    width: 27%;
+                    margin: 5px 0;
+
+                    color: $ColorPrimary;
+                    position: relative;
+                    overflow: hidden;
+                    display: block;
+
+                    label{
+                        padding: 10px;
+                        color: $ColorSecondary;
+                        text-align: center;
+                        height: 100%;
+                        display: block;
+                    }
+
+                    input[type="radio"]{
+                        position: absolute;
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                    }
+
+                    &:has(input[type="radio"]:checked){
+                        background-color: $ColorPrimary;
+                        color: $ColorWhite;
+                        label{
+                            color: $ColorWhite;
+                        }
+                    }
+                }
+
+                @include media(">medium") {
+                    flex-wrap: nowrap;
+                    gap: 20px;
+                }
+            }
+        }
+    }
+}

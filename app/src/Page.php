@@ -56,15 +56,5 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
         }
-
-        public function getCurrentUser()
-        {
-            return Security::getCurrentUser();
-        }
-
-        public function getProfilePage()
-        {
-            return MemberProfilePage::get()->first();
-        }
     }
 }

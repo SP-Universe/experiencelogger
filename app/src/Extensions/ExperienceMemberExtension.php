@@ -3,6 +3,7 @@ namespace App\Extensions;
 
 use SilverStripe\ORM\DataExtension;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\ExperienceDatabase\LogEntry;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -24,8 +25,15 @@ class ExperienceMemberExtension extends DataExtension
         "FavouritePlaces" => ExperienceLocation::class,
     ];
 
+    private static $belongs_many = [
+        "LogEntries" => LogEntry::class,
+    ];
+
     public function LogCount($id)
     {
-        return 31;
+        return LogEntry::get()->filter([
+            'UserID' => $this->owner->ID,
+            'ExperienceID' => $id,
+        ])->count();
     }
 }

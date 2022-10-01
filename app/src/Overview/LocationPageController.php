@@ -7,6 +7,8 @@ use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\ExperienceDatabase\LogEntry;
+use SilverStripe\Security\Member;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -25,20 +27,6 @@ class LocationPageController extends PageController
         "addLog",
         "finishLog",
     ];
-
-    public function login($data, $form)
-    {
-        $session = $this->getRequest()->getSession();
-        $session->set("PWD" . $this->URLSegment, $data["Password"]);
-        return $this->redirect($this->Link());
-    }
-
-    public function logout($request)
-    {
-        $session = $this->getRequest()->getSession();
-        $session->set("PWD" . $this->URLSegment, "");
-        return $this->redirect($this->Link());
-    }
 
     public function location()
     {
@@ -83,7 +71,6 @@ class LocationPageController extends PageController
     public function addLog()
     {
         $id = $this->getRequest()->param("ID");
-        $currentUser = Security::getCurrentUser();
         $exploded = explode("--", $id);
         $article = Experience::get()->filter("ID", $exploded[0])->first();
 
@@ -95,14 +82,71 @@ class LocationPageController extends PageController
     public function finishLog()
     {
         $id = $this->getRequest()->param("ID");
+
+        $exploded = explode("--", $id);
+        $experience = Experience::get()->filter("ID", $exploded[0])->first();
+
         $currentUser = Security::getCurrentUser();
 
+        if (isset($_GET["weather"])) {
+            $weather = $_GET["weather"];
+        } else {
+            $weather = "Unknown";
+        }
+        if (isset($_GET["train"])) {
+            $train = $_GET["train"];
+        } else {
+            $train = "-1";
+        }
+        if (isset($_GET["wagon"])) {
+            $wagon = $_GET["wagon"];
+        } else {
+            $wagon = "-1";
+        }
+        if (isset($_GET["row"])) {
+            $row = $_GET["row"];
+        } else {
+            $row = "-1";
+        }
+        if (isset($_GET["seat"])) {
+            $seat = $_GET["seat"];
+        } else {
+            $seat = "-1";
+        }
+        if (isset($_GET["score"])) {
+            $score = $_GET["score"];
+        } else {
+            $score = "-1";
+        }
+        if (isset($_GET["notes"])) {
+            $notes = $_GET["notes"];
+        } else {
+            $notes = "-1";
+        }
 
-        return $this->redirect($this->Link());
+        $newlogentry = LogEntry::create();
+        $newlogentry->ExperienceID = $id;
+        $newlogentry->Weather = $weather;
+        $newlogentry->Train = $train;
+        $newlogentry->Wagon = $wagon;
+        $newlogentry->Row = $row;
+        $newlogentry->Seat = $seat;
+        $newlogentry->Score = $score;
+        $newlogentry->UserID = $currentUser->ID;
+        $newlogentry->VisitTime = date("Y-m-d H:i:s");
+        $newlogentry->Notes = $notes;
+        $newlogentry->write();
+
+        return $this->redirect($experience->Parent->Link);
     }
 
     public function getLocations()
     {
         return ExperienceLocation::get();
+    }
+
+    public function getUsers()
+    {
+        return Member::get();
     }
 }

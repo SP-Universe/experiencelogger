@@ -23,6 +23,14 @@
     </div>
 </header>
 
+<% if not $CurrentUser %>
+    <div class="login_note">
+        <p class="centered">
+            <a href="$LoginURL" class="button login_link">Log in</a> to save your experiences.
+        </p>
+    </div>
+<% end_if %>
+
 <div class="section section--navigation">
     <ul class="nav_menu">
         <% loop $Menu(1) %>

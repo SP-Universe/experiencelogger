@@ -2,16 +2,19 @@
 
 namespace {
 
+use SilverStripe\Security\Security;
+use Symbiote\MemberProfiles\Pages\MemberProfilePage;
+
     use SilverStripe\CMS\Controllers\ContentController;
 
     /**
- * Class \PageController
- *
- * @property \Page dataRecord
- * @method \Page data()
- * @mixin \Page
- */
-class PageController extends ContentController
+     * Class \PageController
+     *
+     * @property \Page dataRecord
+     * @method \Page data()
+     * @mixin \Page
+     */
+    class PageController extends ContentController
     {
         /**
          * An array of actions that can be accessed via a request. Each array element should be an action name, and the
@@ -28,7 +31,26 @@ class PageController extends ContentController
          *
          * @var array
          */
-        private static $allowed_actions = [];
+        private static $allowed_actions = [
+            "logout",
+        ];
+
+        public function logout($request)
+        {
+            $session = $this->getRequest()->getSession();
+            $session->set("PWD" . $this->URLSegment, "");
+            return $this->redirect($this->Link());
+        }
+
+        public function getCurrentUser()
+        {
+            return Security::getCurrentUser();
+        }
+
+        public function getProfilePage()
+        {
+            return MemberProfilePage::get()->first();
+        }
 
         protected function init()
         {

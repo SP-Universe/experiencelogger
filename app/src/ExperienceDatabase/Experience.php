@@ -16,6 +16,8 @@ use SilverStripe\Security\Permission;
  *
  * @property string $Title
  * @property string $State
+ * @property bool $HasScore
+ * @property bool $HasSeats
  * @property string $Description
  * @property int $ImageID
  * @property int $ParentID
@@ -35,6 +37,8 @@ class Experience extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
+        "HasScore" => "Boolean",
+        "HasSeats" => "Boolean",
         "Description" => "HTMLText",
     ];
 
@@ -80,6 +84,8 @@ class Experience extends DataObject
         "Image" => "Image",
         "Parent.Title" => "Location",
         "Area" => "Area",
+        "HasScore" => "Has Score",
+        "HasSeats" => "Has Seats",
     ];
 
     private static $default_sort = "State ASC, TypeID ASC, AreaID ASC, Title ASC";
@@ -88,6 +94,12 @@ class Experience extends DataObject
 
     private static $singular_name = "Experience";
     private static $plural_name = "Experiences";
+
+    private static $defaults = [
+        "State" => "Active",
+        "HasScore" => false,
+        "HasSeats" => true,
+    ];
 
     private static $url_segment = "experience";
 
