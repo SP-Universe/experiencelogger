@@ -4,9 +4,10 @@
     align-items: center;
     background-color: $ColorWhite;
     border-radius: 20px;
-    margin: 10px 0;
+    margin: 0 0 10px 0;
     padding-right: 10px;
     overflow: hidden;
+    max-height: 400px;
     transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
     .experience_entry{
@@ -47,7 +48,6 @@
 
         &.show{
             opacity: 1;
-            max-height: 400px;
         }
 
         &.hide{
@@ -81,7 +81,8 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        height: 80px;
+        max-height: 80px;
+        transition: max-height 0.1s ease-in-out;
 
         .logging_link{
             width: 100%;
@@ -97,12 +98,33 @@
                 color: $ColorWhite;
             }
         }
+
         .logcount{
             height: 25px;
             width: 100%;
             text-align: center;
             background-color: $ColorPrimary;
             color: $ColorWhite;
+        }
+    }
+
+    &:has(.hide){
+        max-height: 0px;
+        margin: 0;
+        opacity: 0;
+
+        .experience_logging{
+            max-height: 0px;
+        }
+    }
+
+    &:has(.hidebyfilter){
+        max-height: 0px;
+        margin: 0;
+        opacity: 0;
+
+        .experience_logging{
+            max-height: 0px;
         }
     }
 }

@@ -46,6 +46,7 @@
                 opacity: 0;
                 max-height: 0;
                 margin: 0;
+                overflow: hidden;
             }
 
             @include media("<=medium") {
@@ -67,6 +68,10 @@
             @include media(">medium") {
                 right: 30px;
             }
+        }
+
+        &:has(.hide){
+            overflow: hidden;
         }
     }
 }
