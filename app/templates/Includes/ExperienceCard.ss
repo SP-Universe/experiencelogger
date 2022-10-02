@@ -1,6 +1,6 @@
 <div class="experience_card">
     <a href="$Link" class="experience_entry">
-        <div class="experience_entry_image" style="background-image: url($Image.FocusFill(400,200).Url)">
+        <div class="experience_entry_image" style="background-image: url($Image.FocusFill(200,200).Url)">
         </div>
         <div class="experience_entry_content">
             <h2 class="experience_title">$Title</h2>
