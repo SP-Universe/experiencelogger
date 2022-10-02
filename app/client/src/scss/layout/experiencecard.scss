@@ -17,6 +17,8 @@
 
         .experience_entry_image{
             width: 30%;
+            max-width: 150px;
+            aspect-ratio: 1;
             padding: 0;
             background-color: $ColorPrimary;
             clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
