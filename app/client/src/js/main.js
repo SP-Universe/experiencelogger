@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function searchLocation(e) {
         const searchValue = e.target.value.toLowerCase();
-        const locations = document.querySelectorAll('.location_entry');
+        const locations = document.querySelectorAll('.location_entry_wrap');
         locations.forEach(location => {
             const locationName = location.querySelector('.location_title').textContent.toLowerCase();
             if (locationName.indexOf(searchValue) != -1) {
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function searchExperience(e) {
         const searchValue = e.target.value.toLowerCase();
-        const experiences = document.querySelectorAll('.experience_entry');
+        const experiences = document.querySelectorAll('.experience_card');
         experiences.forEach(experience => {
             const experienceName = experience.querySelector('.experience_title').textContent.toLowerCase();
             if (experienceName.indexOf(searchValue) != -1) {

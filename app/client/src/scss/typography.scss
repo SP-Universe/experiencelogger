@@ -1,6 +1,6 @@
 body{
     font-family: 'Jost', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     color: $ColorBlack;
 }
@@ -12,16 +12,18 @@ h1, h2, h3, h4, h5{
 }
 
 h1{
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 700;
-    line-height: 1;
+    line-height: 1.2;
     margin: 10px 0;
 
-
+    @include media("<=medium") {
+        font-size: 30px;
+    }
 }
 
 h2{
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
 
@@ -31,10 +33,18 @@ h2{
 }
 
 h3{
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 700;
     @include media("<=medium") {
         font-size: 20px;
+    }
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: 700;
+    @include media("<=medium") {
+        font-size: 18px;
     }
 }
 

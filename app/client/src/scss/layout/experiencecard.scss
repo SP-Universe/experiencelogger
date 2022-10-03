@@ -8,6 +8,7 @@
     padding-right: 10px;
     overflow: hidden;
     max-height: 400px;
+    opacity: 1;
     transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
     .experience_entry{
@@ -21,8 +22,9 @@
             aspect-ratio: 1;
             padding: 0;
             background-color: $ColorPrimary;
-            clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
             background-size: cover;
+            background-position: center;
         }
 
         .experience_entry_content{
@@ -32,8 +34,17 @@
             flex-direction: column;
             justify-content: center;
 
+            .experience_title{
+                hyphens: auto;
+            }
+
             .experience_type{
                 margin: 0;
+                hyphens: auto;
+
+                span{
+                    hyphens: auto;
+                }
             }
 
             .flex_part{
@@ -48,22 +59,6 @@
             }
         }
 
-        &.show{
-            opacity: 1;
-        }
-
-        &.hide{
-            opacity: 0;
-            max-height: 0;
-            margin: 0;
-        }
-
-        &.hidebyfilter{
-            opacity: 0;
-            max-height: 0;
-            margin: 0;
-        }
-
         @include media("<=medium") {
             .experience_entry_image{
                 width: 50%;
@@ -73,17 +68,17 @@
 
     .experience_logging{
         background-color: $ColorWhite;
-        width: 80px;
+        width: 50px;
+        flex-shrink: 0;
         border-radius: 20px;
         box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
         z-index: 30;
-        margin-left: -10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        max-height: 80px;
+        height: 80px;
         transition: max-height 0.1s ease-in-out;
 
         .logging_link{
@@ -110,23 +105,21 @@
         }
     }
 
-    &:has(.hide){
-        max-height: 0px;
-        margin: 0;
-        opacity: 0;
 
-        .experience_logging{
-            max-height: 0px;
-        }
+
+    &.hide{
+        overflow: hidden;
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+        pointer-events: none;
     }
 
-    &:has(.hidebyfilter){
-        max-height: 0px;
-        margin: 0;
+    &.hidebyfilter{
+        overflow: hidden;
         opacity: 0;
-
-        .experience_logging{
-            max-height: 0px;
-        }
+        max-height: 0;
+        margin: 0;
+        pointer-events: none;
     }
 }

@@ -19,6 +19,7 @@ use SilverStripe\Security\Permission;
  * @property string $Weather
  * @property string $Notes
  * @property string $Score
+ * @property int $Boat
  * @property string $Train
  * @property int $Wagon
  * @property int $Row
@@ -36,6 +37,7 @@ class LogEntry extends DataObject
         "Weather" => "Varchar(255)",
         "Notes" => "Varchar(500)",
         "Score" => "Varchar(255)",
+        "Boat" => "Int",
         "Train" => "Varchar(255)",
         "Wagon" => "Int",
         "Row" => "Int",

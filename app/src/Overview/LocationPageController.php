@@ -81,63 +81,78 @@ class LocationPageController extends PageController
 
     public function finishLog()
     {
-        $id = $this->getRequest()->param("ID");
-
-        $exploded = explode("--", $id);
-        $experience = Experience::get()->filter("ID", $exploded[0])->first();
-
         $currentUser = Security::getCurrentUser();
 
-        if (isset($_GET["weather"])) {
-            $weather = $_GET["weather"];
-        } else {
-            $weather = "Unknown";
-        }
-        if (isset($_GET["train"])) {
-            $train = $_GET["train"];
-        } else {
-            $train = "-1";
-        }
-        if (isset($_GET["wagon"])) {
-            $wagon = $_GET["wagon"];
-        } else {
-            $wagon = "-1";
-        }
-        if (isset($_GET["row"])) {
-            $row = $_GET["row"];
-        } else {
-            $row = "-1";
-        }
-        if (isset($_GET["seat"])) {
-            $seat = $_GET["seat"];
-        } else {
-            $seat = "-1";
-        }
-        if (isset($_GET["score"])) {
-            $score = $_GET["score"];
-        } else {
-            $score = "-1";
-        }
-        if (isset($_GET["notes"])) {
-            $notes = $_GET["notes"];
-        } else {
-            $notes = "-1";
-        }
+        if (isset($currentUser)) {
+            $id = $this->getRequest()->param("ID");
+            $exploded = explode("--", $id);
+            $experience = Experience::get()->filter("ID", $exploded[0])->first();
 
-        $newlogentry = LogEntry::create();
-        $newlogentry->ExperienceID = $id;
-        $newlogentry->Weather = $weather;
-        $newlogentry->Train = $train;
-        $newlogentry->Wagon = $wagon;
-        $newlogentry->Row = $row;
-        $newlogentry->Seat = $seat;
-        $newlogentry->Score = $score;
-        $newlogentry->UserID = $currentUser->ID;
-        $newlogentry->VisitTime = date("Y-m-d H:i:s");
-        $newlogentry->Notes = $notes;
-        $newlogentry->write();
+            if (isset($experience)) {
+                if (isset($_GET["weather"])) {
+                    $weather = implode(',', $_GET["weather"]);
+                }
+                if (isset($_GET["train"])) {
+                    $train = $_GET["train"];
+                }
+                if (isset($_GET["wagon"])) {
+                    $wagon = $_GET["wagon"];
+                }
+                if (isset($_GET["row"])) {
+                    $row = $_GET["row"];
+                }
+                if (isset($_GET["boat"])) {
+                    $boat = $_GET["boat"];
+                }
+                if (isset($_GET["seat"])) {
+                    $seat = $_GET["seat"];
+                }
+                if (isset($_GET["score"])) {
+                    $score = $_GET["score"];
+                }
+                if (isset($_GET["notes"])) {
+                    $notes = $_GET["notes"];
+                }
 
-        return $this->redirect($experience->Parent->Link);
+                $newlogentry = LogEntry::create();
+                $newlogentry->ExperienceID = $id;
+
+                if (isset($weather)) {
+                    $newlogentry->Weather = $weather;
+                }
+                if (isset($train)) {
+                    $newlogentry->Train = $train;
+                }
+                if (isset($wagon)) {
+                    $newlogentry->Wagon = $wagon;
+                }
+                if (isset($row)) {
+                    $newlogentry->Row = $row;
+                }
+                if (isset($boat)) {
+                    $newlogentry->Boat = $boat;
+                }
+                if (isset($seat)) {
+                    $newlogentry->Seat = $seat;
+                }
+                if (isset($score)) {
+                    $newlogentry->Score = $score;
+                }
+                if (isset($notes)) {
+                    $newlogentry->Notes = $notes;
+                }
+                $newlogentry->UserID = $currentUser->ID;
+                $newlogentry->VisitTime = date("Y-m-d H:i:s");
+                $newlogentry->Notes = $notes;
+                $newlogentry->write();
+
+                return $this->redirect($experience->Parent->Link);
+            } else {
+                echo "ERROR - The experience couldn't be found...";
+            }
+        } else {
+            echo "You need to be logged in to add a log entry!";
+        }
     }
 
     public function getLocations()

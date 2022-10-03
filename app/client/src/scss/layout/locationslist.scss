@@ -6,13 +6,16 @@
 
     .location_entry_wrap{
         position: relative;
+        opacity: 1;
+
+        max-height: 400px;
+        transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
         .location_entry{
             background-color: $ColorWhite;
             border-radius: 20px;
             display: flex;
             height: 100%;
-            transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             margin: 10px 0;
             align-items: center;
@@ -37,17 +40,7 @@
                 overflow: hidden;
             }
 
-            &.show{
-                opacity: 1;
-                max-height: 400px;
-            }
 
-            &.hide{
-                opacity: 0;
-                max-height: 0;
-                margin: 0;
-                overflow: hidden;
-            }
 
             @include media("<=medium") {
                 .location_entry_image{
@@ -70,8 +63,13 @@
             }
         }
 
-        &:has(.hide){
+        &.hide{
             overflow: hidden;
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
     }
 }
