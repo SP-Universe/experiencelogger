@@ -75,16 +75,16 @@
                             <form-group class="logging_group train">
                                 <div class="train_selector">
                                     <select name="train" id="train" onchange="change_train(this)">
-                                        <option value="-1">Select a train</option>
+                                        <option value="-1">Select a <% if $HasBoats %>boat<% else %>train<% end_if %></option>
                                         <% loop $getSortedTrains() %>
-                                            <option value="$Train">Train: $Train</option>
+                                            <option value="$Train"><% if $Up.HasBoats %>Boat<% else %>Train<% end_if %>: $Train</option>
                                         <% end_loop %>
                                     </select>
                                 </div>
                                 <div class="train_visualizer">
                                     <% loop $getSortedTrains() %>
                                         <div class="train" data-train="$Train" data-type="train">
-                                            <p>Train $Train</p>
+                                            <p class="trainname"><% if $Up.HasBoats %>Boat<% else %>Train<% end_if %> $Train</p>
                                             <% loop $Children.GroupedBy("Wagon") %>
                                                 <div class="wagon">
                                                     <p>Wagon $Wagon</p>
@@ -118,14 +118,13 @@
                         <% else %>
                             <form-group class="logging_group">
                                 <% if $HasBoats %>
-                                    <label for="boat" min="0" max="99">Boat</label>
-                                    <input type="text" id="boat" name="boat">
-                                <% end_if %>
-                                <% if $HasTrain %>
+                                    <label for="train" min="0" max="99">Boat</label>
+                                    <input type="text" id="train" name="train">
+                                <% else_if $HasTrains %>
                                     <label for="train" min="0" max="99">Train</label>
                                     <input type="text" id="train" name="train">
                                 <% end_if %>
-                                <% if $HasWagon %>
+                                <% if $HasWagons %>
                                     <label for="wagon" min="0" max="99">Wagon</label>
                                     <input type="number" id="wagon" name="wagon">
                                 <% end_if %>

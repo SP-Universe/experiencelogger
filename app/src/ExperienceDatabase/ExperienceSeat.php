@@ -21,10 +21,10 @@ use SilverStripe\Security\Permission;
 class ExperienceSeat extends DataObject
 {
     private static $db = [
+        "Train" => "Varchar(255)",
+        "Wagon" => "Varchar(255)",
         "Row" => "Varchar(255)",
         "Seat" => "Varchar(255)",
-        "Wagon" => "Varchar(255)",
-        "Train" => "Varchar(255)",
         "Coord1" => "Int",
         "Coord2" => "Int",
         "Info" => "Varchar(255)",
@@ -39,19 +39,19 @@ class ExperienceSeat extends DataObject
     private static $default_sort = "Train ASC, Wagon ASC, Row ASC, Seat ASC";
 
     private static $field_labels = [
-        "Row" => "Reihe",
-        "Seat" => "Sitz",
-        "Wagon" => "Wagen",
-        "Train" => "Zug",
+        "Row" => "Row",
+        "Seat" => "Seat",
+        "Wagon" => "Wagon",
+        "Train" => "Train",
         "Coord1" => "X-Koordinate",
         "Coord2" => "Y-Koordinate",
     ];
 
     private static $summary_fields = [
-        "Train" => "Zug",
-        "Wagon" => "Wagen",
-        "Row" => "Reihe",
-        "Seat" => "Sitz",
+        "Train" => "Train",
+        "Wagon" => "Wagon",
+        "Row" => "Row",
+        "Seat" => "Seat",
     ];
 
     private static $searchable_fields = [
