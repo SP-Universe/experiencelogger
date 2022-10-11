@@ -2,6 +2,8 @@
     position: relative;
     .section_content{
 
+        margin-bottom: 200px;
+
         h1,h2{
             text-align: center;
             margin: 20px 0 10px 0;
@@ -62,6 +64,76 @@
                     flex-wrap: nowrap;
                     gap: 20px;
                 }
+
+                .train_selector{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .train_visualizer{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 50px;
+                    .train{
+                        background-color: #42a39367;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+                        border-radius: 60px 60px 20px 20px;
+                        padding: 10px;
+                        display: none;
+
+                        &.active{
+                            display: flex;
+                        }
+
+                        .wagon{
+                            background-color: #266056;
+                            color: $ColorWhite;
+                            display: flex;
+                            flex-direction: column;
+                            gap:10px;
+                            align-items: center;
+                            border-radius: 30px 30px 10px 10px;
+                            padding: 10px;
+                            width: 100%;
+                            .row{
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                gap: 10px;
+                                font-size: 12px;
+                                .seat{
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    background-color: $ColorPrimaryLight;
+                                    color: $ColorPrimary;
+                                    width: 48px;
+                                    height: 48px;
+                                    border-radius: 5px;
+                                    font-size: 16px;
+                                    font-weight: 600;
+
+                                    &.selected{
+                                        background-color: $ColorPrimary;
+                                        color: $ColorWhite;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .hidden_datafields{
+                        display: none;
+                    }
+                }
+
+                &.train{
+                    flex-direction: column;
+                }
+
             }
 
             input[type="submit"] {

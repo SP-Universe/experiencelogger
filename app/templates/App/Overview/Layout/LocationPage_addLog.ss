@@ -64,25 +64,78 @@
                     </div>
                 </form-group>
                 <% if $HasSeats %>
-                    <h2>Seat</h2>
-                    <form-group class="logging_group">
-                        <% if $HasBoat %>
-                            <label for="boat" min="0" max="99">Boat</label>
-                            <input type="text" id="boat" name="boat">
+
+                    <% if $HasBoat %>
+                        <h2>Seat</h2>
+                        <p>Work in Progress!</p>
+                    <% else %>
+                        <h2>Seat</h2>
+
+                        <% if $getSortedTrains() %>
+                            <form-group class="logging_group train">
+                                <div class="train_selector">
+                                    <select name="train" id="train" onchange="change_train(this)">
+                                        <option value="-1">Select a train</option>
+                                        <% loop $getSortedTrains() %>
+                                            <option value="$Train">Train: $Train</option>
+                                        <% end_loop %>
+                                    </select>
+                                </div>
+                                <div class="train_visualizer">
+                                    <% loop $getSortedTrains() %>
+                                        <div class="train" data-train="$Train" data-type="train">
+                                            <p>Train $Train</p>
+                                            <% loop $Children.GroupedBy("Wagon") %>
+                                                <div class="wagon">
+                                                    <p>Wagon $Wagon</p>
+                                                    <% loop $Children.GroupedBy("Row") %>
+                                                        <div class="row">
+                                                            <p>$Row</p>
+                                                            <% loop $Children.GroupedBy("Seat") %>
+                                                                <p class="seat" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">$Seat</p>
+                                                            <% end_loop %>
+                                                        </div>
+                                                    <% end_loop %>
+                                                </div>
+                                            <% end_loop %>
+                                        </div>
+                                    <% end_loop %>
+
+                                    <div class="hidden_datafields">
+                                        <label for="boat" min="0" max="99">Boat</label>
+                                        <input type="text" id="boat" name="boat">
+                                        <label for="trainField" min="0" max="99">Train</label>
+                                        <input type="text" id="trainField" name="train">
+                                        <label for="wagon" min="0" max="99">Wagon</label>
+                                        <input type="number" id="wagon" name="wagon">
+                                        <label for="row" min="0" max="99">Row</label>
+                                        <input type="number" id="row" name="row">
+                                        <label for="seat" min="0" max="99">Seat</label>
+                                        <input type="number" id="seat" name="seat">
+                                    </div>
+                                </div>
+                            </form-group>
+                        <% else %>
+                            <form-group class="logging_group">
+                                <% if $HasBoats %>
+                                    <label for="boat" min="0" max="99">Boat</label>
+                                    <input type="text" id="boat" name="boat">
+                                <% end_if %>
+                                <% if $HasTrain %>
+                                    <label for="train" min="0" max="99">Train</label>
+                                    <input type="text" id="train" name="train">
+                                <% end_if %>
+                                <% if $HasWagon %>
+                                    <label for="wagon" min="0" max="99">Wagon</label>
+                                    <input type="number" id="wagon" name="wagon">
+                                <% end_if %>
+                                <label for="row" min="0" max="99">Row</label>
+                                <input type="number" id="row" name="row">
+                                <label for="seat" min="0" max="99">Seat</label>
+                                <input type="number" id="seat" name="seat">
+                            </form-group>
                         <% end_if %>
-                        <% if $HasTrain %>
-                            <label for="train" min="0" max="99">Train</label>
-                            <input type="text" id="train" name="train">
-                        <% end_if %>
-                        <% if $HasWagon %>
-                            <label for="wagon" min="0" max="99">Wagon</label>
-                            <input type="number" id="wagon" name="wagon">
-                        <% end_if %>
-                        <label for="row" min="0" max="99">Row</label>
-                        <input type="number" id="row" name="row">
-                        <label for="seat" min="0" max="99">Seat</label>
-                        <input type="number" id="seat" name="seat">
-                    </form-group>
+                    <% end_if %>
                 <% end_if %>
                 <% if $HasScore %>
                     <h2>Score</h2>
@@ -101,4 +154,48 @@
             </form>
         </div>
     </div>
+
+
+<script>
+    //Log-SeatSelection
+    const trainselector = document.querySelector('.train_visualizer');
+    const trains = trainselector.querySelectorAll('.train');
+    const seatSelectors = trainselector.querySelectorAll('[data-behaviour="seat_selector"]');
+    const trainField = document.querySelector('#trainField');
+    const wagonField = document.querySelector('#wagon');
+    const rowField = document.querySelector('#row');
+    const seatField = document.querySelector('#seat');
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        if (seatSelectors) {
+            seatSelectors.forEach(seat => {
+                seat.addEventListener('click', function() {
+                    seatSelectors.forEach(otherSeat => {
+                        otherSeat.classList.remove('selected');
+                    });
+                    seat.classList.toggle('selected');
+                    trainField.value = seat.getAttribute('data-train') + "";
+                    trainField.name = "trainadhahsd";
+                    console.log(trainField.value);
+                    wagonField.value = seat.getAttribute('data-wagon');
+                    rowField.value = seat.getAttribute('data-row');
+                    seatField.value = seat.getAttribute('data-seat');
+                });
+            });
+        }
+    });
+
+    function change_train(e){
+        if(trainselector && trains){
+            trains.forEach(train => {
+                train.classList.remove('active');
+                if(train.getAttribute('data-train') == e.value){
+                    train.classList.add('active');
+                }
+            });
+        }
+    }
+
+</script>
+
 <% end_with %>

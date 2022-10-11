@@ -20,7 +20,8 @@
         "wilr/silverstripe-googlesitemaps": "^2.2",
         "silverstripe/restfulserver": "dev-master",
         "symbiote/silverstripe-memberprofiles": "~4.0",
-        "ryanpotter/silverstripe-cms-theme": "^3.4"
+        "ryanpotter/silverstripe-cms-theme": "^3.4",
+        "stevie-mayhew/silverstripe-svg": "^2.2"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",

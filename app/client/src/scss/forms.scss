@@ -47,3 +47,11 @@ textarea{
     box-shadow: inset 0 0 10px 0 rgba(0,0,0,0.3);
     padding: 5px 10px;
 }
+
+select{
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 10px auto 20px auto;
+    border: 1px solid $ColorPrimary;
+    color: $ColorPrimary;
+}

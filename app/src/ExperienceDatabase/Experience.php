@@ -7,6 +7,7 @@ use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\GroupedList;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Permission;
@@ -183,5 +184,32 @@ class Experience extends DataObject
     {
         $formattedName = $this->ID . "--" . $this->Title;
         return $formattedName;
+    }
+
+    public function getSortedTrains()
+    {
+        return GroupedList::create($this->ExperienceSeats()->sort('Train ASC'))->GroupedBy("Train");
+    }
+
+    public function getSortedWagons($train)
+    {
+        return GroupedList::create($this->ExperienceSeats()->filter('Train', $train)->sort('Wagon ASC'))->GroupedBy("Wagon");
+    }
+
+    public function getSortedRows($train, $wagon)
+    {
+        return GroupedList::create($this->ExperienceSeats()->filter([
+            'Train' => $train,
+            'Wagon' => $wagon,
+        ])->sort('Row ASC'))->GroupedBy("Wagon");
+    }
+
+    public function getSortedSeats($train, $wagon, $row)
+    {
+        return $this->ExperienceSeats()->filter([
+            "Train" => $train,
+            "Wagon" => $wagon,
+            "Row" => $row,
+        ])->sort('Seat');
     }
 }
