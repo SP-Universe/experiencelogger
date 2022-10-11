@@ -125,6 +125,7 @@
                                     &.selected{
                                         background-color: $ColorPrimary;
                                         color: $ColorWhite;
+                                        border: 1px solid $ColorPrimaryLight;
                                     }
                                 }
                             }
