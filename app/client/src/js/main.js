@@ -35,11 +35,35 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     //Personal Nav
-    const personalNavButton = document.querySelector(".open_personalnav");
+    const personalNavButton = document.querySelector('[data-behaviour="open_personalnav"]');
     if(personalNavButton){
         personalNavButton.addEventListener("click", function (event) {
             event.preventDefault();
-            document.classList.toggle("personalnav_active");
+            document.body.classList.toggle("personalnav_active");
+        });
+    }
+
+    //Showhide Logs
+    let showhideLogs = document.querySelectorAll('[data-behaviour="showhide_log"]');
+    if(showhideLogs.length){
+        showhideLogs.forEach(showhideLog => {
+
+            const seemoreOnce = showhideLog.querySelector(".seemore");
+            seemoreOnce.style.height = "0px";
+            seemoreOnce.style.opacity = "0";
+
+            showhideLog.addEventListener("click", function (event) {
+                event.preventDefault();
+                showhideLog.classList.toggle("active");
+                const seemore = showhideLog.querySelector(".seemore");
+                if (showhideLog.classList.contains("active")){
+                    seemore.style.height = seemore.scrollHeight + "px";
+                    seemoreOnce.style.opacity = "1";
+                } else {
+                    seemore.style.height = "0px";
+                    seemoreOnce.style.opacity = "0";
+                }
+            });
         });
     }
 

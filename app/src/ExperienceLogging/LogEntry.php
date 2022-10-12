@@ -5,12 +5,16 @@ namespace App\ExperienceDatabase;
 use SilverStripe\Assets\File;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
+use function PHPSTORM_META\map;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Member;
+use SilverStripe\Forms\DropdownField;
+
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Permission;
+use SilverStripe\View\ArrayData;
 
 /**
  * Class \App\Database\Experience
@@ -97,10 +101,27 @@ class LogEntry extends DataObject
         }
     }
 
+    public function getWeathers()
+    {
+        $cutted = explode(",", $this->Weather);
+        $weathers = new ArrayList();
+        foreach ($cutted as $weather) {
+            $weathers->push(new ArrayData(array(
+                "Weather" => $weather,
+            )));
+        }
+        return $weathers;
+    }
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
+    }
+
+    public function getVisitDate()
+    {
+        return date("d.m.Y", strtotime($this->VisitTime));
     }
 
     public function canView($member = null)

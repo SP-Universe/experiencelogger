@@ -2,6 +2,10 @@
 
 namespace {
 
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Security\IdentityStore;
+
     use SilverStripe\Security\Security;
     use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
@@ -35,11 +39,15 @@ namespace {
             "logout",
         ];
 
-        public function logout($request)
+        public function logout(HTTPRequest $request)
         {
-            $session = $this->getRequest()->getSession();
-            $session->set("PWD" . $this->URLSegment, "");
-            return $this->redirect($this->Link());
+            //$session = $this->getRequest()->getSession();
+            //$session->set("PWD" . $this->URLSegment, "");
+            //return $this->redirect($this->Link());
+
+            Injector::inst()->get(IdentityStore::class)->logOut($request);
+
+            return $this->redirect('home');
         }
 
         public function getCurrentUser()

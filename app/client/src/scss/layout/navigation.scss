@@ -2,11 +2,11 @@
     position: fixed;
     bottom: 0;
     background-color: $ColorPrimary;
-    height: 80px;
     width: 100%;
     max-width: 100%;
     z-index: 100;
     margin: 0;
+    transform: translateY(10px);
 
     ul{
         display: flex;
@@ -17,18 +17,32 @@
         padding: 0;
         margin: 0;
 
-        li{
+        .nav_link{
             display: flex;
             flex-direction: column;
             color: $ColorWhite;
             justify-content: flex-end;
             align-items: center;
             height: 100%;
+            padding: 5px 20px 15px 20px;
 
             .menuicon{
                 display: block;
-                width: 35px;
-                height: 35px;
+                width: 30px;
+                height: 30px;
+            }
+
+            p{
+                display: none;
+            }
+
+            &.nav_link--active{
+                background-color: $ColorPrimaryDark;
+                transform: translateY(-5px);
+                p{
+                    display: block;
+                    font-size: 12px;
+                }
             }
         }
     }

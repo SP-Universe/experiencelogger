@@ -3,23 +3,33 @@
         background-color: $ColorWhite;
         position: fixed;
         top: 0px;
+        left: 20px;
         right: 0;
-        min-width: 200px;
-        padding: 70px 0 0 0;
+        width: 100%;
+        padding: 70px 0 30px 0;
         z-index: 10;
         list-style: none;
         opacity: 0;
-        max-height: 0vh;
-
+        max-height: 0px;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
         transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+        pointer-events: none;
 
         .nav_link{
             padding: 15px 30px;
+
+            &.nav_link--active{
+                background-color: $ColorPrimary;
+                color: $ColorWhite;
+            }
         }
 
         .personalnav_active & {
             opacity: 1;
-            max-height: 100vh;
+            max-height: 1000px;
+            pointer-events: all;
         }
     }
 }
