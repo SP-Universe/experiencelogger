@@ -3,10 +3,22 @@
         <div class="section_content">
         <div class="experience_block <% if not $Image %>noimage<% end_if %>">
                 <a class="backbutton" onclick="window.history.back();">Zurück</a>
-                <% if $Image %>
-                    <div class="experienceimage">
-                        $Image.FocusFill(1000, 600)
+                <% if $PhotoGalleryImages %>
+                    <div class="experiencegallery">
+                        <div class="experiencegallery_slider" data-behaviour="slider">
+                        <% loop PhotoGalleryImages %>
+                            <div class="experienceimage">
+                                $Image.FocusFill(1000,600)
+                            </div>
+                        <% end_loop %>
                     </div>
+                    </div>
+                <% else_if $Image %>
+                    <div class="experienceimage">
+                        $Image.FocusFill(1000,600)
+                    </div>
+                <% else %>
+                    <br>
                 <% end_if %>
                 <h1>$Title</h1>
                 <h4>$Type.Title <% if $Area %>in $Area.Title<% end_if %></h4>

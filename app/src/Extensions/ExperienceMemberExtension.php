@@ -1,9 +1,10 @@
 <?php
 namespace App\Extensions;
 
+use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
-use App\ExperienceDatabase\ExperienceLocation;
 use App\ExperienceDatabase\LogEntry;
+use App\ExperienceDatabase\ExperienceLocation;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -12,6 +13,7 @@ use App\ExperienceDatabase\LogEntry;
  * @property string $DateOfBirth
  * @property string $Nickname
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
+ * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
  */
 class ExperienceMemberExtension extends DataExtension
 {
@@ -23,10 +25,16 @@ class ExperienceMemberExtension extends DataExtension
 
     private static $many_many = [
         "FavouritePlaces" => ExperienceLocation::class,
+        "Friends" => Member::class,
     ];
 
     private static $belongs_many = [
         "LogEntries" => LogEntry::class,
+        "Friends" => Member::class,
+    ];
+
+    private static $searchable_fields = [
+        "Nickname",
     ];
 
     public function LogCount($id)

@@ -8,10 +8,10 @@ use SilverStripe\Security\Permission;
 /**
  * Class \App\Database\ExperienceSeat
  *
+ * @property string $Train
+ * @property string $Wagon
  * @property string $Row
  * @property string $Seat
- * @property string $Wagon
- * @property string $Train
  * @property int $Coord1
  * @property int $Coord2
  * @property string $Info

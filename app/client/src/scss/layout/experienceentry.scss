@@ -16,6 +16,7 @@
                 padding: 5px 15px;
                 border-radius: 0px 0 10px 0;
                 transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, left 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+                z-index: 50;
 
                 &:hover{
                     border-radius: 10px 0 10px 0;
@@ -24,12 +25,44 @@
                 }
             }
 
+            .experiencegallery{
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+
+                .tns-outer{
+                    position: relative;
+                    .tns-controls{
+                        display: none;
+                    }
+
+                    .tns-nav{
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        z-index: 20;
+                        display: flex;
+                        justify-content: center;
+                        padding: 10px 0;
+                        gap: 5px;
+                        button{
+                            border: 0;
+                            height: 10px;
+                            border-radius: 50%;
+                        }
+                        .tns-nav-active{
+                            background-color: $ColorPrimary;
+                        }
+                    }
+                }
+            }
+
             .experienceimage{
                 width: 100%;
                 height: 400px;
                 border-radius: 10px;
                 overflow: hidden;
-                margin-bottom: 20px;
                 img{
                     width: 100%;
                     height: 100%;

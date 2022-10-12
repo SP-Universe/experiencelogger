@@ -2,9 +2,8 @@
 
 namespace {
 
-use SilverStripe\Assets\Image;
-use SilverStripe\Security\Member;
-use SilverStripe\AssetAdmin\Forms\UploadField;
+    use SilverStripe\Assets\Image;
+    use SilverStripe\AssetAdmin\Forms\UploadField;
 
     use SilverStripe\Assets\File;
     use SilverStripe\Forms\CheckboxField;
@@ -30,7 +29,7 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
     class Page extends SiteTree
     {
         private static $db = [
-            "MenuPosition" => "Enum('main,footer', 'main')",
+            "MenuPosition" => "Enum('main, footer, personal', 'main')",
             "ShowTitle" => "Boolean",
         ];
 
@@ -50,6 +49,7 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
             $fields->addFieldToTab("Root.Main", new DropdownField("MenuPosition", "Menü", [
                 "main" => "Hauptmenü",
                 "footer" => "Footer",
+                "personal" => "Personal",
             ]), "Content");
             $fields->addFieldToTab("Root.Main", new CheckboxField("ShowTitle", "Titel anzeigen"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerbild"), "Content");

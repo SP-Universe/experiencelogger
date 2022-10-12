@@ -1,0 +1,6 @@
+App\ExperienceDatabase\Experience:
+  extensions:
+    - PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
+  gallery-title: Galerie
+  gallery-cms-tab: Galerie
+  content-cms-tab: Top Content

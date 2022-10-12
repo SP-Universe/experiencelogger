@@ -33,8 +33,10 @@ use SilverStripe\Security\Permission;
  * @method \App\ExperienceDatabase\ExperienceType Type()
  * @method \App\ExperienceDatabase\Experience Area()
  * @method \SilverStripe\Assets\File LayoutSVG()
+ * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
+ * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
  */
 class Experience extends DataObject
 {

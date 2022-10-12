@@ -2,8 +2,8 @@
 
 namespace {
 
-use SilverStripe\Security\Security;
-use Symbiote\MemberProfiles\Pages\MemberProfilePage;
+    use SilverStripe\Security\Security;
+    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
     use SilverStripe\CMS\Controllers\ContentController;
 

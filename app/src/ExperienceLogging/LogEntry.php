@@ -23,6 +23,7 @@ use SilverStripe\Security\Permission;
  * @property int $Wagon
  * @property int $Row
  * @property int $Seat
+ * @property string $Variant
  * @property int $UserID
  * @property int $ExperienceID
  * @method \SilverStripe\Security\Member User()
@@ -40,6 +41,7 @@ class LogEntry extends DataObject
         "Wagon" => "Int",
         "Row" => "Int",
         "Seat" => "Int",
+        "Variant" => "Varchar(255)",
         "Notes" => "Varchar(500)",
     ];
 

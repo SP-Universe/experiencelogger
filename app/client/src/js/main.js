@@ -1,4 +1,6 @@
 import GLightbox from "glightbox";
+import { tns } from "tiny-slider/src/tiny-slider";
+import "tiny-slider/dist/tiny-slider.css";
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
@@ -7,6 +9,40 @@ document.addEventListener("DOMContentLoaded", function (event) {
         touchNavigation: true,
         loop: true,
     });
+
+    //Slider
+    var sliders = document.querySelectorAll('[data-behaviour="slider"]');
+
+    if (sliders.length) {
+        [...sliders].map(slider => {
+                return tns({
+                    mode: 'carousel',
+                    container: slider,
+                    items: 1,
+                    slideBy: 'page',
+                    navAsThumbnails: true,
+                    nav: true,
+                    controls: true,
+                    controlsText: ['&lt;', '&gt;'],
+                    mouseDrag: true,
+                    autoplay: false,
+                    autoplayTimeout: 3000,
+                    speed: 1000,
+                    autoplayHoverPause: true,
+                    autoplayButtonOutput: false,
+                });
+        })
+    }
+
+    //Personal Nav
+    const personalNavButton = document.querySelector(".open_personalnav");
+    if(personalNavButton){
+        personalNavButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            document.classList.toggle("personalnav_active");
+        });
+    }
+
 
     //Search Tool
     const searchBar = document.querySelector('#search-location');
