@@ -23,11 +23,13 @@ use SilverStripe\View\ArrayData;
  * @property string $Weather
  * @property string $Notes
  * @property string $Score
+ * @property int $Podest
  * @property string $Train
  * @property int $Wagon
  * @property int $Row
  * @property int $Seat
  * @property string $Variant
+ * @property string $Version
  * @property int $UserID
  * @property int $ExperienceID
  * @method \SilverStripe\Security\Member User()
@@ -41,11 +43,13 @@ class LogEntry extends DataObject
         "Weather" => "Varchar(255)",
         "Notes" => "Varchar(500)",
         "Score" => "Varchar(255)",
+        "Podest" => "Int",
         "Train" => "Varchar(255)",
         "Wagon" => "Int",
         "Row" => "Int",
         "Seat" => "Int",
         "Variant" => "Varchar(255)",
+        "Version" => "Varchar(255)",
         "Notes" => "Varchar(500)",
     ];
 

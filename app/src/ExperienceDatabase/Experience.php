@@ -6,10 +6,8 @@ use SilverStripe\Assets\File;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Permission;
 
 /**
@@ -17,11 +15,14 @@ use SilverStripe\Security\Permission;
  *
  * @property string $Title
  * @property string $State
- * @property bool $HasSeats
- * @property bool $HasTrains
+ * @property string $Traintype
+ * @property bool $HasGeneralSeats
  * @property bool $HasWagons
- * @property bool $HasBoats
+ * @property bool $HasRows
+ * @property bool $HasSeats
  * @property bool $HasScore
+ * @property bool $HasPodest
+ * @property string $ExperienceLink
  * @property string $Description
  * @property int $ImageID
  * @property int $ParentID
@@ -36,6 +37,8 @@ use SilverStripe\Security\Permission;
  * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVariant[] Variants()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVersion[] Versions()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
  */
 class Experience extends DataObject
@@ -43,11 +46,14 @@ class Experience extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
-        "HasSeats" => "Boolean",
-        "HasTrains" => "Boolean",
+        "Traintype" => "Enum('Train, None, Boat, Car, Airplane', 'Train')",
+        "HasGeneralSeats" => "Boolean",
         "HasWagons" => "Boolean",
-        "HasBoats" => "Boolean",
+        "HasRows" => "Boolean",
+        "HasSeats" => "Boolean",
         "HasScore" => "Boolean",
+        "HasPodest" => "Boolean",
+        "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
     ];
 
@@ -64,6 +70,8 @@ class Experience extends DataObject
     private static $has_many = [
         "ExperienceData" => ExperienceData::class,
         "ExperienceSeats" => ExperienceSeat::class,
+        "Variants" => ExperienceVariant::class,
+        "Versions" => ExperienceVersion::class,
     ];
 
     private static $belongs_many = [
@@ -94,7 +102,7 @@ class Experience extends DataObject
         "Parent.Title" => "Location",
         "Area" => "Area",
         "HasScore" => "Has Score",
-        "HasSeats" => "Has Seats in general",
+        "HasSeats" => "Has Seats",
         "HasTrains" => "Has Trains",
         "HasWagons" => "Has Wagons",
         "HasBoats" => "Has Boats",
@@ -109,7 +117,11 @@ class Experience extends DataObject
 
     private static $defaults = [
         "State" => "Active",
+        "HasGeneralSeats" => true,
         "HasScore" => false,
+        "HasPodest" => false,
+        "HasWagons" => true,
+        "HasRows" => true,
         "HasSeats" => true,
     ];
 

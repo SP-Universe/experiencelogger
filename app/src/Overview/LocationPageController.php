@@ -110,6 +110,15 @@ class LocationPageController extends PageController
                 if (isset($_GET["score"])) {
                     $score = $_GET["score"];
                 }
+                if (isset($_GET["podest"])) {
+                    $podest = $_GET["podest"];
+                }
+                if (isset($_GET["variant"])) {
+                    $variant = $_GET["variant"];
+                }
+                if (isset($_GET["version"])) {
+                    $version = $_GET["version"];
+                }
                 if (isset($_GET["notes"])) {
                     $notes = $_GET["notes"];
                 }
@@ -137,6 +146,15 @@ class LocationPageController extends PageController
                 }
                 if (isset($score)) {
                     $newlogentry->Score = $score;
+                }
+                if (isset($podest)) {
+                    $newlogentry->Podest = $podest;
+                }
+                if (isset($variant)) {
+                    $newlogentry->Variant = $variant;
+                }
+                if (isset($version)) {
+                    $newlogentry->Version = $version;
                 }
                 if (isset($notes)) {
                     $newlogentry->Notes = $notes;

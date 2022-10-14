@@ -63,84 +63,84 @@
                         <input type="checkbox" id="breakdown" name="weather[]" value="night"/>
                     </div>
                 </form-group>
-                <% if $HasSeats %>
-
-                    <% if $HasBoat %>
-                        <h2>Seat</h2>
-                        <p>Work in Progress!</p>
-                    <% else %>
+                <% if $HasGeneralSeats %>
                         <h2>Seat</h2>
 
                         <% if $getSortedTrains() %>
                             <form-group class="logging_group train">
-                                <div class="train_selector">
-                                    <select name="train" id="train" onchange="change_train(this)">
-                                        <option value="-1">Select a <% if $HasBoats %>boat<% else %>train<% end_if %></option>
-                                        <% loop $getSortedTrains() %>
-                                            <option value="$Train"><% if $Up.HasBoats %>Boat<% else %>Train<% end_if %>: $Train</option>
-                                        <% end_loop %>
-                                    </select>
-                                </div>
-                                <div class="train_visualizer">
-                                    <% loop $getSortedTrains() %>
-                                        <div class="train" data-train="$Train" data-type="train">
-                                            <p class="trainname"><% if $Up.HasBoats %>Boat<% else %>Train<% end_if %> $Train</p>
-                                            <% loop $Children.GroupedBy("Wagon") %>
-                                                <div class="wagon">
-                                                    <p>Wagon $Wagon</p>
-                                                    <% loop $Children.GroupedBy("Row") %>
-                                                        <div class="row">
-                                                            <p>$Row</p>
-                                                            <% loop $Children.GroupedBy("Seat") %>
-                                                                <p class="seat" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">$Seat</p>
-                                                            <% end_loop %>
-                                                        </div>
-                                                    <% end_loop %>
-                                                </div>
-                                            <% end_loop %>
-                                        </div>
-                                    <% end_loop %>
 
-                                    <div class="hidden_datafields">
-                                        <label for="boat" min="0" max="99">Boat</label>
-                                        <input type="text" id="boat" name="boat">
-                                        <label for="trainField" min="0" max="99">Train</label>
-                                        <input type="text" id="trainField" name="train">
-                                        <label for="wagon" min="0" max="99">Wagon</label>
-                                        <input type="number" id="wagon" name="wagon">
-                                        <label for="row" min="0" max="99">Row</label>
-                                        <input type="number" id="row" name="row">
-                                        <label for="seat" min="0" max="99">Seat</label>
-                                        <input type="number" id="seat" name="seat">
-                                    </div>
-                                </div>
+                                <% include TrainVisualizer %>
+
                             </form-group>
                         <% else %>
                             <form-group class="logging_group">
-                                <% if $HasBoats %>
-                                    <label for="train" min="0" max="99">Boat</label>
-                                    <input type="text" id="train" name="train">
-                                <% else_if $HasTrains %>
-                                    <label for="train" min="0" max="99">Train</label>
+                                <% if $Traintype != 'None' %>
+                                    <label for="train" min="0" max="99">$Traintype</label>
                                     <input type="text" id="train" name="train">
                                 <% end_if %>
                                 <% if $HasWagons %>
                                     <label for="wagon" min="0" max="99">Wagon</label>
                                     <input type="number" id="wagon" name="wagon">
                                 <% end_if %>
-                                <label for="row" min="0" max="99">Row</label>
-                                <input type="number" id="row" name="row">
-                                <label for="seat" min="0" max="99">Seat</label>
-                                <input type="number" id="seat" name="seat">
+                                <% if $HasRows %>
+                                    <label for="row" min="0" max="99">Row</label>
+                                    <input type="number" id="row" name="row">
+                                <% end_if %>
+                                <% if $HasSeats %>
+                                    <label for="seat" min="0" max="99">Seat</label>
+                                    <input type="number" id="seat" name="seat">
+                                <% end_if %>
                             </form-group>
                         <% end_if %>
-                    <% end_if %>
                 <% end_if %>
-                <% if $HasScore %>
+                <% if $Variants.Count > 0 || $Versions.Count > 0 %>
+                    <h2>Variant</h2>
+                    <form-group class="logging_group">
+                        <% if $Variants.Count > 0 %>
+                            <select name="variant" id="variant">
+                                <option value="-1">Select a Variant</option>
+                                <% loop $Variants %>
+                                    <option value="$Title">$Title</option>
+                                <% end_loop %>
+                            </select>
+                        <% end_if %>
+                        <% if $Versions.Count > 0 %>
+                            <select name="version" id="version">
+                                <option value="-1">Select a Version</option>
+                                <% loop $Versions %>
+                                    <option value="$Title">$Title</option>
+                                <% end_loop %>
+                            </select>
+                        <% end_if %>
+                    </form-group>
+                <% end_if %>
+                <% if $HasScore || $HasPodest %>
                     <h2>Score</h2>
                     <form-group class="logging_group">
-                        <label for="score" min="0" max="99">Score</label>
-                        <input type="number" id="score" name="score">
+                        <% if $HasScore %>
+                            <label for="score" min="0" max="99">Score</label>
+                            <input type="number" id="score" name="score">
+                        <% end_if %>
+                        <% if $HasPodest %>
+                            <select name="podest" id="podest">
+                                <option value="-1">Select a Podest Place</option>
+                                <option value="1">1st place</option>
+                                <option value="2">2nd place</option>
+                                <option value="3">3rd place</option>
+                                <option value="4">4th place</option>
+                                <option value="5">5th place</option>
+                                <option value="6">6th place</option>
+                                <option value="7">7th place</option>
+                                <option value="8">8th place</option>
+                                <option value="9">9th place</option>
+                                <option value="10">10th place</option>
+                                <option value="11">11th place</option>
+                                <option value="12">12th place</option>
+                                <option value="13">13th place</option>
+                                <option value="14">14th place</option>
+                                <option value="15">15th place</option>
+                            </select>
+                        <% end_if %>
                     </form-group>
                 <% end_if %>
                 <h2>Notes</h2>

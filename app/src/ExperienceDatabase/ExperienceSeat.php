@@ -12,9 +12,8 @@ use SilverStripe\Security\Permission;
  * @property string $Wagon
  * @property string $Row
  * @property string $Seat
- * @property int $Coord1
- * @property int $Coord2
  * @property string $Info
+ * @property string $Type
  * @property int $ParentID
  * @method \App\ExperienceDatabase\Experience Parent()
  */
@@ -25,9 +24,8 @@ class ExperienceSeat extends DataObject
         "Wagon" => "Varchar(255)",
         "Row" => "Varchar(255)",
         "Seat" => "Varchar(255)",
-        "Coord1" => "Int",
-        "Coord2" => "Int",
         "Info" => "Varchar(255)",
+        "Type" => "Enum('Standard, XXL, Small, Long','Standard')",
     ];
 
     private static $api_access = true;
@@ -43,8 +41,6 @@ class ExperienceSeat extends DataObject
         "Seat" => "Seat",
         "Wagon" => "Wagon",
         "Train" => "Train",
-        "Coord1" => "X-Koordinate",
-        "Coord2" => "Y-Koordinate",
     ];
 
     private static $summary_fields = [

@@ -8,6 +8,10 @@
             <% if $Wagon > 0 %><p>Wagon: $Wagon</p><% end_if %>
             <% if $Row > 0 %><p>Row: $Row</p><% end_if %>
             <% if $Seat > 0 %><p>Seat: $Seat</p><% end_if %>
+            <% if $Score %><p>Score: $Score</p><% end_if %>
+            <% if $Podest %><p>Podest Place: $Podest</p><% end_if %>
+            <% if $Version %><p>Version: $Version</p><% end_if %>
+            <% if $Variant %><p>Variant: $Variant</p><% end_if %>
             <p>$Notes</p>
         </div>
     </div>
