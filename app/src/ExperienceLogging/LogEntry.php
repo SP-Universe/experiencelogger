@@ -97,7 +97,7 @@ class LogEntry extends DataObject
     {
         $time = $this->dbObject('VisitTime');
         if ($time) {
-            return $time->Format("dd.MM.yyyy | hh:mm:ss");
+            return $time->Format("dd.MM.yyyy | HH:mm:ss");
         }
     }
 
