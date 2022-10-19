@@ -44,6 +44,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     //Showhide Logs
+    let showhide = document.querySelectorAll('[data-behaviour="showhide"]');
+    if(showhide.length){
+        showhide.forEach(showhideItem => {
+            showhideItem.style.height = "0px";
+            showhideItem.style.opacity = "0";
+
+            showhideItem.addEventListener("click", function (event) {
+                event.preventDefault();
+                showhideItem.classList.toggle("active");
+                if (showhideItem.classList.contains("active")){
+                    showhideItem.style.height = showhideItem.scrollHeight + "px";
+                    showhideItem.style.opacity = "1";
+                } else {
+                    showhideItem.style.height = "0px";
+                    showhideItem.style.opacity = "0";
+                }
+            });
+        });
+    }
+
+    //Showhide Logs
     let showhideLogs = document.querySelectorAll('[data-behaviour="showhide_log"]');
     if(showhideLogs.length){
         showhideLogs.forEach(showhideLog => {

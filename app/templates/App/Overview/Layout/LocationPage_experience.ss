@@ -23,15 +23,18 @@
                 <h1>$Title</h1>
                 <h4>$Type.Title <% if $Area %>in $Area.Title<% end_if %></h4>
                 $Description
+                <% if $ExperienceLink %><p><a href="$ExperienceLink" target="_blank">Official Page ></a></p><% end_if %>
             </div>
             <div class="experiencedata_list">
                 <% loop $ExperienceData %>
-                    <div class="experiencedata_entry <% if $Type.IsLongText %>long<% end_if %>">
+                    <div class="experiencedata_title <% if $Type.IsLongText %>long<% end_if %>">
                         <% if $AlternativeTitle %>
                             <h2>$AlternativeTitle</h2>
                         <% else %>
                             <h2>$Type.Title</h2>
                         <% end_if %>
+                    </div>
+                    <div class="experiencedata_content <% if $Type.IsLongText %>long<% end_if %>">
                         <p>$Description</p>
                         <% if $MoreInfo %>
                             <a href="$MoreInfo" class="moreinfo">More Info</a>

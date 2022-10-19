@@ -22,18 +22,17 @@ use SilverStripe\Security\Permission;
  * @property bool $HasSeats
  * @property bool $HasScore
  * @property bool $HasPodest
+ * @property string $SeatOrientation
  * @property string $ExperienceLink
  * @property string $Description
  * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
  * @property int $AreaID
- * @property int $LayoutSVGID
  * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
  * @method \App\ExperienceDatabase\ExperienceType Type()
  * @method \App\ExperienceDatabase\Experience Area()
- * @method \SilverStripe\Assets\File LayoutSVG()
  * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
@@ -46,13 +45,14 @@ class Experience extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
-        "Traintype" => "Enum('Train, None, Boat, Car, Airplane', 'Train')",
+        "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola', 'Train')",
         "HasGeneralSeats" => "Boolean",
         "HasWagons" => "Boolean",
         "HasRows" => "Boolean",
         "HasSeats" => "Boolean",
         "HasScore" => "Boolean",
         "HasPodest" => "Boolean",
+        "SeatOrientation" => "Varchar(255)",
         "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
     ];
@@ -64,7 +64,6 @@ class Experience extends DataObject
         "Parent" => ExperienceLocation::class,
         "Type" => ExperienceType::class,
         "Area" => Experience::class,
-        "LayoutSVG" => File::class,
     ];
 
     private static $has_many = [
@@ -80,7 +79,6 @@ class Experience extends DataObject
 
     private static $owns = [
         "Image",
-        "LayoutSVG",
         "ExperienceData",
         "ExperienceSeats",
     ];
@@ -159,6 +157,11 @@ class Experience extends DataObject
         $fields = parent::getCMSFields();
 
         $fields->removeByName("ParentID");
+        $fields->replaceField("SeatOrientation", new DropdownField("SeatOrientation", "Seat Orientation", [
+            "standard" => "Standard",
+            "circular" => "Circular",
+            "wings" => "Wings"
+        ]));
         $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceType::get()->map('ID', 'Title')));
 
         $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;

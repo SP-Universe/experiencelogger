@@ -5,8 +5,8 @@
         <div class="experience_entry_content">
             <h2 class="experience_title">$Title</h2>
             <div class="flex_part">
-                <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title</h4>
-                <% if $Area %> <span>in $Area.Title </span><% end_if %>
+                <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title
+                <% if $Area %> <span>in $Area.Title </span><% end_if %></h4>
             </div>
             <p>$State</p>
         </div>

@@ -86,23 +86,28 @@
         .experiencedata_list{
             margin: 20px auto;
             padding: 0 20px;
+            display: grid;
+            gap: 20px;
 
-            .experiencedata_entry{
+            .experiencedata_title{
+                grid-column: 1 / 2;
                 margin: 10px 0;
-                display: flex;
                 gap: 10px;
                 align-items: center;
 
                 &.long{
                     gap: 0px;
-                    align-items: flex-start;
-                    flex-direction: column;
                 }
+            }
 
-                .source{
-                    display: block;
-                    font-size: 12px;
-                }
+            .experiencedata_content{
+                grid-column: 2 / 3;
+                padding-top: 12px;
+            }
+
+            .source{
+                display: block;
+                font-size: 12px;
             }
         }
     }
