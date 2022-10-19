@@ -64,6 +64,7 @@ class ExperienceSeat extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+        $fields->removeByName("ParentID");
         return $fields;
     }
 

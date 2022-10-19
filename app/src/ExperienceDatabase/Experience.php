@@ -205,28 +205,6 @@ class Experience extends DataObject
 
     public function getSortedTrains()
     {
-        return GroupedList::create($this->ExperienceSeats()->sort('Train ASC'))->GroupedBy("Train");
-    }
-
-    public function getSortedWagons($train)
-    {
-        return GroupedList::create($this->ExperienceSeats()->filter('Train', $train)->sort('Wagon ASC'))->GroupedBy("Wagon");
-    }
-
-    public function getSortedRows($train, $wagon)
-    {
-        return GroupedList::create($this->ExperienceSeats()->filter([
-            'Train' => $train,
-            'Wagon' => $wagon,
-        ])->sort('Row ASC'))->GroupedBy("Wagon");
-    }
-
-    public function getSortedSeats($train, $wagon, $row)
-    {
-        return $this->ExperienceSeats()->filter([
-            "Train" => $train,
-            "Wagon" => $wagon,
-            "Row" => $row,
-        ])->sort('Seat');
+        return GroupedList::create($this->ExperienceSeats()->sort('Train ASC, Wagon ASC, Row ASC, Seat ASC'))->GroupedBy("Train");
     }
 }

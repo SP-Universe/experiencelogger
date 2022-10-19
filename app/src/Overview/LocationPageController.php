@@ -10,6 +10,7 @@ use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\ExperienceDatabase\ExperienceSeat;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -85,6 +86,18 @@ class LocationPageController extends PageController
                 "Seat" => $seat,
             ])->count();
         }
+    }
+
+    public function getTypeForSeat($train, $wagon, $row, $seat)
+    {
+        $id = $this->getRequest()->param("ID");
+        return ExperienceSeat::get()->filter([
+            "ParentID" => $id,
+            "Train" => $train,
+            "Wagon" => $wagon,
+            "Row" => $row,
+            "Seat" => $seat,
+        ])->first()->Type;
     }
 
     public function changeFavourite()

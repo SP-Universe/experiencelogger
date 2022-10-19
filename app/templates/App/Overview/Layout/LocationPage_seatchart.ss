@@ -23,7 +23,7 @@
                 </div>
             <% end_if %>
 
-            <% include TrainVisualizer PageController=$Top %>
+            <% include TrainVisualizer PageController=$Top, PlaceOrientation=$SeatOrientation %>
 
             <% loop $Up.Logs.GroupedBy(ExperienceID).Filter("ExperienceID", $ID) %>
                 <h3>$Children.Count Logs</h3>

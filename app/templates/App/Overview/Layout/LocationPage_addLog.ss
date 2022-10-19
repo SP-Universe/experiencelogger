@@ -88,7 +88,7 @@
                                     </div>
                                 <% end_if %>
 
-                                <% include TrainVisualizer PageController=$Top %>
+                                <% include TrainVisualizer PageController=$Top, PlaceOrientation=$SeatOrientation %>
 
                             </form-group>
                         <% else %>
