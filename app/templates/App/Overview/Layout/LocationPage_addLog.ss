@@ -69,13 +69,32 @@
                         <% if $getSortedTrains() %>
                             <form-group class="logging_group train">
 
-                                <% include TrainVisualizer %>
+                                <% if $SortedTrains.Count > 1 %>
+                                    <div class="train_selector">
+                                        <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
+                                            <option value="-1">Select a $Traintype</option>
+                                            <% loop $getSortedTrains() %>
+                                                <option value="$Train">$Up.Traintype: $Train</option>
+                                            <% end_loop %>
+                                        </select>
+                                    </div>
+                                <% else %>
+                                    <div class="train_selector hidden">
+                                        <select name="traindropdown" id="traindropdown">
+                                            <% loop $getSortedTrains() %>
+                                                <option value="$Train" selected>$Up.Traintype: $Train</option>
+                                            <% end_loop %>
+                                        </select>
+                                    </div>
+                                <% end_if %>
+
+                                <% include TrainVisualizer PageController=$Top %>
 
                             </form-group>
                         <% else %>
                             <form-group class="logging_group">
                                 <% if $Traintype != 'None' %>
-                                    <label for="train" min="0" max="99">$Traintype</label>
+                                    <label for="train">$Traintype</label>
                                     <input type="text" id="train" name="train">
                                 <% end_if %>
                                 <% if $HasWagons %>
@@ -155,46 +174,45 @@
     </div>
 
 
-<script>
-    //Log-SeatSelection
-    const trainselector = document.querySelector('.train_visualizer');
-    const trains = trainselector.querySelectorAll('.train');
-    const seatSelectors = trainselector.querySelectorAll('[data-behaviour="seat_selector"]');
-    const trainField = document.querySelector('#trainField');
-    const wagonField = document.querySelector('#wagon');
-    const rowField = document.querySelector('#row');
-    const seatField = document.querySelector('#seat');
+    <script>
+        //Log-SeatSelection
+        const trainselector = document.querySelector('.train_visualizer');
+        const trains = trainselector.querySelectorAll('.train');
+        const seatSelectors = trainselector.querySelectorAll('[data-behaviour="seat_selector"]');
+        const trainField = document.querySelector('#train');
+        const wagonField = document.querySelector('#wagon');
+        const rowField = document.querySelector('#row');
+        const seatField = document.querySelector('#seat');
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-        if (seatSelectors) {
-            seatSelectors.forEach(seat => {
-                seat.addEventListener('click', function() {
-                    seatSelectors.forEach(otherSeat => {
-                        otherSeat.classList.remove('selected');
+        document.addEventListener("DOMContentLoaded", function (event) {
+            if (seatSelectors) {
+                seatSelectors.forEach(seat => {
+                    seat.addEventListener('click', function() {
+                        seatSelectors.forEach(otherSeat => {
+                            otherSeat.classList.remove('selected');
+                        });
+                        seat.classList.toggle('selected');
+                        trainField.value = seat.getAttribute('data-train') + "";
+                        console.log(trainField.value);
+                        wagonField.value = seat.getAttribute('data-wagon');
+                        rowField.value = seat.getAttribute('data-row');
+                        seatField.value = seat.getAttribute('data-seat');
                     });
-                    seat.classList.toggle('selected');
-                    trainField.value = seat.getAttribute('data-train') + "";
-                    trainField.name = "trainadhahsd";
-                    console.log(trainField.value);
-                    wagonField.value = seat.getAttribute('data-wagon');
-                    rowField.value = seat.getAttribute('data-row');
-                    seatField.value = seat.getAttribute('data-seat');
                 });
-            });
-        }
-    });
+            }
+        });
 
-    function change_train(e){
-        if(trainselector && trains){
-            trains.forEach(train => {
-                train.classList.remove('active');
-                if(train.getAttribute('data-train') == e.value){
-                    train.classList.add('active');
-                }
-            });
+        function change_train(e){
+            if(trainselector && trains){
+                trains.forEach(train => {
+                    train.classList.remove('active');
+                    if(train.getAttribute('data-train') == e.value){
+                        train.classList.add('active');
+                    }
+                });
+            }
         }
-    }
 
-</script>
+    </script>
 
 <% end_with %>

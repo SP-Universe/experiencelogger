@@ -81,6 +81,16 @@
                     }
                 }
             }
+
+            .experience_buttons{
+                display: flex;
+                .experience_button{
+                    background-color: $ColorPrimary;
+                    border-radius: 20px;
+                    color: white;
+                    padding: 5px 10px;
+                }
+            }
         }
 
         .experiencedata_list{

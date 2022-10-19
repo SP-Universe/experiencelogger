@@ -2,13 +2,14 @@
 namespace App\Overview;
 
 use PageController;
+use SilverStripe\ORM\GroupedList;
+use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
+use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
-use App\ExperienceDatabase\LogEntry;
-use SilverStripe\Security\Member;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -25,6 +26,7 @@ class LocationPageController extends PageController
         "experience",
         "changeFavourite",
         "addLog",
+        "seatchart",
         "finishLog",
     ];
 
@@ -50,6 +52,39 @@ class LocationPageController extends PageController
         return array(
             "Experience" => $article,
         );
+    }
+
+    public function seatchart()
+    {
+        $id = $this->getRequest()->param("ID");
+        $exploded = explode("--", $id);
+
+        $article = Experience::get()->filter("ID", $exploded[0])->first();
+        return array(
+            "Experience" => $article,
+        );
+    }
+
+    public function getLogs()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return GroupedList::create(LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime", "DESC"));
+        }
+    }
+
+    public function getLogCountForSeat($train, $wagon, $row, $seat)
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return LogEntry::get()->filter([
+                "UserID" => $currentUser->ID,
+                "Train" => $train,
+                "Wagon" => $wagon,
+                "Row" => $row,
+                "Seat" => $seat,
+            ])->count();
+        }
     }
 
     public function changeFavourite()
@@ -88,80 +123,43 @@ class LocationPageController extends PageController
             $exploded = explode("--", $id);
             $experience = Experience::get()->filter("ID", $exploded[0])->first();
 
+            $newlogentry = LogEntry::create();
+            $newlogentry->ExperienceID = $id;
+
             if (isset($experience)) {
                 if (isset($_GET["weather"])) {
-                    $weather = implode(',', $_GET["weather"]);
+                    $newlogentry->Weather = implode(',', $_GET["weather"]);
                 }
                 if (isset($_GET["train"])) {
-                    $train = $_GET["train"];
+                    $newlogentry->Train = $_GET["train"];
                 }
                 if (isset($_GET["wagon"])) {
-                    $wagon = $_GET["wagon"];
+                    $newlogentry->Wagon = $_GET["wagon"];
                 }
                 if (isset($_GET["row"])) {
-                    $row = $_GET["row"];
-                }
-                if (isset($_GET["boat"])) {
-                    $boat = $_GET["boat"];
+                    $newlogentry->Row = $_GET["row"];
                 }
                 if (isset($_GET["seat"])) {
-                    $seat = $_GET["seat"];
+                    $newlogentry->Seat = $_GET["seat"];
                 }
                 if (isset($_GET["score"])) {
-                    $score = $_GET["score"];
+                    $newlogentry->Score = $_GET["score"];
                 }
                 if (isset($_GET["podest"])) {
-                    $podest = $_GET["podest"];
+                    $newlogentry->Podest = $_GET["podest"];
                 }
                 if (isset($_GET["variant"])) {
-                    $variant = $_GET["variant"];
+                    $newlogentry->Variant = $_GET["variant"];
                 }
                 if (isset($_GET["version"])) {
-                    $version = $_GET["version"];
+                    $newlogentry->Version = $_GET["version"];
                 }
                 if (isset($_GET["notes"])) {
-                    $notes = $_GET["notes"];
+                    $newlogentry->Notes = $_GET["notes"];
                 }
 
-                $newlogentry = LogEntry::create();
-                $newlogentry->ExperienceID = $id;
-
-                if (isset($weather)) {
-                    $newlogentry->Weather = $weather;
-                }
-                if (isset($train)) {
-                    $newlogentry->Train = $train;
-                }
-                if (isset($wagon)) {
-                    $newlogentry->Wagon = $wagon;
-                }
-                if (isset($row)) {
-                    $newlogentry->Row = $row;
-                }
-                if (isset($boat)) {
-                    $newlogentry->Boat = $boat;
-                }
-                if (isset($seat)) {
-                    $newlogentry->Seat = $seat;
-                }
-                if (isset($score)) {
-                    $newlogentry->Score = $score;
-                }
-                if (isset($podest)) {
-                    $newlogentry->Podest = $podest;
-                }
-                if (isset($variant)) {
-                    $newlogentry->Variant = $variant;
-                }
-                if (isset($version)) {
-                    $newlogentry->Version = $version;
-                }
-                if (isset($notes)) {
-                    $newlogentry->Notes = $notes;
-                }
                 $newlogentry->UserID = $currentUser->ID;
                 $newlogentry->VisitTime = date("Y-m-d H:i:s");
-                $newlogentry->Notes = $notes;
                 $newlogentry->write();
 
                 return $this->redirect($experience->Parent->Link);

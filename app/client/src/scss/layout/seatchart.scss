@@ -1,0 +1,9 @@
+.section.section--seatchart {
+    .section_content {
+        .train_selector{
+            &.hidden{
+                display: none;
+            }
+        }
+    }
+}

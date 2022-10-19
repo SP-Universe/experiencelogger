@@ -23,7 +23,10 @@
                 <h1>$Title</h1>
                 <h4>$Type.Title <% if $Area %>in $Area.Title<% end_if %></h4>
                 $Description
-                <% if $ExperienceLink %><p><a href="$ExperienceLink" target="_blank">Official Page ></a></p><% end_if %>
+                <div class="experience_buttons">
+                    <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
+                    <% if $HasGeneralSeats && $SortedTrains %><a class="experience_button" href="$Up.Link('seatchart')/$ID">Seatchart</a><% end_if %>
+                </div>
             </div>
             <div class="experiencedata_list">
                 <% loop $ExperienceData %>
