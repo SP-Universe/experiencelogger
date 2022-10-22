@@ -79,7 +79,7 @@
                 top: -50px;
                 left: -20px;
                 right: -20px;
-                height: 30px;
+                height: 60px;
                 z-index: -2;
                 background-image: url(../../images/traintypes/car-top.png);
                 background-size: 100% 100%;
@@ -89,10 +89,10 @@
                 content: "";
                 position: absolute;
                 display: block;
-                bottom: 0px;
+                bottom: -10px;
                 left: -20px;
                 right: -20px;
-                height: 30px;
+                height: 60px;
                 z-index: -2;
                 background-image: url(../../images/traintypes/car-bottom.png);
                 color: #2e726767;
