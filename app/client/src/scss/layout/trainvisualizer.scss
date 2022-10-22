@@ -40,7 +40,7 @@
                 top: -65px;
                 width: 100%;
                 height: 30px;
-                content: url(../../images/traintypes/boat-top.svg);
+                content: url(../../images/traintypes/boat-top.png);
                 color: #2e726767;
             }
 
@@ -50,7 +50,7 @@
                 bottom: -30px;
                 width: 100%;
                 height: 30px;
-                content: url(../../images/traintypes/boat-bottom.svg);
+                content: url(../../images/traintypes/boat-bottom.png);
                 color: #2e726767;
             }
         }
@@ -75,7 +75,7 @@
                 right: -20px;
                 height: 30px;
                 z-index: -2;
-                content: url(../../images/traintypes/car-top.svg);
+                content: url(../../images/traintypes/car-top.png);
             }
 
             &::after{
@@ -86,7 +86,7 @@
                 right: -20px;
                 height: 30px;
                 z-index: -2;
-                content: url(../../images/traintypes/car-bottom.svg);
+                content: url(../../images/traintypes/car-bottom.png);
                 color: #2e726767;
             }
         }
