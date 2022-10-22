@@ -38,7 +38,7 @@
                 content: "";
                 position: absolute;
                 display: block;
-                top: -65px;
+                top: -30px;
                 width: 100%;
                 height: 30px;
                 background-image: url(../../images/traintypes/boat-top.png);
@@ -56,6 +56,7 @@
                 background-image: url(../../images/traintypes/boat-bottom.png);
                 color: #2e726767;
                 background-size: 100% 100%;
+                top: auto;
             }
         }
 
@@ -96,6 +97,7 @@
                 background-image: url(../../images/traintypes/car-bottom.png);
                 color: #2e726767;
                 background-size: 100% 100%;
+                top: auto;
             }
         }
 
