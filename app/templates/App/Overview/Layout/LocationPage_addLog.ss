@@ -137,8 +137,8 @@
                     <h2>Score</h2>
                     <form-group class="logging_group">
                         <% if $HasScore %>
-                            <label for="score" min="0" max="99">Score</label>
-                            <input type="number" id="score" name="score">
+                            <label for="score">Score</label>
+                            <input type="text" id="score" name="score">
                         <% end_if %>
                         <% if $HasPodest %>
                             <select name="podest" id="podest">
@@ -158,6 +158,11 @@
                                 <option value="13">13th place</option>
                                 <option value="14">14th place</option>
                                 <option value="15">15th place</option>
+                                <option value="16">15th place</option>
+                                <option value="17">15th place</option>
+                                <option value="18">15th place</option>
+                                <option value="19">15th place</option>
+                                <option value="20">15th place</option>
                             </select>
                         <% end_if %>
                     </form-group>
