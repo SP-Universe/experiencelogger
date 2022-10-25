@@ -80,7 +80,7 @@ class LocationPageController extends PageController
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             return LogEntry::get()->filter([
-                "ParentID" => $id,
+                "ExperienceID" => $id,
                 "UserID" => $currentUser->ID,
                 "Train" => $train,
                 "Wagon" => $wagon,
