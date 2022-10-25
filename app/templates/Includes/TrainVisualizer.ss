@@ -7,7 +7,7 @@
                     <% if $Up.Up.Children.GroupedBy("Wagon").Count > 1 %><p>Wagon $Wagon</p><% end_if %>
                     <% loop $Children.GroupedBy("Row") %>
                         <div class="row">
-                        <% if $Children.GroupedBy("Seat").Count > 1 %><p>$Row</p><% end_if %>
+                        <% if $Children.GroupedBy("Seat").Count > 1 && $Up.Up.Children.GroupedBy("Row").Count > 1 %><p>$Row</p><% end_if %>
                         <% loop $Children.GroupedBy("Seat") %>
                             <div class="seat $Up.Up.Up.Up.Up.Up.Up.PageController.getTypeForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">
                                 <% if $Up.Up.Children.GroupedBy("Seat").Count > 1 %> <p>$Seat</p><% end_if %>
