@@ -4,14 +4,14 @@
         <h3>$Experience.Title</h3>
         <p class="park">in $Experience.Parent.Title</p>
         <div class="seemore">
-            <% if $Train > 0 %><p><% if $Experience.HasBoats %>Boat<% else %>Train<% end_if %>: $Train</p><% end_if %>
+            <% if $Train != "-1" %><p>$Experience.Traintype: $Train</p><% end_if %>
             <% if $Wagon > 0 %><p>Wagon: $Wagon</p><% end_if %>
             <% if $Row > 0 %><p>Row: $Row</p><% end_if %>
             <% if $Seat > 0 %><p>Seat: $Seat</p><% end_if %>
-            <% if $Score %><p>Score: $Score</p><% end_if %>
-            <% if $Podest %><p>Podest Place: $Podest</p><% end_if %>
-            <% if $Version %><p>Version: $Version</p><% end_if %>
-            <% if $Variant %><p>Variant: $Variant</p><% end_if %>
+            <% if $Score && $Score != "-1" %><p>Score: $Score</p><% end_if %>
+            <% if $Podest && $Podest != "-1" %><p>Podest Place: $Podest</p><% end_if %>
+            <% if $Version && $Version != "-1" %><p>Version: $Version</p><% end_if %>
+            <% if $Variant && $Variant != "-1" %><p>Variant: $Variant</p><% end_if %>
             <p>$Notes</p>
         </div>
     </div>
@@ -32,6 +32,8 @@
                 <svg height="100%" width="100%" viewBox="0 0 48 48"><path fill="currentColor" d="M12 27.5q2.55 0 4.675 1.375T19.8 32.65l.35.85h.95q2.25 0 3.825 1.6Q26.5 36.7 26.5 39t-1.625 3.9Q23.25 44.5 21 44.5h-9q-3.5 0-6-2.5t-2.5-6q0-3.55 2.5-6.025Q8.5 27.5 12 27.5ZM22.5 6q-.9 4.9.55 9.625 1.45 4.725 5 8.275 3.55 3.55 8.275 5.025Q41.05 30.4 46 29.5q-1.3 7.2-6.9 11.85Q33.5 46 26.2 46h-.4q1.75-1.2 2.725-3.05.975-1.85.975-3.95 0-3.3-2.1-5.65-2.1-2.35-5.25-2.75-1.5-2.8-4.2-4.45-2.7-1.65-5.95-1.65-1.6 0-3.125.425T6 26.2v-.4q0-7.3 4.65-12.875T22.5 6Z"/></svg>
                 <% else_if $Weather == "windy" %>
                     <svg width="100%" height="100%" viewBox="0 0 48 48"><path fill="currentColor" d="M23.25 40q-2.7 0-4.275-1.4-1.575-1.4-1.575-4.25h3.4q0 1.3.575 1.975T23.25 37q1.35 0 1.925-.6t.575-2.05q0-1.45-.575-2.125t-1.925-.675H4v-3h19.25q2.7 0 4.1 1.4 1.4 1.4 1.4 4.4 0 2.85-1.4 4.25t-4.1 1.4ZM4 19.6v-3h27.4q1.85 0 2.7-.875.85-.875.85-2.925t-.85-2.925Q33.25 9 31.4 9q-1.9 0-2.75 1.025-.85 1.025-.85 2.575h-3q0-2.9 1.75-4.75T31.4 6q3.05 0 4.8 1.775t1.75 5.025q0 3.25-1.75 5.025-1.75 1.775-4.8 1.775Zm33.6 16.5v-3q1.75 0 2.575-.975Q41 31.15 41 29.3q0-1.9-.925-2.75-.925-.85-2.675-.85H4v-3h33.4q3.1 0 4.85 1.75Q44 26.2 44 29.3q0 3.2-1.65 5-1.65 1.8-4.75 1.8Z"/></svg>
+                <% else_if $Weather == "breakdown" %>
+                    <svg height="100%" width="100%" viewBox="0 0 48 48"><path fill="currentColor" d="M18 24.15V16H8q0-4.15 2.925-7.075T18 6h12v7.1L37 6h3v17.2h-3l-7-7.1v8.05ZM19.7 42q-.8 0-1.25-.675Q18 40.65 18 39.8V27.15h12V39.8q0 .9-.65 1.55T27.8 42Z"/></svg>
                 <% end_if %>
             <% end_loop %>
         </div>
