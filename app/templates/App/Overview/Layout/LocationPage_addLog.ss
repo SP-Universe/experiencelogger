@@ -60,7 +60,7 @@
                         <svg height="100%" width="100%" viewBox="0 0 48 48"><path fill="currentColor" d="M18 24.15V16H8q0-4.15 2.925-7.075T18 6h12v7.1L37 6h3v17.2h-3l-7-7.1v8.05ZM19.7 42q-.8 0-1.25-.675Q18 40.65 18 39.8V27.15h12V39.8q0 .9-.65 1.55T27.8 42Z"/></svg>
                             <p>Breakdown</p>
                         </label>
-                        <input type="checkbox" id="breakdown" name="weather[]" value="night"/>
+                        <input type="checkbox" id="breakdown" name="weather[]" value="breakdown"/>
                     </div>
                 </form-group>
                 <% if $HasGeneralSeats %>
