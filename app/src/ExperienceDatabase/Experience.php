@@ -84,6 +84,7 @@ class Experience extends DataObject
     ];
 
     private static $summary_fields = [
+        "ID" => "ID",
         "Title" => "Title",
         "Type.Title" => "Type",
         "Area.Title" => "Area",
@@ -106,7 +107,7 @@ class Experience extends DataObject
         "HasBoats" => "Has Boats",
     ];
 
-    private static $default_sort = "State ASC, TypeID ASC, AreaID ASC, Title ASC";
+    private static $default_sort = "State ASC, Title ASC, TypeID ASC, AreaID ASC";
 
     private static $table_name = "Experience";
 
