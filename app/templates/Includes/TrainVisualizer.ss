@@ -12,7 +12,7 @@
                             <div class="seat $Up.Up.Up.Up.Up.Up.Up.PageController.getTypeForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">
                                 <% if $Up.Up.Children.GroupedBy("Seat").Count > 1 %> <p>$Seat</p><% end_if %>
                                 <% if $Up.Up.Children.GroupedBy("Seat").Count < 2 %> <p>$Up.Up.Row</p><% end_if %>
-                                <p class="count">( $Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat) )</p>
+                                <% if $Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat) > 0 %><p class="count">( $Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat) )</p><% end_if %>
                             </div>
                         <% end_loop %>
                         </div>
