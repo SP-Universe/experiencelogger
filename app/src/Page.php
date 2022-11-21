@@ -47,12 +47,12 @@ namespace {
         {
             $fields = parent::getCMSFields();
             $fields->addFieldToTab("Root.Main", new DropdownField("MenuPosition", "Menü", [
-                "main" => "Hauptmenü",
+                "main" => "Mainmenu",
                 "footer" => "Footer",
                 "personal" => "Personal",
             ]), "Content");
-            $fields->addFieldToTab("Root.Main", new CheckboxField("ShowTitle", "Titel anzeigen"), "Content");
-            $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerbild"), "Content");
+            $fields->addFieldToTab("Root.Main", new CheckboxField("ShowTitle", "Display Title"), "Content");
+            $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerimage"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
         }

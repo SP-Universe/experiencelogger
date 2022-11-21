@@ -37,7 +37,7 @@ class TextImageElement extends BaseElement
 
     public function getType()
     {
-        return "Text + Bild";
+        return "Text + Image";
     }
 
     public function getCMSFields()

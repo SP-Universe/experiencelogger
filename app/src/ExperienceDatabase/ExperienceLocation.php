@@ -58,14 +58,14 @@ class ExperienceLocation extends DataObject
         "Title" => "Title",
         "Type.Title" => "Type",
         "OpeningDate" => "Opening Date",
-        "Address" => "Adress",
+        "Address" => "Address",
         "Description" => "Description",
     ];
 
     private static $summary_fields = [
         "Title" => "Title",
         "Type.Title" => "Type",
-        "Address" => "Adress",
+        "Address" => "Address",
     ];
 
     private static $searchable_fields = [

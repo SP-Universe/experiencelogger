@@ -14,9 +14,9 @@ class LocationAdmin extends ModelAdmin
         ExperienceLocation::class,
     );
 
-    private static $url_segment = "locations";
+    private static $url_segment = "places";
 
-    private static $menu_title = "Orte";
+    private static $menu_title = "Places";
 
     private static $menu_icon = "app/client/icons/location.svg";
 

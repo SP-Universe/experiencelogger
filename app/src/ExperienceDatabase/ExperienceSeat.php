@@ -56,8 +56,8 @@ class ExperienceSeat extends DataObject
 
     private static $table_name = "ExperienceSeat";
 
-    private static $singular_name = "Sitzplatz";
-    private static $plural_name = "Sitzplätze";
+    private static $singular_name = "Seat";
+    private static $plural_name = "Seats";
 
     private static $url_segment = "seat";
 

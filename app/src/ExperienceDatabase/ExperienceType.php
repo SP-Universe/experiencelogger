@@ -51,7 +51,7 @@ class ExperienceType extends DataObject
     private static $singular_name = "Experience Type";
     private static $plural_name = "Experience Types";
 
-    private static $url_segment = "datatype";
+    private static $url_segment = "experiencetype";
 
     public function getCMSFields()
     {
