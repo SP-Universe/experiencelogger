@@ -7,6 +7,7 @@ use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\GroupedList;
+use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 
@@ -176,6 +177,17 @@ class Experience extends DataObject
             $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
         }
         return $fields;
+    }
+
+    public function getLatestLog()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return LogEntry::get()->filter([
+                "UserID" => $currentUser->ID,
+                "ExperienceID" => $this->ID,
+                ])->sort("VisitTime", "DESC")->first();
+        }
     }
 
     public function canView($member = null)
