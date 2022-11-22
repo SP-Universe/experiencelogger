@@ -17,7 +17,7 @@
                         <% end_if %>
                     </a>
                 <% end_if %>
-                <div class="numbers" data-behaviour="showhide">
+                <div class="numbers" data-behaviour="showhide_numbers">
                     <p>$Experiences.Filter("ParentID", $ID).Count Experiences</p>
                     <% if $Experiences.Filter("State", "Active").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Active").Count Active</p><% end_if %>
                     <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "In Maintenance").Count In Maintenance</p><% end_if %>

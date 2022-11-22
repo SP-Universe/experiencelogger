@@ -10,6 +10,9 @@ use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
+use SilverStripe\Forms\GridField\GridField;
+use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 
 /**
  * Class \App\Database\Experience
@@ -176,6 +179,27 @@ class Experience extends DataObject
 
             $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
         }
+
+        $fields->removeByName("ExperienceData");
+        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridfield = new GridField("ExperienceData", "ExperienceData", $this->ExperienceData(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Data', $gridfield);
+
+        $fields->removeByName("ExperienceSeats");
+        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridfield = new GridField("ExperienceSeats", "ExperienceSeats", $this->ExperienceSeats(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Seats', $gridfield);
+
+        $fields->removeByName("Variants");
+        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridfield = new GridField("Variants", "Variants", $this->Variants(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
+
+        $fields->removeByName("Versions");
+        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridfield = new GridField("Versions", "Versions", $this->Versions(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
+
         return $fields;
     }
 

@@ -9,6 +9,8 @@ use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 
 /**
  * Class \App\Database\Location
@@ -98,6 +100,12 @@ class ExperienceLocation extends DataObject
     {
         $fields = parent::getCMSFields();
         $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceLocationType::get()->map('ID', 'Title')));
+
+        $fields->removeByName("Experiences");
+        $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridfield = new GridField("Experiences", "Experiences", $this->Experiences(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Experiences', $gridfield);
+
         return $fields;
     }
 

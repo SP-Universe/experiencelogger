@@ -65,6 +65,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     //Showhide Logs
+    let showhide_numbers = document.querySelectorAll('[data-behaviour="showhide_numbers"]');
+    if(showhide_numbers.length){
+        showhide_numbers.forEach(showhideItem => {
+
+            showhideItem.addEventListener("click", function (event) {
+                event.preventDefault();
+                showhideItem.classList.toggle("active");
+            });
+        });
+    }
+
+    //Showhide Logs
     let showhideLogs = document.querySelectorAll('[data-behaviour="showhide_log"]');
     if(showhideLogs.length){
         showhideLogs.forEach(showhideLog => {
