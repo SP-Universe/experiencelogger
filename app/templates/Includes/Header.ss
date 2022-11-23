@@ -7,11 +7,11 @@
         </a>
         <% if $CurrentUser %>
             <% if $CurrentUser.BlogProfileImage %>
-                <a class="userimage" data-behaviour="open_personalnav">
-                    <img src="url($CurrentUser.BlogProfileImage.FocusFill(50,50))" alt="Profile Image">
-                </a>
+                <div class="userimage" data-behaviour="open_personalnav">
+                    <img src="url($CurrentUser.BlogProfileImage.FocusFill(50,50).Url)" alt="Profile Image">
+                </div>
             <% else %>
-                <p class="userimage noimage" data-behaviour="open_personalnav"></p>
+                <div class="userimage noimage" data-behaviour="open_personalnav"></div>
             <% end_if %>
         <% else %>
             <a class="userimage" href="$ProfilePage.Link">
@@ -35,14 +35,16 @@
     <ul class="nav_menu">
         <% loop $Menu(1) %>
             <% if $MenuPosition == "main" %>
-                <a href="$Link">
-                    <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
+
+                <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
+                    <a href="$Link">
                         <% if $MenuIcon %>
-                            <img class="menuicon" src="$MenuIcon.Url"/>
+                            <img alt="Menuicon for $MenuTitle" class="menuicon" src="$MenuIcon.Url"/>
                         <% end_if %>
                         <p>$MenuTitle</p>
-                    </li>
-                </a>
+                    </a>
+                </li>
+
             <% end_if %>
         <% end_loop %>
     </ul>
