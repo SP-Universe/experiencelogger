@@ -2,6 +2,10 @@ import GLightbox from "glightbox";
 import { tns } from "tiny-slider/src/tiny-slider";
 import "tiny-slider/dist/tiny-slider.css";
 
+if (navigator && navigator.serviceWorker) {
+    navigator.serviceWorker.register('service-worker.js');
+}
+
 document.addEventListener("DOMContentLoaded", function (event) {
 
     const lightbox = GLightbox({

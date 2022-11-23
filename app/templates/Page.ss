@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="_resources/app/client/src/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="_resources/app/client/src/images/favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="mask-icon" href="_resources/app/client/src/images/safari-pinned-tab.svg" color="#1e3755">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="mask-icon" href="_resources/app/client/src/images/safari-pinned-tab.svg" color="#266056">
+    <meta name="msapplication-TileColor" content="#266056">
+    <meta name="theme-color" content="#266056">
     <link rel="stylesheet" href="$Mix("/css/styles.min.css")">
 </head>
 <body>

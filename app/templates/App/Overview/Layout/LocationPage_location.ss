@@ -1,7 +1,7 @@
 <% with $Location %>
     <div class="section section--experiencesoverview">
         <div class="section_content">
-            <a class="backbutton" onclick="window.history.back();">Zurück</a>
+            <p class="backbutton" onclick="window.history.back();">Zurück</p>
             <div class="location_sidebar">
                 <div class="location_title">
                     <div class="backgroundimage">$Image.FocusFill(400,200)</div>

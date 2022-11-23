@@ -2,16 +2,16 @@
     <div class="header_nav">
         <div class="leftmenu">
         </div>
-        <a href="" class="nav_brand">
-            <img src="_resources/app/client/icons/ExperienceLogger-Symbol.svg">
+        <a href="$Top.Link" class="nav_brand">
+            <img width="80px" height="80px" src="_resources/app/client/icons/ExperienceLogger-Symbol.svg" alt="Logo of Experience Logger">
         </a>
         <% if $CurrentUser %>
             <% if $CurrentUser.BlogProfileImage %>
                 <a class="userimage" data-behaviour="open_personalnav">
-                    $CurrentUser.BlogProfileImage.FocusFill(50,50)
+                    <img src="url($CurrentUser.BlogProfileImage.FocusFill(50,50))" alt="Profile Image">
                 </a>
             <% else %>
-                <a class="userimage noimage" data-behaviour="open_personalnav"></a>
+                <p class="userimage noimage" data-behaviour="open_personalnav"></p>
             <% end_if %>
         <% else %>
             <a class="userimage" href="$ProfilePage.Link">

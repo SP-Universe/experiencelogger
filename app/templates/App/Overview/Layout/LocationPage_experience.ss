@@ -2,7 +2,7 @@
     <div class="section section--experienceentry">
         <div class="section_content">
             <div class="experience_block <% if not $Image %>noimage<% end_if %>">
-                <a class="backbutton" onclick="window.history.back();">Zurück</a>
+                <p class="backbutton" onclick="window.history.back();">Zurück</p>
                 <% if $PhotoGalleryImages %>
                     <div class="experiencegallery">
                         <div class="experiencegallery_slider" data-behaviour="slider">
