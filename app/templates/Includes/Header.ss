@@ -8,7 +8,7 @@
         <% if $CurrentUser %>
             <% if $CurrentUser.BlogProfileImage %>
                 <div class="userimage" data-behaviour="open_personalnav">
-                    <img src="url($CurrentUser.BlogProfileImage.FocusFill(50,50).Url)" alt="Profile Image">
+                    <img src="$CurrentUser.BlogProfileImage.FocusFill(50,50).Url" alt="Profile Image">
                 </div>
             <% else %>
                 <div class="userimage noimage" data-behaviour="open_personalnav"></div>
@@ -54,11 +54,11 @@
     <ul class="section_content">
         <% loop $Menu(1) %>
             <% if $MenuPosition == "personal" %>
-                <a href="$Link">
-                    <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
+                <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
+                    <a href="$Link">
                         <p>$MenuTitle</p>
-                    </li>
-                </a>
+                    </a>
+                </li>
             <% end_if %>
         <% end_loop %>
         <a href="$Top.Link('logout')">
