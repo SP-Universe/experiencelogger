@@ -61,10 +61,12 @@
                 </li>
             <% end_if %>
         <% end_loop %>
-        <a href="$Top.Link('logout')">
-            <li class="nav_link">
+
+        <li class="nav_link">
+            <a href="$Top.Link('logout')">
                 <p>Logout</p>
-            </li>
-        </a>
+            </a>
+        </li>
+
     </ul>
 </div>
