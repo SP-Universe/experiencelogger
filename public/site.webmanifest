@@ -7,6 +7,7 @@
     "background_color": "#266056",
     "theme_color": "#266056",
     "description": "Log all your experiences in one place",
+    "scope": "https://experiencelogger.sp-universe.com",
     "icons": [{
       "src": "_resources/app/client/src/images/icon-48.png",
       "sizes": "48x48",
