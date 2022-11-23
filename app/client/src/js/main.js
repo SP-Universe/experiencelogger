@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     mouseDrag: true,
                     autoplay: false,
                     autoplayTimeout: 3000,
-                    speed: 500,
+                    speed: 200,
                     autoplayHoverPause: true,
                     autoplayButtonOutput: false,
                 });
