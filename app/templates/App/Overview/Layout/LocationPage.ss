@@ -10,7 +10,7 @@
                         <div class="location_entry_image" style="background-image: url($Image.FocusFill(200,200).Url)"></div>
                         <div class="location_entry_content">
                             <h2 class="location_title">$Title</h2>
-                            <h4>$Type.Title</h4>
+                            <h3>$Type.Title</h3>
                             <p>$Address</p>
                             <p>$Experiences.Filter("State", "Active").Count Experiences
                                 <% if $Experiences.Filter("State", "Defunct").Count > 0 %> | $Experiences.Filter("State", "Defunct").Count Defunct<% end_if %>

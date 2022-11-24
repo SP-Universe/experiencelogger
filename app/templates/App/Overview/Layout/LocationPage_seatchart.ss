@@ -26,7 +26,7 @@
             <% include TrainVisualizer PageController=$Top, PlaceOrientation=$SeatOrientation %>
 
             <% loop $Up.Logs.GroupedBy(ExperienceID).Filter("ExperienceID", $ID) %>
-                <h3>$Children.Count Logs</h3>
+                <h4>$Children.Count Logs</h4>
                 <% loop $Children %>
                     <% include LogCard %>
                 <% end_loop %>

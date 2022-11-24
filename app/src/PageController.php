@@ -57,7 +57,7 @@ use SilverStripe\Security\IdentityStore;
 
         public function getProfilePage()
         {
-            return MemberProfilePage::get()->first();
+            //return MemberProfilePage::get()->first();
         }
 
         protected function init()
