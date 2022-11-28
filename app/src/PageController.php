@@ -2,6 +2,10 @@
 
 namespace {
 
+use App\Profile\LoginPage;
+use App\Profile\ProfilePage;
+use App\Profile\RegistrationPage;
+use SilverStripe\Security\Member;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\IdentityStore;
@@ -14,7 +18,7 @@ use SilverStripe\Security\IdentityStore;
     /**
  * Class \PageController
  *
- * @property \Page dataRecord
+ * @property \Page $dataRecord
  * @method \Page data()
  * @mixin \Page
  */
@@ -41,12 +45,9 @@ use SilverStripe\Security\IdentityStore;
 
         public function logout(HTTPRequest $request)
         {
-            //$session = $this->getRequest()->getSession();
-            //$session->set("PWD" . $this->URLSegment, "");
-            //return $this->redirect($this->Link());
-
-            Injector::inst()->get(IdentityStore::class)->logOut($request);
-
+            if ($member = Security::getCurrentUser()) {
+                Injector::inst()->get(IdentityStore::class)->logOut($request);
+            }
             return $this->redirect('home');
         }
 
@@ -57,7 +58,17 @@ use SilverStripe\Security\IdentityStore;
 
         public function getProfilePage()
         {
-            //return MemberProfilePage::get()->first();
+            return ProfilePage::get()->first();
+        }
+
+        public function getRegistrationPage()
+        {
+            return RegistrationPage::get()->first();
+        }
+
+        public function getHomepageLink()
+        {
+            return Page::get()->filter(['URLSegment' => 'home'])->first()->Link();
         }
 
         protected function init()

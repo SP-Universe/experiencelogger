@@ -15,7 +15,7 @@ use App\ExperienceDatabase\ExperienceSeat;
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\LocationPage dataRecord
+ * @property \App\Overview\LocationPage $dataRecord
  * @method \App\Overview\LocationPage data()
  * @mixin \App\Overview\LocationPage
  */

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96df7908f047a5c91093c0cedcca73b2",
+    "content-hash": "2f4f6657a18e411f89f6675c15b15f24",
     "packages": [
         {
             "name": "bramus/ansi-php",
@@ -3157,58 +3157,6 @@
             "time": "2022-10-27T19:57:50+00:00"
         },
         {
-            "name": "silverstripe/login-forms",
-            "version": "4.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/silverstripe/silverstripe-login-forms.git",
-                "reference": "bf5785c2c624dc8fc955f420e3937d20062a9a88"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-login-forms/zipball/bf5785c2c624dc8fc955f420e3937d20062a9a88",
-                "reference": "bf5785c2c624dc8fc955f420e3937d20062a9a88",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0",
-                "silverstripe/framework": "^4.10"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3"
-            },
-            "type": "silverstripe-vendormodule",
-            "extra": {
-                "expose": [
-                    "client/dist"
-                ]
-            },
-            "autoload": {
-                "psr-4": {
-                    "SilverStripe\\LoginForms\\": "src/",
-                    "SilverStripe\\LoginForms\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "A collection of templates for the CMS login screens",
-            "homepage": "https://github.com/silverstripe/login-forms",
-            "keywords": [
-                "login",
-                "silverstripe",
-                "styling",
-                "template"
-            ],
-            "support": {
-                "issues": "https://github.com/silverstripe/login-forms/issues",
-                "source": "https://github.com/silverstripe/silverstripe-login-forms/tree/4.7.0"
-            },
-            "time": "2022-05-04T01:29:41+00:00"
-        },
-        {
             "name": "silverstripe/lumberjack",
             "version": "2.2.0",
             "source": {
@@ -6324,16 +6272,16 @@
         },
         {
             "name": "silverleague/ideannotator",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverleague/silverstripe-ideannotator.git",
-                "reference": "370bf4e99f8c6751190f91c1f013f5b55d78ad7e"
+                "reference": "0589668f4b9b060bc2d3cc634c84603b63275a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverleague/silverstripe-ideannotator/zipball/370bf4e99f8c6751190f91c1f013f5b55d78ad7e",
-                "reference": "370bf4e99f8c6751190f91c1f013f5b55d78ad7e",
+                "url": "https://api.github.com/repos/silverleague/silverstripe-ideannotator/zipball/0589668f4b9b060bc2d3cc634c84603b63275a22",
+                "reference": "0589668f4b9b060bc2d3cc634c84603b63275a22",
                 "shasum": ""
             },
             "require": {
@@ -6384,9 +6332,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverleague/silverstripe-ideannotator/issues",
-                "source": "https://github.com/silverleague/silverstripe-ideannotator/tree/3.2.0"
+                "source": "https://github.com/silverleague/silverstripe-ideannotator/tree/3.2.1"
             },
-            "time": "2022-08-06T05:49:49+00:00"
+            "time": "2022-10-26T02:45:11+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

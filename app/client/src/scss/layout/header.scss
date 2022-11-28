@@ -27,6 +27,7 @@ header {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+            z-index: 100;
             @include media(">desktop") {
                 display: block;
             }
@@ -54,4 +55,8 @@ header {
             }
         }
     }
+}
+
+.login_note{
+    margin: 25px 0;
 }
