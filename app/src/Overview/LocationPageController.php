@@ -127,10 +127,10 @@ class LocationPageController extends PageController
 
         if (isset($currentUser)) {
             $title = $this->getRequest()->param("ID");
-            $experience = Experience::get()->filter("ID", $title)->first();
+            $experience = Experience::get()->filter("LinkTitle", $title)->first();
 
             $newlogentry = LogEntry::create();
-            $newlogentry->ExperienceID = $title;
+            $newlogentry->ExperienceID = $experience->ID;
 
             if (isset($experience)) {
                 if (isset($_GET["weather"])) {

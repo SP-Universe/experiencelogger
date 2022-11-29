@@ -6,9 +6,9 @@
             <img width="80px" height="80px" src="_resources/app/client/icons/ExperienceLogger-Symbol.svg" alt="Logo of Experience Logger">
         </a>
         <% if $CurrentUser %>
-            <% if $CurrentUser.BlogProfileImage %>
+            <% if $CurrentUser.Avatar %>
                 <div class="userimage" data-behaviour="open_personalnav">
-                    <img src="$CurrentUser.BlogProfileImage.FocusFill(50,50).Url" alt="Profile Image">
+                    <img src="$CurrentUser.Avatar.FocusFill(50,50).Url" alt="Profile Image">
                 </div>
             <% else %>
                 <div class="userimage noimage" data-behaviour="open_personalnav"></div>

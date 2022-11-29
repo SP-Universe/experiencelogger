@@ -33,5 +33,9 @@
             max-height: 1000px;
             pointer-events: all;
         }
+
+        @include media("<=medium") {
+            left: 0;
+        }
     }
 }
