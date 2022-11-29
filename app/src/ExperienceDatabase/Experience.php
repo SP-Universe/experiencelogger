@@ -12,12 +12,14 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 
 /**
  * Class \App\Database\Experience
  *
  * @property string $Title
+ * @property string $LinkTitle
  * @property string $State
  * @property string $Traintype
  * @property bool $HasGeneralSeats
@@ -48,6 +50,7 @@ class Experience extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
+        "LinkTitle" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola', 'Train')",
         "HasGeneralSeats" => "Boolean",
@@ -109,6 +112,7 @@ class Experience extends DataObject
         "HasTrains" => "Has Trains",
         "HasWagons" => "Has Wagons",
         "HasBoats" => "Has Boats",
+        "LinkTitle" => "URL-Segment",
     ];
 
     private static $default_sort = "State ASC, Title ASC, TypeID ASC, AreaID ASC";
@@ -148,13 +152,13 @@ class Experience extends DataObject
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("experience/") . $this->getFormattedName();
+        return $locationsHolder->Link("experience/") . $this->LinkTitle;
     }
 
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog/") . $this->getFormattedName();
+        return $locationsHolder->Link("addLog/") . $this->LinkTitle;
     }
 
     public function getCMSFields()
@@ -203,6 +207,16 @@ class Experience extends DataObject
         return $fields;
     }
 
+    public function onBeforeWrite()
+    {
+        if ($this->LinkTitle == "") {
+            $filter = URLSegmentFilter::create();
+            $filteredTitle = $filter->filter($this->Title);
+            $this->LinkTitle = $filteredTitle;
+        }
+        parent::onBeforeWrite();
+    }
+
     public function getLatestLog()
     {
         $currentUser = Security::getCurrentUser();
@@ -232,12 +246,6 @@ class Experience extends DataObject
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
-    }
-
-    public function getFormattedName()
-    {
-        $formattedName = $this->ID . "--" . $this->Title;
-        return $formattedName;
     }
 
     public function getSortedTrains()

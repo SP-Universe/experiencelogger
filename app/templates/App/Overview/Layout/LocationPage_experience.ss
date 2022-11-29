@@ -40,7 +40,7 @@
                 $Description
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
-                    <% if $HasGeneralSeats && $SortedTrains %><a class="experience_button" href="$Up.Link('seatchart')/$ID">Seatchart</a><% end_if %>
+                    <% if $HasGeneralSeats && $SortedTrains %><a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart</a><% end_if %>
                 </div>
             </div>
             <div class="experiencedata_list">

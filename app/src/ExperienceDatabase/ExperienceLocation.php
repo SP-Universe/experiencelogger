@@ -10,12 +10,14 @@ use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 
 /**
  * Class \App\Database\Location
  *
  * @property string $Title
+ * @property string $LinkTitle
  * @property string $OpeningDate
  * @property string $Address
  * @property string $Description
@@ -31,6 +33,7 @@ class ExperienceLocation extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
+        "LinkTitle" => "Varchar(255)",
         "OpeningDate" => "Date",
         "Address" => "Varchar(255)",
         "Description" => "HTMLText",
@@ -58,6 +61,7 @@ class ExperienceLocation extends DataObject
 
     private static $field_labels = [
         "Title" => "Title",
+        "LinkTitle" => "URL-Segment",
         "Type.Title" => "Type",
         "OpeningDate" => "Opening Date",
         "Address" => "Address",
@@ -109,12 +113,17 @@ class ExperienceLocation extends DataObject
         return $fields;
     }
 
+    public function onBeforeWrite()
+    {
+        if ($this->LinkTitle == "") {
+            $filter = URLSegmentFilter::create();
+            $filteredTitle = $filter->filter($this->Title);
+            $this->LinkTitle = $filteredTitle;
+        }
+        parent::onBeforeWrite();
+    }
 
     //FUNCTIONS
-    public function getFormattedName()
-    {
-        return str_replace(' ', '_', $this->Title);
-    }
 
     public function getIsFavourite()
     {
@@ -133,7 +142,7 @@ class ExperienceLocation extends DataObject
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("location/") . $this->getFormattedName();
+        return $locationsHolder->Link("location/") . $this->LinkTitle;
     }
 
 
