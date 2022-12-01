@@ -16,9 +16,9 @@
             </div>
 
             <div class="experience_list">
-                <% loop $Experiences %>
-                    <% include ExperienceCard %>
-                <% end_loop %>
+                    <% loop $Experiences %>
+                        <% include ExperienceCard %>
+                    <% end_loop %>
             </div>
         </div>
     </div>

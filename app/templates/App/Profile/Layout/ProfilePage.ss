@@ -2,15 +2,16 @@
     <div class="section_content">
 
         <h1>Your Profile</h1>
-        <div class="profile_settings">
+        <div class="profile_settings" id="profileSettings">
             <div class="avatar">
                 <img src="$CurrentUser.Avatar.FocusFill(150,150).Url" alt="Avatar">
             </div>
             <br>
             <p><span>Nickname:</span> $CurrentUser.Nickname</p>
-            <p><span>Full Name:</span> $CurrentUser.FirstName $CurrentUser.LastName <a href="">(edit)</a></p>
-            <p><span>Email:</span> $CurrentUser.Email <a href="">(edit)</a></p>
+            <p><span>Full Name:</span> $CurrentUser.FirstName $CurrentUser.LastName</p>
+            <p><span>Email:</span> $CurrentUser.Email</p>
             <p><span>Birthdate:</span> $CurrentUser.DateOfBirth<p>
+            <a class="button" onClick="editProfile()">Edit Profile</a>
         </div>
 
         <h3 class="profile_section_headline">Your friends:</h3>
@@ -39,3 +40,11 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function changeProfile(){
+        var profiledisplay = document.getElementById("profileSettings");
+        profiledisplay.classList.toggle("edit");
+    }
+</script>
