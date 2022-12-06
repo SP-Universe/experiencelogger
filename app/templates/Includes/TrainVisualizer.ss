@@ -1,20 +1,22 @@
 <div class="train_visualizer">
-    <% loop $SortedTrains() %>
-        <div class="train <% if $Up.SortedTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" data-train="$Train" data-type="train">
-            <p class="trainname">$Up.Traintype $Train</p>
-            <% loop $Children.GroupedBy("Wagon") %>
+    <% loop $ExperienceTrains() %>
+        <div class="train <% if $PageController.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" data-train="$SortOrder" data-type="train">
+            <p class="trainname">$Up.Traintype $Title</p>
+
+            <% loop $SortedSeats %>
                 <div class="wagon">
-                    <% if $Up.Up.Children.GroupedBy("Wagon").Count > 1 %><p>Wagon $Wagon</p><% end_if %>
-                    <% loop $Children.GroupedBy("Row") %>
+                    Test
+                    <% loop $Children %>
                         <div class="row">
-                        <% if $Children.GroupedBy("Seat").Count > 1 && $Up.Up.Children.GroupedBy("Row").Count > 1 %><p>$Row</p><% end_if %>
-                        <% loop $Children.GroupedBy("Seat") %>
-                            <div class="seat $Up.Up.Up.Up.Up.Up.Up.PageController.getTypeForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">
-                                <% if $Up.Up.Children.GroupedBy("Seat").Count > 1 %> <p>$Seat</p><% end_if %>
-                                <% if $Up.Up.Children.GroupedBy("Seat").Count < 2 %> <p>$Up.Up.Row</p><% end_if %>
-                                <% if $Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat) > 0 %><p class="count">$Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)</p><% end_if %>
-                            </div>
-                        <% end_loop %>
+                            <p>$Row</p>
+
+                            <% loop $Up.Up.Up.Children.GroupedBy("Seat") %>
+                                <div class="seat" data-behaviour="seat_selector" data-train="$Up.Up.SortOrder" data-wagon="$Wagon" data-row="$Row" data-seat="$Seat">
+                                    <% if $Up.Children.Count > 1 %><p>$Seat</p><% end_if %>
+                                    <% if $Up.Children.Count < 2 %><p>$Row</p><% end_if %>
+                                    <p class="count">1</p>
+                                </div>
+                            <% end_loop %>
                         </div>
                     <% end_loop %>
                 </div>

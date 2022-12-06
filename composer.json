@@ -18,7 +18,9 @@
         "wilr/silverstripe-googlesitemaps": "^2.2",
         "silverstripe/restfulserver": "dev-master",
         "ryanpotter/silverstripe-cms-theme": "^3.4",
-        "stevie-mayhew/silverstripe-svg": "^2.2"
+        "stevie-mayhew/silverstripe-svg": "^2.2",
+        "jinjie/ss4-duplicate-dataobject": "^1.1",
+        "symbiote/silverstripe-gridfieldextensions": "^3.5"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f4f6657a18e411f89f6675c15b15f24",
+    "content-hash": "b032673ae02866ec8364de2dbdd7b6a1",
     "packages": [
         {
             "name": "bramus/ansi-php",
@@ -1247,6 +1247,41 @@
                 }
             ],
             "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "jinjie/ss4-duplicate-dataobject",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jinjie/duplicate-dataobject.git",
+                "reference": "df37607e6a345c9d2f811e772548a243e5991da0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jinjie/duplicate-dataobject/zipball/df37607e6a345c9d2f811e772548a243e5991da0",
+                "reference": "df37607e6a345c9d2f811e772548a243e5991da0",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/framework": "^4.1"
+            },
+            "type": "silverstripe-vendormodule",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kong Jin Jie",
+                    "email": "jinjie@swiftdev.sg"
+                }
+            ],
+            "description": "Adds a duplicate button to GridField in the CMS that enables duplicating of dataobjects",
+            "support": {
+                "issues": "https://github.com/jinjie/duplicate-dataobject/issues",
+                "source": "https://github.com/jinjie/duplicate-dataobject/tree/master"
+            },
+            "time": "2018-08-14T15:59:11+00:00"
         },
         {
             "name": "jonom/focuspoint",
@@ -2917,16 +2952,16 @@
         },
         {
             "name": "silverstripe/framework",
-            "version": "4.11.14",
+            "version": "4.11.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-framework.git",
-                "reference": "dc98cad48ac7334efc9aa526b04924da495566bc"
+                "reference": "b107622400d47eb5700cb8c332c2c68c4896dcb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/dc98cad48ac7334efc9aa526b04924da495566bc",
-                "reference": "dc98cad48ac7334efc9aa526b04924da495566bc",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-framework/zipball/b107622400d47eb5700cb8c332c2c68c4896dcb4",
+                "reference": "b107622400d47eb5700cb8c332c2c68c4896dcb4",
                 "shasum": ""
             },
             "require": {
@@ -3041,9 +3076,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-framework/issues",
-                "source": "https://github.com/silverstripe/silverstripe-framework/tree/4.11.14"
+                "source": "https://github.com/silverstripe/silverstripe-framework/tree/4.11.15"
             },
-            "time": "2022-11-21T00:43:59+00:00"
+            "time": "2022-11-29T02:07:56+00:00"
         },
         {
             "name": "silverstripe/graphql",
@@ -3719,16 +3754,16 @@
         },
         {
             "name": "silverstripe/userforms",
-            "version": "5.13.1",
+            "version": "5.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverstripe/silverstripe-userforms.git",
-                "reference": "5e226f00dd594c71fc86f9f02b00a27597063373"
+                "reference": "704201bb34157c72f3de7c9ad11c417e7312ca12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-userforms/zipball/5e226f00dd594c71fc86f9f02b00a27597063373",
-                "reference": "5e226f00dd594c71fc86f9f02b00a27597063373",
+                "url": "https://api.github.com/repos/silverstripe/silverstripe-userforms/zipball/704201bb34157c72f3de7c9ad11c417e7312ca12",
+                "reference": "704201bb34157c72f3de7c9ad11c417e7312ca12",
                 "shasum": ""
             },
             "require": {
@@ -3739,6 +3774,9 @@
                 "silverstripe/segment-field": "^2.2",
                 "silverstripe/versioned": "^1.0",
                 "symbiote/silverstripe-gridfieldextensions": "^3.1"
+            },
+            "conflict": {
+                "egulias/email-validator": "^2"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.5",
@@ -3797,9 +3835,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverstripe/silverstripe-userforms/issues",
-                "source": "https://github.com/silverstripe/silverstripe-userforms/tree/5.13.1"
+                "source": "https://github.com/silverstripe/silverstripe-userforms/tree/5.13.2"
             },
-            "time": "2022-06-01T22:43:42+00:00"
+            "time": "2022-08-02T07:01:43+00:00"
         },
         {
             "name": "silverstripe/vendor-plugin",
@@ -4471,25 +4509,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.0.2",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c"
+                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
+                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.0-dev"
+                    "dev-main": "3.1-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4518,7 +4556,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.2"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.1.1"
             },
             "funding": [
                 {
@@ -4534,7 +4572,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2022-02-25T11:15:52+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -6272,16 +6310,16 @@
         },
         {
             "name": "silverleague/ideannotator",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverleague/silverstripe-ideannotator.git",
-                "reference": "0589668f4b9b060bc2d3cc634c84603b63275a22"
+                "reference": "e0c3915be59bdcefe1e54920bccc12258409f11d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverleague/silverstripe-ideannotator/zipball/0589668f4b9b060bc2d3cc634c84603b63275a22",
-                "reference": "0589668f4b9b060bc2d3cc634c84603b63275a22",
+                "url": "https://api.github.com/repos/silverleague/silverstripe-ideannotator/zipball/e0c3915be59bdcefe1e54920bccc12258409f11d",
+                "reference": "e0c3915be59bdcefe1e54920bccc12258409f11d",
                 "shasum": ""
             },
             "require": {
@@ -6332,9 +6370,9 @@
             ],
             "support": {
                 "issues": "https://github.com/silverleague/silverstripe-ideannotator/issues",
-                "source": "https://github.com/silverleague/silverstripe-ideannotator/tree/3.2.1"
+                "source": "https://github.com/silverleague/silverstripe-ideannotator/tree/3.2.2"
             },
-            "time": "2022-10-26T02:45:11+00:00"
+            "time": "2022-11-29T01:03:48+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
