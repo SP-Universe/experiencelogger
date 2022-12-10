@@ -5,14 +5,9 @@ namespace App\ExperienceDatabase;
 use SilverStripe\ORM\DataObject;
 use Colymba\BulkManager\BulkManager;
 use SilverStripe\Security\Permission;
+use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceWagon;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig;
-use SilverStripe\Forms\GridField\GridFieldDetailForm;
-use SilverStripe\Forms\GridField\GridFieldEditButton;
-use SilverStripe\Forms\GridField\GridFieldConfig_Base;
-use SilverStripe\Forms\GridField\GridFieldDataColumns;
-use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
@@ -21,13 +16,13 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * Class \App\Database\ExperienceSeat
  *
  * @property string $Title
- * @property int $SortOrder
  * @property string $Color
+ * @property int $SortOrder
  * @property int $ParentID
- * @method \App\ExperienceDatabase\Experience Parent()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceWagon[] Wagons()
+ * @method \App\ExperienceDatabase\ExperienceWagon Parent()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] Seats()
  */
-class ExperienceTrain extends DataObject
+class ExperienceRow extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
@@ -38,53 +33,53 @@ class ExperienceTrain extends DataObject
     private static $api_access = true;
 
     private static $has_one = [
-        "Parent" => Experience::class
+        "Parent" => ExperienceWagon::class
     ];
 
     private static $has_many = [
-        "Wagons" => ExperienceWagon::class
+        "Seats" => ExperienceSeat::class
     ];
 
     private static $owns = [
-        "Wagons"
+        "Seats"
     ];
 
     private static $default_sort = "SortOrder ASC, Title ASC";
 
     private static $field_labels = [
-        "Title" => "Traintitle",
+        "Title" => "Rowtitle",
         "Color" => "Color",
         "SortOrder" => "SortOrder",
     ];
 
     private static $summary_fields = [
-        "Title" => "Traintitle",
+        "Title" => "Rowtitle",
         "Color" => "Color",
-        "Wagons.Count" => "Wagons",
+        "Seats.Count" => "Seats",
     ];
 
     private static $searchable_fields = [
         "Title"
     ];
 
-    private static $table_name = "ExperienceTrain";
+    private static $table_name = "ExperienceRow";
 
-    private static $singular_name = "Train";
-    private static $plural_name = "Trains";
+    private static $singular_name = "Row";
+    private static $plural_name = "Rows";
 
-    private static $url_segment = "train";
+    private static $url_segment = "row";
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         $fields->removeByName("ParentID");
 
-        $fields->removeByName("Wagons");
+        $fields->removeByName("Seats");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridFieldConfig->addComponent(new BulkManager());
         $gridFieldConfig->addComponent(new GridFieldDuplicateAction());
-        $gridfield = new GridField("Wagons", "Wagons", $this->Wagons(), $gridFieldConfig);
+        $gridfield = new GridField("Seats", "Seats", $this->Seats(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Main', $gridfield);
 
         return $fields;

@@ -27,7 +27,6 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $State
  * @property string $Traintype
  * @property bool $HasGeneralSeats
- * @property bool $AllTrainsTheSame
  * @property bool $HasWagons
  * @property bool $HasRows
  * @property bool $HasSeats

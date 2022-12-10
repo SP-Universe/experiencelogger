@@ -4,20 +4,20 @@
         <a class="backbutton" onclick="window.history.back();">Zurück</a>
             <h1>Seatchart of $Title</h1>
 
-            <% if $SortedTrains.Count > 1 %>
+            <% if $ExperienceTrains.Count > 1 %>
                 <div class="train_selector">
                     <select name="train" id="train" onchange="change_train(this)">
                         <option value="-1">Select a $Traintype</option>
-                        <% loop $getSortedTrains() %>
-                            <option value="$Train">$Up.Traintype: $Train</option>
+                        <% loop $ExperienceTrains() %>
+                            <option value="$SortOrder">$Up.Traintype: $Title</option>
                         <% end_loop %>
                     </select>
                 </div>
             <% else %>
                 <div class="train_selector hidden">
                     <select name="trainSelect" id="trainSelect">
-                        <% loop $getSortedTrains() %>
-                            <option value="$Train">$Up.Traintype: $Train</option>
+                        <% loop $ExperienceTrains() %>
+                            <option value="$Train">$Up.Traintype: $Title</option>
                         <% end_loop %>
                     </select>
                 </div>

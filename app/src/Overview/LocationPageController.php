@@ -69,7 +69,8 @@ class LocationPageController extends PageController
 
     public function getLogCountForSeat($train, $wagon, $row, $seat)
     {
-        $id = $this->getRequest()->param("ID");
+        $title = $this->getRequest()->param("ID");
+        $id = Experience::get()->filter("LinkTitle", $title)->first()->ID;
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             return LogEntry::get()->filter([

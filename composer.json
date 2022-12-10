@@ -24,7 +24,8 @@
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",
-        "squizlabs/php_codesniffer": "^3.6"
+        "squizlabs/php_codesniffer": "^3.6",
+        "lekoala/silverstripe-debugbar": "^2.2"
     },
     "autoload": {
         "psr-4": {

@@ -4,52 +4,46 @@ namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
-use App\ExperienceDatabase\ExperienceTrain;
+use App\ExperienceDatabase\ExperienceRow;
 
 /**
  * Class \App\Database\ExperienceSeat
  *
- * @property string $Wagon
- * @property string $Row
- * @property string $Seat
- * @property string $Info
+ * @property string $Title
+ * @property int $SortOrder
  * @property string $Type
  * @property int $ParentID
- * @method \App\ExperienceDatabase\ExperienceTrain Parent()
+ * @method \App\ExperienceDatabase\ExperienceRow Parent()
  */
 class ExperienceSeat extends DataObject
 {
     private static $db = [
-        "Wagon" => "Varchar(255)",
-        "Row" => "Varchar(255)",
-        "Seat" => "Varchar(255)",
-        "Info" => "Varchar(255)",
+        "Title" => "Varchar(255)",
+        "SortOrder" => "Int",
         "Type" => "Enum('Standard, XXL, Small, Long','Standard')",
     ];
 
     private static $api_access = true;
 
     private static $has_one = [
-        "Parent" => ExperienceTrain::class
+        "Parent" => ExperienceRow::class
     ];
 
-    private static $default_sort = "Wagon ASC, Row ASC, Seat ASC";
+    private static $default_sort = "SortOrder ASC, Title ASC";
 
     private static $field_labels = [
-        "Row" => "Row",
-        "Seat" => "Seat",
-        "Wagon" => "Wagon",
+        "Title" => "Title",
+        "SortOrder" => "SortOrder",
+        "Type" => "Type",
     ];
 
     private static $summary_fields = [
-        "Wagon" => "Wagon",
-        "Row" => "Row",
-        "Seat" => "Seat",
+        "Title" => "Title",
         "Type" => "Type",
     ];
 
     private static $searchable_fields = [
-        "Wagon", "Row", "Seat"
+        "Title"
     ];
 
     private static $table_name = "ExperienceSeat";

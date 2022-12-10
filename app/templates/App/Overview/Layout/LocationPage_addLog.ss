@@ -66,7 +66,7 @@
                 <% if $HasGeneralSeats %>
                         <h2>Seat</h2>
 
-                        <% if $getSortedTrains() %>
+                        <% if $ExperienceTrains() %>
                             <form-group class="logging_group train">
 
                                 <% if $ExperienceTrains.Count > 1 %>
@@ -74,7 +74,7 @@
                                         <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
                                             <option value="-1">Select a $Traintype</option>
                                             <% loop $ExperienceTrains() %>
-                                                <option value="$Train">$Up.Traintype: $Train</option>
+                                                <option value="$SortOrder">$Up.Traintype: $Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="train_selector hidden">
                                         <select name="traindropdown" id="traindropdown">
                                             <% loop $ExperienceTrains() %>
-                                                <option value="$Train" selected>$Up.Traintype: $Train</option>
+                                                <option value="$SortOrder" selected>$Up.Traintype: $Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>

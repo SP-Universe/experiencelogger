@@ -1,20 +1,19 @@
 <div class="train_visualizer">
     <% loop $ExperienceTrains() %>
-        <div class="train <% if $PageController.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" data-train="$SortOrder" data-type="train">
+        <div class="train <% if $Up.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" <% if $Color %> style="background-color: $Color;" <% end_if %> data-train="$SortOrder" data-type="train">
             <p class="trainname">$Up.Traintype $Title</p>
-
-            <% loop $SortedSeats %>
-                <div class="wagon">
-                    Test
-                    <% loop $Children %>
-                        <div class="row">
-                            <p>$Row</p>
-
-                            <% loop $Up.Up.Up.Children.GroupedBy("Seat") %>
-                                <div class="seat" data-behaviour="seat_selector" data-train="$Up.Up.SortOrder" data-wagon="$Wagon" data-row="$Row" data-seat="$Seat">
-                                    <% if $Up.Children.Count > 1 %><p>$Seat</p><% end_if %>
-                                    <% if $Up.Children.Count < 2 %><p>$Row</p><% end_if %>
-                                    <p class="count">1</p>
+            <% loop $Wagons %>
+                <div class="wagon" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                    <p>$Title</p>
+                    <% loop $Rows %>
+                        <div class="row" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                            <p>$Title</p>
+                            <% loop $Seats %>
+                                <div class="seat" data-train="$Up.Up.Up.SortOrder" data-wagon="$Up.Up.SortOrder" data-row="$Up.SortOrder" data-seat="$SortOrder" data-type="seat" data-behaviour="seat_selector" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                                    <p>$Title</p>
+                                    <% if $Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.SortOrder, $Up.Up.SortOrder, $Up.SortOrder, $SortOrder) > 0 %>
+                                        <p class="count">$Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.SortOrder, $Up.Up.SortOrder, $Up.SortOrder, $SortOrder)</p>
+                                    <% end_if %>
                                 </div>
                             <% end_loop %>
                         </div>
