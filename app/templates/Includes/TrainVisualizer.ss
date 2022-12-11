@@ -7,7 +7,7 @@
                     <p>$Title</p>
                     <% loop $Rows %>
                         <div class="row" <% if $Color %> style="background-color: $Color;" <% end_if %>>
-                            <p>$Title</p>
+                            <p <% if $Up.Color %>style="color: $Up.Color;"<% end_if %>>$Title</p>
                             <% loop $Seats %>
                                 <div class="seat" data-train="$Up.Up.Up.SortOrder" data-wagon="$Up.Up.SortOrder" data-row="$Up.SortOrder" data-seat="$SortOrder" data-type="seat" data-behaviour="seat_selector" <% if $Color %> style="background-color: $Color;" <% end_if %>>
                                     <p>$Title</p>

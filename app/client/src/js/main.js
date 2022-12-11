@@ -174,4 +174,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
             });
         })
     }
+
+    const addlogbutton = document.querySelector('[data-behaviour="addlog_button"]');
+    const addlogloading = document.querySelector('[data-behaviour="addlog_loading"]');
+    if (addlogbutton) {
+        addlogbutton.addEventListener('click', function(e) {
+            addlogbutton.classList.add('clicked');
+            addlogloading.classList.add('clicked');
+        });
+    }
 });

@@ -173,7 +173,8 @@
                     <textarea id="notes" name="notes"></textarea>
                 </form-group>
 
-                <input type="submit">
+                <input data-behaviour="addlog_button" type="submit">
+                <% include XPLLogo %>
             </form>
         </div>
     </div>

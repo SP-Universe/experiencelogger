@@ -1,0 +1,18 @@
+.section.section--notification{
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    height: auto;
+    text-align: center;
+    background-color: $ColorPrimary;
+    color: $ColorWhite;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 100;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    animation: notificationfadeout 4s forwards;
+    opacity: 0;
+    animation-delay: 1s;
+    pointer-events: none;
+}

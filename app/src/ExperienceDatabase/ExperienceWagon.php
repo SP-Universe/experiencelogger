@@ -16,8 +16,8 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * Class \App\Database\ExperienceSeat
  *
  * @property string $Title
- * @property string $Color
  * @property int $SortOrder
+ * @property string $Color
  * @property int $ParentID
  * @method \App\ExperienceDatabase\ExperienceTrain Parent()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceRow[] Rows()
@@ -53,7 +53,7 @@ class ExperienceWagon extends DataObject
     ];
 
     private static $summary_fields = [
-        "Title" => "Traintitle",
+        "Title" => "Wagontitle",
         "Color" => "Color",
         "Rows.Count" => "Rows",
     ];

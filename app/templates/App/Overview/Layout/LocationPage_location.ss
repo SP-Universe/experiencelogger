@@ -1,4 +1,13 @@
 <% with $Location %>
+
+    <% if $Up.Success == "true" %>
+        <div class="section section--notification">
+            <div class="success">
+                <p>Successfully added log!</p>
+            </div>
+        </div>
+    <% end_if %>
+
     <div class="section section--experiencesoverview">
         <div class="section_content">
             <p class="backbutton" onclick="window.history.back();">Back</p>

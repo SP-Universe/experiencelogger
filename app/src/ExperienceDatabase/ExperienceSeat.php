@@ -12,6 +12,7 @@ use App\ExperienceDatabase\ExperienceRow;
  * @property string $Title
  * @property int $SortOrder
  * @property string $Type
+ * @property string $Rotation
  * @property int $ParentID
  * @method \App\ExperienceDatabase\ExperienceRow Parent()
  */
@@ -21,6 +22,7 @@ class ExperienceSeat extends DataObject
         "Title" => "Varchar(255)",
         "SortOrder" => "Int",
         "Type" => "Enum('Standard, XXL, Small, Long','Standard')",
+        "Rotation" => "Enum('Forward, Backward, Right, Left','Forward')"
     ];
 
     private static $api_access = true;
@@ -40,6 +42,7 @@ class ExperienceSeat extends DataObject
     private static $summary_fields = [
         "Title" => "Title",
         "Type" => "Type",
+        "Rotation" => "Rotation"
     ];
 
     private static $searchable_fields = [

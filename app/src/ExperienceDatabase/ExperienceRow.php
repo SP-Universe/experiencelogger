@@ -16,7 +16,6 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * Class \App\Database\ExperienceSeat
  *
  * @property string $Title
- * @property string $Color
  * @property int $SortOrder
  * @property int $ParentID
  * @method \App\ExperienceDatabase\ExperienceWagon Parent()
@@ -27,7 +26,6 @@ class ExperienceRow extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "SortOrder" => "Int",
-        "Color" => "Varchar(7)",
     ];
 
     private static $api_access = true;
@@ -48,13 +46,11 @@ class ExperienceRow extends DataObject
 
     private static $field_labels = [
         "Title" => "Rowtitle",
-        "Color" => "Color",
         "SortOrder" => "SortOrder",
     ];
 
     private static $summary_fields = [
         "Title" => "Rowtitle",
-        "Color" => "Color",
         "Seats.Count" => "Seats",
     ];
 

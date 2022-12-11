@@ -35,7 +35,15 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $article = ExperienceLocation::get()->filter("LinkTitle", $title)->first();
+        $success = false;
+
+        //if get is set, then we are coming from the search page
+        if (isset($_GET["success"])) {
+            $success = $_GET["success"];
+        }
+
         return array(
+            "Success" => $success,
             "Location" => $article,
         );
     }
@@ -169,7 +177,7 @@ class LocationPageController extends PageController
                 $newlogentry->VisitTime = date("Y-m-d H:i:s");
                 $newlogentry->write();
 
-                return $this->redirect($experience->Parent->Link);
+                return $this->redirect($experience->Parent->Link . "?success=true");
             } else {
                 echo "ERROR - The experience couldn't be found...";
             }
