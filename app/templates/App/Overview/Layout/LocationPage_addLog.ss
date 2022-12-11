@@ -3,7 +3,7 @@
         <div class="section_content">
             <h1>Adding Log for $Title!</h1>
 
-            <form action="$Top.Link('finishLog')/$ID" class="logging_form" method="get">
+            <form action="$Top.Link('finishLog')/$LinkTitle" class="logging_form" method="get">
                 <h2>Weather Condition</h2>
                 <form-group class="logging_group">
                     <div class="group_entry">
@@ -66,23 +66,23 @@
                 <% if $HasGeneralSeats %>
                         <h2>Seat</h2>
 
-                        <% if $getSortedTrains() %>
+                        <% if $ExperienceTrains() %>
                             <form-group class="logging_group train">
 
-                                <% if $SortedTrains.Count > 1 %>
+                                <% if $ExperienceTrains.Count > 1 %>
                                     <div class="train_selector">
                                         <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
                                             <option value="-1">Select a $Traintype</option>
-                                            <% loop $getSortedTrains() %>
-                                                <option value="$Train">$Up.Traintype: $Train</option>
+                                            <% loop $ExperienceTrains() %>
+                                                <option value="$SortOrder">$Up.Traintype: $Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>
                                 <% else %>
                                     <div class="train_selector hidden">
                                         <select name="traindropdown" id="traindropdown">
-                                            <% loop $getSortedTrains() %>
-                                                <option value="$Train" selected>$Up.Traintype: $Train</option>
+                                            <% loop $ExperienceTrains() %>
+                                                <option value="$SortOrder" selected>$Up.Traintype: $Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>
@@ -173,7 +173,8 @@
                     <textarea id="notes" name="notes"></textarea>
                 </form-group>
 
-                <input type="submit">
+                <input data-behaviour="addlog_button" type="submit">
+                <% include XPLLogo %>
             </form>
         </div>
     </div>

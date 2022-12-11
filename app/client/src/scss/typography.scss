@@ -33,10 +33,10 @@ h2{
 }
 
 h3{
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     @include media("<=medium") {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 

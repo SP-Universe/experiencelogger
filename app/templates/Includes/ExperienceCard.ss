@@ -3,7 +3,7 @@
         <div class="experience_entry_image" style="background-image: url($Image.FocusFill(200,200).Url)">
         </div>
         <div class="experience_entry_content">
-            <h2 class="experience_title">$Title</h2>
+            <h2 class="experience_title"> $Title </h2>
             <div class="flex_part">
                 <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title
                 <% if $Area %> <span>in $Area.Title </span><% end_if %></h4>
@@ -11,6 +11,7 @@
             <p>$State</p>
         </div>
     </a>
+
     <% if $CurrentUser %>
         <div class="experience_logging">
             <a class="logging_link" href="$AddLogLink">

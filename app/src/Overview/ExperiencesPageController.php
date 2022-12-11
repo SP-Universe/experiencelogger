@@ -8,7 +8,7 @@ use PageController;
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\ExperiencesPage dataRecord
+ * @property \App\Overview\ExperiencesPage $dataRecord
  * @method \App\Overview\ExperiencesPage data()
  * @mixin \App\Overview\ExperiencesPage
  */

@@ -2,6 +2,9 @@ SilverStripe\Security\Member:
   extensions:
     - App\Extensions\ExperienceMemberExtension
 
+Silverstripe\Security:
+    - default_login_dest: 'profile'
+
 SilverStripe\MimeValidator\MimeUploadValidator:
   MimeTypes:
     svg:

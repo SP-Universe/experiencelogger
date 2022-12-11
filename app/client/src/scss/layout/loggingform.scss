@@ -20,7 +20,7 @@
                 margin-bottom: 20px;
 
                 label{
-                    margin-top: 10px;
+                    margin: 0;
                 }
 
                 .group_entry{
@@ -93,6 +93,47 @@
                 width: 84px;
                 height: 84px;
                 border-radius: 50%;
+                margin: 0;
+                transition: opacity 0.2s ease-in-out;
+
+                &.clicked{
+                    opacity: 0;
+                    pointer-events: none;
+                }
+            }
+
+            .xpl_logo{
+                color: transparent;
+                position: fixed;
+                right: 10px;
+                bottom: 100px;
+                width: 84px;
+                height: 84px;
+                opacity: 0;
+                transition: opacity 0.2s ease-in-out;
+                pointer-events: none;
+
+                svg{
+                    position: relative;
+                    width: 84px;
+                    height: 84px;
+                    transform-origin: 50% 50%;
+                    animation: rotate 15s linear infinite;
+
+                    #block_center_empty{
+                        transform-origin: 50% 50%;
+                        animation: rotate 5s linear infinite;
+                    }
+
+                    #blocks_filled{
+                        transform-origin: 50% 50%;
+                        animation: rotate 10s linear infinite;
+                    }
+                }
+
+                &.clicked{
+                    opacity: 1;
+                }
             }
         }
     }

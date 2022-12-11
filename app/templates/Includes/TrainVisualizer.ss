@@ -1,20 +1,21 @@
 <div class="train_visualizer">
-    <% loop $SortedTrains() %>
-        <div class="train <% if $Up.SortedTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" data-train="$Train" data-type="train">
-            <p class="trainname">$Up.Traintype $Train</p>
-            <% loop $Children.GroupedBy("Wagon") %>
-                <div class="wagon">
-                    <% if $Up.Up.Children.GroupedBy("Wagon").Count > 1 %><p>Wagon $Wagon</p><% end_if %>
-                    <% loop $Children.GroupedBy("Row") %>
-                        <div class="row">
-                        <% if $Children.GroupedBy("Seat").Count > 1 && $Up.Up.Children.GroupedBy("Row").Count > 1 %><p>$Row</p><% end_if %>
-                        <% loop $Children.GroupedBy("Seat") %>
-                            <div class="seat $Up.Up.Up.Up.Up.Up.Up.PageController.getTypeForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)" data-behaviour="seat_selector" data-train="$Up.Up.Up.Up.Up.Up.Train" data-wagon="$Up.Up.Up.Up.Wagon" data-row="$Up.Up.Row" data-seat="$Seat">
-                                <% if $Up.Up.Children.GroupedBy("Seat").Count > 1 %> <p>$Seat</p><% end_if %>
-                                <% if $Up.Up.Children.GroupedBy("Seat").Count < 2 %> <p>$Up.Up.Row</p><% end_if %>
-                                <% if $Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat) > 0 %><p class="count">$Up.Up.Up.Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.Up.Up.Up.Train, $Up.Up.Up.Up.Wagon, $Up.Up.Row, $Seat)</p><% end_if %>
-                            </div>
-                        <% end_loop %>
+    <% loop $ExperienceTrains() %>
+        <div class="train <% if $Up.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" <% if $Color %> style="background-color: $Color;" <% end_if %> data-train="$SortOrder" data-type="train">
+            <p class="trainname">$Up.Traintype $Title</p>
+            <% loop $Wagons %>
+                <div class="wagon" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                    <p>$Title</p>
+                    <% loop $Rows %>
+                        <div class="row" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                            <p <% if $Up.Color %>style="color: $Up.Color;"<% end_if %>>$Title</p>
+                            <% loop $Seats %>
+                                <div class="seat" data-train="$Up.Up.Up.SortOrder" data-wagon="$Up.Up.SortOrder" data-row="$Up.SortOrder" data-seat="$SortOrder" data-type="seat" data-behaviour="seat_selector" <% if $Color %> style="background-color: $Color;" <% end_if %>>
+                                    <p>$Title</p>
+                                    <% if $Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.SortOrder, $Up.Up.SortOrder, $Up.SortOrder, $SortOrder) > 0 %>
+                                        <p class="count">$Up.Up.Up.Up.PageController.getLogCountForSeat($Up.Up.Up.SortOrder, $Up.Up.SortOrder, $Up.SortOrder, $SortOrder)</p>
+                                    <% end_if %>
+                                </div>
+                            <% end_loop %>
                         </div>
                     <% end_loop %>
                 </div>

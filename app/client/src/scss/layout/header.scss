@@ -18,6 +18,7 @@ header {
         width: 100%;
         position: relative;
         height: 80px;
+        top: 5px;
 
         .nav_brand{
             height: 100%;
@@ -25,8 +26,9 @@ header {
             padding: 10px 10px 0px;
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 35%;
             transform: translate(-50%, -50%);
+            z-index: 100;
             @include media(">desktop") {
                 display: block;
             }
@@ -41,7 +43,7 @@ header {
             height: 50px;
             overflow: hidden;
             color: $ColorPrimary;
-            z-index: 20;
+            z-index: 100;
 
             &.noimage{
                 background-color: $ColorPrimary;
@@ -54,4 +56,8 @@ header {
             }
         }
     }
+}
+
+.login_note{
+    margin: 25px 0;
 }

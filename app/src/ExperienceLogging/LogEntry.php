@@ -107,14 +107,20 @@ class LogEntry extends DataObject
 
     public function getWeathers()
     {
-        $cutted = explode(",", $this->Weather);
-        $weathers = new ArrayList();
-        foreach ($cutted as $weather) {
-            $weathers->push(new ArrayData(array(
-                "Weather" => $weather,
-            )));
+        if ($this->Weather != "") {
+            $cutted = explode(",", $this->Weather);
+            $weathers = new ArrayList();
+            foreach ($cutted as $weather) {
+                $weathers->push(new ArrayData(
+                    array(
+                        "Weather" => $weather,
+                    )
+                ));
+            }
+            return $weathers;
+        } else {
+            return null;
         }
-        return $weathers;
     }
 
     public function getCMSFields()

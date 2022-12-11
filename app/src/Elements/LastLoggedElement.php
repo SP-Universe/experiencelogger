@@ -2,6 +2,7 @@
 
 namespace App\Elements;
 
+use App\Profile\ProfilePage;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use DNADesign\Elemental\Models\BaseElement;
@@ -33,7 +34,7 @@ class LastLoggedElement extends BaseElement
 
     public function getProfilePage()
     {
-        return MemberProfilePage::get()->first();
+        return ProfilePage::get()->first();
     }
 
     public function getCMSFields()

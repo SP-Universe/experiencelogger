@@ -15,7 +15,7 @@ use App\ExperienceDatabase\ExperienceSeat;
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\LocationPage dataRecord
+ * @property \App\Overview\LocationPage $dataRecord
  * @method \App\Overview\LocationPage data()
  * @mixin \App\Overview\LocationPage
  */
@@ -33,23 +33,25 @@ class LocationPageController extends PageController
 
     public function location()
     {
-        $id = $this->getRequest()->param("ID");
-        $deformatted = str_replace('_', ' ', $id);
-        $deformatted = str_replace('%ae', 'ä', $deformatted);
-        $deformatted = str_replace('%oe', 'ö', $deformatted);
-        $deformatted = str_replace('%ue', 'ü', $deformatted);
-        $article = ExperienceLocation::get()->filter("Title", $deformatted)->first();
+        $title = $this->getRequest()->param("ID");
+        $article = ExperienceLocation::get()->filter("LinkTitle", $title)->first();
+        $success = false;
+
+        //if get is set, then we are coming from the search page
+        if (isset($_GET["success"])) {
+            $success = $_GET["success"];
+        }
+
         return array(
+            "Success" => $success,
             "Location" => $article,
         );
     }
 
     public function experience()
     {
-        $id = $this->getRequest()->param("ID");
-        $exploded = explode("--", $id);
-
-        $article = Experience::get()->filter("ID", $exploded[0])->first();
+        $title = $this->getRequest()->param("ID");
+        $article = Experience::get()->filter("LinkTitle", $title)->first();
         return array(
             "Experience" => $article,
         );
@@ -57,10 +59,9 @@ class LocationPageController extends PageController
 
     public function seatchart()
     {
-        $id = $this->getRequest()->param("ID");
-        $exploded = explode("--", $id);
+        $title = $this->getRequest()->param("ID");
 
-        $article = Experience::get()->filter("ID", $exploded[0])->first();
+        $article = Experience::get()->filter("LinkTitle", $title)->first();
         return array(
             "Experience" => $article,
         );
@@ -76,7 +77,8 @@ class LocationPageController extends PageController
 
     public function getLogCountForSeat($train, $wagon, $row, $seat)
     {
-        $id = $this->getRequest()->param("ID");
+        $title = $this->getRequest()->param("ID");
+        $id = Experience::get()->filter("LinkTitle", $title)->first()->ID;
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             return LogEntry::get()->filter([
@@ -104,14 +106,14 @@ class LocationPageController extends PageController
 
     public function changeFavourite()
     {
-        $id = $this->getRequest()->param("ID");
+        $title = $this->getRequest()->param("ID");
         $currentUser = Security::getCurrentUser();
 
         if ($currentUser) {
-            if ($currentUser->FavouritePlaces()->find("ID", $id)) {
-                $currentUser->FavouritePlaces()->removeByID($id);
+            if ($currentUser->FavouritePlaces()->find("LinkTitle", $title)) {
+                $currentUser->FavouritePlaces()->removeByID($title);
             } else {
-                $currentUser->FavouritePlaces()->add($id);
+                $currentUser->FavouritePlaces()->add($title);
             }
         }
 
@@ -120,9 +122,8 @@ class LocationPageController extends PageController
 
     public function addLog()
     {
-        $id = $this->getRequest()->param("ID");
-        $exploded = explode("--", $id);
-        $article = Experience::get()->filter("ID", $exploded[0])->first();
+        $title = $this->getRequest()->param("ID");
+        $article = Experience::get()->filter("LinkTitle", $title)->first();
 
         return array(
             "Experience" => $article,
@@ -134,12 +135,11 @@ class LocationPageController extends PageController
         $currentUser = Security::getCurrentUser();
 
         if (isset($currentUser)) {
-            $id = $this->getRequest()->param("ID");
-            $exploded = explode("--", $id);
-            $experience = Experience::get()->filter("ID", $exploded[0])->first();
+            $title = $this->getRequest()->param("ID");
+            $experience = Experience::get()->filter("LinkTitle", $title)->first();
 
             $newlogentry = LogEntry::create();
-            $newlogentry->ExperienceID = $id;
+            $newlogentry->ExperienceID = $experience->ID;
 
             if (isset($experience)) {
                 if (isset($_GET["weather"])) {
@@ -177,7 +177,7 @@ class LocationPageController extends PageController
                 $newlogentry->VisitTime = date("Y-m-d H:i:s");
                 $newlogentry->write();
 
-                return $this->redirect($experience->Parent->Link);
+                return $this->redirect($experience->Parent->Link . "?success=true");
             } else {
                 echo "ERROR - The experience couldn't be found...";
             }

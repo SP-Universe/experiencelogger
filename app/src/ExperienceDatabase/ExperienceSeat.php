@@ -4,54 +4,49 @@ namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
+use App\ExperienceDatabase\ExperienceRow;
 
 /**
  * Class \App\Database\ExperienceSeat
  *
- * @property string $Train
- * @property string $Wagon
- * @property string $Row
- * @property string $Seat
- * @property string $Info
+ * @property string $Title
+ * @property int $SortOrder
  * @property string $Type
+ * @property string $Rotation
  * @property int $ParentID
- * @method \App\ExperienceDatabase\Experience Parent()
+ * @method \App\ExperienceDatabase\ExperienceRow Parent()
  */
 class ExperienceSeat extends DataObject
 {
     private static $db = [
-        "Train" => "Varchar(255)",
-        "Wagon" => "Varchar(255)",
-        "Row" => "Varchar(255)",
-        "Seat" => "Varchar(255)",
-        "Info" => "Varchar(255)",
+        "Title" => "Varchar(255)",
+        "SortOrder" => "Int",
         "Type" => "Enum('Standard, XXL, Small, Long','Standard')",
+        "Rotation" => "Enum('Forward, Backward, Right, Left','Forward')"
     ];
 
     private static $api_access = true;
 
     private static $has_one = [
-        "Parent" => Experience::class
+        "Parent" => ExperienceRow::class
     ];
 
-    private static $default_sort = "Train ASC, Wagon ASC, Row ASC, Seat ASC";
+    private static $default_sort = "SortOrder ASC, Title ASC";
 
     private static $field_labels = [
-        "Row" => "Row",
-        "Seat" => "Seat",
-        "Wagon" => "Wagon",
-        "Train" => "Train",
+        "Title" => "Title",
+        "SortOrder" => "SortOrder",
+        "Type" => "Type",
     ];
 
     private static $summary_fields = [
-        "Train" => "Train",
-        "Wagon" => "Wagon",
-        "Row" => "Row",
-        "Seat" => "Seat",
+        "Title" => "Title",
+        "Type" => "Type",
+        "Rotation" => "Rotation"
     ];
 
     private static $searchable_fields = [
-        "Train", "Wagon", "Row", "Seat"
+        "Title"
     ];
 
     private static $table_name = "ExperienceSeat";

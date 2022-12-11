@@ -8,16 +8,22 @@ use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
+use Colymba\BulkManager\BulkManager;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
+use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
+use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
 /**
  * Class \App\Database\Experience
  *
  * @property string $Title
+ * @property string $LinkTitle
  * @property string $State
  * @property string $Traintype
  * @property bool $HasGeneralSeats
@@ -39,7 +45,7 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
  * @method \App\ExperienceDatabase\Experience Area()
  * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceSeat[] ExperienceSeats()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceTrain[] ExperienceTrains()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVariant[] Variants()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVersion[] Versions()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
@@ -48,6 +54,7 @@ class Experience extends DataObject
 {
     private static $db = [
         "Title" => "Varchar(255)",
+        "LinkTitle" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola', 'Train')",
         "HasGeneralSeats" => "Boolean",
@@ -72,19 +79,15 @@ class Experience extends DataObject
 
     private static $has_many = [
         "ExperienceData" => ExperienceData::class,
-        "ExperienceSeats" => ExperienceSeat::class,
+        "ExperienceTrains" => ExperienceTrain::class,
         "Variants" => ExperienceVariant::class,
         "Versions" => ExperienceVersion::class,
-    ];
-
-    private static $belongs_many = [
-        "Experiences" => Experience::class,
     ];
 
     private static $owns = [
         "Image",
         "ExperienceData",
-        "ExperienceSeats",
+        "ExperienceTrains",
     ];
 
     private static $summary_fields = [
@@ -109,6 +112,8 @@ class Experience extends DataObject
         "HasTrains" => "Has Trains",
         "HasWagons" => "Has Wagons",
         "HasBoats" => "Has Boats",
+        "LinkTitle" => "URL-Segment",
+        "AllTrainsTheSame" => "All Trains have the same seats",
     ];
 
     private static $default_sort = "State ASC, Title ASC, TypeID ASC, AreaID ASC";
@@ -126,6 +131,7 @@ class Experience extends DataObject
         "HasWagons" => true,
         "HasRows" => true,
         "HasSeats" => true,
+        "AllTrainsTheSame" => true,
     ];
 
     private static $url_segment = "experience";
@@ -148,13 +154,13 @@ class Experience extends DataObject
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("experience/") . $this->getFormattedName();
+        return $locationsHolder->Link("experience/") . $this->LinkTitle;
     }
 
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog/") . $this->getFormattedName();
+        return $locationsHolder->Link("addLog/") . $this->LinkTitle;
     }
 
     public function getCMSFields()
@@ -185,10 +191,13 @@ class Experience extends DataObject
         $gridfield = new GridField("ExperienceData", "ExperienceData", $this->ExperienceData(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Data', $gridfield);
 
-        $fields->removeByName("ExperienceSeats");
+        $fields->removeByName("ExperienceTrains");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
-        $gridfield = new GridField("ExperienceSeats", "ExperienceSeats", $this->ExperienceSeats(), $gridFieldConfig);
-        $fields->addFieldToTab('Root.Seats', $gridfield);
+        $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
+        $gridFieldConfig->addComponent(new BulkManager());
+        $gridFieldConfig->addComponent(new GridFieldDuplicateAction());
+        $gridfield = new GridField("ExperienceTrains", "ExperienceTrains", $this->ExperienceTrains(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Trains', $gridfield);
 
         $fields->removeByName("Variants");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
@@ -201,6 +210,16 @@ class Experience extends DataObject
         $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
 
         return $fields;
+    }
+
+    public function onBeforeWrite()
+    {
+        if ($this->LinkTitle == "") {
+            $filter = URLSegmentFilter::create();
+            $filteredTitle = $filter->filter($this->Title);
+            $this->LinkTitle = $filteredTitle;
+        }
+        parent::onBeforeWrite();
     }
 
     public function getLatestLog()
@@ -234,14 +253,8 @@ class Experience extends DataObject
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
-    public function getFormattedName()
+    public function getSortedWagons($id)
     {
-        $formattedName = $this->ID . "--" . $this->Title;
-        return $formattedName;
-    }
-
-    public function getSortedTrains()
-    {
-        return GroupedList::create($this->ExperienceSeats()->sort('Train ASC, Wagon ASC, Row ASC, Seat ASC'))->GroupedBy("Train");
+        return GroupedList::create($this->ExperienceTrains()->filter("ID", $id)->getSeats()->sort('Wagon ASC, Row ASC, Seat ASC'));
     }
 }

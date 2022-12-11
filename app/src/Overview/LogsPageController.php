@@ -9,7 +9,7 @@ use App\ExperienceDatabase\LogEntry;
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\LogsPage dataRecord
+ * @property \App\Overview\LogsPage $dataRecord
  * @method \App\Overview\LogsPage data()
  * @mixin \App\Overview\LogsPage
  */
