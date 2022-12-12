@@ -1,7 +1,6 @@
 <% with $Experience %>
     <div class="section section--seatchart">
         <div class="section_content">
-        <a class="backbutton" onclick="window.history.back();">Zurück</a>
             <h1>Seatchart of $Title</h1>
 
             <% if $ExperienceTrains.Count > 1 %>

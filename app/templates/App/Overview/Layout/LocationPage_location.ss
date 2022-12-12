@@ -10,12 +10,11 @@
 
     <div class="section section--experiencesoverview">
         <div class="section_content">
-            <p class="backbutton" onclick="window.history.back();">Back</p>
 
                 <div class="location_sidebar">
-                    <% cached 'Locationsidebar' %>
-                        <div class="location_title">
-                            <div class="backgroundimage">$Image.FocusFill(400,200)</div>
+                    <div class="sidebar_background" style="background-image: url($Image.FocusFill(400,200).Url)"></div>
+                    <% cached 'Locationsidebar', $ID %>
+                        <div class="location_title" style="background-image: url($Image.FocusFill(400,200).Url)">
                             <p>$Type.Title</p>
                             <h1>$Title</h1>
                         </div>

@@ -1,8 +1,8 @@
 {
     "$schema": "https://json.schemastore.org/web-manifest-combined.json",
     "name": "ExperienceLogger",
-    "short_name": "XPL",
-    "start_url": "/",
+    "short_name": "ExperienceLogger",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#266056",
     "theme_color": "#266056",

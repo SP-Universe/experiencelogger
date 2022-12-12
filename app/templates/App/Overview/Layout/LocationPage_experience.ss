@@ -2,7 +2,6 @@
     <div class="section section--experienceentry">
         <div class="section_content">
             <div class="experience_block <% if not $Image %>noimage<% end_if %>">
-                <p class="backbutton" onclick="window.history.back();">Zurück</p>
                 <% if $PhotoGalleryImages %>
                     <div class="experiencegallery">
                         <div class="experiencegallery_slider" data-behaviour="slider">
@@ -17,8 +16,6 @@
                     <div class="experienceimage">
                         $Image.FocusFill(1000,600)
                     </div>
-                <% else %>
-                    <br>
                 <% end_if %>
                 <% if $CurrentUser %>
                     <div class="experience_log_button">

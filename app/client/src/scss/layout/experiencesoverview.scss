@@ -21,22 +21,34 @@
         }
 
         .location_sidebar{
-            margin: 20px 0 0 0;
+            margin: 0;
             padding: 15px 15px 20px 15px;
             grid-row: 2/3;
             grid-column: 1/-1;
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
-            background-color: $ColorWhite;
+            background-color: $ColorWhiteTrans;
             height: auto;
             overflow: hidden;
             position: relative;
+            color: $ColorWhite;
+
+            .sidebar_background{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -100;
+                filter: blur(12px);
+            }
 
             .sideinfo{
                 padding: 0px 0 0 10px;
                 margin: 0 0 0 3px;
                 font-size: 14px;
-                border-left: 2px solid $ColorPrimary;
+                border-left: 2px solid $ColorWhite;
             }
 
             .location_title{

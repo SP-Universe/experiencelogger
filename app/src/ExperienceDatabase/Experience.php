@@ -5,7 +5,9 @@ namespace App\ExperienceDatabase;
 use SilverStripe\Assets\File;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\View\ArrayData;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use Colymba\BulkManager\BulkManager;
@@ -35,6 +37,7 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $SeatOrientation
  * @property string $ExperienceLink
  * @property string $Description
+ * @property string $JSONCode
  * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
@@ -66,6 +69,7 @@ class Experience extends DataObject
         "SeatOrientation" => "Varchar(255)",
         "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
+        "JSONCode" => "HTMLText",
     ];
 
     private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'State', 'Description', 'ExperienceImage', 'ParentID']];
@@ -214,11 +218,24 @@ class Experience extends DataObject
 
     public function onBeforeWrite()
     {
+        //Generate Link
         if ($this->LinkTitle == "") {
             $filter = URLSegmentFilter::create();
             $filteredTitle = $filter->filter($this->Title);
             $this->LinkTitle = $filteredTitle;
         }
+
+        //TODO: Generate JSONCode
+        /*$output = new ArrayList();
+        $fields = parent::getCMSFields();
+
+        $output->push(new ArrayData([
+            "Title" => "Title",
+            "Value" => "Test",
+        ]));
+        echo $output->first()->Title;
+        $this->JSONCode = json_encode($output);*/
+
         parent::onBeforeWrite();
     }
 
