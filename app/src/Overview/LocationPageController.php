@@ -107,13 +107,14 @@ class LocationPageController extends PageController
     public function changeFavourite()
     {
         $title = $this->getRequest()->param("ID");
+        $id = ExperienceLocation::get()->filter("LinkTitle", $title)->first()->ID;
         $currentUser = Security::getCurrentUser();
 
         if ($currentUser) {
-            if ($currentUser->FavouritePlaces()->find("LinkTitle", $title)) {
-                $currentUser->FavouritePlaces()->removeByID($title);
+            if ($currentUser->FavouritePlaces()->find("ID", $id)) {
+                $currentUser->FavouritePlaces()->removeByID($id);
             } else {
-                $currentUser->FavouritePlaces()->add($title);
+                $currentUser->FavouritePlaces()->add($id);
             }
         }
 

@@ -274,4 +274,10 @@ class Experience extends DataObject
     {
         return GroupedList::create($this->ExperienceTrains()->filter("ID", $id)->getSeats()->sort('Wagon ASC, Row ASC, Seat ASC'));
     }
+
+    public function getTrainName($number)
+    {
+        //return "test";
+        return $this->ExperienceTrains()->filter("SortOrder", $number)->first()->Title;
+    }
 }
