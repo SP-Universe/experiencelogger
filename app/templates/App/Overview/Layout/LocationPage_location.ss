@@ -12,7 +12,7 @@
         <div class="section_content">
 
                 <div class="location_sidebar">
-                    <div class="sidebar_background" style="background-image: url($Image.FocusFill(400,200).Url)"></div>
+                    <div class="sidebar_background" style="background-image: url($Image.FocusFill(600,600).Url)"></div>
                     <% cached 'Locationsidebar', $ID %>
                         <div class="location_title" style="background-image: url($Image.FocusFill(400,200).Url)">
                             <p>$Type.Title</p>
