@@ -62,6 +62,10 @@ class ExperienceWagon extends DataObject
         "Title"
     ];
 
+    private static $defaults = [
+        "Title" => "Wagon "
+    ];
+
     private static $table_name = "ExperienceWagon";
 
     private static $singular_name = "Wagon";

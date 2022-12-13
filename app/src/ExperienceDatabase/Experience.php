@@ -225,16 +225,10 @@ class Experience extends DataObject
             $this->LinkTitle = $filteredTitle;
         }
 
-        //TODO: Generate JSONCode
-        /*$output = new ArrayList();
-        $fields = parent::getCMSFields();
+        $output = $this->toMap();
+        unset($output["JSONCode"]);
 
-        $output->push(new ArrayData([
-            "Title" => "Title",
-            "Value" => "Test",
-        ]));
-        echo $output->first()->Title;
-        $this->JSONCode = json_encode($output);*/
+        $this->JSONCode = json_encode($output);
 
         parent::onBeforeWrite();
     }
