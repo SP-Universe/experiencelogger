@@ -8,7 +8,7 @@
 
     <% loop $ExperienceTrains() %>
         <div class="train <% if $Up.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" <% if $Color %> style="background-color: $Color;" <% end_if %> data-train="$SortOrder" data-type="train">
-            <p class="trainname">$Up.Traintype $Title</p>
+            <p class="trainname"><% if $Up.Traintype != "None" %>$Up.Traintype <% end_if %>$Title</p>
             <% loop $Wagons %>
                 <div class="wagon" <% if $Color %> style="background-color: $Color;" <% end_if %>>
                     <p>$Title</p>

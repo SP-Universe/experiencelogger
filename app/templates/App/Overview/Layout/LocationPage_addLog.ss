@@ -72,9 +72,9 @@
                                 <% if $ExperienceTrains.Count > 1 %>
                                     <div class="train_selector">
                                         <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
-                                            <option value="-1">Select a $Traintype</option>
+                                            <option value="-1">Select a <% if $Traintype != "None" %>$Up.Traintype<% else %>Thing<% end_if %></option>
                                             <% loop $ExperienceTrains() %>
-                                                <option value="$SortOrder">$Up.Traintype: $Title</option>
+                                                <option value="$SortOrder"><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %>$Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>
