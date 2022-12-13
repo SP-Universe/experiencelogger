@@ -37,6 +37,7 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $SeatOrientation
  * @property string $ExperienceLink
  * @property string $Description
+ * @property string $Entrance
  * @property string $JSONCode
  * @property int $ImageID
  * @property int $ParentID
@@ -69,6 +70,7 @@ class Experience extends DataObject
         "SeatOrientation" => "Varchar(255)",
         "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
+        "Entrance" => "Enum('None, Left, Right', 'None')",
         "JSONCode" => "HTMLText",
     ];
 

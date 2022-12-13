@@ -18,6 +18,7 @@
         <!-- iOS Support -->
         <link rel="apple-touch-icon" sizes="180x180" href="_resources/app/client/src/images/apple-touch-icon.png">
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
+        <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
     <body>
         <% include Header %>

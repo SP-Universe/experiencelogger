@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf645a2c55cc84865ba857ac1da782cd",
+    "content-hash": "6f3c655ab372dee42034b6760433bf5a",
     "packages": [
         {
             "name": "bramus/ansi-php",
@@ -1247,6 +1247,54 @@
                 }
             ],
             "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "jamesbolitho/silverstripe-frontenduploadfield",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jamesbolitho/silverstripe-frontenduploadfield.git",
+                "reference": "99c7ad82634ae1f362841ec7f0176eb1eff69202"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jamesbolitho/silverstripe-frontenduploadfield/zipball/99c7ad82634ae1f362841ec7f0176eb1eff69202",
+                "reference": "99c7ad82634ae1f362841ec7f0176eb1eff69202",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/framework": "^4.1",
+                "silverstripe/vendor-plugin": "^1.0"
+            },
+            "default-branch": true,
+            "type": "silverstripe-vendormodule",
+            "extra": {
+                "expose": [
+                    "resources/css",
+                    "resources/images"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "jamesbolitho\\frontenduploadfield\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Frontend UploadField for SilverStripe 4 with Dropzone.js",
+            "keywords": [
+                "dropzone",
+                "frontend upload",
+                "silverstripe",
+                "upload"
+            ],
+            "support": {
+                "issues": "https://github.com/jamesbolitho/silverstripe-frontenduploadfield/issues",
+                "source": "https://github.com/jamesbolitho/silverstripe-frontenduploadfield/tree/master"
+            },
+            "time": "2022-05-20T10:22:21+00:00"
         },
         {
             "name": "jinjie/ss4-duplicate-dataobject",
@@ -7279,7 +7327,8 @@
         "dnadesign/silverstripe-elemental-userforms": 20,
         "silverstripe/linkfield": 20,
         "tractorcow/silverstripe-sliderfield": 20,
-        "silverstripe/restfulserver": 20
+        "silverstripe/restfulserver": 20,
+        "jamesbolitho/silverstripe-frontenduploadfield": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

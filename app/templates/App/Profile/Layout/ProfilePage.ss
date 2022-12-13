@@ -3,7 +3,7 @@
 
         <% if $CurrentUser %>
             <h1>Your Profile</h1>
-            <div class="profile_settings" id="profileSettings">
+            <div class="profile_settings live" id="profileSettings">
                 <div class="avatar">
                     <img src="$CurrentUser.Avatar.FocusFill(150,150).Url" alt="Avatar">
                 </div>
@@ -20,8 +20,14 @@
                         <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
                         <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
                     </div>
-                <a class="button" onClick="editProfile()">Edit Profile</a>
+                <a class="button" data-behaviour="profile_edit_button">Edit Profile</a>
             </div>
+
+            <div class="profile_settings edit">
+                $EditForm
+                <a class="button" data-behaviour="profile_canceledit_button">Cancel edit</a>
+            </div>
+
 
             <h3 class="profile_section_headline">Your friends:</h3>
             <div class="profile_friendslist">

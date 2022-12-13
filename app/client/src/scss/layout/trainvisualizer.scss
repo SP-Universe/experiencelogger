@@ -2,7 +2,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 50px;
+
     .train{
         background-color: #9CB7B3;
         flex-direction: column;
@@ -128,14 +130,15 @@
                     justify-content: center;
                     align-items: center;
                     background-color: $ColorPrimary;
-                    color: $ColorWhite;
-                    border: 1px solid $ColorPrimaryLight;
+                    color: $ColorPrimaryDark;
+                    border: 1px solid $ColorPrimaryDark;
                     width: 48px;
                     height: 48px;
                     border-radius: 5px;
                     font-size: 16px;
                     font-weight: 600;
                     position: relative;
+
                     p{
                         color: $ColorWhite;
                         filter: none;
@@ -143,7 +146,14 @@
 
                     &.selected{
                         background-color: $ColorPrimaryLight;
-                        color: $ColorPrimary;
+
+                        .seattitle{
+                            color: $ColorPrimaryDark;
+                        }
+
+                        .count{
+                            color: $ColorWhite;
+                        }
                     }
 
                     &.XXL{
@@ -162,6 +172,7 @@
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-30deg);
                             position: absolute;
+                            color: $ColorWhite;
                         }
                     }
 
@@ -177,11 +188,12 @@
                             font-size: 20px;
                             opacity: 0.1;
                             left: 70%;
-                            top: 60%;
+                            top: 55%;
                             display: block;
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-30deg);
                             position: absolute;
+                            color: $ColorWhite;
                         }
                     }
 
@@ -202,6 +214,7 @@
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-90deg);
                             position: absolute;
+                            color: $ColorWhite;
                         }
                     }
 
@@ -221,15 +234,60 @@
                         z-index: 2;
                     }
 
-                    &::after{
-                        position: absolute;
-                        border: 1px solid white;
-                        content: "";
-                        height: 10px;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        border-radius: 2px;
+                    &.Forward{
+                        &::before{
+                            position: absolute;
+                            background-color: $ColorPrimaryDark;
+                            border: 1px solid $ColorPrimaryDark;
+                            border-radius: 3px;
+                            content: "";
+                            height: 10px;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                        }
+                    }
+
+                    &.Backward{
+                        &::before{
+                            position: absolute;
+                            background-color: $ColorPrimaryDark;
+                            border: 1px solid $ColorPrimaryDark;
+                            border-radius: 3px;
+                            content: "";
+                            height: 10px;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                        }
+                    }
+
+                    &.Right{
+                        &::before{
+                            position: absolute;
+                            background-color: $ColorPrimaryDark;
+                            border: 1px solid $ColorPrimaryDark;
+                            border-radius: 3px;
+                            content: "";
+                            width: 10px;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                        }
+                    }
+
+                    &.Left{
+                        &::before{
+                            position: absolute;
+                            background-color: $ColorPrimaryDark;
+                            border: 1px solid $ColorPrimaryDark;
+                            border-radius: 3px;
+                            content: "";
+                            width: 10px;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                        }
                     }
                 }
             }

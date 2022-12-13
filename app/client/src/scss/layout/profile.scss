@@ -60,6 +60,34 @@
                         color: $ColorWhite;
                     }
                 }
+
+                &.live{
+                    max-height: 700px;
+                    overflow: hidden;
+                    padding: 20px 10px;
+                    transition: opacity 0.2s ease-in-out, max-height 0.3s ease-in-out;
+                    opacity: 1;
+
+                    .profile_edit_active &{
+                        max-height: 0px;
+                        padding: 0;
+                        opacity: 0;
+                    }
+                }
+
+                &.edit{
+                    max-height: 0px;
+                    overflow: hidden;
+                    padding: 0;
+                    transition: opacity 0.2s ease-in-out, max-height 0.3s ease-in-out;
+                    opacity: 0;
+
+                    .profile_edit_active &{
+                        max-height: 700px;
+                        padding: 20px 10px;
+                        opacity: 1;
+                    }
+                }
             }
 
             .profile_privacy{
