@@ -17,7 +17,6 @@ namespace {
  * Class \Page
  *
  * @property string $MenuPosition
- * @property bool $ShowTitle
  * @property int $ElementalAreaID
  * @property int $HeaderImageID
  * @property int $MenuIconID
@@ -30,7 +29,6 @@ namespace {
     {
         private static $db = [
             "MenuPosition" => "Enum('main, footer, personal', 'main')",
-            "ShowTitle" => "Boolean",
         ];
 
         private static $has_one = [
@@ -51,7 +49,6 @@ namespace {
                 "footer" => "Footer",
                 "personal" => "Personal",
             ]), "Content");
-            $fields->addFieldToTab("Root.Main", new CheckboxField("ShowTitle", "Display Title"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerimage"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;

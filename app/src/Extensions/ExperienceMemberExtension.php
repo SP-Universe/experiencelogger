@@ -12,6 +12,7 @@ use App\ExperienceDatabase\ExperienceLocation;
  *
  * @property string $DateOfBirth
  * @property string $Nickname
+ * @property string $ProfilePrivacy
  * @property int $AvatarID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
@@ -23,6 +24,7 @@ class ExperienceMemberExtension extends DataExtension
     private static $db = [
         'DateOfBirth' => 'Date',
         'Nickname' => 'Varchar(255)',
+        'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
     ];
 
     private static $has_one = [
@@ -53,5 +55,15 @@ class ExperienceMemberExtension extends DataExtension
             'UserID' => $this->owner->ID,
             'ExperienceID' => $id,
         ])->count();
+    }
+
+    public function getLogs($id)
+    {
+        $checkedUser = Member::get()->byID($id);
+        if ($checkedUser) {
+            return LogEntry::get()->filter([
+                'UserID' => $checkedUser->ID,
+            ]);
+        }
     }
 }

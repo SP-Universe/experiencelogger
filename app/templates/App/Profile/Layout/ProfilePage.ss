@@ -8,10 +8,18 @@
                     <img src="$CurrentUser.Avatar.FocusFill(150,150).Url" alt="Avatar">
                 </div>
                 <br>
+                <p>$Logs.Count() Logs<p>
+                <br>
                 <p><span>Nickname:</span> $CurrentUser.Nickname</p>
                 <p><span>Full Name:</span> $CurrentUser.FirstName $CurrentUser.LastName</p>
                 <p><span>Email:</span> $CurrentUser.Email</p>
                 <p><span>Birthdate:</span> $CurrentUser.DateOfBirth<p>
+                    <div class="profile_privacy">
+                        <p>Profile-Privacy:</P>
+                        <% if $CurrentUser.ProfilePrivacy == "Private" %><img src="../_resources/app/client/icons/lock.svg" alt="Private Profile"/><p>Private</p><% end_if %>
+                        <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
+                        <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
+                    </div>
                 <a class="button" onClick="editProfile()">Edit Profile</a>
             </div>
 
@@ -22,6 +30,7 @@
                         <div class="profile_image">
                             <img src="$Avatar.FocusFill(100,100).Url" alt="$Name" />
                         </div>
+                        <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs)<% else %>(Private)<% end_if %></p>
                         <p class="friend_name">$Nickname</p>
                     </div>
                 <% end_loop %>
