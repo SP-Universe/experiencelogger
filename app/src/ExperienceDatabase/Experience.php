@@ -273,11 +273,15 @@ class Experience extends DataObject
 
     public function getTrainName($number)
     {
-        //return "test";
         if ($this->ExperienceTrains()->count() == 0) {
             return $number;
         } else {
-            return $this->ExperienceTrains()->filter("SortOrder", $number)->first()->Title;
+            $train = $this->ExperienceTrains()->filter("SortOrder", $number)->first();
+            if ($train) {
+                return $train->Title;
+            } else {
+                return $number;
+            }
         }
     }
 }
