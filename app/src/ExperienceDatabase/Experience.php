@@ -28,6 +28,7 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $LinkTitle
  * @property string $State
  * @property string $Traintype
+ * @property string $CustomTrainType
  * @property bool $HasGeneralSeats
  * @property bool $HasWagons
  * @property bool $HasRows
@@ -61,6 +62,7 @@ class Experience extends DataObject
         "LinkTitle" => "Varchar(255)",
         "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'Train')",
+        "CustomTrainType" => "Varchar(255)",
         "HasGeneralSeats" => "Boolean",
         "HasWagons" => "Boolean",
         "HasRows" => "Boolean",
@@ -120,6 +122,7 @@ class Experience extends DataObject
         "HasBoats" => "Has Boats",
         "LinkTitle" => "URL-Segment",
         "AllTrainsTheSame" => "All Trains have the same seats",
+        "CustomTrainType" => "Custom Train Type Title",
     ];
 
     private static $default_sort = "State ASC, Title ASC, TypeID ASC, AreaID ASC";

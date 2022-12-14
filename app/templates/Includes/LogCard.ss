@@ -4,7 +4,7 @@
         <h3>$Experience.Title</h3>
         <p class="park">in $Experience.Parent.Title</p>
         <div class="seemore">
-            <% if $Train && $Train != "-1" && $Experience.Traintype != "None" %><p>$Experience.Traintype: $Experience.getTrainname($Train)</p><% end_if %>
+            <% if $Train && $Train != "-1" && $Experience.Traintype != "None" %><p><% if $Experience.CustomTrainType %>$Experience.CustomTrainType: <% else %><% if $Experience.Traintype != "None" %>$Experience.Traintype: <% end_if %><% end_if %> $Experience.getTrainname($Train)</p><% end_if %>
             <% if $Wagon > 0 %><p>Wagon: $Wagon</p><% end_if %>
             <% if $Row > 0 %><p>Row: $Row</p><% end_if %>
             <% if $Seat > 0 %><p>Seat: $Seat</p><% end_if %>

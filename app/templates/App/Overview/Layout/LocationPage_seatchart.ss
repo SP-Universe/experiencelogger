@@ -5,18 +5,18 @@
 
             <% if $ExperienceTrains.Count > 1 %>
                 <div class="train_selector">
-                    <select name="train" id="train" onchange="change_train(this)">
-                        <option value="-1">Select a $Traintype</option>
+                    <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
+                        <option value="-1">Select a <% if $CustomTrainType %>$CustomTrainType<% else %><% if $Traintype != "None" %>$Up.Traintype<% else %>Thing<% end_if %><% end_if %></option>
                         <% loop $ExperienceTrains() %>
-                            <option value="$SortOrder">$Up.Traintype: $Title</option>
+                            <option value="$SortOrder"><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %><% end_if %>$Title</option>
                         <% end_loop %>
                     </select>
                 </div>
             <% else %>
                 <div class="train_selector hidden">
-                    <select name="trainSelect" id="trainSelect">
+                    <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
                         <% loop $ExperienceTrains() %>
-                            <option value="$Train">$Up.Traintype: $Title</option>
+                            <option value="$SortOrder"><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %><% end_if %>$Title</option>
                         <% end_loop %>
                     </select>
                 </div>

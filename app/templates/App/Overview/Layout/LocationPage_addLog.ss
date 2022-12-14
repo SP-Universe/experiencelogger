@@ -72,17 +72,17 @@
                                 <% if $ExperienceTrains.Count > 1 %>
                                     <div class="train_selector">
                                         <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
-                                            <option value="-1">Select a <% if $Traintype != "None" %>$Up.Traintype<% else %>Thing<% end_if %></option>
+                                            <option value="-1">Select a <% if $CustomTrainType %>$CustomTrainType<% else %><% if $Traintype != "None" %>$Up.Traintype<% else %>Thing<% end_if %><% end_if %></option>
                                             <% loop $ExperienceTrains() %>
-                                                <option value="$SortOrder"><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %>$Title</option>
+                                                <option value="$SortOrder"><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %><% end_if %>$Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>
                                 <% else %>
                                     <div class="train_selector hidden">
-                                        <select name="traindropdown" id="traindropdown">
+                                        <select name="traindropdown" id="traindropdown" onchange="change_train(this)">
                                             <% loop $ExperienceTrains() %>
-                                                <option value="$SortOrder" selected>$Up.Traintype: $Title</option>
+                                                <option value="$SortOrder"><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype: <% end_if %><% end_if %>$Title</option>
                                             <% end_loop %>
                                         </select>
                                     </div>

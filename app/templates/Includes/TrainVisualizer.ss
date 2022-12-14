@@ -8,13 +8,13 @@
 
     <% loop $ExperienceTrains() %>
         <div class="train <% if $Up.ExperienceTrains.Count <= 1 %>active<% end_if %> $Up.Traintype" <% if $Color %> style="background-color: $Color;" <% end_if %> data-train="$SortOrder" data-type="train">
-            <p class="trainname"><% if $Up.Traintype != "None" %>$Up.Traintype <% end_if %>$Title</p>
+            <p class="trainname" <% if $Color %>style="color: $Color; filter: invert(1) brightness(1.5);"<% end_if %>><% if $Up.ExperienceTrains.Count > 1 %><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype <% end_if %><% end_if %>$Title<% end_if %></p>
             <% loop $Wagons %>
                 <div class="wagon" <% if $Color %> style="background-color: $Color;" <% end_if %>>
-                    <p>$Title</p>
+                    <% if $Title %><% if $Up.Wagons.Count > 1 %><p>Wagon $Title</p><% end_if %><% end_if %>
                     <% loop $Rows %>
                         <div class="row" <% if $Color %> style="background-color: $Color;" <% end_if %>>
-                            <p <% if $Up.Color %>style="color: $Up.Color;"<% end_if %>>$Title</p>
+                            <% if $Title %><p <% if $Up.Color %>style="color: $Up.Color;"<% end_if %>>$Title</p><% end_if %>
                             <% loop $Seats %>
                                 <div class="seat $Type $Rotation" data-train="$Up.Up.Up.SortOrder" data-wagon="$Up.Up.SortOrder" data-row="$Up.SortOrder" data-seat="$SortOrder" data-type="seat" data-behaviour="seat_selector" <% if $Color %> style="background-color: $Color;" <% end_if %>>
                                     <p class="seattitle">$Title</p>
