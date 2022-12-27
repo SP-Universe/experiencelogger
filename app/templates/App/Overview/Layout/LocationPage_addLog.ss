@@ -94,7 +94,7 @@
                         <% else %>
                             <form-group class="logging_group">
                                 <% if $Traintype != 'None' %>
-                                    <label for="train">$Traintype</label>
+                                    <label for="train"><% if $CustomTrainType %>$CustomTrainType<% else %>$Traintype<% end_if %></label>
                                     <input type="text" id="train" name="train">
                                 <% end_if %>
                                 <% if $HasWagons %>
@@ -158,11 +158,11 @@
                                 <option value="13">13th place</option>
                                 <option value="14">14th place</option>
                                 <option value="15">15th place</option>
-                                <option value="16">15th place</option>
-                                <option value="17">15th place</option>
-                                <option value="18">15th place</option>
-                                <option value="19">15th place</option>
-                                <option value="20">15th place</option>
+                                <option value="16">16th place</option>
+                                <option value="17">17th place</option>
+                                <option value="18">18th place</option>
+                                <option value="19">19th place</option>
+                                <option value="20">20th place</option>
                             </select>
                         <% end_if %>
                     </form-group>

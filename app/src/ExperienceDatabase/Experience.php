@@ -60,7 +60,7 @@ class Experience extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "LinkTitle" => "Varchar(255)",
-        "State" => "Enum('Active, Defunct, In Maintenance, Other', 'Active')",
+        "State" => "Enum('Active, Defunct, In Maintenance, Coming Soon, Other', 'Active')",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'Train')",
         "CustomTrainType" => "Varchar(255)",
         "HasGeneralSeats" => "Boolean",
@@ -231,6 +231,9 @@ class Experience extends DataObject
         }
 
         $output = $this->toMap();
+
+        $output["ExperienceType"] = $this->Type()->Title;
+        $output["ExperienceArea"] = $this->Area()->Title;
         unset($output["JSONCode"]);
 
         $this->JSONCode = json_encode($output);

@@ -108,7 +108,9 @@
         }
     }
 
-
+    .experiencedata{
+        display: none;
+    }
 
     &.hide{
         overflow: hidden;
@@ -124,5 +126,22 @@
         max-height: 0;
         margin: 0;
         pointer-events: none;
+    }
+
+    &.data--loading{
+        background-color: $ColorPrimary;
+        animation: loadingbackground 2s ease-in-out infinite;
+
+        &:before{
+            content: "";
+            background-color: gray;
+            opacity: 0.2;
+            z-index: 60;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
     }
 }

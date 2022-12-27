@@ -1,14 +1,15 @@
-<div class="experience_card">
+<div class="experience_card data--loading" data-behaviour="experiencecard">
+    <p class="experiencedata">$JSONCode.Raw</p>
     <a href="$Link" class="experience_entry">
         <div class="experience_entry_image" style="background-image: url($Image.FocusFill(200,200).Url)">
         </div>
         <div class="experience_entry_content">
-            <h2 class="experience_title"> $Title </h2>
+            <h2 class="experience_title"> Loading ... </h2>
             <div class="flex_part">
-                <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">$Type.Title
+                <h4 class="experience_type" data-filter="$Type.Title" data-status="$State">...
                 <% if $Area %> <span>in $Area.Title </span><% end_if %></h4>
             </div>
-            <p>$State</p>
+            <p class="experience_state">...</p>
         </div>
     </a>
 

@@ -197,4 +197,23 @@ document.addEventListener("DOMContentLoaded", function (event) {
             document.body.classList.toggle('profile_edit_active');
         });
     }
+
+    //Experiencecard
+    let experiencecards = document.querySelectorAll('[data-behaviour="experiencecard"]');
+
+    if(experiencecards.length){
+        experiencecards.forEach(experiencecard => {
+            if(experiencecard.querySelector('.experiencedata').textContent) {
+                var rawexperience = experiencecard.querySelector('.experiencedata');
+                rawexperience.remove();
+                console.log(rawexperience.textContent);
+                var data = JSON.parse(rawexperience.textContent);
+                experiencecard.querySelector('.experience_title').innerHTML = data["Title"];
+                experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"];
+                experiencecard.querySelector('.experience_state').innerHTML = data["State"];
+                experiencecard.classList.add("data--loaded");
+                experiencecard.classList.remove("data--loading");
+            }
+        });
+    }
 });

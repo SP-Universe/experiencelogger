@@ -15,3 +15,9 @@
     80% { opacity: 1;}
     100% { opacity: 0;}
 }
+
+@keyframes loadingbackground {
+    0% { background: $ColorPrimary;}
+    50% { background: $ColorSecondary;}
+    100% { background: $ColorPrimary;}
+}
