@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 experiencecard.querySelector('.experience_type').setAttribute("data-filter", data["Title"]);
                 experiencecard.querySelector('.experience_entry_image').style = "background-image: url(" + data["ExperienceImage"] + ")";
                 experiencecard.querySelector('.experience_state').innerHTML = data["State"];
-                experiencecard.href = data["ExperienceLink"];
+                experiencecard.querySelector('.experience_entry').href = data["ExperienceLink"];
                 experiencecard.classList.add("data--loaded");
                 experiencecard.classList.remove("data--loading");
             }

@@ -235,6 +235,7 @@ class Experience extends DataObject
         $output["ExperienceType"] = $this->Type()->Title;
         $output["ExperienceArea"] = $this->Area()->Title;
         $output["Description"] = $this->getField("Description");
+        $output["ExperienceLink"] = $this->getLink();
         if ($this->Image) {
             $image = $this->Image->FocusFill(200, 200);
             if ($image) {
