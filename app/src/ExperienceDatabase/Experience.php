@@ -234,7 +234,17 @@ class Experience extends DataObject
 
         $output["ExperienceType"] = $this->Type()->Title;
         $output["ExperienceArea"] = $this->Area()->Title;
+        $output["Description"] = $this->getField("Description");
+        if ($this->Image) {
+            $image = $this->Image->FocusFill(200, 200);
+            if ($image) {
+                $output["ExperienceImage"] = $image->Link();
+            }
+        }
         unset($output["JSONCode"]);
+        unset($output["ClassName"]);
+        unset($output["Created"]);
+        unset($output["RecordClassName"]);
 
         $this->JSONCode = json_encode($output);
 
