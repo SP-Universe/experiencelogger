@@ -22,6 +22,7 @@ class ExperienceVersion extends DataObject
         "Title" => "Varchar(255)",
         "Description" => "HTMLText",
         "SortOrder" => "Int",
+        "Defunct" => "Boolean",
     ];
 
     private static $has_one = [

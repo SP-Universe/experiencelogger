@@ -119,7 +119,7 @@
                             <select name="variant" id="variant">
                                 <option value="-1">Select a Variant</option>
                                 <% loop $Variants %>
-                                    <option value="$Title">$Title</option>
+                                    <option value="$Title">$Title <% if $Defunct %>(Defunct)<% end_if %></option>
                                 <% end_loop %>
                             </select>
                         <% end_if %>
@@ -127,7 +127,7 @@
                             <select name="version" id="version">
                                 <option value="-1">Select a Version</option>
                                 <% loop $Versions %>
-                                    <option value="$Title">$Title</option>
+                                    <option value="$Title">$Title <% if $Defunct %>(Defunct)<% end_if %></option>
                                 <% end_loop %>
                             </select>
                         <% end_if %>
