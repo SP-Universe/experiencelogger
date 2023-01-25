@@ -14,9 +14,9 @@
                             <h3>$Type.Title</h3>
                             <p>$Address</p>
                             <p>$Experiences.Filter("State", "Active").Count Experiences
-                                <% if $Experiences.Filter("State", "Defunct").Count > 0 %> | $Experiences.Filter("State", "Defunct").Count Defunct<% end_if %>
+                                <!--<% if $Experiences.Filter("State", "Defunct").Count > 0 %> | $Experiences.Filter("State", "Defunct").Count Defunct<% end_if %>
                                 <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %> | $Experiences.Filter("State", "In Maintenance").Count In Maintenance<% end_if %>
-                                <% if $Experiences.Filter("State", "Other").Count > 0 %> | $Experiences.Filter("State", "Other").Count Other<% end_if %>
+                                <% if $Experiences.Filter("State", "Other").Count > 0 %> | $Experiences.Filter("State", "Other").Count Other<% end_if %>-->
                             </p>
                         </div>
                     </a>

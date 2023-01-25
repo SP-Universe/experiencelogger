@@ -13,6 +13,7 @@ use SilverStripe\Security\Permission;
  * @property string $Title
  * @property string $Description
  * @property int $SortOrder
+ * @property bool $Defunct
  * @property int $ParentID
  * @method \App\ExperienceDatabase\Experience Parent()
  */

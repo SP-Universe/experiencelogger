@@ -41,7 +41,7 @@
                     margin: 0 auto;
                     width: 150px;
                     height: 150px;
-                    overflow: hidden;
+                    //overflow: hidden;
                     border-radius: 50%;
                 }
 
@@ -72,6 +72,17 @@
                         max-height: 0px;
                         padding: 0;
                         opacity: 0;
+                    }
+
+                    .avatar{
+                        width: 150px;
+                        height: 150px;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
                     }
                 }
 
@@ -109,15 +120,14 @@
             }
 
             .profile_friendslist{
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
                 gap: 15px;
                 align-items: center;
                 justify-content: center;
                 flex-wrap: wrap;
 
                 .profile_friend{
-                    max-width: calc(25% - 10px);
-                    width: 150px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -135,8 +145,6 @@
                             background-color: $ColorWhite;
                             width: 100%;
                             height: 100%;
-                            border-radius: 50%;
-                            box-shadow: inset 0 0 15px 0 rgba(0,0,0,0.5);
                         }
                     }
 

@@ -5,7 +5,9 @@
             <h1>Your Profile</h1>
             <div class="profile_settings live" id="profileSettings">
                 <div class="avatar">
-                    <img src="$CurrentUser.Avatar.FocusFill(150,150).Url" alt="Avatar">
+                    <div class="avatar_image">
+                        <img src="$CurrentUser.getProfileImage(200)" alt="Avatar of $CurrentUser.Name">
+                    </div>
                 </div>
                 <br>
                 <p>$Logs.Count() Logs<p>
@@ -33,8 +35,8 @@
             <div class="profile_friendslist">
                 <% loop $Friends %>
                     <div class="profile_friend">
-                        <div class="profile_image">
-                            <img src="$Avatar.FocusFill(100,100).Url" alt="$Name" />
+                        <div class="avatar_image">
+                            <img src="$getProfileImage(200)" alt="Avatar of $Nickname">
                         </div>
                         <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs)<% else %>(Private)<% end_if %></p>
                         <p class="friend_name">$Nickname</p>

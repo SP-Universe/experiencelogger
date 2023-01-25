@@ -152,6 +152,6 @@ class ProfilePageController extends PageController
 
             $currentUser->write();
         }
-        return $this->redirectBack();
+        return $this->redirect("profile/");
     }
 }

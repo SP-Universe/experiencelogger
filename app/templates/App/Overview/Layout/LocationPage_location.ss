@@ -31,6 +31,7 @@
                             <p>$Experiences.Filter("ParentID", $ID).Count Experiences</p>
                             <% if $Experiences.Filter("State", "Active").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Active").Count Active</p><% end_if %>
                             <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "In Maintenance").Count In Maintenance</p><% end_if %>
+                            <% if $Experiences.Filter("State", "Coming Soon").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Coming Soon").Count Coming Soon</p><% end_if %>
                             <% if $Experiences.Filter("State", "Defunct").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Defunct").Count Defunct</p><% end_if %>
                             <% if $Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
                             <hr/>

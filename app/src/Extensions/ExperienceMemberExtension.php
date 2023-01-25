@@ -66,4 +66,35 @@ class ExperienceMemberExtension extends DataExtension
             ]);
         }
     }
+
+    public function getProfileImage($size = 200)
+    {
+        if ($this->owner->AvatarID) {
+            return $this->owner->Avatar()->Fill($size, $size)->Url;
+        } else {
+            return $this->owner->getGravatar($size);
+        }
+    }
+
+    public function getGravatar($size = 200)
+    {
+        //Generate a Gravatar for the user
+        $s = $size; //Size in pixels (max 2048)
+        $d = 'identicon'; //Default replacement for missing image
+        $r = 'g'; //Rating
+        $img = false; //Returning full image tag
+        $atts = array(); //Extra attributes to add
+
+        $url = 'https://www.gravatar.com/avatar/';
+        $url .= md5(strtolower(trim($this->owner->Email)));
+        $url .= "?s=$s&d=$d&r=$r";
+        if ($img) {
+            $url = '<img src="' . $url . '"';
+            foreach ($atts as $key => $val) {
+                $url .= ' ' . $key . '="' . $val . '"';
+            }
+            $url .= ' />';
+        }
+        return $url;
+    }
 }
