@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    background: linear-gradient(15deg, $ColorWhite, $ColorLightGray);
+    background: linear-gradient(15deg, var(--ColorWhite), var(--ColorLightGray));
     border-radius: 20px;
     margin: 0 0 10px 0;
     padding-right: 10px;
@@ -21,7 +21,7 @@
             max-width: 150px;
             aspect-ratio: 1;
             padding: 0;
-            background-color: $ColorPrimary;
+            background-color: var(--ColorPrimary);
             clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
             background-size: cover;
             background-position: center;
@@ -70,7 +70,7 @@
     }
 
     .experience_logging{
-        background-color: $ColorWhite;
+        background-color: var(--ColorWhite);
         //width: 50px;
         flex-shrink: 0;
         border-radius: 20px;
@@ -95,17 +95,17 @@
             transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 
             &:hover{
-                background-color: $ColorPrimary;
-                color: $ColorWhite;
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhite);
             }
 
             &.notnew{
-                background-color: $ColorPrimary;
-                color: $ColorWhite;
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhite);
 
                 &:hover{
-                    background-color: $ColorWhite;
-                    color: $ColorPrimary;
+                    background-color: var(--ColorWhite);
+                    color: var(--ColorPrimary);
                 }
             }
         }
@@ -114,8 +114,8 @@
             height: 25px;
             width: 100%;
             text-align: center;
-            background-color: $ColorPrimary;
-            color: $ColorWhite;
+            background-color: var(--ColorPrimary);
+            color: var(--ColorWhite);
         }
     }
 
@@ -140,7 +140,7 @@
     }
 
     &.data--loading{
-        background-color: $ColorPrimary;
+        background-color: var(--ColorPrimary);
         animation: loadingbackground 2s ease-in-out infinite;
 
         &:before{

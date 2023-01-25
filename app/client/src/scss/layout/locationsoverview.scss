@@ -12,7 +12,7 @@
             gap: 15px;
 
             .experience_entry{
-                background-color: $ColorWhite;
+                background-color: var(--ColorWhite);
                 border-radius: 20px;
                 display: flex;
                 height: 100%;
@@ -25,7 +25,7 @@
                     padding: 0;
                     transform: scale(1.02);
                     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
-                    background-color: $ColorPrimary;
+                    background-color: var(--ColorPrimary);
                     clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
                     background-size: cover;
                 }

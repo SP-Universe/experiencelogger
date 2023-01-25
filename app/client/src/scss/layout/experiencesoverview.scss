@@ -15,8 +15,8 @@
             border-radius: 10px;
 
             &:hover{
-                color: $ColorWhite;
-                background-color: $ColorPrimary;
+                color: var(--ColorWhite);
+                background-color: var(--ColorPrimary);
             }
         }
 
@@ -27,11 +27,11 @@
             grid-column: 1/-1;
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
-            background-color: $ColorPrimaryTrans;
+            background-color: var(--ColorPrimaryTrans);
             height: auto;
             overflow: hidden;
             position: relative;
-            color: $ColorWhite;
+            color: var(--ColorWhiteText);
 
             .sidebar_background{
                 position: absolute;
@@ -48,20 +48,20 @@
                 padding: 0px 0 0 10px;
                 margin: 0 0 0 3px;
                 font-size: 14px;
-                border-left: 2px solid $ColorWhite;
+                border-left: 2px solid var(--ColorWhiteText);
             }
 
             .location_title{
-                background-color: $ColorPrimary;
+                background-color: var(--ColorPrimary);
                 margin: -15px -15px 10px -15px;
-                color: $ColorWhite;
+                color: var(--ColorWhiteText);
                 padding: 15px 15px 35px 15px;
                 position: relative;
                 overflow: hidden;
                 clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
 
                 h1{
-                    color: $ColorWhite;
+                    color: var(--ColorWhiteText);
                     margin-top: 0;
                 }
 
@@ -93,7 +93,7 @@
                     right: 0px;
                 }
 
-                color: $ColorSecondary;
+                color: var(--ColorSecondary);
                 font-size: 20px;
             }
 

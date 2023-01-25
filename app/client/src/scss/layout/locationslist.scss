@@ -12,7 +12,7 @@
         transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
         .location_entry{
-            background-color: $ColorWhite;
+            background-color: var(--ColorWhite);
             border-radius: 20px;
             display: flex;
             height: 100%;
@@ -27,7 +27,7 @@
                 transform: scale(1.05);
                 border-radius: 20px;
                 box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
-                background-color: $ColorPrimary;
+                background-color: var(--ColorPrimary);
                 background-size: cover;
             }
 
@@ -52,7 +52,7 @@
         }
 
         .location_favouritemarker{
-            color: $ColorPrimary;
+            color: var(--ColorPrimary);
             position: absolute;
             right: 10px;
             top: 50%;

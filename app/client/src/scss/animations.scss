@@ -17,7 +17,7 @@
 }
 
 @keyframes loadingbackground {
-    0% { background: $ColorPrimary;}
-    50% { background: $ColorSecondary;}
-    100% { background: $ColorPrimary;}
+    0% { background: var(--ColorPrimary);}
+    50% { background: var(--ColorSecondary);}
+    100% { background: var(--ColorPrimary);}
 }

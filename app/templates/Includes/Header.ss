@@ -72,6 +72,11 @@
                 </a>
             </li>
 
+            <li class="nav_link">
+                <input type="checkbox" id="toggle_darkmode" name="darkmode">
+
+            </li>
+
         </ul>
     </div>
 <% end_if %>

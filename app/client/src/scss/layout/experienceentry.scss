@@ -3,7 +3,7 @@
         .experience_block{
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
-            background-color: $ColorWhite;
+            background-color: var(--ColorWhite);
             overflow: hidden;
             padding: 20px;
             position: relative;
@@ -12,7 +12,7 @@
                 position: absolute;
                 top: 20px;
                 left: 20px;
-                background-color: $ColorWhite;
+                background-color: var(--ColorWhite);
                 padding: 5px 15px;
                 border-radius: 0px 0 10px 0;
                 transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, left 0.2s ease-in-out, border-radius 0.2s ease-in-out;
@@ -21,8 +21,8 @@
 
                 &:hover{
                     border-radius: 10px 0 10px 0;
-                    background-color: $ColorPrimary;
-                    color: $ColorWhite;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorWhite);
                 }
             }
 
@@ -53,7 +53,7 @@
                             border-radius: 50%;
                         }
                         .tns-nav-active{
-                            background-color: $ColorPrimary;
+                            background-color: var(--ColorPrimary);
                         }
                     }
                 }
@@ -89,7 +89,7 @@
                 gap: 10px;
                 margin-top: 10px;
                 .experience_button{
-                    background-color: $ColorPrimary;
+                    background-color: var(--ColorPrimary);
                     border-radius: 20px;
                     color: white;
                     padding: 5px 10px;
@@ -103,11 +103,11 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                background-color: $ColorWhite;
+                background-color: var(--ColorWhite);
                 border-radius: 10px;
                 box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
-                background-color: $ColorPrimary;
-                color: $ColorWhite;
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhite);
                 margin-bottom: -10px;
 
                 .logcount{
@@ -124,12 +124,12 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: $ColorWhite;
+                    background-color: var(--ColorWhite);
                     box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 
                     &:hover{
-                        background-color: $ColorPrimary;
-                        color: $ColorWhite;
+                        background-color: var(--ColorPrimary);
+                        color: var(--ColorWhite);
                     }
                 }
             }

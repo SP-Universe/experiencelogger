@@ -24,20 +24,20 @@
                 }
 
                 .group_entry{
-                    background-color: $ColorWhite;
+                    background-color: var(--ColorWhite);
                     border-radius: 20px;
                     box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
                     width: 22%;
                     margin: 5px 0;
 
-                    color: $ColorPrimary;
+                    color: var(--ColorPrimary);
                     position: relative;
                     overflow: hidden;
                     display: block;
 
                     label{
                         padding: 10px;
-                        color: $ColorSecondary;
+                        color: var(--ColorSecondary);
                         text-align: center;
                         font-size: 10px;
                         height: 100%;
@@ -52,10 +52,10 @@
                     }
 
                     &:has(input[type="checkbox"]:checked){
-                        background-color: $ColorPrimary;
-                        color: $ColorWhite;
+                        background-color: var(--ColorPrimary);
+                        color: var(--ColorWhite);
                         label{
-                            color: $ColorWhite;
+                            color: var(--ColorWhite);
                         }
                     }
                 }
@@ -86,7 +86,7 @@
             input[type="submit"] {
                 mask-image: url("../../../icons/add.svg");
                 color: transparent;
-                background-color: $ColorPrimary;
+                background-color: var(--ColorPrimary);
                 position: fixed;
                 right: 10px;
                 bottom: 100px;

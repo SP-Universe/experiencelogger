@@ -18,3 +18,40 @@ $ColorBlack: rgb(0, 14, 15);
 $ColorLightGray: #c2c2c2;
 $ColorWhite: #FFF;
 $ColorWhiteTrans: rgba(255, 255, 255, 0.2);
+
+
+html{
+    --ColorPrimary: #266056;
+    --ColorPrimaryTrans: #26605685;
+    --ColorPrimaryDark: #1e4b43;
+    --ColorPrimaryDarkTrans: #1e4b4381;
+    --ColorPrimaryLight: #e2fffa;
+    --ColorSecondary: #1e4b43;
+
+    --ColorBlack: rgb(0, 14, 15);
+    --ColorLightGray: #c2c2c2;
+    --ColorWhite: #FFF;
+    --ColorWhiteText: #FFF;
+    --ColorWhiteTrans: rgba(255, 255, 255, 0.2);
+    --ColorBackground: rgb(230, 230, 230);
+}
+
+body.theme--dark{
+    --ColorPrimary: #378b7d; //#266056
+    --ColorPrimaryTrans: #0f272385; //#26605685
+    --ColorPrimaryDark: #000000; //#1e4b43
+    --ColorPrimaryDarkTrans: #00000081; //#1e4b4381
+    --ColorPrimaryLight: #314441; //#e2fffa
+    --ColorSecondary: #266056; //#1e4b43
+
+    --ColorBlack: rgb(255, 255, 255); //rgb(0, 14, 15)
+    --ColorLightGray: #3b3b3b; //#c2c2c2
+    --ColorWhite: rgb(0, 0, 0); //#FFF
+    --ColorWhiteText: #FFF;
+    --ColorWhiteTrans: rgba(0, 0, 0, 0.2); //rgba(255, 255, 255, 0.2)
+    --ColorBackground: rgb(29, 29, 29);
+
+    .loggedexperience_card>.background_image>img{
+        filter: brightness(0.1);
+    }
+}

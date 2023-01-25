@@ -1,7 +1,7 @@
 .section.section--navigation{
     position: fixed;
     bottom: 0;
-    background-color: $ColorPrimaryDarkTrans;
+    background-color: var(--ColorPrimaryDarkTrans);
     backdrop-filter: blur(10px) saturate(180%);
     width: 100%;
     max-width: 100%;
@@ -21,7 +21,7 @@
         .nav_link{
             display: flex;
             flex-direction: column;
-            color: $ColorWhite;
+            color: var(--ColorWhite);
             justify-content: center;
             align-items: center;
             height: 100%;
@@ -38,14 +38,14 @@
             p{
                 text-align: center;
                 display: none;
-                color: $ColorWhite;
+                color: var(--ColorWhite);
             }
 
             &.nav_link--active{
                 //background-color: linear-gradient $ColorPrimaryDark;
                 transform: translateY(-10px);
                 border-radius: 10px 10px 0 0;
-                background-color: $ColorPrimaryDark;
+                background-color: var(--ColorPrimaryDark);
                 padding-top: 5px;
                 p{
                     display: block;

@@ -12,7 +12,7 @@
                 .advancedfilters_toggle{
                     height: 48px;
                     margin-left: 10px;
-                    color: $ColorPrimary;
+                    color: var(--ColorPrimary);
                     opacity: 0.5;
 
                     &.active{
@@ -28,7 +28,7 @@
                 transition: 0.3s ease-in-out;
 
                 .experiences_filter{
-                    background-color: $ColorPrimary;
+                    background-color: var(--ColorPrimary);
                     border-radius: 20px;
                     overflow: hidden;
                     padding: 10px;
@@ -37,7 +37,7 @@
                     flex-wrap: wrap;
                     justify-content: flex-start;
                     align-items: center;
-                    color: $ColorWhite;
+                    color: var(--ColorWhite);
                     gap: 5px;
 
                     p{
@@ -45,14 +45,14 @@
                     }
 
                     .filterbutton{
-                        background-color: $ColorSecondary;
-                        color: $ColorWhite;
+                        background-color: var(--ColorSecondary);
+                        color: var(--ColorWhite);
                         padding: 5px 10px;
                         border-radius: 10px;
 
                         &.inactive{
-                            background-color: $ColorPrimary;
-                            outline:1px solid $ColorSecondary;
+                            background-color: var(--ColorPrimary);
+                            outline:1px solid var(--ColorSecondary);
                             opacity: 0.7;
                         }
                     }

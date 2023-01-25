@@ -1,5 +1,5 @@
 .loggedexperience_card{
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--ColorWhiteTrans);
     border-radius: 10px;
     padding: 10px 20px;
     margin: 10px 0;
@@ -13,7 +13,7 @@
         right: 10px;
         height: 25px;
         font-size: 12px;
-        color: $ColorPrimary;
+        color: var(--ColorPrimary);
 
         svg{
             max-height: 100%;
@@ -69,13 +69,13 @@
         bottom: 0px;
         right: 0px;
         font-size: 18px;
-        background-color: $ColorPrimary;
+        background-color: var(--ColorPrimary);
         width: 48px;
         height: 48px;
         border-radius: 50% 0 9px 0;
         text-align: center;
         padding: 12px;
-        color: $ColorWhite;
+        color: var(--ColorWhite);
         cursor: pointer;
     }
 }

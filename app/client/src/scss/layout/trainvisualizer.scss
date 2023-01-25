@@ -17,7 +17,7 @@
 
         .trainname{
             padding: 0 20px;
-            color: $ColorWhite;
+            color: var(--ColorWhite);
         }
 
         &.active{
@@ -105,7 +105,7 @@
 
         .wagon{
             background-color: #266056;
-            color: $ColorWhite;
+            color: var(--ColorWhite);
             display: flex;
             flex-direction: column;
             gap:10px;
@@ -121,7 +121,7 @@
                 gap: 10px;
                 font-size: 12px;
                 p{
-                    color: $ColorBlack;
+                    color: var(--ColorBlack);
                     filter: invert(1) grayscale(1) brightness(1.5) contrast(1.5);
                 }
 
@@ -129,9 +129,9 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: $ColorPrimary;
-                    color: $ColorPrimaryDark;
-                    border: 1px solid $ColorPrimaryDark;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorPrimaryDark);
+                    border: 1px solid var(--ColorPrimaryDark);
                     width: 48px;
                     height: 48px;
                     border-radius: 5px;
@@ -140,19 +140,19 @@
                     position: relative;
 
                     p{
-                        color: $ColorWhite;
+                        color: var(--ColorWhite);
                         filter: none;
                     }
 
                     &.selected{
-                        background-color: $ColorPrimaryLight;
+                        background-color: var(--ColorPrimaryLight);
 
                         .seattitle{
-                            color: $ColorPrimaryDark;
+                            color: var(--ColorPrimaryDark);
                         }
 
                         .count{
-                            color: $ColorWhite;
+                            color: var(--ColorWhite);
                         }
                     }
 
@@ -172,7 +172,7 @@
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-30deg);
                             position: absolute;
-                            color: $ColorWhite;
+                            color: var(--ColorWhite);
                         }
                     }
 
@@ -193,7 +193,7 @@
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-30deg);
                             position: absolute;
-                            color: $ColorWhite;
+                            color: var(--ColorWhite);
                         }
                     }
 
@@ -214,7 +214,7 @@
                             transform-origin: center;
                             transform:  translate(-50%, -50%) rotate(-90deg);
                             position: absolute;
-                            color: $ColorWhite;
+                            color: var(--ColorWhite);
                         }
                     }
 
@@ -229,16 +229,16 @@
                         text-align: center;
                         border-radius: 20px;
                         padding: 0px 6px;
-                        background-color: $ColorPrimary;
-                        border: 1px solid $ColorWhite;
+                        background-color: var(--ColorPrimary);
+                        border: 1px solid var(--ColorWhite);
                         z-index: 2;
                     }
 
                     &.Forward{
                         &::before{
                             position: absolute;
-                            background-color: $ColorPrimaryDark;
-                            border: 1px solid $ColorPrimaryDark;
+                            background-color: var(--ColorPrimaryDark);
+                            border: 1px solid var(--ColorPrimaryDark);
                             border-radius: 3px;
                             content: "";
                             height: 10px;
@@ -251,8 +251,8 @@
                     &.Backward{
                         &::before{
                             position: absolute;
-                            background-color: $ColorPrimaryDark;
-                            border: 1px solid $ColorPrimaryDark;
+                            background-color: var(--ColorPrimaryDark);
+                            border: 1px solid var(--ColorPrimaryDark);
                             border-radius: 3px;
                             content: "";
                             height: 10px;
@@ -265,8 +265,8 @@
                     &.Right{
                         &::before{
                             position: absolute;
-                            background-color: $ColorPrimaryDark;
-                            border: 1px solid $ColorPrimaryDark;
+                            background-color: var(--ColorPrimaryDark);
+                            border: 1px solid var(--ColorPrimaryDark);
                             border-radius: 3px;
                             content: "";
                             width: 10px;
@@ -279,8 +279,8 @@
                     &.Left{
                         &::before{
                             position: absolute;
-                            background-color: $ColorPrimaryDark;
-                            border: 1px solid $ColorPrimaryDark;
+                            background-color: var(--ColorPrimaryDark);
+                            border: 1px solid var(--ColorPrimaryDark);
                             border-radius: 3px;
                             content: "";
                             width: 10px;

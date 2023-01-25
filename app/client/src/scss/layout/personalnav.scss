@@ -1,6 +1,6 @@
 .section.section--personalnav{
     .section_content{
-        background-color: $ColorWhite;
+        background-color: var(--ColorWhite);
         position: fixed;
         top: 0px;
         left: 20px;
@@ -21,9 +21,9 @@
             padding: 15px 30px;
 
             &.nav_link--active{
-                background-color: $ColorPrimary;
+                background-color: var(--ColorPrimary);
                 p{
-                    color: $ColorWhite;
+                    color: var(--ColorWhite);
                 }
             }
         }

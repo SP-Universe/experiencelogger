@@ -19,10 +19,10 @@
 
     .textimage_text {
         width: 100%;
-        color: $ColorBlack;
+        color: var(--ColorBlack);
 
         .textimage_text_title {
-            color: $ColorPrimary;
+            color: var(--ColorPrimary);
         }
 
         .textimage_text_content {
