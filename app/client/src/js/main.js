@@ -40,10 +40,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //Personal Nav
     const personalNavButton = document.querySelector('[data-behaviour="open_personalnav"]');
+    const personalNavDiv = document.querySelector('[data-behaviour="personalnav"]');
     if(personalNavButton){
         personalNavButton.addEventListener("click", function (event) {
             event.preventDefault();
             document.body.classList.toggle("personalnav_active");
+        });
+        document.addEventListener('click', function(e){
+            if (!personalNavDiv.contains(e.target) && !personalNavButton.contains(e.target)){
+                document.body.classList.remove("personalnav_active");
+            }
         });
     }
 
@@ -225,34 +231,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     //Dark Mode Toggle
+
     var checkbox = document.querySelector('input[name=darkmode]');
     if(checkbox){
         checkbox.addEventListener('change', function() {
             if(this.checked) {
                 document.body.classList.add('theme--dark');
                 if(hasAcceptedCookieConsent) {
-                    setCookie("darkmode", true, 30);
+                    setCookie("darkmode", "true", 30);
                 }
             } else {
                 document.body.classList.remove('theme--dark');
                 if(hasAcceptedCookieConsent) {
-                    setCookie("darkmode", false, 30);
+                    setCookie("darkmode", "false", 30);
                 }
             }
         });
-    }
-
-    let dark_mode_wanted = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if(hasAcceptedCookieConsent) {
-        dark_mode_wanted = getCookie("darkmode");
-    }
-
-    if(dark_mode_wanted){
-        document.body.classList.add('theme--dark');
-        if(checkbox){
-            checkbox.checked = true;
-        }
     }
 
 
@@ -302,22 +296,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
-    var ytAcceptBtn = document.querySelector('[data-behaviour="youtube_accept"]');
-if(ytAcceptBtn){
-    ytAcceptBtn.addEventListener("click", function() {
-        setCookie('acceptedCookieConsent', 'yes', 30);
-        window.location.reload();
-        console.log("Cookies accepted!");
-    }, false);
-}
+    var cookieAcceptButton = document.querySelector('[data-behaviour="cookie_accept_button"]');
+    if(cookieAcceptButton){
+        cookieAcceptButton.addEventListener("click", function() {
+            setCookie('acceptedCookieConsent', 'yes', 30);
+            window.location.reload();
+            console.log("Cookies accepted!");
+        }, false);
 
-function hasAcceptedCookieConsent(){
-    var hasCookie = false;
-
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('acceptedCookieConsent='))) {
-        hasCookie = true;
+        if(hasAcceptedCookieConsent()){
+            cookieAcceptButton.parentNode.parentNode.classList.add("hide");
+        }
     }
-    return hasCookie;
-}
+
+    function hasAcceptedCookieConsent(){
+        var hasCookie = false;
+
+        if (document.cookie.split(';').some((item) => item.trim().startsWith('acceptedCookieConsent='))) {
+            hasCookie = true;
+        }
+        return hasCookie;
+    }
 
 });

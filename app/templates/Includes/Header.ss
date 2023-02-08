@@ -55,7 +55,7 @@
 
 <% if $CurrentUser %>
     <div class="section section--personalnav">
-        <ul class="section_content">
+        <ul class="section_content" data-behaviour="personalnav">
             <% loop $Menu(1) %>
                 <% if $MenuPosition == "personal" %>
                     <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
@@ -73,7 +73,7 @@
             </li>
 
             <li class="nav_link">
-                <input type="checkbox" id="toggle_darkmode" name="darkmode">
+            <input type="checkbox" id="toggle_darkmode" name="darkmode" <% if $Darkmode %>checked<% end_if %>>
 
             </li>
 

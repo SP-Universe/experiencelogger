@@ -2,6 +2,8 @@
 
 namespace {
 
+use SilverStripe\Control\Cookie;
+
     use SilverStripe\Assets\Image;
     use SilverStripe\AssetAdmin\Forms\UploadField;
 
@@ -52,6 +54,21 @@ namespace {
             $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerimage"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
+        }
+
+        public function getHasAcceptedCookies()
+        {
+            return Cookie::get('acceptedCookieConsent');
+        }
+
+        public function getDarkmode()
+        {
+
+            if (Cookie::get('darkmode') == "true") {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

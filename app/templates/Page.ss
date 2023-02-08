@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
     <head>
         <% base_tag %>
         $MetaTags(false)
@@ -20,9 +20,17 @@
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
         <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
-    <body>
+    <body class="<% if $Darkmode %>theme--dark<% end_if %>">
         <% include Header %>
         $Layout
+
+        <div class="cookie_accept_prompt">
+            <div class="cookie_accept_prompt__content">
+                <p class="cookie_accept_prompt__text">For most of our features to work you need to enable cookies to stay logged in. We don't track any behaviour and don't use ads on this site.</p>
+                <button class="cookie_accept_prompt__button" data-behaviour="cookie_accept_button">Accept functional cookies</button>
+            </div>
+        </div>
+
         <script src="$Mix('/js/main.js')"></script>
     </body>
 </html>

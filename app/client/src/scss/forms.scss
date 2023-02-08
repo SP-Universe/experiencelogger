@@ -45,6 +45,10 @@ input{
         width: auto;
         display: inline-block;
     }
+
+    &[type="text"]{
+        color: var(--ColorBlack);
+    }
 }
 
 textarea{
