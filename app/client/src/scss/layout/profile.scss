@@ -99,22 +99,32 @@
                         opacity: 1;
                     }
                 }
+
+                .profile_edit_button{
+                    color: $ColorWhite;
+                }
             }
 
             .profile_privacy{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: var(--ColorPrimaryTrans);
+                //background-color: var(--ColorPrimaryTrans);
                 border-radius: 10px;
-                color: var(--ColorWhite);
+                color: $ColorWhite;
+                width: auto;
                 max-width: 100%;
                 margin: 10px auto;
+
+                p{
+                    display: inline-block;
+                }
 
                 img{
                     display: inline-block;
                     width: 18px;
                     height: 18px;
+                    margin-left: 10px;
                     object-fit: contain;
                 }
             }

@@ -22,12 +22,12 @@
                         <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
                         <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
                     </div>
-                <a class="button" data-behaviour="profile_edit_button">Edit Profile</a>
+                <a class="button profile_edit_button" data-behaviour="profile_edit_button">Edit Profile</a>
             </div>
 
             <div class="profile_settings edit">
                 $EditForm
-                <a class="button" data-behaviour="profile_canceledit_button">Cancel edit</a>
+                <a class="button profile_edit_button" data-behaviour="profile_canceledit_button">Cancel edit</a>
             </div>
 
 

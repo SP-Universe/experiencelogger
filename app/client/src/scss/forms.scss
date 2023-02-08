@@ -29,7 +29,7 @@ input{
     &[type="submit"]{
         margin: 10px 0px 30px 0px;
         background-color: var(--ColorPrimary);
-        color: var(--ColorWhite);
+        color: $ColorWhite;
         text-transform: uppercase;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
@@ -47,6 +47,10 @@ input{
     }
 
     &[type="text"]{
+        color: var(--ColorBlack);
+    }
+
+    &[type="date"]{
         color: var(--ColorBlack);
     }
 }

@@ -24,7 +24,7 @@
         <% include Header %>
         $Layout
 
-        <div class="cookie_accept_prompt">
+        <div class="cookie_accept_prompt <% if $HasAcceptedCookies %>hide<% end_if %>">
             <div class="cookie_accept_prompt__content">
                 <p class="cookie_accept_prompt__text">For most of our features to work you need to enable cookies to stay logged in. We don't track any behaviour and don't use ads on this site.</p>
                 <button class="cookie_accept_prompt__button" data-behaviour="cookie_accept_button">Accept functional cookies</button>

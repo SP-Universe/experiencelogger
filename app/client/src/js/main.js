@@ -231,7 +231,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     //Dark Mode Toggle
-
     var checkbox = document.querySelector('input[name=darkmode]');
     if(checkbox){
         checkbox.addEventListener('change', function() {
@@ -248,8 +247,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         });
     }
-
-
 
     //Cookie Stuff
     function setCookie(name,value,days) {
@@ -303,10 +300,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             window.location.reload();
             console.log("Cookies accepted!");
         }, false);
-
-        if(hasAcceptedCookieConsent()){
-            cookieAcceptButton.parentNode.parentNode.classList.add("hide");
-        }
     }
 
     function hasAcceptedCookieConsent(){
