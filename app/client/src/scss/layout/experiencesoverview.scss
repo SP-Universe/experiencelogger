@@ -117,12 +117,32 @@
             grid-column: 1/-1;
 
             .search_bar{
-                margin: 20px auto;
+                margin: 10px auto;
+
+                @include media(">medium") {
+                    margin: 0 auto 10px auto;
+                }
             }
 
             .source{
                 display: block;
                 font-size: 12px;
+            }
+
+            .experience_activatelocation{
+                margin: 10px auto;
+                display: block;
+                text-align: center;
+                padding: 5px 20px;
+                border-radius: 10px;
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhiteText);
+                cursor: pointer;
+                transition: background-color 0.2s ease-in-out;
+
+                &:hover{
+                    background-color: var(--ColorPrimaryDark);
+                }
             }
         }
 

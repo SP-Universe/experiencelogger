@@ -11,7 +11,7 @@
                 <h4 class="experience_type" data-filter="" data-status="">...</h4>
             </div>
             <p class="experience_state">...</p>
-            <p class="experience_distance" data-behaviour="distance" data-lat="$Latitude" data-lon="$Longitude">...</p>
+            <p class="experience_distance" data-behaviour="distance" data-loc="$Coordinates"></p>
         </div>
     </a>
 

@@ -39,8 +39,7 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $ExperienceLink
  * @property string $Description
  * @property string $Entrance
- * @property float $Latitude
- * @property float $Longitude
+ * @property string $Coordinates
  * @property string $JSONCode
  * @property int $ImageID
  * @property int $ParentID
@@ -75,8 +74,7 @@ class Experience extends DataObject
         "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
         "Entrance" => "Enum('None, Left, Right', 'None')",
-        "Latitude" => "Decimal(15,12)",
-        "Longitude" => "Decimal(15,12)",
+        "Coordinates" => "Varchar(64)",
         "JSONCode" => "HTMLText",
     ];
 

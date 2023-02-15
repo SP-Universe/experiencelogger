@@ -14,11 +14,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
             e.preventDefault();
             if(distanceFields.length){
                 distanceFields.forEach(distanceField => {
-                    var lat = distanceField.getAttribute('data-lat');
-                    var lon = distanceField.getAttribute('data-lon');
-                    writeDistance(distanceField, lat, lon);
+                    var loc = distanceField.getAttribute('data-loc');
+                    if(loc){
+                        var coords = loc.split(",");
+                        var lat = coords[0];
+                        var lon = coords[1];
+                        console.log("lat: " + lat + " lon: " + lon)
+                        writeDistance(distanceField, lat, lon);
+                    } else {
+                        distanceField.innerHTML = "No Coordinates entered?";
+                    }
                 });
             }
+            locationTracker.remove();
         });
     }
 
@@ -53,6 +61,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         Math.cos(startingLat) * Math.cos(destinationLat) *
         Math.cos(startingLong - destinationLong)) * radius;
 
-        return parseFloat(distanceInKilometers).toFixed(2);
+        if(distanceInKilometers > 1000.00){
+            return ">1000";
+        } else {
+            return parseFloat(distanceInKilometers).toFixed(2);
+        }
+
     }
 });
