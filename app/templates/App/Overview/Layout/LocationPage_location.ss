@@ -48,7 +48,7 @@
                     <input type="text" name="search" id="search-experience" placeholder="Search for a experience" />
                 </div>
                 <div class="experience_list">
-
+                    <a class="experience_activatelocation" data-behaviour="locationTracker">Activate Location</a>
                     <% loop $Experiences %>
                         <% include ExperienceCard %>
                     <% end_loop %>

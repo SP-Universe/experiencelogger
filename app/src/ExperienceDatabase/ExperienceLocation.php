@@ -21,6 +21,8 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
  * @property string $OpeningDate
  * @property string $Address
  * @property string $Description
+ * @property float $Latitude
+ * @property float $Longitude
  * @property int $TypeID
  * @property int $ImageID
  * @property int $IconID
@@ -37,6 +39,8 @@ class ExperienceLocation extends DataObject
         "OpeningDate" => "Date",
         "Address" => "Varchar(255)",
         "Description" => "HTMLText",
+        "Latitude" => "Decimal(15,12)",
+        "Longitude" => "Decimal(15,12)",
     ];
 
     private static $has_many = [
