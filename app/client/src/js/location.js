@@ -9,6 +9,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
         lon: 0.0
     };
 
+    if(distanceFields.length){
+        distanceFields.forEach(distanceField => {
+            var loc = distanceField.getAttribute('data-loc');
+            if(loc){
+                var coords = loc.split(",");
+                var lat = coords[0];
+                var lon = coords[1];
+                console.log("lat: " + lat + " lon: " + lon)
+                writeDistance(distanceField, lat, lon);
+            } else {
+                distanceField.innerHTML = "";
+            }
+        });
+    }
+
     if(locationTracker){
         locationTracker.addEventListener('click', function(e) {
             e.preventDefault();
@@ -22,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         console.log("lat: " + lat + " lon: " + lon)
                         writeDistance(distanceField, lat, lon);
                     } else {
-                        distanceField.innerHTML = "No Coordinates entered?";
+                        distanceField.innerHTML = "";
                     }
                 });
             }
@@ -34,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 savePosition(position)
-                field.innerHTML = "<p>" + distance(lat, lon, userPos.lat, userPos.lon) + "km</p>";
+                field.innerHTML = "<p>" + distance(lat, lon, userPos.lat, userPos.lon) + "</p>";
             });
         } else {
             field.innerHTML = "???";
@@ -63,8 +78,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         if(distanceInKilometers > 1000.00){
             return ">1000";
+        } else if (distanceInKilometers < 1){
+            return parseFloat(distanceInKilometers * 1000).toFixed(0) + " m";
         } else {
-            return parseFloat(distanceInKilometers).toFixed(2);
+            return parseFloat(distanceInKilometers).toFixed(2) + " km";
         }
 
     }

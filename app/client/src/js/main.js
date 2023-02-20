@@ -10,8 +10,17 @@ if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
 }
 
-document.addEventListener("DOMContentLoaded", function (event) {
 
+
+document.addEventListener("DOMContentLoaded", function (event) {
+    //Load Data
+    if(navigator.onLine) {
+        loadOnlineData();
+    } else {
+        loadOfflineData();
+    }
+
+    //Glightbox
     const lightbox = GLightbox({
         selector: '[data-gallery="gallery"]',
         touchNavigation: true,
@@ -208,7 +217,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
+    //Showhide Filters
+    let showhideFilters = document.querySelectorAll('[data-behaviour="showhide_filter"]');
 
+    if(showhideFilters.length){
+        showhideFilters.forEach(showhideFilter => {
+            showhideFilter.addEventListener("click", function (event) {
+                event.preventDefault();
+                showhideFilter.parentElement.classList.toggle("filter-active");
+            });
+        });
+    }
 
     //Dark Mode Toggle
     var checkbox = document.querySelector('input[name=darkmode]');

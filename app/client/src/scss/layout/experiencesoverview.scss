@@ -118,9 +118,41 @@
 
             .search_bar{
                 margin: 10px auto;
+                position: relative;
 
                 @include media(">medium") {
                     margin: 0 auto 10px auto;
+                }
+
+                .search_bar_filterbutton{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    padding: 5px 10px;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorWhite);
+                    display: flex;
+                    align-items: center;
+                    border-radius:  0 10px 10px 0;
+                    justify-content: center;
+                }
+
+                .search_bar_filtersettings{
+                    max-height: 0px;
+                    opacity: 0;
+                    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                    display: flex;
+                }
+
+                &.filter-active{
+                    .search_bar_filterbutton{
+                        background-color: var(--ColorPrimaryDark);
+                    }
+
+                    .search_bar_filtersettings{
+                        max-height: 500px;
+                        opacity: 1;
+                    }
                 }
             }
 

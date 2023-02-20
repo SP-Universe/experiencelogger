@@ -123,7 +123,7 @@ class ExperienceLocation extends DataObject
             $this->LinkTitle = $filteredTitle;
         }
         foreach ($this->Experiences() as $key => $value) {
-            $value->write();
+            //$value->write();
         }
         parent::onBeforeWrite();
     }
