@@ -16,6 +16,7 @@ mix.setPublicPath(dist)
     .minify(dist + "js/main.js")
     .sourceMaps(true)
     .version()
+    .react()
     .browserSync({
         proxy: 'http://localhost/experiencelogger/public',
         files: [
