@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 var coords = loc.split(",");
                 var lat = coords[0];
                 var lon = coords[1];
-                console.log("lat: " + lat + " lon: " + lon)
+                console.log("1 lat: " + lat + " lon: " + lon)
                 writeDistance(distanceField, lat, lon);
             } else {
                 distanceField.innerHTML = "";
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         var coords = loc.split(",");
                         var lat = coords[0];
                         var lon = coords[1];
-                        console.log("lat: " + lat + " lon: " + lon)
+                        console.log("2 lat: " + lat + " lon: " + lon)
                         writeDistance(distanceField, lat, lon);
                     } else {
                         distanceField.innerHTML = "";

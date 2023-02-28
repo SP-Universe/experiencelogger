@@ -244,6 +244,7 @@ class Experience extends DataObject
                 $output["ExperienceImage"] = $image->Link();
             }
         }
+        $output["AddLogLink"] = $this->getAddLogLink();
         unset($output["JSONCode"]);
         unset($output["ClassName"]);
         unset($output["Created"]);

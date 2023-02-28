@@ -1,8 +1,8 @@
 {
-  "name": "silverstripe-template",
+  "name": "experiencelogger",
   "version": "1.0.0",
   "main": "main.js",
-  "author": "Adiwidjaja Teamworks GmbH",
+  "author": "SP Universe",
   "license": "MIT",
   "scripts": {
     "dev": "yarn development",
@@ -11,6 +11,7 @@
     "build": "npx mix --production"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.18.6",
     "browser-sync": "^2.27.7",
     "browser-sync-webpack-plugin": "^2.3.0",
     "laravel-mix": "^6.0.41",
@@ -22,6 +23,9 @@
     "cross-env": "^7.0.3",
     "glightbox": "^3.0.9",
     "include-media": "^1.4.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
     "tiny-slider": "^2.9.3"
   }
 }

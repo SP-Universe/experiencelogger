@@ -6,9 +6,15 @@ import "../js/helpers.js";
 import "../js/location.js";
 import "../js/jsonloader.js";
 
-if (navigator && navigator.serviceWorker) {
+window.addEventListener("load", () => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+});
+
+/*if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
-}
+}*/
 
 
 
