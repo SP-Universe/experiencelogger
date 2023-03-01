@@ -1,71 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-class Distance extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            ...props,
-            text: "...",
-            userPos: {
-                Lat: 0.0,
-                Lon: 0.0
-            }
-        };
+export const getDistance = (from, to) => {
+    if(!from){
+        return "";
     }
 
-    getDistance = () => {
-        if(this.props.Coordinates == undefined){
-            return "";
-        }
+    let coords = from.split(",");
 
-        const coordsstring = this.props.Coordinates;
-        let coords = coordsstring.split(",");
+    let startingLat = degreesToRadians(coords[0]);
+    let startingLong = degreesToRadians(coords[1]);
+    let destinationLat = degreesToRadians(to.Lat);
+    let destinationLong = degreesToRadians(to.Lon);
 
-        let startingLat = degreesToRadians(coords[0]);
-        let startingLong = degreesToRadians(coords[1]);
-        let destinationLat = degreesToRadians(this.state.userPos.Lat);
-        let destinationLong = degreesToRadians(this.state.userPos.Lon);
+    console.log("Starting: " + startingLat + ", " + startingLong);
+    console.log("Destination: " + destinationLat + ", " + destinationLong);
 
-        // Radius of the Earth in kilometers
-        let radius = 6571;
+    // Radius of the Earth in kilometers
+    let radius = 6571;
 
-        // Haversine equation
-        let distanceInKilometers = Math.acos(Math.sin(startingLat) * Math.sin(destinationLat) +
-        Math.cos(startingLat) * Math.cos(destinationLat) *
-        Math.cos(startingLong - destinationLong)) * radius;
+    // Haversine equation
+    let distanceInKilometers = Math.acos(Math.sin(startingLat) * Math.sin(destinationLat) +
+    Math.cos(startingLat) * Math.cos(destinationLat) *
+    Math.cos(startingLong - destinationLong)) * radius;
 
-        if(distanceInKilometers > 2000.00){
-            return ">2000 km";
-        } else if (distanceInKilometers < 1){
-            return parseFloat(distanceInKilometers * 1000).toFixed(0) + " m";
-        } else {
-            return parseFloat(distanceInKilometers).toFixed(2) + " km";
-        }
+    if(distanceInKilometers > 2000.00){
+        return ">2000 km";
+    } else if (distanceInKilometers < 1){
+        return parseFloat(distanceInKilometers * 1000).toFixed(0) + " m";
+    } else {
+        return parseFloat(distanceInKilometers).toFixed(2) + " km";
     }
+}
 
-    componentDidMount = () => {
+
+
+const Distance = ({ Coordinates }) => {
+    const [userPos, setUserPos] = useState({Lat: 0.0, Lon: 0.0});
+
+    useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 const Lat = position.coords.latitude;
                 const Lon = position.coords.longitude;
 
-                this.setState({
-                    userPos: {
+                setUserPos(
+                    {
                         Lat,
                         Lon
                     }
-                });
+                );
                 console.log("User Position set: " + position.coords.latitude + ", " + position.coords.longitude);
             });
         }
+    }, [Coordinates]);
+
+    if(!userPos){
+        return "No info";
     }
 
-    render (){
-        return (
-            <p>HUHU{this.getDistance()}</p>
-        );
-    }
+    return (
+        <p>{getDistance(Coordinates, userPos)}</p>
+    )
 }
 
 export default Distance;
