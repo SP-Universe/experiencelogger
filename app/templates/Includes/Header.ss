@@ -73,8 +73,10 @@
             </li>
 
             <li class="nav_link">
-            <input type="checkbox" id="toggle_darkmode" name="darkmode" <% if $Darkmode %>checked<% end_if %>>
-
+                <label class="switch">
+                    <input type="checkbox" id="toggle_darkmode" name="darkmode" <% if $Darkmode %>checked<% end_if %>>
+                    <span class="slider round"></span>
+                </label>
             </li>
 
         </ul>
