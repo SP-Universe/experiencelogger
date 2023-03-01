@@ -7,6 +7,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Forms\FormAction;
@@ -82,18 +83,18 @@ class ProfilePageController extends PageController
             $upload->getValidator()->setAllowedMaxFileSize($size);
             $upload->setRemoveFiles(true);*/
 
-            $upload = new UploadField('avatar', 'Avatar');
-            $textfieldNickname = new TextField("nickname", "Nickname");
+            $upload = new FileField('avatar', 'Avatar');
+            $textfieldNickname = new TextField("Nickname", "Nickname");
             $textfieldNickname->setValue($currentUser->Nickname);
-            $textFieldFirstName = new TextField("firstname", "First Name");
+            $textFieldFirstName = new TextField("FirstName", "First Name");
             $textFieldFirstName->setValue($currentUser->FirstName);
-            $textFieldLastName = new TextField("lastname", "Last Name");
+            $textFieldLastName = new TextField("LastName", "Last Name");
             $textFieldLastName->setValue($currentUser->LastName);
-            $textFieldEmail = new TextField("email", "Email");
+            $textFieldEmail = new TextField("Email", "Email");
             $textFieldEmail->setValue($currentUser->Email);
-            $dateFieldBirthdate = new DateField("birthdate", "Birthdate");
+            $dateFieldBirthdate = new DateField("DateOfBirth", "Birthdate");
             $dateFieldBirthdate->setValue($currentUser->DateOfBirth);
-            $dropdownFieldProfilePrivacy = new DropdownField("profileprivacy", "Profile Privacy", array(
+            $dropdownFieldProfilePrivacy = new DropdownField("ProfilePrivacy", "Profile Privacy", array(
                 "public" => "Public",
                 "friends" => "Friends Only",
                 "private" => "Private"
@@ -124,31 +125,7 @@ class ProfilePageController extends PageController
     {
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
-            if (isset($data["avatar"]) && $data["avatar"] != "") {
-                $content = file_get_contents($data["avatar"]);
-                $file = File::create();
-                $file->setFromString($content, $data["avatar"]);
-                $file->write();
-                $currentUser->AvatarID = $file->ID;
-            }
-            if (isset($data["nickname"]) && $data["nickname"] != "") {
-                $currentUser->Nickname = $data["nickname"];
-            }
-            if (isset($data["firstname"]) && $data["firstname"] != "") {
-                $currentUser->FirstName = $data["firstname"];
-            }
-            if (isset($data["lastname"]) && $data["lastname"] != "") {
-                $currentUser->LastName = $data["lastname"];
-            }
-            if (isset($data["email"]) && $data["email"] != "") {
-                $currentUser->Email = $data["email"];
-            }
-            if (isset($data["birthdate"]) && $data["birthdate"] != "") {
-                $currentUser->DateOfBirth = $data["birthdate"];
-            }
-            if (isset($data["profileprivacy"]) && $data["profileprivacy"] != "") {
-                $currentUser->ProfilePrivacy = $data["profileprivacy"];
-            }
+            $form->saveInto($currentUser);
 
             $currentUser->write();
         }
