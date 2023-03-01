@@ -6,7 +6,7 @@ class Distance extends React.Component {
 
         this.state = {
             ...props,
-            text: "Distance",
+            text: "...",
             userPos: {
                 Lat: 0.0,
                 Lon: 0.0
@@ -14,13 +14,13 @@ class Distance extends React.Component {
         };
     }
 
-    renderDistance = () => {
-        if(this.state.Coordinates == undefined){
+    getDistance = () => {
+        if(this.props.Coordinates == undefined){
             return "";
         }
-        console.log("Experience Location: " + this.state.Coordinates + " | User Location: " + this.state.userPos.Lat + ", " + this.state.userPos.Lon);
+        console.log("Experience Location: " + this.props.Coordinates + " | User Location: " + this.state.userPos.Lat + ", " + this.state.userPos.Lon);
 
-        var coordsstring = this.state.Coordinates;
+        const coordsstring = this.props.Coordinates;
         let coords = coordsstring.split(",");
 
         let startingLat = degreesToRadians(coords[0]);
@@ -48,15 +48,14 @@ class Distance extends React.Component {
     componentDidMount = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
+                const Lat = position.coords.latitude;
+                const Lon = position.coords.longitude;
 
                 this.setState({
                     userPos: {
-                        Lat: {lat},
-                        Lon: {lon}
-                    },
-                    text: this.renderDistance()
+                        Lat,
+                        Lon
+                    }
                 });
                 console.log("User Position set: " + position.coords.latitude + ", " + position.coords.longitude);
             });
@@ -65,7 +64,7 @@ class Distance extends React.Component {
 
     render (){
         return (
-            <p>{this.state.text}</p>
+            <p>HUHU{this.getDistance()}</p>
         );
     }
 }

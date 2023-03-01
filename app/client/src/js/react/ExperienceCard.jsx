@@ -4,6 +4,8 @@ import Distance from './helpers/Distance';
 function ExperienceCard(props) {
     var data = JSON.parse(props.jsondata);
 
+    console.log("Data: ", data);
+
     return (
         <div className="experience_card" data-behaviour="experiencecard">
             <a href={data.ExperienceLink} className="experience_entry">
