@@ -75,10 +75,9 @@
                 </div>
                 <div class="experience_list">
                     <% loop $Experiences %>
-                        <div class="experiencedata" data-behaviour="experiencedata">
+                        <div class="experiencedata hidden" data-behaviour="experiencedata">
                             $JSONCode.Raw
                         </div>
-                        <!--<% include ExperienceCard %>-->
                     <% end_loop %>
                 </div>
             </div>

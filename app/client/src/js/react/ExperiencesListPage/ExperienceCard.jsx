@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Distance from './helpers/Distance';
+import Distance from '../helpers/Distance';
 
 function ExperienceCard(props) {
     var data = JSON.parse(props.jsondata);

@@ -3,8 +3,7 @@ import { tns } from "tiny-slider/src/tiny-slider";
 import "tiny-slider/dist/tiny-slider.css";
 
 import "../js/helpers.js";
-import "../js/location.js";
-import "../js/jsonloader.js";
+import "./reactLoader.js";
 
 window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
@@ -12,9 +11,9 @@ window.addEventListener("load", () => {
     }
 });
 
-/*if (navigator && navigator.serviceWorker) {
+if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
-}*/
+}
 
 
 

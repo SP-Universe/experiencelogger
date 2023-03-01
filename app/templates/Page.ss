@@ -23,7 +23,7 @@
     <body class="<% if $Darkmode %>theme--dark<% end_if %>">
         <% include Header %>
         $Layout
-        <div id="innerpage"></div>
+        <div id="innerpage" data-baseurl="$baseURL"></div>
 
         <div class="cookie_accept_prompt <% if $HasAcceptedCookies %>hide<% end_if %>">
             <div class="cookie_accept_prompt__content">
