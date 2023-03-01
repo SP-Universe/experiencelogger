@@ -18,7 +18,6 @@ class Distance extends React.Component {
         if(this.props.Coordinates == undefined){
             return "";
         }
-        console.log("Experience Location: " + this.props.Coordinates + " | User Location: " + this.state.userPos.Lat + ", " + this.state.userPos.Lon);
 
         const coordsstring = this.props.Coordinates;
         let coords = coordsstring.split(",");
