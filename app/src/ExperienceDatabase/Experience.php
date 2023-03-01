@@ -171,7 +171,7 @@ class Experience extends DataObject
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog/") . $this->LinkTitle;
+        return $locationsHolder->Link("addLog/" . $this->LinkTitle);
     }
 
     public function getCMSFields()

@@ -5,9 +5,9 @@ import {
     createBrowserRouter,
     RouterProvider,
   } from "react-router-dom";
+import ExperiencesListPage from "./ExperiencesListPage/ExperiencesListPage";
 import HomePage from "./HomePage/HomePage";
-
-
+import LocationsListPage from "./LocationsListPage/LocationsListPage";
 
 const App = ( {baseurl} ) => {
 
@@ -22,7 +22,11 @@ const App = ( {baseurl} ) => {
         },
         {
             path: baseurl + "places/",
-            element: <HomePage />,
+            element: <LocationsListPage />,
+        },
+        {
+            path: baseurl + "places/location/:linkTitle",
+            element: <ExperiencesListPage baseurl={baseurl}/>,
         },
     ]);
 

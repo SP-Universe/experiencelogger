@@ -12,9 +12,6 @@ export const getDistance = (from, to) => {
     let destinationLat = degreesToRadians(to.Lat);
     let destinationLong = degreesToRadians(to.Lon);
 
-    console.log("Starting: " + startingLat + ", " + startingLong);
-    console.log("Destination: " + destinationLat + ", " + destinationLong);
-
     // Radius of the Earth in kilometers
     let radius = 6571;
 
