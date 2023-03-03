@@ -57,7 +57,7 @@ class ExperienceLocation extends DataObject
         "Icon",
     ];
 
-    private static $api_access = ['view' => ['Title', 'LocationType', 'OpeningDate', 'Address', 'Description', 'Experiences', 'LocationImage', 'LocationIcon']];
+    private static $api_access = ['view' => ['Title', 'LinkTitle', 'LocationType', 'OpeningDate', 'Address', 'Coordinates', 'Description', 'Experiences', 'LocationImage', 'LocationIcon']];
 
     private static $default_sort = "Title ASC";
 

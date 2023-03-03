@@ -2,17 +2,17 @@ import React from "react";
 import { useState, useEffect } from "react";
 import ExperienceCard from "./ExperienceCard.jsx";
 
-function ExperienceCardList( props ) {
-    const cardstring = [];
+function ExperienceCardList( {userPos} ) {
+    const cards = [];
     Object.keys(localStorage).forEach(function(key){
-        if(key.startsWith("experience_")) {
+        if(key.startsWith("xpl-experience__")) {
             var data = localStorage.getItem(key);
-            cardstring.push(<ExperienceCard jsondata={data} key={key}/>);
+            cards.push(<ExperienceCard userPos={userPos} jsondata={data} key={key}/>);
         }
     })
     return (
         <div className="experience_list">
-            {cardstring}
+            {cards}
         </div>
     )
 }

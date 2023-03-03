@@ -124,7 +124,7 @@
                     margin: 0 auto 10px auto;
                 }
 
-                .search_bar_filterbutton{
+                .search_filtertoggle{
                     position: absolute;
                     right: 0;
                     top: 0;
@@ -137,22 +137,13 @@
                     justify-content: center;
                 }
 
-                .search_bar_filtersettings{
-                    max-height: 0px;
-                    opacity: 0;
-                    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-                    display: flex;
+                .search_bar_filterbutton{
+                    background-color: var(--ColorPrimaryDark);
                 }
 
-                &.filter-active{
-                    .search_bar_filterbutton{
-                        background-color: var(--ColorPrimaryDark);
-                    }
-
-                    .search_bar_filtersettings{
-                        max-height: 500px;
-                        opacity: 1;
-                    }
+                .search_bar_filtersettings{
+                    max-height: 500px;
+                    opacity: 1;
                 }
             }
 

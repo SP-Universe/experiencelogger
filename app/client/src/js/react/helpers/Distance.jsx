@@ -31,28 +31,9 @@ export const getDistance = (from, to) => {
 
 
 
-const Distance = ({ Coordinates }) => {
-    const [userPos, setUserPos] = useState({Lat: 0.0, Lon: 0.0});
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const Lat = position.coords.latitude;
-                const Lon = position.coords.longitude;
-
-                setUserPos(
-                    {
-                        Lat,
-                        Lon
-                    }
-                );
-                console.log("User Position set: " + position.coords.latitude + ", " + position.coords.longitude);
-            });
-        }
-    }, [Coordinates]);
-
+const Distance = ({ userPos, Coordinates }) => {
     if(!userPos){
-        return "No info";
+        return "...";
     }
 
     return (

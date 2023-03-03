@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Distance from '../helpers/Distance';
 
-function ExperienceCard(props) {
-    var data = JSON.parse(props.jsondata);
+const ExperienceCard = ( {jsondata, userPos} ) => {
+    var data = JSON.parse(jsondata);
 
     return (
         <div className="experience_card" data-behaviour="experiencecard">
@@ -13,7 +13,7 @@ function ExperienceCard(props) {
                     <h2 className="experience_title"> {data.Title} </h2>
                     <h4 className="experience_type" data-filter="" data-status="">{data.Type}</h4>
                     <p className="experience_state">{data.State}</p>
-                    <Distance Coordinates={data.Coordinates} node={this}/>
+                    <Distance userPos={userPos} Coordinates={data.Coordinates}/>
                 </div>
             </a>
 

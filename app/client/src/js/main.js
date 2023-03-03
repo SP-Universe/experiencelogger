@@ -15,8 +15,6 @@ if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
 }
 
-
-
 document.addEventListener("DOMContentLoaded", function (event) {
     //Load Data
     if(navigator.onLine) {

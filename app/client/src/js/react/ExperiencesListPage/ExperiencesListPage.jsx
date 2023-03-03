@@ -4,28 +4,21 @@ import ExperienceCardSidebar from './ExperienceCardSidebar';
 import ExperienceCardFilter from './ExperienceCardFilter';
 import ExperienceCardList from './ExperienceCardList';
 
-const ExperiencesListPage = ( {baseurl} ) => {
+const ExperiencesListPage = ( {userPos, baseurl} ) => {
+    const { linkTitle, success } = useParams();
 
-    const [location, setLocation] = React.useState(null);
-    const { linkTitle } = useParams();
+    console.log(success);
 
-    React.useEffect(() => {
-        fetch(baseurl + "api/v1/App-ExperienceDatabase-ExperienceLocation?LinkTitle=" + linkTitle)
-            .then((response) => response.json())
-            .then((data) => {
-                setLocation(data);
-            });
-    }, [linkTitle]);
-
-    console.log(location);
+    const locationdata = JSON.parse(localStorage.getItem("locations"));
+    console.log("locationdata", locationdata);
 
     return (
         <div className="section section--experiencesoverview">
             <div className="section_content">
-                <ExperienceCardSidebar title={linkTitle}/>
+                <ExperienceCardSidebar location={location}/>
                 <div className="location_experiences">
                     <ExperienceCardFilter />
-                    <ExperienceCardList />
+                    <ExperienceCardList userPos={userPos}/>
                 </div>
             </div>
         </div>

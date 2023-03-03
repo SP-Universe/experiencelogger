@@ -1,6 +1,6 @@
 console.log("jsonloader loaded");
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './react/App.jsx';
 
@@ -10,6 +10,10 @@ const baseurl = innerpage.getAttribute('data-baseurl');
 const root = ReactDOM.createRoot(innerpage);
 
 window.loadOnlineData = function loadOnlineData() {
+    console.log("User is online. Reading from server");
+
+    const isOnline = true;
+
     //Load Experiencecard
     let experiencedata = document.querySelectorAll('[data-behaviour="experiencedata"]');
 
@@ -26,14 +30,17 @@ window.loadOnlineData = function loadOnlineData() {
     }
 
     root.render(
-        <App baseurl={baseurl}/>
+        <App isOnline={isOnline} baseurl={baseurl}/>
     );
 }
+
 
 window.loadOfflineData = function loadOfflineData() {
     console.log("User is offline. Reading from local storage");
 
+    const isOnline = false;
+
     root.render(
-        <App baseurl={baseurl}/>
+        <App isOnline={isOnline} baseurl={baseurl}/>
     );
 }

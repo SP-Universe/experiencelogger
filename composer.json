@@ -52,7 +52,12 @@
             ".htaccess",
             "index.php",
             "web.config"
-        ]
+        ],
+        "patches": {
+            "silverstripe/framework": {
+                "Fix SilverStripe deprecations error_reporting for PHP 8.1": "./fix-deprecation-error_reporting.4.10.4.patch"
+            }
+        }
     },
     "prefer-stable": true,
     "minimum-stability": "dev",

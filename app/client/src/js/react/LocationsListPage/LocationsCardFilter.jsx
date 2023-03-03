@@ -1,8 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import ExperienceCard from "./ExperienceCard.jsx";
 
-const ExperienceCardFilter = ( props ) => {
+function LocationsCardFilter( {filterSettings} ) {
     const [filterEnabled, setFilterEnabled] = useState(false);
 
     const toggleFilter = () => {
@@ -17,20 +16,11 @@ const ExperienceCardFilter = ( props ) => {
             </a>
             {filterEnabled ? (
                 <div className="search_filters">
-                    <select name="type" id="search-experience-type">
+                    <select name="type" id="search-filter-type">
                         <option value="all">All Types</option>
                     </select>
-                    <select name="state" id="search-experience-state">
-                        <option value="all">All States</option>
-                        <option value="active">Active</option>
-                        <option value="in maintenance">In Maintenance</option>
-                        <option value="coming soon">Coming Soon</option>
-                        <option value="defunct">Defunct</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <select name="sort" id="search-experience-sort">
+                    <select name="sort" id="search-filter-sort">
                         <option value="name">Sort by Name</option>
-                        <option value="state">Sort by State</option>
                         <option value="type">Sort by Type</option>
                         <option value="type">Sort by Distance</option>
                     </select>
@@ -40,4 +30,4 @@ const ExperienceCardFilter = ( props ) => {
     )
 }
 
-export default ExperienceCardFilter;
+export default LocationsCardFilter;
