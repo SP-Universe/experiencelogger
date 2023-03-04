@@ -16,6 +16,33 @@ const App = ( {isOnline, baseurl} ) => {
     const [experiences, setExperiences] = useState("");
     const [userPos, setUserPos] = useState("");
 
+    const updateData = () => {
+        fetch(baseurl + "api/v1/App-ExperienceDatabase-ExperienceLocation.json")
+        .then((response) => response.json())
+        .then((data) => {
+
+            const locations = data.items;
+
+            locations.forEach((location) => {
+                localStorage.setItem("xpl-location__" + location.LinkTitle, JSON.stringify(location));
+            });
+            console.log("Locations updated", locations);
+        });
+
+        fetch(baseurl + "api/v1/App-ExperienceDatabase-Experience.json")
+            .then((response) => response.json())
+            .then((data) => {
+                const experiences = data.items;
+
+                experiences.forEach((experience) => {
+                    localStorage.setItem("xpl-experience__" + experience.LinkTitle, JSON.stringify(experience));
+                });
+                console.log("Experiences updated", experiences);
+        });
+
+        localStorage.setItem("data-updated", Date.now());
+    };
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -32,35 +59,15 @@ const App = ( {isOnline, baseurl} ) => {
             });
         }
 
-        fetch(baseurl + "api/v1/App-ExperienceDatabase-ExperienceLocation.json")
-            .then((response) => response.json())
-            .then((data) => {
+        if(isOnline) {
+            //If the user is online, check if the data is up to date
+            if (localStorage.getItem("data-updated") == null || localStorage.getItem("data-updated") < Date.now() - 36000) {
+                updateData();
+            } else {
+                console.log("Data is up to date");
+            }
+        }
 
-                const locations = data.items;
-
-                setLocations(
-                    locations
-                );
-
-                locations.forEach((location) => {
-                    localStorage.setItem("xpl-location__" + location.ID, JSON.stringify(location));
-                });
-                console.log("Locations updated", locations);
-        });
-
-        fetch(baseurl + "api/v1/App-ExperienceDatabase-Experience.json")
-            .then((response) => response.json())
-            .then((data) => {
-                const experiences = data.items;
-
-                setExperiences(
-                    experiences
-                );
-                experiences.forEach((experience) => {
-                    localStorage.setItem("xpl-experience__" + experience.ID, JSON.stringify(experience));
-                });
-                console.log("Experiences updated", experiences);
-        });
     }, [baseurl]);
 
     const router = createBrowserRouter([
@@ -73,11 +80,11 @@ const App = ( {isOnline, baseurl} ) => {
             element: <LocationsListPage userPos={userPos}/>,
         },
         {
-            path: baseurl + "places/location/:linkTitle",
+            path: baseurl + "places/:linkTitle",
             element: <ExperiencesListPage userPos={userPos} baseurl={baseurl}/>,
         },
         {
-            path: baseurl + "places/experience/:linkTitle",
+            path: baseurl + "experience/:linkTitle",
             element: <ExperiencesDetailPage userPos={userPos} baseurl={baseurl}/>,
         },
     ]);

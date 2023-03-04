@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Distance from '../helpers/Distance';
 
-const ExperienceCard = ( {jsondata, userPos} ) => {
-    var data = JSON.parse(jsondata);
+const ExperienceCard = ( {userPos, linkTitle} ) => {
+
+    const data = JSON.parse(localStorage.getItem("xpl-experience__" + linkTitle));
 
     return (
         <div className="experience_card" data-behaviour="experiencecard">
@@ -11,9 +12,9 @@ const ExperienceCard = ( {jsondata, userPos} ) => {
                 </div>
                 <div className="experience_entry_content">
                     <h2 className="experience_title"> {data.Title} </h2>
-                    <h4 className="experience_type" data-filter="" data-status="">{data.Type}</h4>
+                    <h4 className="experience_type">{data.ExperienceType}</h4>
                     <p className="experience_state">{data.State}</p>
-                    <Distance userPos={userPos} Coordinates={data.Coordinates}/>
+                    <Distance userPos={userPos} Coordinates={data.Coordinates} />
                 </div>
             </a>
 

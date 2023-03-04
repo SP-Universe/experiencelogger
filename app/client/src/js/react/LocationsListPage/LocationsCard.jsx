@@ -10,7 +10,7 @@ const LocationsCard = ( {userPos, location, filterSettings} ) => {
     if(filterSettings.type === "all" || filterSettings.type === data.Type) {
         return (
             <div className="location_entry_wrap">
-                <a href={"./places/location/" + data.LinkTitle} className="location_entry">
+                <a href={"./places/" + data.LinkTitle} className="location_entry">
                     <div className="location_entry_image"></div>
                     <div className="location_entry_content">
                         <h2 className="location_title">{data.Title}</h2>

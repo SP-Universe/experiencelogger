@@ -78,7 +78,7 @@ class Experience extends DataObject
         "JSONCode" => "HTMLText",
     ];
 
-    private static $api_access = ['view' => ['Title', 'LinkTitle', 'ExperienceType', 'ExperienceArea', 'State', 'Description', 'ExperienceImage', 'ParentID']];
+    private static $api_access = ['view' => ['Title', 'LinkTitle', 'ExperienceType', 'ExperienceArea', 'Coordinates', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
         "Image" => Image::class,
