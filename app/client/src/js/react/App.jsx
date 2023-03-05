@@ -61,7 +61,7 @@ const App = ( {isOnline, baseurl} ) => {
 
         if(isOnline) {
             //If the user is online, check if the data is up to date
-            if (localStorage.getItem("data-updated") == null || localStorage.getItem("data-updated") < Date.now() - 36000) {
+            if (localStorage.getItem("data-updated") == null || localStorage.getItem("data-updated") < Date.now() - 360000) {
                 updateData();
             } else {
                 console.log("Data is up to date");

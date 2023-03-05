@@ -1,16 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export const getDistance = (from, to) => {
     if(!from){
         return "";
     }
 
-    let coords = from.split(",");
+    if(!to){
+        return "";
+    }
 
-    let startingLat = degreesToRadians(coords[0]);
-    let startingLong = degreesToRadians(coords[1]);
-    let destinationLat = degreesToRadians(to.Lat);
-    let destinationLong = degreesToRadians(to.Lon);
+    let fromCoords = {
+        "Lat": 0.0,
+        "Lon": 0.0
+    }
+
+    let toCoords = {
+        "Lat": 0.0,
+        "Lon": 0.0
+    }
+
+    if(typeof from === "string"){
+        fromCoords = {
+            "Lat": from.split(",")[0],
+            "Lon": from.split(",")[1]
+        }
+    } else {
+        fromCoords = from;
+    }
+
+    if(typeof to === "string"){
+        toCoords = {
+            "Lat": to.split(",")[0],
+            "Lon": to.split(",")[1]
+        }
+    } else {
+        toCoords = to;
+    }
+
+    let startingLat = degreesToRadians(fromCoords.Lat);
+    let startingLong = degreesToRadians(fromCoords.Lon);
+    let destinationLat = degreesToRadians(toCoords.Lat);
+    let destinationLong = degreesToRadians(toCoords.Lon);
 
     // Radius of the Earth in kilometers
     let radius = 6571;
@@ -20,24 +50,36 @@ export const getDistance = (from, to) => {
     Math.cos(startingLat) * Math.cos(destinationLat) *
     Math.cos(startingLong - destinationLong)) * radius;
 
-    if(distanceInKilometers > 2000.00){
-        return ">2000 km";
-    } else if (distanceInKilometers < 1){
-        return parseFloat(distanceInKilometers * 1000).toFixed(0) + " m";
+    return distanceInKilometers;
+}
+
+export const getStyledDistance = (distance) => {
+    if(distance > 2000.00){
+        return (
+            <p> \>2000 km </p>
+        )
+    } else if (distance < 1){
+        return (
+            <p>{parseFloat(distance * 1000).toFixed(0)}m</p>
+        )
     } else {
-        return parseFloat(distanceInKilometers).toFixed(2) + " km";
+        return (
+            <p>{parseFloat(distance).toFixed(2)}km</p>
+        )
     }
 }
 
-
-
 const Distance = ({ userPos, Coordinates }) => {
+    if(!Coordinates){
+        return "";
+    }
+
     if(!userPos){
         return "...";
     }
 
     return (
-        <p>{getDistance(Coordinates, userPos)}</p>
+        <p>{getStyledDistance(getDistance(Coordinates, userPos))}</p>
     )
 }
 

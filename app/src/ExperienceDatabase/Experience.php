@@ -40,7 +40,6 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $Description
  * @property string $Entrance
  * @property string $Coordinates
- * @property string $JSONCode
  * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
@@ -74,8 +73,7 @@ class Experience extends DataObject
         "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
         "Entrance" => "Enum('None, Left, Right', 'None')",
-        "Coordinates" => "Varchar(64)",
-        "JSONCode" => "HTMLText",
+        "Coordinates" => "Varchar(64)"
     ];
 
     private static $api_access = ['view' => ['Title', 'LinkTitle', 'ExperienceType', 'ExperienceArea', 'Coordinates', 'State', 'Description', 'ExperienceImage', 'ParentID']];
@@ -170,6 +168,7 @@ class Experience extends DataObject
 
     public function getAddLogLink()
     {
+        return "addLog/" . $this->LinkTitle;
         $locationsHolder = LocationPage::get()->first();
         return $locationsHolder->Link("addLog/" . $this->LinkTitle);
     }
@@ -231,26 +230,6 @@ class Experience extends DataObject
             $filteredTitle = $filter->filter($this->Title);
             $this->LinkTitle = $filteredTitle;
         }
-
-        $output = $this->toMap();
-
-        $output["ExperienceType"] = $this->Type()->Title;
-        $output["ExperienceArea"] = $this->Area()->Title;
-        $output["Description"] = $this->getField("Description");
-        $output["ExperienceLink"] = $this->getLink();
-        if ($this->Image) {
-            $image = $this->Image->FocusFill(200, 200);
-            if ($image) {
-                $output["ExperienceImage"] = $image->Link();
-            }
-        }
-        $output["AddLogLink"] = $this->getAddLogLink();
-        unset($output["JSONCode"]);
-        unset($output["ClassName"]);
-        unset($output["Created"]);
-        unset($output["RecordClassName"]);
-
-        $this->JSONCode = json_encode($output);
 
         parent::onBeforeWrite();
     }

@@ -13,7 +13,7 @@ const LocationsListPage = ( {userPos} ) => {
     return (
         <div className="section section--locationsoverview">
             <div className="section_content">
-                <h1>Locations from JS</h1>
+                <h1>Places</h1>
                 <LocationsCardFilter filterSettings={filterSettings} />
                 <LocationsCardList userPos={userPos} filterSettings={filterSettings} />
             </div>
