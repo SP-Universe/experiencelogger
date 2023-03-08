@@ -21,7 +21,6 @@
         <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
     <body class="<% if $Darkmode %>theme--dark<% end_if %>">
-        <% include Header %>
         $Layout
         <div id="innerpage" data-baseurl="$baseURL"></div>
 

@@ -146,8 +146,9 @@ class ExperienceLocation extends DataObject
 
     public function getLink()
     {
-        $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("location/") . $this->LinkTitle;
+        return "";
+        //$locationsHolder = LocationPage::get()->first();
+        //return $locationsHolder->Link("location/") . $this->LinkTitle;
     }
 
 

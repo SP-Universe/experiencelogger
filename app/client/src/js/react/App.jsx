@@ -9,12 +9,16 @@ import ExperiencesListPage from "./ExperiencesListPage/ExperiencesListPage";
 import HomePage from "./HomePage/HomePage";
 import LocationsListPage from "./LocationsListPage/LocationsListPage";
 import ExperiencesDetailPage from "./ExperiencesDetailPage/ExperiencesDetailPage";
+import Header from "./Structure/Header";
+import Footer from "./Structure/Footer";
 
 const App = ( {isOnline, baseurl} ) => {
 
     const [locations, setLocations] = useState("");
     const [experiences, setExperiences] = useState("");
+    const [logs, setLogs] = useState("");
     const [userPos, setUserPos] = useState("");
+    const activeLink = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
 
     const updateData = () => {
         fetch(baseurl + "api/v1/App-ExperienceDatabase-ExperienceLocation.json")
@@ -39,9 +43,22 @@ const App = ( {isOnline, baseurl} ) => {
                 });
                 console.log("Experiences updated", experiences);
         });
-
         localStorage.setItem("data-updated", Date.now());
     };
+
+    const updateLogs = () => {
+        fetch(baseurl + "api/v1/App-ExperienceLogging-LogEntry.json")
+            .then((response) => response.json())
+            .then((data) => {
+
+                setLogs(data.items);
+
+                locations.forEach((location) => {
+                    localStorage.setItem("xpl-location__" + location.LinkTitle, JSON.stringify(location));
+                });
+                console.log("Locations updated", locations);
+            });
+    }
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -60,6 +77,7 @@ const App = ( {isOnline, baseurl} ) => {
         }
 
         if(isOnline) {
+            updateLogs();
             //If the user is online, check if the data is up to date
             if (localStorage.getItem("data-updated") == null || localStorage.getItem("data-updated") < Date.now() - 360000) {
                 updateData();
@@ -90,9 +108,15 @@ const App = ( {isOnline, baseurl} ) => {
     ]);
 
     return (
-        <React.StrictMode>
-            <RouterProvider router={router} />
-        </React.StrictMode>
+        <html lang="en">
+            <body>
+                <Header baseurl={baseurl} />
+                <React.StrictMode>
+                    <RouterProvider router={router} />
+                </React.StrictMode>
+                <Footer baseurl={baseurl} activeLink={activeLink} />
+            </body>
+        </html>
     );
 }
 

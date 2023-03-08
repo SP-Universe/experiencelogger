@@ -2,20 +2,17 @@
 
 namespace {
 
-use SilverStripe\Control\Cookie;
+    use SilverStripe\Control\Cookie;
 
-    use SilverStripe\Assets\Image;
-    use SilverStripe\AssetAdmin\Forms\UploadField;
+        use SilverStripe\Assets\Image;
+        use SilverStripe\AssetAdmin\Forms\UploadField;
 
-    use SilverStripe\Assets\File;
-    use SilverStripe\Forms\CheckboxField;
+        use SilverStripe\Assets\File;
 
-    use SilverStripe\Forms\DropdownField;
-    use SilverStripe\CMS\Model\SiteTree;
-    use SilverStripe\Security\Security;
-    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
+        use SilverStripe\Forms\DropdownField;
+        use SilverStripe\CMS\Model\SiteTree;
 
-    /**
+        /**
  * Class \Page
  *
  * @property string $MenuPosition

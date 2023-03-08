@@ -2,13 +2,13 @@
 
 namespace {
 
-use App\Profile\LoginPage;
-use App\Profile\ProfilePage;
-use App\Profile\RegistrationPage;
-use SilverStripe\Security\Member;
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Security\IdentityStore;
+    use App\Profile\LoginPage;
+    use App\Profile\ProfilePage;
+    use App\Profile\RegistrationPage;
+    use SilverStripe\Security\Member;
+    use SilverStripe\Control\HTTPRequest;
+    use SilverStripe\Core\Injector\Injector;
+    use SilverStripe\Security\IdentityStore;
 
     use SilverStripe\Security\Security;
     use Symbiote\MemberProfiles\Pages\MemberProfilePage;
