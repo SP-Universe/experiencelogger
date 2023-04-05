@@ -21,7 +21,8 @@
         "stevie-mayhew/silverstripe-svg": "^2.2",
         "jinjie/ss4-duplicate-dataobject": "^1.1",
         "symbiote/silverstripe-gridfieldextensions": "^3.5",
-        "jamesbolitho/silverstripe-frontenduploadfield": "dev-master"
+        "jamesbolitho/silverstripe-frontenduploadfield": "dev-master",
+        "level51/silverstripe-jwt-utils": "dev-master"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",
@@ -64,7 +65,8 @@
         "allow-plugins": {
             "composer/installers": true,
             "silverstripe/recipe-plugin": true,
-            "silverstripe/vendor-plugin": true
+            "silverstripe/vendor-plugin": true,
+            "kylekatarnls/update-helper": true
         }
     }
 }
