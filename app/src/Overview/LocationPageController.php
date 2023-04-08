@@ -139,10 +139,10 @@ class LocationPageController extends PageController
             $title = $this->getRequest()->param("ID");
             $experience = Experience::get()->filter("LinkTitle", $title)->first();
 
-            $newlogentry = LogEntry::create();
-            $newlogentry->ExperienceID = $experience->ID;
-
             if (isset($experience)) {
+                $newlogentry = LogEntry::create();
+                $newlogentry->ExperienceID = $experience->ID;
+
                 if (isset($_GET["weather"])) {
                     $newlogentry->Weather = implode(',', $_GET["weather"]);
                 }

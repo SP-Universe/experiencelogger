@@ -2,7 +2,8 @@
 
 namespace {
 
-use SilverStripe\Control\Cookie;
+    use SilverStripe\Control\Cookie;
+    use SilverStripe\Control\HTTPRequest;
 
     use SilverStripe\Assets\Image;
     use SilverStripe\AssetAdmin\Forms\UploadField;

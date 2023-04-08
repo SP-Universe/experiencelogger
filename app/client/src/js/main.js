@@ -6,9 +6,9 @@ import "../js/helpers.js";
 import "../js/location.js";
 import "../js/jsonloader.js";
 
-if (navigator && navigator.serviceWorker) {
-    navigator.serviceWorker.register('service-worker.js');
-}
+//if (navigator && navigator.serviceWorker) {
+//    navigator.serviceWorker.register('service-worker.js');
+//}
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
