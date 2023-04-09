@@ -43,19 +43,20 @@ use App\ExperienceDatabase\Experience;
 
         public function login(HTTPRequest $request)
         {
-            $data['ID'] = $this->ID;
-            $data['Title'] = $this->Title;
-            $data['Content'] = "false";
+            $this->response->addHeader('Access-Control-Allow-Origin', '*');
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            $this->response->addHeader('Content-Type', 'application/json');
+
+            //getBody funktioniert auf dem Request
 
             try {
                 $payload = JWTUtils::inst()->byBasicAuth($request);
-                $data['Content'] = $payload;
+                return json_encode($payload);
             } catch (JWTUtilsException $e) {
-                $data['Content'] = "error";
+                $data['Content'] = "Error: " . $e->getMessage();
             }
 
-            $this->response->addHeader('Content-Type', 'application/json');
-            $this->response->addHeader('Access-Control-Allow-Origin', '*');
+
             return json_encode($data);
         }
 
