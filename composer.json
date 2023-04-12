@@ -16,17 +16,16 @@
         "silverstripe/linkfield": "1.x-dev",
         "tractorcow/silverstripe-sliderfield": "dev-master",
         "wilr/silverstripe-googlesitemaps": "^2.2",
-        "silverstripe/restfulserver": "dev-master",
         "ryanpotter/silverstripe-cms-theme": "^3.4",
         "stevie-mayhew/silverstripe-svg": "^2.2",
         "jinjie/ss4-duplicate-dataobject": "^1.1",
         "symbiote/silverstripe-gridfieldextensions": "^3.5",
-        "jamesbolitho/silverstripe-frontenduploadfield": "dev-master"
+        "jamesbolitho/silverstripe-frontenduploadfield": "dev-master",
+        "level51/silverstripe-jwt-utils": "dev-master"
     },
     "require-dev": {
         "silverleague/ideannotator": "^3",
-        "squizlabs/php_codesniffer": "^3.6",
-        "lekoala/silverstripe-debugbar": "^2.2"
+        "squizlabs/php_codesniffer": "^3.6"
     },
     "autoload": {
         "psr-4": {
@@ -64,7 +63,8 @@
         "allow-plugins": {
             "composer/installers": true,
             "silverstripe/recipe-plugin": true,
-            "silverstripe/vendor-plugin": true
+            "silverstripe/vendor-plugin": true,
+            "kylekatarnls/update-helper": true
         }
     }
 }

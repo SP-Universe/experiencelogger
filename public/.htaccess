@@ -27,6 +27,12 @@ ErrorDocument 500 /assets/error-500.html
         DirectorySlash On
     </IfModule>
 
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Headers "*"
+        # Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+    </IfModule>
+
     SetEnv HTTP_MOD_REWRITE On
     RewriteEngine On
 

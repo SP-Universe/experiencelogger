@@ -22,6 +22,9 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
  * @property string $Address
  * @property string $Description
  * @property string $Coordinates
+ * @property string $Website
+ * @property string $Phone
+ * @property string $Email
  * @property int $TypeID
  * @property int $ImageID
  * @property int $IconID
@@ -39,6 +42,9 @@ class ExperienceLocation extends DataObject
         "Address" => "Varchar(255)",
         "Description" => "HTMLText",
         "Coordinates" => "Varchar(64)",
+        "Website" => "Varchar(255)",
+        "Phone" => "Varchar(255)",
+        "Email" => "Varchar(255)",
     ];
 
     private static $has_many = [
@@ -148,6 +154,12 @@ class ExperienceLocation extends DataObject
     {
         $locationsHolder = LocationPage::get()->first();
         return $locationsHolder->Link("location/") . $this->LinkTitle;
+    }
+
+    public function getAbsoluteLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->AbsoluteLink("location/") . $this->LinkTitle;
     }
 
 

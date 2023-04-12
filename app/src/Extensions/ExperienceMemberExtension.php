@@ -10,6 +10,7 @@ use App\ExperienceDatabase\ExperienceLocation;
 /**
  * Class \App\Extensions\ExperienceMemberExtension
  *
+ * @property \SilverStripe\Security\Member|\App\Extensions\ExperienceMemberExtension $owner
  * @property string $DateOfBirth
  * @property string $Nickname
  * @property string $ProfilePrivacy

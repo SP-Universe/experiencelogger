@@ -4,3 +4,8 @@ App\ExperienceDatabase\Experience:
   gallery-title: Galerie
   gallery-cms-tab: Galerie
   content-cms-tab: Top Content
+
+Level51\JWTUtils\JWTUtils:
+  secret: 'hhikafihbcbadguztwgbvcadh'       # Secret for signature. This is mandatory and there is no default value
+  lifetime_in_days: 7             # Term of validity
+  renew_threshold_in_minutes: 60  # Keep JWT for at least 60 minutes
