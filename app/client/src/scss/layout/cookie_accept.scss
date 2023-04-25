@@ -3,7 +3,7 @@
     bottom: 80px;
     left: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: var(--ColorWhite);
     padding: 1rem;
     text-align: center;
     z-index: 1000;
@@ -14,7 +14,7 @@
     }
     .cookie_accept_prompt__button{
         background-color: #fff;
-        border: 1px solid #000;
+        border: 1px solid var(--ColorBlack);
         padding: 0.5rem 1rem;
         font-size: 1.2rem;
         cursor: pointer;
