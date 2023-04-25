@@ -11,7 +11,7 @@ if(experiencecards.length){
             //console.log(rawexperience.textContent);
             var data = JSON.parse(rawexperience.textContent);
             experiencecard.querySelector('.experience_title').innerHTML = data["Title"];
-            experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"];
+            experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"] + " <span>in " + data["ExperienceArea"] + "</span>";
             experiencecard.querySelector('.experience_type').setAttribute("data-filter", data["Title"]);
             experiencecard.querySelector('.experience_entry_image').style = "background-image: url(" + data["ExperienceImage"] + ")";
             experiencecard.querySelector('.experience_state').innerHTML = data["State"];

@@ -8,6 +8,10 @@
             padding: 20px;
             position: relative;
 
+            span{
+                font-weight: 400;
+            }
+
             .backbutton{
                 position: absolute;
                 top: 20px;
@@ -109,6 +113,7 @@
                 background-color: var(--ColorPrimary);
                 color: var(--ColorWhite);
                 margin-bottom: -10px;
+                z-index: 2;
 
                 .logcount{
                     padding: 10px;
@@ -135,33 +140,45 @@
             }
         }
 
-
-
-        .experiencedata_list{
+        .section_areachilds{
             margin: 20px auto;
             padding: 0 20px;
-            display: grid;
-            gap: 20px;
+            position: relative;
 
-            .experiencedata_title{
-                grid-column: 1 / 2;
-                margin: 10px 0;
-                gap: 10px;
-                align-items: center;
+            .experiencearea_list{
+                margin: 20px auto;
+                width: calc(100% - 120px);
+                overflow: hidden;
+            }
+        }
 
-                &.long{
-                    gap: 0px;
+        .section_data{
+            margin: 20px auto;
+            padding: 0 20px;
+            .experiencedata_list{
+                display: grid;
+                gap: 20px;
+
+                .experiencedata_title{
+                    grid-column: 1 / 2;
+                    margin: 10px 0;
+                    gap: 10px;
+                    align-items: center;
+
+                    &.long{
+                        gap: 0px;
+                    }
                 }
-            }
 
-            .experiencedata_content{
-                grid-column: 2 / 3;
-                padding-top: 12px;
-            }
+                .experiencedata_content{
+                    grid-column: 2 / 3;
+                    padding-top: 12px;
+                }
 
-            .source{
-                display: block;
-                font-size: 12px;
+                .source{
+                    display: block;
+                    font-size: 12px;
+                }
             }
         }
     }

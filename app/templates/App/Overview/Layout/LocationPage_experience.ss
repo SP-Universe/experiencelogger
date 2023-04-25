@@ -3,14 +3,18 @@
         <div class="section_content">
             <div class="experience_block <% if not $Image %>noimage<% end_if %>">
                 <% if $PhotoGalleryImages %>
-                    <div class="experiencegallery">
-                        <div class="experiencegallery_slider" data-behaviour="slider">
+                    <div class="experiencegallery swiper swiper--auto">
+                        <div class="experiencegallery_slider swiper-wrapper">
                             <% loop PhotoGalleryImages %>
-                                <div class="experienceimage">
-                                    $Image.FocusFill(1000,400)
+                                <div class="swiper-slide">
+                                    <a data-gallery="gallery" data-glightbox="description: $Title" data-caption="$Title" class="experienceimage" href="$Image.FitMax(2000,2000).URL">
+                                        $Image.FocusFill(1000,400)
+                                    </a>
                                 </div>
                             <% end_loop %>
                         </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 <% else_if $Image %>
                     <div class="experienceimage">
@@ -33,37 +37,60 @@
                     </div>
                 <% end_if %>
                 <h1>$Title</h1>
-                <h4>$Type.Title <% if $Area %>in $Area.Title<% end_if %></h4>
+                <h4>$Type.Title <% if $Area %><span>in</span> <a href="$Area.Link">$Area.Title</a><% end_if %></h4>
                 $Description
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
                     <% if $HasGeneralSeats && $ExperienceTrains.Count > 0 %><a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart</a><% end_if %>
                 </div>
             </div>
-            <div class="experiencedata_list">
-                <% loop $ExperienceData %>
-                    <div class="experiencedata_title <% if $Type.IsLongText %>long<% end_if %>">
-                        <% if $AlternativeTitle %>
-                            <h2>$AlternativeTitle</h2>
-                        <% else %>
-                            <h2>$Type.Title</h2>
-                        <% end_if %>
+
+            <% if $Type.Title = "Area" %>
+                <div class="section_areachilds">
+                    <h2>Experiences in this area</h2>
+                    <div class="experiencearea_list swiper swiper--auto">
+                        <div class="swiper-wrapper">
+                            <% loop $SubExperiences %>
+                                <div class="swiper-slide">
+                                    <% include ExperienceCard ShowLogButton=false %>
+                                </div>
+                            <% end_loop %>
+                        </div>
                     </div>
-                    <div class="experiencedata_content <% if $Type.IsLongText %>long<% end_if %>">
-                        <p>$Description</p>
-                        <% if $MoreInfo %>
-                            <a href="$MoreInfo" class="moreinfo">More Info</a>
-                        <% end_if %>
-                        <% if $Source %>
-                            <% if $SourceLink %>
-                                <a href="$SourceLink" class="source">Source: $Source</a>
-                            <% else %>
-                                <p class="source">Source: $Source</p>
-                            <% end_if %>
-                        <% end_if %>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            <% end_if %>
+
+            <% if $ExperienceData.Count > 0 %>
+                <div class="section_data">
+                    <h2>Data about this experience</h2>
+                    <div class="experiencedata_list">
+                        <% loop $ExperienceData %>
+                            <div class="experiencedata_title <% if $Type.IsLongText %>long<% end_if %>">
+                                <% if $AlternativeTitle %>
+                                    <h3>$AlternativeTitle</h3>
+                                <% else %>
+                                    <h3>$Type.Title</h3>
+                                <% end_if %>
+                            </div>
+                            <div class="experiencedata_content <% if $Type.IsLongText %>long<% end_if %>">
+                                <p>$Description</p>
+                                <% if $MoreInfo %>
+                                    <a href="$MoreInfo" class="moreinfo">More Info</a>
+                                <% end_if %>
+                                <% if $Source %>
+                                    <% if $SourceLink %>
+                                        <a href="$SourceLink" class="source">Source: $Source</a>
+                                    <% else %>
+                                        <p class="source">Source: $Source</p>
+                                    <% end_if %>
+                                <% end_if %>
+                            </div>
+                        <% end_loop %>
                     </div>
-                <% end_loop %>
-            </div>
+                </div>
+            <% end_if %>
         </div>
     </div>
 <% end_with %>

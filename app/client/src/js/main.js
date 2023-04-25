@@ -1,6 +1,5 @@
+import Swiper, {Autoplay, EffectCoverflow, EffectFade, Navigation, Pagination} from 'swiper';
 import GLightbox from "glightbox";
-import { tns } from "tiny-slider/src/tiny-slider";
-import "tiny-slider/dist/tiny-slider.css";
 
 import "../js/helpers.js";
 import "../js/location.js";
@@ -18,29 +17,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
         loop: true,
     });
 
-    //Slider
-    var sliders = document.querySelectorAll('[data-behaviour="slider"]');
+    const sliders = document.querySelectorAll('.swiper');
 
-    if (sliders.length) {
-        [...sliders].map(slider => {
-                return tns({
-                    mode: 'carousel',
-                    container: slider,
-                    items: 1,
-                    slideBy: 'page',
-                    navAsThumbnails: true,
-                    nav: true,
-                    controls: true,
-                    controlsText: ['&lt;', '&gt;'],
-                    mouseDrag: true,
-                    autoplay: false,
-                    autoplayTimeout: 3000,
-                    speed: 200,
-                    autoplayHoverPause: true,
-                    autoplayButtonOutput: false,
-                });
-        })
-    }
+    // init Swiper:
+    sliders.forEach(function (slider) {
+        const autoSwiper = slider.classList.contains('swiper--auto');
+        const swiper = new Swiper(slider, {
+            // configure Swiper to use modules
+            modules: [Navigation, Autoplay, EffectFade],
+            effect: 'slide',
+            fadeEffect: {
+                crossFade: true
+            },
+            direction: 'horizontal',
+            loop: autoSwiper,
+
+            autoplay: autoSwiper ? {
+                delay: 5000,
+            } : false,
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+    });
 
     //Personal Nav
     const personalNavButton = document.querySelector('[data-behaviour="open_personalnav"]');

@@ -23,6 +23,6 @@
     "cross-env": "^7.0.3",
     "glightbox": "^3.0.9",
     "include-media": "^1.4.10",
-    "tiny-slider": "^2.9.3"
+    "swiper": "^9.0.4"
   }
 }

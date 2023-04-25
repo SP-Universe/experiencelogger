@@ -303,4 +303,10 @@ class Experience extends DataObject
             }
         }
     }
+
+    public function getSubExperiences()
+    {
+        $experiences = Experience::get()->filter("AreaID", $this->ID);
+        return $experiences;
+    }
 }
