@@ -199,6 +199,7 @@ class Experience extends DataObject
 
         $fields->removeByName("ExperienceData");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridfield = new GridField("ExperienceData", "ExperienceData", $this->ExperienceData(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Data', $gridfield);
 
@@ -212,11 +213,13 @@ class Experience extends DataObject
 
         $fields->removeByName("Variants");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridfield = new GridField("Variants", "Variants", $this->Variants(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
 
         $fields->removeByName("Versions");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
+        $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridfield = new GridField("Versions", "Versions", $this->Versions(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
 
