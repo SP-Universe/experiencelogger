@@ -7,14 +7,14 @@
                         <div class="experiencegallery_slider" data-behaviour="slider">
                             <% loop PhotoGalleryImages %>
                                 <div class="experienceimage">
-                                    $Image.FocusFill(1000,600)
+                                    $Image.FocusFill(1000,400)
                                 </div>
                             <% end_loop %>
                         </div>
                     </div>
                 <% else_if $Image %>
                     <div class="experienceimage">
-                        $Image.FocusFill(1000,600)
+                        $Image.FocusFill(1000,400)
                     </div>
                 <% end_if %>
                 <% if $CurrentUser %>
