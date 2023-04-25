@@ -91,38 +91,38 @@ namespace {
 
                 foreach ($experiences as $experience) {
                     $key = $experience->Title;
-                    $data[$key]['ID'] = $experience->ID;
-                    $data[$key]['Title'] = $experience->Title;
-                    $data[$key]['Link'] = $experience->AbsoluteLink;
+                    $data['items'][$key]['ID'] = $experience->ID;
+                    $data['items'][$key]['Title'] = $experience->Title;
+                    $data['items'][$key]['Link'] = $experience->AbsoluteLink;
                     if ($experience->Description) {
-                        $data[$key]['Description'] = $experience->Description;
+                        $data['items'][$key]['Description'] = $experience->Description;
                     }
                     if ($experience->Image->AbsoluteURL) {
-                        $data[$key]['Image'] = $experience->Image->AbsoluteURL;
+                        $data['items'][$key]['Image'] = $experience->Image->AbsoluteURL;
                     }
-                    $data[$key]['Location'] = $experience->Parent->Title;
-                    $data[$key]['LocationID'] = $experience->ParentID;
-                    $data[$key]['Type'] = $experience->Type->Title;
-                    $data[$key]['LastEdited'] = $experience->LastEdited;
+                    $data['items'][$key]['Location'] = $experience->Parent->Title;
+                    $data['items'][$key]['LocationID'] = $experience->ParentID;
+                    $data['items'][$key]['Type'] = $experience->Type->Title;
+                    $data['items'][$key]['LastEdited'] = $experience->LastEdited;
 
                     //Load Experience Datas:
                     $experiencedata = ExperienceData::get()->filter("ParentID", $experience->ID)->sort('SortOrder', 'ASC');
                     if ($experiencedata) {
                         foreach ($experiencedata as $experiencedata_entry) {
                             if ($experiencedata_entry->AlternativeTitle) {
-                                $data[$key]['Data'][$experiencedata_entry->Type->Title]['AlternativeTitle'] = $experiencedata_entry->AlternativeTitle;
+                                $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['AlternativeTitle'] = $experiencedata_entry->AlternativeTitle;
                             }
                             if ($experiencedata_entry->Description) {
-                                $data[$key]['Data'][$experiencedata_entry->Type->Title]['Content'] = $experiencedata_entry->Description;
+                                $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['Content'] = $experiencedata_entry->Description;
                             }
                             if ($experiencedata_entry->MoreInfo) {
-                                $data[$key]['Data'][$experiencedata_entry->Type->Title]['MoreInfo'] = $experiencedata_entry->MoreInfo;
+                                $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['MoreInfo'] = $experiencedata_entry->MoreInfo;
                             }
                             if ($experiencedata_entry->Source) {
-                                $data[$key]['Data'][$experiencedata_entry->Type->Title]['Source'] = $experiencedata_entry->Source;
+                                $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['Source'] = $experiencedata_entry->Source;
                             }
                             if ($experiencedata_entry->SourceLink) {
-                                $data[$key]['Data'][$experiencedata_entry->Type->Title]['SourceLink'] = $experiencedata_entry->SourceLink;
+                                $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['SourceLink'] = $experiencedata_entry->SourceLink;
                             }
                         }
                     }
@@ -253,8 +253,6 @@ namespace {
             $data['API_Title'] = "Experiencelogger API";
             $data['API_Description'] = "This API enables devs to use gathered information about theme parks and other experiences to use in their apps.";
             $data['API_Version'] = "1.0.0";
-
-
 
             $data['Places'] = $this->AbsoluteLink() . "places";
             $data['Experiences'] = $this->AbsoluteLink() . "experiences";
