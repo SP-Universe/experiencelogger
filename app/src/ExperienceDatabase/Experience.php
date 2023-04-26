@@ -45,10 +45,12 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property int $ParentID
  * @property int $TypeID
  * @property int $AreaID
+ * @property int $StageID
  * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
  * @method \App\ExperienceDatabase\ExperienceType Type()
  * @method \App\ExperienceDatabase\Experience Area()
+ * @method \App\ExperienceDatabase\Experience Stage()
  * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceTrain[] ExperienceTrains()
@@ -78,13 +80,14 @@ class Experience extends DataObject
         "JSONCode" => "HTMLText",
     ];
 
-    private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'State', 'Description', 'ExperienceImage', 'ParentID']];
+    private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'ExperienceStage', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
         "Image" => Image::class,
         "Parent" => ExperienceLocation::class,
         "Type" => ExperienceType::class,
         "Area" => Experience::class,
+        "Stage" => Experience::class,
     ];
 
     private static $has_many = [
@@ -162,6 +165,11 @@ class Experience extends DataObject
         return $this->Area()->exists() ? $this->Area()->Title : null;
     }
 
+    public function getExperienceStage()
+    {
+        return $this->Stage()->exists() ? $this->Stage()->Title : null;
+    }
+
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
@@ -195,6 +203,16 @@ class Experience extends DataObject
             ])->map('ID', 'Title');
 
             $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
+        }
+
+        $stagetypeID = ExperienceType::get()->filter('Title', 'Stage')->first()->ID;
+        if ($stagetypeID) {
+            $experiencemap = Experience::get()->filter([
+                'TypeID' => $stagetypeID,
+                'ParentID' => $parentID,
+            ])->map('ID', 'Title');
+
+            $fields->insertAfter('AreaID', new DropdownField('StageID', 'Stage', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Stage -");
         }
 
         $fields->removeByName("ExperienceData");
@@ -239,6 +257,7 @@ class Experience extends DataObject
 
         $output["ExperienceType"] = $this->Type()->Title;
         $output["ExperienceArea"] = $this->Area()->Title;
+        $output["ExperienceStage"] = $this->Stage()->Title;
         $output["Description"] = $this->getField("Description");
         $output["ExperienceLink"] = $this->getLink();
         if ($this->Image) {
@@ -310,6 +329,16 @@ class Experience extends DataObject
     public function getSubExperiences()
     {
         $experiences = Experience::get()->filter("AreaID", $this->ID);
+        return $experiences;
+    }
+
+    public function getSubShows()
+    {
+        $showtypeID = ExperienceType::get()->filter('Title', 'Show')->first()->ID;
+        $experiences = Experience::get()->filter([
+            'TypeID' => $showtypeID,
+            'StageID' => $this->ID,
+        ]);
         return $experiences;
     }
 }

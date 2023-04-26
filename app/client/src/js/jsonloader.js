@@ -11,7 +11,9 @@ if(experiencecards.length){
             //console.log(rawexperience.textContent);
             var data = JSON.parse(rawexperience.textContent);
             experiencecard.querySelector('.experience_title').innerHTML = data["Title"];
-            if(data["ExperienceArea"]){
+            if(data["ExperienceStage"]){
+                experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"] + " <span>in " + data["ExperienceStage"] + "</span>";
+            } else if(data["ExperienceArea"]) {
                 experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"] + " <span>in " + data["ExperienceArea"] + "</span>";
             } else {
                 experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"]

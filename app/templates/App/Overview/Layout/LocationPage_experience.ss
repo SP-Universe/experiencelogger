@@ -37,7 +37,7 @@
                     </div>
                 <% end_if %>
                 <h1>$Title</h1>
-                <h4>$Type.Title <% if $Area %><span>in</span> <a href="$Area.Link">$Area.Title</a><% end_if %></h4>
+                <h4>$Type.Title <% if $Stage %><span>in</span> <a href="$Stage.Link">$Stage.Title</a><% else_if $Area %><span>in</span> <a href="$Area.Link">$Area.Title</a><% end_if %></h4>
                 $Description
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
@@ -60,6 +60,25 @@
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
                 </div>
+            <% end_if %>
+
+            <% if $Type.Title = "Stage" %>
+                <% if $SubShows.Count > 0 %>
+                    <div class="section_areachilds">
+                        <h2>Shows on this stage</h2>
+                        <div class="experiencearea_list swiper swiper--auto">
+                            <div class="swiper-wrapper">
+                                <% loop $SubShows %>
+                                    <div class="swiper-slide">
+                                        <% include ExperienceCard ShowLogButton=false %>
+                                    </div>
+                                <% end_loop %>
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                <% end_if %>
             <% end_if %>
 
             <% if $ExperienceData.Count > 0 %>
