@@ -142,35 +142,35 @@ namespace {
 
             if ($places) {
                 foreach ($places as $place) {
-                    $data[$place->Title]['ID'] = $place->ID;
-                    $data[$place->Title]['Title'] = $place->Title;
-                    $data[$place->Title]['Link'] = $place->AbsoluteLink;
-                    $data[$place->Title]['Type'] = $place->Type->Title;
+                    $data['items'][$place->Title]['ID'] = $place->ID;
+                    $data['items'][$place->Title]['Title'] = $place->Title;
+                    $data['items'][$place->Title]['Link'] = $place->AbsoluteLink;
+                    $data['items'][$place->Title]['Type'] = $place->Type->Title;
                     if ($place->Description) {
-                        $data[$place->Title]['Description'] = $place->Description;
+                        $data['items'][$place->Title]['Description'] = $place->Description;
                     }
                     if ($place->Image->AbsoluteURL) {
-                        $data[$place->Title]['Image'] = $place->Image->AbsoluteURL;
+                        $data['items'][$place->Title]['Image'] = $place->Image->AbsoluteURL;
                     }
                     if ($place->Address) {
-                        $data[$place->Title]['Address'] = $place->Address;
+                        $data['items'][$place->Title]['Address'] = $place->Address;
                     }
                     if ($place->Coordinates) {
-                        $data[$place->Title]['Coordinates'] = $place->Coordinates;
+                        $data['items'][$place->Title]['Coordinates'] = $place->Coordinates;
                     }
                     if ($place->Website) {
-                        $data[$place->Title]['Website'] = $place->Website;
+                        $data['items'][$place->Title]['Website'] = $place->Website;
                     }
                     if ($place->Phone) {
-                        $data[$place->Title]['Phone'] = $place->Phone;
+                        $data['items'][$place->Title]['Phone'] = $place->Phone;
                     }
                     if ($place->Email) {
-                        $data[$place->Title]['Email'] = $place->Email;
+                        $data['items'][$place->Title]['Email'] = $place->Email;
                     }
                     if ($place->OpeningDate) {
-                        $data[$place->Title]['OpeningDate'] = $place->OpeningDate;
+                        $data['items'][$place->Title]['OpeningDate'] = $place->OpeningDate;
                     }
-                    $data[$place->Title]['LastEdited'] = $place->LastEdited;
+                    $data['items'][$place->Title]['LastEdited'] = $place->LastEdited;
                 }
             } else {
                 $data['Error'] = "No places found.";
