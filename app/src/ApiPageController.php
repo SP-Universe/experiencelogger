@@ -104,6 +104,7 @@ namespace {
                     $data['items'][$key]['Location'] = $experience->Parent->Title;
                     $data['items'][$key]['LocationID'] = $experience->ParentID;
                     $data['items'][$key]['Type'] = $experience->Type->Title;
+                    $data['items'][$key]['State'] = $experience->State;
                     $data['items'][$key]['LastEdited'] = $experience->LastEdited;
                     $data['items'][$key]['Parent']['ID'] = $experience->ParentID;
 
