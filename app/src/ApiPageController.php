@@ -105,6 +105,7 @@ namespace {
                     $data['items'][$key]['LocationID'] = $experience->ParentID;
                     $data['items'][$key]['Type'] = $experience->Type->Title;
                     $data['items'][$key]['LastEdited'] = $experience->LastEdited;
+                    $data['items'][$key]['Parent']['ID'] = $experience->ParentID;
 
                     //Load Experience Datas:
                     $experiencedata = ExperienceData::get()->filter("ParentID", $experience->ID)->sort('SortOrder', 'ASC');
@@ -125,7 +126,6 @@ namespace {
                             if ($experiencedata_entry->SourceLink) {
                                 $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['SourceLink'] = $experiencedata_entry->SourceLink;
                             }
-                            $data['items'][$key]['Parent']['ID'] = $experience->ParentID;
                         }
                     }
                 }
