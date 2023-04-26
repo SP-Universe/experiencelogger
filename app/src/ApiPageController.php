@@ -94,6 +94,7 @@ namespace {
                     $data['items'][$key]['ID'] = $experience->ID;
                     $data['items'][$key]['Title'] = $experience->Title;
                     $data['items'][$key]['Link'] = $experience->AbsoluteLink;
+                    $data['items'][$key]['LinkTitle'] = $experience->LinkTitle;
                     if ($experience->Description) {
                         $data['items'][$key]['Description'] = $experience->Description;
                     }
@@ -146,6 +147,7 @@ namespace {
                     $data['items'][$place->Title]['Title'] = $place->Title;
                     $data['items'][$place->Title]['Link'] = $place->AbsoluteLink;
                     $data['items'][$place->Title]['Type'] = $place->Type->Title;
+                    $data['items'][$place->Title]['LinkTitle'] = $place->LinkTitle;
                     if ($place->Description) {
                         $data['items'][$place->Title]['Description'] = $place->Description;
                     }
