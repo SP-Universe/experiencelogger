@@ -125,6 +125,7 @@ namespace {
                             if ($experiencedata_entry->SourceLink) {
                                 $data['items'][$key]['Data'][$experiencedata_entry->Type->Title]['SourceLink'] = $experiencedata_entry->SourceLink;
                             }
+                            $data['items'][$key]['Parent']['ID'] = $experience->ParentID;
                         }
                     }
                 }
