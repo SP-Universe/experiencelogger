@@ -159,6 +159,9 @@ namespace {
                     if ($place->Image->AbsoluteURL) {
                         $data['items'][$place->Title]['Image'] = $place->Image->AbsoluteURL;
                     }
+                    if ($place->Icon->AbsoluteURL) {
+                        $data['items'][$place->Title]['Icon'] = $place->Icon->AbsoluteURL;
+                    }
                     if ($place->Address) {
                         $data['items'][$place->Title]['Address'] = $place->Address;
                     }
