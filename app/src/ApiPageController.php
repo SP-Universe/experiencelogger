@@ -144,6 +144,8 @@ namespace {
         {
             $places = ExperienceLocation::get()->sort('Title', 'ASC');
 
+            $data['Count'] = count($places);
+
             if ($places) {
                 foreach ($places as $place) {
                     $data['items'][$place->Title]['ID'] = $place->ID;
