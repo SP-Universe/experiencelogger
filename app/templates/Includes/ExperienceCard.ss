@@ -1,4 +1,4 @@
-<div class="experience_card data--loading" data-behaviour="experiencecard">
+<div class="experience_card data--loading state-{$State}" data-behaviour="experiencecard">
     <div class="experiencedata">
         $JSONCode.Raw
     </div>

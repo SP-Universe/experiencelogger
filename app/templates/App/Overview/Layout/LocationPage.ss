@@ -12,12 +12,10 @@
                         <div class="location_entry_content">
                             <h2 class="location_title">$Title</h2>
                             <h3>$Type.Title</h3>
-                            <p>$Address</p>
-                            <p>$Experiences.Filter("State", "Active").Count Experiences
-                                <!--<% if $Experiences.Filter("State", "Defunct").Count > 0 %> | $Experiences.Filter("State", "Defunct").Count Defunct<% end_if %>
-                                <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %> | $Experiences.Filter("State", "In Maintenance").Count In Maintenance<% end_if %>
-                                <% if $Experiences.Filter("State", "Other").Count > 0 %> | $Experiences.Filter("State", "Other").Count Other<% end_if %>-->
-                            </p>
+                            <p><% if $Top.CurrentUser %>$LocationProgress / <% end_if %>$Experiences.Filter("State", "Active").Count Experiences</p>
+                            <div class="location_progress">
+                                <div class="location_progress_bar" style="width: {$LocationProgressInPercent}%"></div>
+                            </div>
                         </div>
                     </a>
 

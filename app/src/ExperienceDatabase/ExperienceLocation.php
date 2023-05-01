@@ -135,7 +135,6 @@ class ExperienceLocation extends DataObject
     }
 
     //FUNCTIONS
-
     public function getIsFavourite()
     {
         $member = Security::getCurrentUser();
@@ -160,6 +159,37 @@ class ExperienceLocation extends DataObject
     {
         $locationsHolder = LocationPage::get()->first();
         return $locationsHolder->AbsoluteLink("location/") . $this->LinkTitle;
+    }
+
+    public function getLocationProgress()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            $completed = 0;
+            foreach ($this->Experiences() as $experience) {
+                if ($experience->getIsCompletedByUser($currentUser)) {
+                    $completed++;
+                }
+            }
+            return $completed;
+        }
+        return "?";
+    }
+
+    public function getLocationProgressInPercent()
+    {
+        $total = $this->Experiences()->count();
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            $completed = 0;
+            foreach ($this->Experiences() as $experience) {
+                if ($experience->getIsCompletedByUser()) {
+                    $completed++;
+                }
+            }
+            return ($total / 100) * $completed;
+        }
+        return 0;
     }
 
 

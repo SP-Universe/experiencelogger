@@ -341,4 +341,13 @@ class Experience extends DataObject
         ]);
         return $experiences;
     }
+
+    public function getIsCompletedByUser()
+    {
+        $log = $this->getLatestLog();
+        if ($log) {
+            return true;
+        }
+        return false;
+    }
 }

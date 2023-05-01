@@ -7,7 +7,7 @@
     margin: 0 0 10px 0;
     padding-right: 10px;
     overflow: hidden;
-    max-height: 400px;
+    max-height: 300px;
     opacity: 1;
     transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
@@ -18,11 +18,11 @@
 
         .experience_entry_image{
             width: 30%;
-            max-width: 150px;
-            aspect-ratio: 1;
+            max-width: 100px;
+            //aspect-ratio: 1;
             padding: 0;
             background-color: var(--ColorPrimary);
-            clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+            //clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
             background-size: cover;
             background-position: center;
         }

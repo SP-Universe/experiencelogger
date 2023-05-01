@@ -38,6 +38,20 @@
                 flex-direction: column;
                 justify-content: center;
                 overflow: hidden;
+
+                .location_progress{
+                    border-radius: 20px;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 10px;
+                    background-color: var(--ColorBackground);
+                    margin-top: 10px;
+
+                    .location_progress_bar{
+                        height: 10px;
+                        background-color: var(--ColorPrimary);
+                    }
+                }
             }
 
 
@@ -55,8 +69,7 @@
             color: var(--ColorPrimary);
             position: absolute;
             right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 20px;
 
             @include media(">medium") {
                 right: 30px;
