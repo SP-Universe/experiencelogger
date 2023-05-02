@@ -11,6 +11,62 @@
     opacity: 1;
     transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
+    &.state-Defunct{
+        &::after{
+            Content: "Defunct";
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            padding: 5px 180px 5px 20px;
+            transform: rotate(-15deg);
+            background-color: var(--ColorBlackTrans);
+            color: var(--ColorWhite);
+
+        }
+    }
+
+    &.state-Coming.Soon{
+        &::after{
+            Content: "Coming Soon";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            padding: 5px 180px 5px 20px;
+            transform: rotate(-15deg);
+            background-color: var(--ColorBlackTrans);
+            color: var(--ColorWhite);
+
+        }
+    }
+
+    &.state-In.Maintenance{
+        &::after{
+            Content: "In Maintenance";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            padding: 5px 180px 5px 20px;
+            transform: rotate(-15deg);
+            background-color: var(--ColorBlackTrans);
+            color: var(--ColorWhite);
+
+        }
+    }
+
+    &.state-Other{
+        &::after{
+            Content: "Other";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            padding: 5px 180px 5px 20px;
+            transform: rotate(-15deg);
+            background-color: var(--ColorBlackTrans);
+            color: var(--ColorWhite);
+
+        }
+    }
+
     .experience_entry{
         display: flex;
         height: 100%;

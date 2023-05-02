@@ -13,10 +13,11 @@
                 color: $ColorWhite;
             }
 
-            a{
+            .location_favouritemarker{
                 position: absolute;
                 top: 15px;
                 right: 15px;
+                color: $ColorWhite;
             }
 
             .header_background{
@@ -37,6 +38,7 @@
             border-radius: 0 0 20px 20px;
             display: flex;
             align-items: center;
+            margin-bottom: 15px;
 
             .partselector{
                 display: block;
@@ -49,7 +51,7 @@
                 cursor: pointer;
 
                 &.selected{
-                    color: var(--ColorPrimaryLight);
+                    color: $ColorWhite;
                     background-color: var(--ColorPrimary);
                 }
             }
@@ -67,140 +69,71 @@
             }
         }
 
-        .location_sidebar{
-            margin: 0;
-            padding: 15px 15px 20px 15px;
-            grid-row: 2/3;
-            grid-column: 1/-1;
-            box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
-            border-radius: 20px;
-            background-color: var(--ColorPrimaryTrans);
-            height: auto;
-            overflow: hidden;
-            position: relative;
-            color: var(--ColorWhiteText);
+        .section_location_info{
+            padding: 0 10px;
+        }
 
-            .sidebar_background{
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: -100;
-                filter: blur(50px);
-            }
+        .section_location_progress{
+            padding: 0 10px;
+        }
 
-            .sideinfo{
-                padding: 0px 0 0 10px;
-                margin: 0 0 0 3px;
-                font-size: 14px;
-                border-left: 2px solid var(--ColorWhiteText);
-            }
-
-            .location_title{
-                background-color: var(--ColorPrimary);
-                margin: -15px -15px 10px -15px;
-                color: var(--ColorWhiteText);
-                padding: 15px 15px 35px 15px;
+        .section_location_experiences {
+            .state_hl{
                 position: relative;
-                overflow: hidden;
-                clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
+                display: block;
 
-                h1{
-                    color: var(--ColorWhiteText);
-                    margin-top: 0;
+                h2{
+                    padding: 5px 10px;
+                    text-align: center;
+                    background-color: var(--ColorBackground);
+                    display: inline-block;
                 }
 
-                .backgroundimage{
+                &::after{
+                    content: "";
                     position: absolute;
-                    top: 0;
+                    top: 45%;
                     left: 0;
-                    width: 100%;
-                    height: 100%;
-                    filter: blur(1px);
-                    opacity: 0.5;
-                    z-index: -100;
+                    display: block;
+                    width: calc(100% - 10px);
+                    height: 2px;
+                    background-color: var(--ColorPrimary);
+                    z-index: -1;
+                }
+            }
 
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
+            .location_experiences{
+                grid-row: 3/4;
+                grid-column: 1/-1;
+
+                .search_bar{
+                    margin: 10px auto;
+
+                    @include media(">medium") {
+                        margin: 0 auto 10px auto;
                     }
                 }
-            }
 
-            .location_favouritemarker{
-                position: relative;
-                width: 100%;
-                display: block;
-                svg{
-                    position: absolute;
-                    top: -15px;
-                    right: 0px;
+                .source{
+                    display: block;
+                    font-size: 12px;
                 }
 
-                color: var(--ColorSecondary);
-                font-size: 20px;
-            }
+                .experience_activatelocation{
+                    margin: 10px auto;
+                    display: block;
+                    text-align: center;
+                    padding: 5px 20px;
+                    border-radius: 10px;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorWhiteText);
+                    cursor: pointer;
+                    transition: background-color 0.2s ease-in-out;
 
-            .numbers{
-                transition: max-height 0.3s ease-in-out;
-                max-height: 0px;
-                height: auto;
-
-                &.active {
-                    max-height: 1000px;
+                    &:hover{
+                        background-color: var(--ColorPrimaryDark);
+                    }
                 }
-
-                @include media(">medium") {
-                    max-height: 1000px;
-                }
-            }
-        }
-
-        .location_experiences{
-            grid-row: 3/4;
-            grid-column: 1/-1;
-
-            .search_bar{
-                margin: 10px auto;
-
-                @include media(">medium") {
-                    margin: 0 auto 10px auto;
-                }
-            }
-
-            .source{
-                display: block;
-                font-size: 12px;
-            }
-
-            .experience_activatelocation{
-                margin: 10px auto;
-                display: block;
-                text-align: center;
-                padding: 5px 20px;
-                border-radius: 10px;
-                background-color: var(--ColorPrimary);
-                color: var(--ColorWhiteText);
-                cursor: pointer;
-                transition: background-color 0.2s ease-in-out;
-
-                &:hover{
-                    background-color: var(--ColorPrimaryDark);
-                }
-            }
-        }
-
-        @include media(">medium") {
-            .location_sidebar{
-                grid-row: 2/3;
-                grid-column: 1/2;
-            }
-            .location_experiences{
-                grid-row: 2/3;
-                grid-column: 2/-1;
             }
         }
     }

@@ -17,7 +17,7 @@
                     <p>$Type.Title</p>
                     <h1>$Title</h1>
                     <% if $Top.CurrentUser %>
-                        <a href="$Top.Link('changeFavourite')/$LinkTitle" class="location_favouritemarker">
+                        <a href="$Top.Link('changeFavourite')/$LinkTitle?backurl=$AbsoluteLink" class="location_favouritemarker">
                             <% if $IsFavourite %>
                                 <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path fill="currentColor" d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/></svg>
                             <% else %>
@@ -29,30 +29,33 @@
             </div>
 
             <div class="section_location_partselect">
-                <label for="part_experiences" class="partselector selected">Experiences</label>
-                <label for="part_progress" class="partselector">Progress</label>
-                <label for="part_info" class="partselector">Info</label>
+                <label for="part_experiences" class="partselector selected" data-behaviour="change_partselector">Experiences</label>
+                <label for="part_progress" class="partselector" data-behaviour="change_partselector">Progress</label>
+                <label for="part_info" class="partselector" data-behaviour="change_partselector">Info</label>
             </div>
 
             <div class="section_part section_location_info">
                 <input type="radio" id="part_info" name="partselector">
                 <div class="numbers" data-behaviour="showhide_numbers">
-                    <p>$Experiences.Filter("ParentID", $ID).Count Experiences</p>
+                    <h2>Description</h2>
+                    $Description
+                    <hr/>
+                    <h2>States of Experiences</h2>
+                    <p>$Experiences.Filter("ParentID", $ID).Count Experiences total</p>
                     <% if $Experiences.Filter("State", "Active").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Active").Count Active</p><% end_if %>
                     <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "In Maintenance").Count In Maintenance</p><% end_if %>
                     <% if $Experiences.Filter("State", "Coming Soon").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Coming Soon").Count Coming Soon</p><% end_if %>
                     <% if $Experiences.Filter("State", "Defunct").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Defunct").Count Defunct</p><% end_if %>
                     <% if $Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
                     <hr/>
+                    <h2>Types of Experiences</h2>
                     <% loop $GroupedExperiences %>
                         <p>$Children.Count $Children.First.Type.PluralName</p>
                     <% end_loop %>
-                    <hr/>
-                    $Description
                 </div>
             </div>
 
-            <div class="section_part section_part_progress">
+            <div class="section_part section_location_progress">
                 <input type="radio" id="part_progress" name="partselector">
                 <h2>Coming soon...</h2>
             </div>
@@ -61,12 +64,17 @@
                 <input type="radio" id="part_experiences" name="partselector" checked="checked">
                 <div class="location_experiences">
                     <div class="search_bar" id="search-experience-bar">
-                        <input type="text" name="search" id="search-experience" placeholder="Search for a experience" />
+                        <input type="text" name="search" id="search-experience" placeholder="Search for an experience" />
                     </div>
                     <div class="experience_list">
                         <a class="experience_activatelocation" data-behaviour="locationTracker">Activate Location</a>
-                        <% loop $Experiences %>
-                            <% include ExperienceCard %>
+                        <% loop $GroupedExperiencesByState %>
+                            <div class="state_hl">
+                                <h2>$Children.First.State</h2>
+                            </div>
+                            <% loop $Children %>
+                                <% include ExperienceCard %>
+                            <% end_loop %>
                         <% end_loop %>
                     </div>
                 </div>

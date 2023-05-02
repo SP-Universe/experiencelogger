@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         console.log("lat: " + lat + " lon: " + lon)
                         writeDistance(distanceField, lat, lon);
                     } else {
-                        distanceField.innerHTML = "No Coordinates entered?";
+                        distanceField.innerHTML = "? m";
                     }
                 });
             }
@@ -34,7 +34,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 savePosition(position)
-                field.innerHTML = "<p>" + distance(lat, lon, userPos.lat, userPos.lon) + "km</p>";
+                var OutputDistance = distance(lat, lon, userPos.lat, userPos.lon);
+                if(OutputDistance > 1){
+                    field.innerHTML = "<p>" + OutputDistance + " km</p>";
+                } else {
+                    field.innerHTML = "<p>" + (OutputDistance * 100) + " m</p>";
+                }
             });
         } else {
             field.innerHTML = "???";

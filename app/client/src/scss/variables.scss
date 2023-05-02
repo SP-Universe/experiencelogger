@@ -15,6 +15,7 @@ $ColorPrimaryLight: #e2fffa;
 $ColorSecondary: #1e4b43;
 
 $ColorBlack: rgb(0, 14, 15);
+$ColorBlackTrans: rgba(0, 14, 15, 0.5);
 $ColorLightGray: #c2c2c2;
 $ColorWhite: #FFF;
 $ColorWhiteTrans: rgba(255, 255, 255, 0.2);
@@ -29,6 +30,7 @@ html{
     --ColorSecondary: #1e4b43;
 
     --ColorBlack: rgb(0, 14, 15);
+    --ColorBlackTrans: rgba(0, 14, 15, 0.5);
     --ColorLightGray: #c2c2c2;
     --ColorWhite: #FFF;
     --ColorWhiteText: #FFF;
@@ -45,6 +47,7 @@ body.theme--dark{
     --ColorSecondary: #266056; //#1e4b43
 
     --ColorBlack: rgb(255, 255, 255); //rgb(0, 14, 15)
+    --ColorBlackTrans: rgba(255, 255, 255, 0.5);
     --ColorLightGray: #3b3b3b; //#c2c2c2
     --ColorWhite: rgb(0, 0, 0); //#FFF
     --ColorWhiteText: #FFF;

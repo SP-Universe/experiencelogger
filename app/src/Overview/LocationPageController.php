@@ -111,11 +111,16 @@ class LocationPageController extends PageController
         $currentUser = Security::getCurrentUser();
 
         if ($currentUser) {
-            if ($currentUser->FavouritePlaces()->find("ID", $id)) {
+            if ($currentUser->FavouritePlaces()->filter("ID", $id)->count() > 0) {
                 $currentUser->FavouritePlaces()->removeByID($id);
             } else {
                 $currentUser->FavouritePlaces()->add($id);
             }
+        }
+
+        if (isset($_GET["backurl"])) {
+            $backUrl = $_GET["backurl"];
+            return $this->redirect($backUrl);
         }
 
         return $this->redirect($this->Link());

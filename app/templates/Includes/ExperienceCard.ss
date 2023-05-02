@@ -7,10 +7,8 @@
         </div>
         <div class="experience_entry_content">
             <h2 class="experience_title"> Loading ... </h2>
-            <div class="flex_part">
-                <h4 class="experience_type" data-filter="" data-status="">...</h4>
-            </div>
-            <p class="experience_state">...</p>
+            <h4 class="experience_type" data-filter="" data-status="">...</h4>
+            <!--<p class="experience_state">...</p>-->
             <p class="experience_distance" data-behaviour="distance" data-loc="$Coordinates"></p>
         </div>
     </a>

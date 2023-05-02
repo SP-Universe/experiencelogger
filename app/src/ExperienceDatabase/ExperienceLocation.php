@@ -149,6 +149,11 @@ class ExperienceLocation extends DataObject
         return GroupedList::create($this->Experiences())->GroupedBy("TypeID");
     }
 
+    public function getGroupedExperiencesByState()
+    {
+        return GroupedList::create($this->Experiences())->GroupedBy("State");
+    }
+
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();

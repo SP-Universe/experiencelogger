@@ -63,7 +63,7 @@ class Experience extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "LinkTitle" => "Varchar(255)",
-        "State" => "Enum('Active, Defunct, In Maintenance, Coming Soon, Other', 'Active')",
+        "State" => "Enum('Active, In Maintenance, Coming Soon, Other, Defunct', 'Active')",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'Train')",
         "CustomTrainType" => "Varchar(255)",
         "HasGeneralSeats" => "Boolean",

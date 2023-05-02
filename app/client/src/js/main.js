@@ -293,4 +293,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
         return hasCookie;
     }
+
+    //change_partselector for experience list toggles
+    const partselector = document.querySelectorAll('[data-behaviour="change_partselector"]');
+    if(partselector){
+        partselector.forEach(element => {
+            element.addEventListener('click', function(e) {
+                partselector.forEach(element => {
+                    element.classList.remove('selected');
+                });
+                element.classList.add('selected');
+            });
+        });
+    }
 });
