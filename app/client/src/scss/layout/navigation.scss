@@ -38,7 +38,7 @@
             p{
                 text-align: center;
                 display: none;
-                color: var(--ColorWhite);
+                color: $ColorWhite;
             }
 
             &.nav_link--active{
