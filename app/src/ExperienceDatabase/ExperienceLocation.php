@@ -187,7 +187,9 @@ class ExperienceLocation extends DataObject
                     $completed++;
                 }
             }
-            return ($total / 100) * $completed;
+            if ($total > 0) {
+                return (100 / $total) * $completed;
+            }
         }
         return 0;
     }
