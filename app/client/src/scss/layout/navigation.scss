@@ -21,7 +21,7 @@
         .nav_link{
             display: flex;
             flex-direction: column;
-            color: var(--ColorWhite);
+            color: $ColorWhite;
             justify-content: center;
             align-items: center;
             height: 100%;
