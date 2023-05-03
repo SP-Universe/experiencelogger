@@ -14,6 +14,7 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property string $DateOfBirth
  * @property string $Nickname
  * @property string $ProfilePrivacy
+ * @property bool $AutoLog
  * @property int $AvatarID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
@@ -26,6 +27,7 @@ class ExperienceMemberExtension extends DataExtension
         'DateOfBirth' => 'Date',
         'Nickname' => 'Varchar(255)',
         'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
+        "AutoLog" => "Boolean"
     ];
 
     private static $has_one = [

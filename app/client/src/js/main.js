@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 crossFade: true
             },
             direction: 'horizontal',
-            loop: autoSwiper,
+            loop: true,
 
             autoplay: autoSwiper ? {
                 delay: 5000,

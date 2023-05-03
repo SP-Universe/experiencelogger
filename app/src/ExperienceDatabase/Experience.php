@@ -20,6 +20,7 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
+use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 
 /**
  * Class \App\Database\Experience
@@ -41,12 +42,10 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $Entrance
  * @property string $Coordinates
  * @property string $JSONCode
- * @property int $ImageID
  * @property int $ParentID
  * @property int $TypeID
  * @property int $AreaID
  * @property int $StageID
- * @method \SilverStripe\Assets\Image Image()
  * @method \App\ExperienceDatabase\ExperienceLocation Parent()
  * @method \App\ExperienceDatabase\ExperienceType Type()
  * @method \App\ExperienceDatabase\Experience Area()
@@ -83,7 +82,6 @@ class Experience extends DataObject
     private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'ExperienceStage', 'State', 'Description', 'ExperienceImage', 'ParentID']];
 
     private static $has_one = [
-        "Image" => Image::class,
         "Parent" => ExperienceLocation::class,
         "Type" => ExperienceType::class,
         "Area" => Experience::class,
@@ -152,7 +150,11 @@ class Experience extends DataObject
 
     public function getExperienceImage()
     {
-        return $this->Image()->exists() ? $this->Image()->getAbsoluteURL() : null;
+        if ($this->PhotoGalleryImages->Count() > 0) {
+            return $this->PhotoGalleryImages()->first()->Image()->getAbsoluteURL();
+        } else {
+            return $this->Image()->exists() ? $this->Image()->getAbsoluteURL() : null;
+        }
     }
 
     public function getExperienceType()

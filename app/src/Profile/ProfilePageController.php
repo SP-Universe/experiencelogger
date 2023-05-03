@@ -15,6 +15,7 @@ use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Forms\CheckboxField;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -75,14 +76,6 @@ class ProfilePageController extends PageController
     {
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
-            /*$upload = UploadField::create('avatar', 'Avatar');
-            $upload->setFolderName('avatars');
-            $upload->getValidator()->setAllowedExtensions(array('png','jpg','jpeg','gif'));
-            $sizeMB = 1; // 1 MB
-            $size = $sizeMB * 1024 * 1024; // 1 MB in bytes
-            $upload->getValidator()->setAllowedMaxFileSize($size);
-            $upload->setRemoveFiles(true);*/
-
             $upload = new FileField('avatar', 'Avatar');
             $textfieldNickname = new TextField("Nickname", "Nickname");
             $textfieldNickname->setValue($currentUser->Nickname);
@@ -99,7 +92,9 @@ class ProfilePageController extends PageController
                 "friends" => "Friends Only",
                 "private" => "Private"
             ));
-            $dropdownFieldProfilePrivacy->setValue($currentUser->ProfilePrivacy);
+            $dropdownFieldProfilePrivacy->setValue($currentUser->AutoLog);
+            $dropdownFieldAutoLogging = new CheckboxField("AutoLog", "Auto Logging");
+            $dropdownFieldAutoLogging->setValue($currentUser->AutoLog);
 
             $fields = new FieldList(
                 $upload,
@@ -108,7 +103,8 @@ class ProfilePageController extends PageController
                 $textFieldLastName,
                 $textFieldEmail,
                 $dateFieldBirthdate,
-                $dropdownFieldProfilePrivacy
+                $dropdownFieldProfilePrivacy,
+                $dropdownFieldAutoLogging
             );
 
             $actions = new FieldList(

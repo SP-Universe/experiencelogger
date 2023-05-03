@@ -3,7 +3,7 @@
         <div class="section_content">
             <div class="experience_block <% if not $Image %>noimage<% end_if %>">
                 <% if $PhotoGalleryImages %>
-                    <div class="experiencegallery swiper swiper--auto">
+                    <div class="experiencegallery swiper">
                         <div class="experiencegallery_slider swiper-wrapper">
                             <% loop PhotoGalleryImages %>
                                 <div class="swiper-slide">

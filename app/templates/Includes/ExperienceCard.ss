@@ -3,12 +3,11 @@
         $JSONCode.Raw
     </div>
     <a href="" class="experience_entry">
-        <div class="experience_entry_image" style="">
-        </div>
+
+        <div class="experience_entry_image" style="background-image: url($PhotoGalleryImages.First.Image.FocusFill(200,200).Url)"></div>
         <div class="experience_entry_content">
             <h2 class="experience_title"> Loading ... </h2>
             <h4 class="experience_type" data-filter="" data-status="">...</h4>
-            <!--<p class="experience_state">...</p>-->
             <p class="experience_distance" data-behaviour="distance" data-loc="$Coordinates"></p>
         </div>
     </a>

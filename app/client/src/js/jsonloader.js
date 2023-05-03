@@ -20,7 +20,7 @@ if(experiencecards.length){
                 experiencecard.querySelector('.experience_type').innerHTML = data["ExperienceType"]
             }
             experiencecard.querySelector('.experience_type').setAttribute("data-filter", data["Title"]);
-            experiencecard.querySelector('.experience_entry_image').style = "background-image: url(" + data["ExperienceImage"] + ")";
+            //experiencecard.querySelector('.experience_entry_image').style = "background-image: url(" + data["ExperienceImage"] + ")";
             //experiencecard.querySelector('.experience_state').innerHTML = data["State"];
             experiencecard.querySelector('.experience_entry').href = data["ExperienceLink"];
             experiencecard.classList.add("data--loaded");

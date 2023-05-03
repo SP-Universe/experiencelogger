@@ -146,5 +146,7 @@ input:checked + .slider:before {
 .swiper-button-next, .swiper-button-prev{
     &::after{
         color: var(--ColorPrimary);
+        font-size: 30px;
+        color: $ColorWhite;
     }
 }

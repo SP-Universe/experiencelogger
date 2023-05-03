@@ -173,6 +173,40 @@
                     <textarea id="notes" name="notes"></textarea>
                 </form-group>
 
+                <% if $CurrentUser.AutoLog %>
+                    <% if $Stage || $Area %>
+                        <div class="connected_logging">
+                            <hr/>
+                            <p>This will also auto-log the following:</p>
+                            <br/>
+                            <% if $Stage %>
+                                <div class="experience_card state-{$Stage.State}" data-behaviour="experiencecard">
+                                    <div class="experience_entry">
+                                        <div class="experience_entry_image" style="background-image: url($Stage.PhotoGalleryImages.First.Image.FocusFill(200,200).Url)"></div>
+                                        <div class="experience_entry_content">
+                                            <h2 class="experience_title" style="text-align: left; margin: 0;">$Stage.Title</h2>
+                                            <h4 class="experience_type">$Stage.Type.Title</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end_if %>
+                            <% if $Area %>
+                                <div class="experience_card state-{$Area.State}" data-behaviour="experiencecard">
+                                    <div class="experience_entry">
+                                        <div class="experience_entry_image" style="background-image: url($Area.PhotoGalleryImages.First.Image.FocusFill(200,200).Url)"></div>
+                                        <div class="experience_entry_content">
+                                            <h2 class="experience_title" style="text-align: left; margin: 0;">$Area.Title</h2>
+                                            <h4 class="experience_type">$Area.Type.Title</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end_if %>
+                        </div>
+                    <% end_if %>
+                <% else %>
+                    <p>Auto-Logging of connected experiences is currently disabled. You can enable it in your <a href="profile">account settings</a>.</p>
+                <% end_if %>
+
                 <input data-behaviour="addlog_button" type="submit">
                 <% include XPLLogo %>
             </form>

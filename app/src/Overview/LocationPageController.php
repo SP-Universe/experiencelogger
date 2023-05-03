@@ -147,8 +147,14 @@ class LocationPageController extends PageController
             $newlogentry = LogEntry::create();
             $newlogentry->ExperienceID = $experience->ID;
 
+            if (isset($_GET["weather"])) {
+                $weather = $_GET["weather"];
+            }
+            $stage = $experience->Stage;
+            $area = $experience->Area;
+
             if (isset($experience)) {
-                if (isset($_GET["weather"])) {
+                if (isset($weather)) {
                     $newlogentry->Weather = implode(',', $_GET["weather"]);
                 }
                 if (isset($_GET["train"])) {
@@ -182,6 +188,30 @@ class LocationPageController extends PageController
                 $newlogentry->UserID = $currentUser->ID;
                 $newlogentry->VisitTime = date("Y-m-d H:i:s");
                 $newlogentry->write();
+
+                if ($currentUser->AutoLog) {
+                    if (isset($area)) {
+                        $newlogentryArea = LogEntry::create();
+                        $newlogentryArea->ExperienceID = $area->ID;
+                        if (isset($weather)) {
+                            $newlogentryArea->Weather = implode(',', $_GET["weather"]);
+                        }
+                        $newlogentryArea->UserID = $currentUser->ID;
+                        $newlogentryArea->VisitTime = date("Y-m-d H:i:s");
+                        $newlogentryArea->write();
+                    }
+
+                    if (isset($stage)) {
+                        $newlogentryStage = LogEntry::create();
+                        $newlogentryStage->ExperienceID = $stage->ID;
+                        if (isset($weather)) {
+                            $newlogentryStage->Weather = implode(',', $_GET["weather"]);
+                        }
+                        $newlogentryStage->UserID = $currentUser->ID;
+                        $newlogentryStage->VisitTime = date("Y-m-d H:i:s");
+                        $newlogentryStage->write();
+                    }
+                }
 
                 return $this->redirect($experience->Parent->Link . "?success=true");
             } else {
