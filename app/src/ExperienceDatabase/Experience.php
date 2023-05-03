@@ -8,19 +8,23 @@ use SilverStripe\Assets\Image;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use Colymba\BulkManager\BulkManager;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\View\Parsers\URLSegmentFilter;
+use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
-use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 
 /**
  * Class \App\Database\Experience
@@ -28,19 +32,18 @@ use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
  * @property string $Title
  * @property string $LinkTitle
  * @property string $State
+ * @property string $Entrance
+ * @property string $Coordinates
  * @property string $Traintype
  * @property string $CustomTrainType
- * @property bool $HasGeneralSeats
  * @property bool $HasWagons
  * @property bool $HasRows
  * @property bool $HasSeats
- * @property bool $HasScore
- * @property bool $HasPodest
+ * @property string $HasScore
+ * @property int $HasPodest
  * @property string $SeatOrientation
- * @property string $ExperienceLink
  * @property string $Description
- * @property string $Entrance
- * @property string $Coordinates
+ * @property string $ExperienceLink
  * @property string $JSONCode
  * @property int $ParentID
  * @property int $TypeID
@@ -55,6 +58,7 @@ use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceTrain[] ExperienceTrains()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVariant[] Variants()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVersion[] Versions()
+ * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\Experience[] Characters()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
  */
 class Experience extends DataObject
@@ -63,19 +67,18 @@ class Experience extends DataObject
         "Title" => "Varchar(255)",
         "LinkTitle" => "Varchar(255)",
         "State" => "Enum('Active, In Maintenance, Coming Soon, Other, Defunct', 'Active')",
+        "Entrance" => "Enum('None, Left, Right', 'None')",
+        "Coordinates" => "Varchar(64)",
         "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'Train')",
         "CustomTrainType" => "Varchar(255)",
-        "HasGeneralSeats" => "Boolean",
         "HasWagons" => "Boolean",
         "HasRows" => "Boolean",
         "HasSeats" => "Boolean",
-        "HasScore" => "Boolean",
-        "HasPodest" => "Boolean",
+        "HasScore" => "Varchar(255)",
+        "HasPodest" => "Int",
         "SeatOrientation" => "Varchar(255)",
-        "ExperienceLink" => "Varchar(255)",
         "Description" => "HTMLText",
-        "Entrance" => "Enum('None, Left, Right', 'None')",
-        "Coordinates" => "Varchar(64)",
+        "ExperienceLink" => "Varchar(255)",
         "JSONCode" => "HTMLText",
     ];
 
@@ -93,6 +96,10 @@ class Experience extends DataObject
         "ExperienceTrains" => ExperienceTrain::class,
         "Variants" => ExperienceVariant::class,
         "Versions" => ExperienceVersion::class,
+    ];
+
+    private static $many_many = [
+        "Characters" => Experience::class,
     ];
 
     private static $owns = [
@@ -136,13 +143,13 @@ class Experience extends DataObject
 
     private static $defaults = [
         "State" => "Active",
-        "HasGeneralSeats" => true,
+        "HasGeneralSeats" => false,
         "HasScore" => false,
         "HasPodest" => false,
-        "HasWagons" => true,
-        "HasRows" => true,
-        "HasSeats" => true,
-        "AllTrainsTheSame" => true,
+        "HasWagons" => false,
+        "HasRows" => false,
+        "HasSeats" => false,
+        "AllTrainsTheSame" => false,
     ];
 
     private static $url_segment = "experience";
@@ -188,15 +195,12 @@ class Experience extends DataObject
         $fields = parent::getCMSFields();
 
         $fields->removeByName("ParentID");
-        $fields->replaceField("SeatOrientation", new DropdownField("SeatOrientation", "Seat Orientation", [
-            "standard" => "Standard",
-            "circular" => "Circular",
-            "wings" => "Wings"
-        ]));
         $fields->insertAfter('Title', new DropdownField('TypeID', 'Type', ExperienceType::get()->map('ID', 'Title')));
+        $fields->insertAfter('Title', new TextField('LinkTitle', 'URL-Segment'));
 
-        $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;
+        //Areas and Stages
         $parentID = $this->ParentID;
+        $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;
         if ($areatypeID) {
             $experiencemap = Experience::get()->filter([
                 'TypeID' => $areatypeID,
@@ -216,31 +220,106 @@ class Experience extends DataObject
             $fields->insertAfter('AreaID', new DropdownField('StageID', 'Stage', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Stage -");
         }
 
+        //Experience Data
         $fields->removeByName("ExperienceData");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
-        $gridfield = new GridField("ExperienceData", "ExperienceData", $this->ExperienceData(), $gridFieldConfig);
+        $gridfield = new GridField("ExperienceData", "More Data", $this->ExperienceData(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Data', $gridfield);
+
+        //Experience Trains
+        $fields->removeByName([
+            'HasWagons',
+            'HasRows',
+            'HasSeats',
+            "Traintype",
+            "CustomTrainType",
+            "SeatOrientation",
+            "HasScore",
+            "Entrance",
+        ]);
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Traintype', 'Train Type', array(
+            "None" => "None",
+            "Train" => "Train",
+            "Boat" => "Boat",
+            "Car" => "Car",
+            "Airplane" => "Airplane",
+            "Balloon" => "Balloon",
+            "Pony" => "Pony",
+            "Gondola" => "Gondola",
+            "Slide" => "Slide"
+        )));
+        $fields->addFieldToTab('Root.Trains & Seats', new TextField('CustomTrainType', 'Custom Train Type Title'));
+        $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasWagons', 'Has Wagons'));
+        $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasRows', 'Has Rows'));
+        $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasSeats', 'Has Seats'));
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('SeatOrientation', 'Seat Orientation', array(
+            "Standard",
+            "Circular",
+            "Wings"
+        )));
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Entrance', 'Entrance', array(
+            "None",
+            "Front",
+            "Back",
+            "Left",
+            "Right",
+        )));
+
+        $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', array(
+            "0" => "No Score",
+            "numeric" => "Numeric Score",
+            "text" => "Text Score",
+            "time" => "Time Score"
+        )));
+        $fields->addFieldToTab('Root.Other', new DropdownField('HasPodest', 'Number of Podest places', array(
+            "0" => "No Podest",
+            "1" => "1 Position",
+            "2" => "2 Positions",
+            "3" => "3 Positions",
+            "4" => "4 Positions",
+            "5" => "5 Positions",
+            "6" => "6 Positions",
+            "7" => "7 Positions",
+            "8" => "8 Positions",
+            "9" => "9 Positions",
+            "10" => "10 Positions",
+            "11" => "11 Positions",
+            "12" => "12 Positions",
+            "13" => "13 Positions",
+            "14" => "14 Positions",
+            "15" => "15 Positions",
+            "16" => "16 Positions",
+            "17" => "17 Positions",
+            "18" => "18 Positions",
+            "19" => "19 Positions",
+            "20" => "20 Positions",
+        )));
 
         $fields->removeByName("ExperienceTrains");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridFieldConfig->addComponent(new BulkManager());
         $gridFieldConfig->addComponent(new GridFieldDuplicateAction());
-        $gridfield = new GridField("ExperienceTrains", "ExperienceTrains", $this->ExperienceTrains(), $gridFieldConfig);
-        $fields->addFieldToTab('Root.Trains', $gridfield);
+        $gridfield = new GridField("ExperienceTrains", "Advanced Trains", $this->ExperienceTrains(), $gridFieldConfig);
+        $fields->addFieldToTab('Root.Trains & Seats', $gridfield);
 
+        //Variants and Versions
         $fields->removeByName("Variants");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridfield = new GridField("Variants", "Variants", $this->Variants(), $gridFieldConfig);
-        $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
+        $fields->addFieldToTab('Root.Variants & Versions', $gridfield);
 
         $fields->removeByName("Versions");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
         $gridfield = new GridField("Versions", "Versions", $this->Versions(), $gridFieldConfig);
-        $fields->addFieldToTab('Root.Variants and Versions', $gridfield);
+        $fields->addFieldToTab('Root.Variants & Versions', $gridfield);
+
+        //JSON Code
+        $fields->removeByName("JSONCode");
+        $fields->addFieldToTab('Root.Other', new ReadonlyField('JSONCode', 'JSON Code'));
 
         return $fields;
     }
@@ -251,6 +330,9 @@ class Experience extends DataObject
         if ($this->LinkTitle == "") {
             $filter = URLSegmentFilter::create();
             $filteredTitle = $filter->filter($this->Title);
+            if (Experience::get()->filter("LinkTitle", $filteredTitle)->count() > 0) {
+                $filteredTitle = $filteredTitle . "-" . $this->ID;
+            }
             $this->LinkTitle = $filteredTitle;
         }
 

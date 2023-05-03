@@ -2,6 +2,7 @@
 namespace App\Extensions;
 
 use SilverStripe\Assets\Image;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
 use App\ExperienceDatabase\LogEntry;
@@ -99,5 +100,13 @@ class ExperienceMemberExtension extends DataExtension
             $url .= ' />';
         }
         return $url;
+    }
+
+    public function getPaginatedLogs()
+    {
+        $logs = $this->getLogs($this->owner->ID);
+        $paginated = new PaginatedList($logs, $this->owner->getRequest());
+        $paginated->setPageLength(10);
+        return $paginated;
     }
 }
