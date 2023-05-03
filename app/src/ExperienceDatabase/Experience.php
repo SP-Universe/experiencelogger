@@ -69,7 +69,7 @@ class Experience extends DataObject
         "State" => "Enum('Active, In Maintenance, Coming Soon, Other, Defunct', 'Active')",
         "Entrance" => "Enum('None, Left, Right', 'None')",
         "Coordinates" => "Varchar(64)",
-        "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'Train')",
+        "Traintype" => "Enum('Train, None, Boat, Car, Airplane, Balloon, Pony, Gondola, Slide', 'None')",
         "CustomTrainType" => "Varchar(255)",
         "HasWagons" => "Boolean",
         "HasRows" => "Boolean",
