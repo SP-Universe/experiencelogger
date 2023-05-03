@@ -96,7 +96,6 @@ class Experience extends DataObject
     ];
 
     private static $owns = [
-        "Image",
         "ExperienceData",
         "ExperienceTrains",
     ];
