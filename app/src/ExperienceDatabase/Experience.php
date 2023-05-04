@@ -294,6 +294,16 @@ class Experience extends DataObject
             "18" => "18 Positions",
             "19" => "19 Positions",
             "20" => "20 Positions",
+            "21" => "21 Positions",
+            "22" => "22 Positions",
+            "23" => "23 Positions",
+            "24" => "24 Positions",
+            "25" => "25 Positions",
+            "26" => "26 Positions",
+            "27" => "27 Positions",
+            "28" => "28 Positions",
+            "29" => "29 Positions",
+            "30" => "30 Positions",
         )));
 
         $fields->removeByName("ExperienceTrains");
