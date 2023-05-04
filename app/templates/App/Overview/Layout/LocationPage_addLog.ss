@@ -133,7 +133,7 @@
                         <% end_if %>
                     </form-group>
                 <% end_if %>
-                <% if $HasScore != "No Score" || $HasPodest %>
+                <% if not $HasScore == "No Score" || $HasPodest %>
                     <h2>Score</h2>
                     <form-group class="logging_group">
                         <% if $HasScore == "Numeric Score" %>
