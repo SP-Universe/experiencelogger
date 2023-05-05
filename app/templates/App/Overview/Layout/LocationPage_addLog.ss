@@ -63,7 +63,7 @@
                         <input type="checkbox" id="breakdown" name="weather[]" value="breakdown"/>
                     </div>
                 </form-group>
-                <% if $HasGeneralSeats %>
+                <% if $ExperienceTrains || $HasTrains || $HasWagons || $HasRows || $HasSeats %>
                         <h2>Seat</h2>
 
                         <% if $ExperienceTrains() %>
