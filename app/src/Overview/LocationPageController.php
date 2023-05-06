@@ -150,8 +150,12 @@ class LocationPageController extends PageController
             if (isset($_GET["weather"])) {
                 $weather = $_GET["weather"];
             }
-            $stage = $experience->Stage;
-            $area = $experience->Area;
+            if ($experience->StageID != 0) {
+                $stage = $experience->Stage;
+            }
+            if ($experience->AreaID != 0) {
+                $area = $experience->Area;
+            }
 
             if (isset($experience)) {
                 if (isset($weather)) {

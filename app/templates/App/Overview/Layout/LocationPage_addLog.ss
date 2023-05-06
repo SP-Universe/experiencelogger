@@ -183,7 +183,7 @@
                     <% if $Stage || $Area %>
                         <div class="connected_logging">
                             <hr/>
-                            <p>This will also auto-log the following:</p>
+                            <p>This will also log the following linked experiences:</p>
                             <br/>
                             <% if $Stage %>
                                 <div class="experience_card state-{$Stage.State}" data-behaviour="experiencecard">
@@ -210,7 +210,7 @@
                         </div>
                     <% end_if %>
                 <% else %>
-                    <p>Auto-Logging of connected experiences is currently disabled. You can enable it in your <a href="profile">account settings</a>.</p>
+                    <p>Linked Logging of connected experiences is currently disabled. You can enable it in your <a href="profile">profile</a>.</p>
                 <% end_if %>
 
                 <input data-behaviour="addlog_button" type="submit">

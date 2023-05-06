@@ -93,7 +93,7 @@ class ProfilePageController extends PageController
                 "private" => "Private"
             ));
             $dropdownFieldProfilePrivacy->setValue($currentUser->AutoLog);
-            $dropdownFieldAutoLogging = new CheckboxField("AutoLog", "Auto Logging");
+            $dropdownFieldAutoLogging = new CheckboxField("AutoLog", "Linked Logging");
             $dropdownFieldAutoLogging->setValue($currentUser->AutoLog);
 
             $fields = new FieldList(
