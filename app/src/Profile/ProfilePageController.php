@@ -92,9 +92,9 @@ class ProfilePageController extends PageController
                 "friends" => "Friends Only",
                 "private" => "Private"
             ));
-            $dropdownFieldProfilePrivacy->setValue($currentUser->AutoLog);
-            $dropdownFieldAutoLogging = new CheckboxField("AutoLog", "Linked Logging");
-            $dropdownFieldAutoLogging->setValue($currentUser->AutoLog);
+            $dropdownFieldProfilePrivacy->setValue($currentUser->ProfilePrivacy);
+            $dropdownFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
+            $dropdownFieldLinkedLogging->setValue($currentUser->LinkedLogging);
 
             $fields = new FieldList(
                 $upload,
@@ -104,7 +104,7 @@ class ProfilePageController extends PageController
                 $textFieldEmail,
                 $dateFieldBirthdate,
                 $dropdownFieldProfilePrivacy,
-                $dropdownFieldAutoLogging
+                $dropdownFieldLinkedLogging
             );
 
             $actions = new FieldList(

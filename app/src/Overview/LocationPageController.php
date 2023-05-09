@@ -153,9 +153,25 @@ class LocationPageController extends PageController
             if ($experience->StageID != 0) {
                 $stage = $experience->Stage;
             }
+
+
+            //Find out if the area should be logged
             if ($experience->AreaID != 0) {
-                $area = $experience->Area;
+                if ($currentUser->LastLogDate != null) {
+                    $lastLogDate = date("Y-m-d", strtotime($currentUser->LastLogDate));
+
+                    if ($lastLogDate === date("Y-m-d")) {
+                        if (isset($currentUser->LastLoggedAreaID)) {
+                            if ($experience->AreaID != 0 && $experience->AreaID != $currentUser->LastLoggedAreaID) {
+                                $area = $experience->Area;
+                            }
+                        }
+                    }
+                } else {
+                    $area = $experience->Area;
+                }
             }
+
 
             if (isset($experience)) {
                 if (isset($weather)) {
@@ -193,7 +209,7 @@ class LocationPageController extends PageController
                 $newlogentry->VisitTime = date("Y-m-d H:i:s");
                 $newlogentry->write();
 
-                if ($currentUser->AutoLog) {
+                if ($currentUser->LinkedLogging) {
                     if (isset($area)) {
                         $newlogentryArea = LogEntry::create();
                         $newlogentryArea->ExperienceID = $area->ID;
@@ -215,6 +231,10 @@ class LocationPageController extends PageController
                         $newlogentryStage->VisitTime = date("Y-m-d H:i:s");
                         $newlogentryStage->write();
                     }
+
+                    $currentUser->LastLoggedAreaID = $experience->AreaID;
+                    $currentUser->LastLogDate = date("Y-m-d H:i:s");
+                    $currentUser->write();
                 }
 
                 return $this->redirect($experience->Parent->Link . "?success=true");

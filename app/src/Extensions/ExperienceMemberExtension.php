@@ -1,12 +1,14 @@
 <?php
 namespace App\Extensions;
 
+use App\ExperienceDatabase\Experience;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\ExperienceLocation;
+use DateTime;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -15,9 +17,12 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property string $DateOfBirth
  * @property string $Nickname
  * @property string $ProfilePrivacy
- * @property bool $AutoLog
+ * @property bool $LinkedLogging
+ * @property string $LastLogDate
  * @property int $AvatarID
+ * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
+ * @method \App\ExperienceDatabase\Experience LastLoggedArea()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
  * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
  */
@@ -28,11 +33,13 @@ class ExperienceMemberExtension extends DataExtension
         'DateOfBirth' => 'Date',
         'Nickname' => 'Varchar(255)',
         'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
-        "AutoLog" => "Boolean"
+        "LinkedLogging" => "Boolean",
+        "LastLogDate" => "Date",
     ];
 
     private static $has_one = [
         'Avatar' => Image::class,
+        "LastLoggedArea" => Experience::class,
     ];
 
     private static $owns = [

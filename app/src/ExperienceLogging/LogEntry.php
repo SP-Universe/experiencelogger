@@ -2,17 +2,9 @@
 
 namespace App\ExperienceDatabase;
 
-use SilverStripe\Assets\File;
-use App\Overview\LocationPage;
-use SilverStripe\Assets\Image;
-use function PHPSTORM_META\map;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Security\Member;
-use SilverStripe\Forms\DropdownField;
-
-use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
 

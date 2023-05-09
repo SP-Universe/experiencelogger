@@ -1,9 +1,9 @@
-console.log("jsonloader loaded");
+//console.log("jsonloader loaded");
 
 //Load Experiencecard
 let experiencecards = document.querySelectorAll('[data-behaviour="experiencecard"]');
 
-console.log(experiencecards);
+//console.log(experiencecards);
 if(experiencecards.length){
     experiencecards.forEach(experiencecard => {
         if(experiencecard.querySelector('.experiencedata').textContent) {

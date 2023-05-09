@@ -443,4 +443,22 @@ class Experience extends DataObject
         }
         return false;
     }
+
+    public function getWillLinkLogArea()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($this->AreaID == 0 || !$currentUser) {
+            return false;
+        }
+
+        $lastLoggedArea = $currentUser->LastLoggedArea();
+
+        if ($lastLoggedArea) {
+            if ($lastLoggedArea->ID == $this->AreaID) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

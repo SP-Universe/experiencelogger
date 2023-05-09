@@ -179,14 +179,14 @@
                     <textarea id="notes" name="notes"></textarea>
                 </form-group>
 
-                <% if $CurrentUser.AutoLog %>
+                <% if $CurrentUser.LinkedLogging %>
                     <% if $Stage || $Area %>
                         <div class="connected_logging">
                             <hr/>
                             <p>This will also log the following linked experiences:</p>
                             <br/>
                             <% if $Stage %>
-                                <div class="experience_card state-{$Stage.State}" data-behaviour="experiencecard">
+                                <div class="experience_card state-{$Stage.State}">
                                     <div class="experience_entry">
                                         <div class="experience_entry_image" style="background-image: url($Stage.PhotoGalleryImages.First.Image.FocusFill(200,200).Url)"></div>
                                         <div class="experience_entry_content">
@@ -196,8 +196,8 @@
                                     </div>
                                 </div>
                             <% end_if %>
-                            <% if $Area %>
-                                <div class="experience_card state-{$Area.State}" data-behaviour="experiencecard">
+                            <% if $Area && $WillLinkLogArea %>
+                                <div class="experience_card state-{$Area.State}">
                                     <div class="experience_entry">
                                         <div class="experience_entry_image" style="background-image: url($Area.PhotoGalleryImages.First.Image.FocusFill(200,200).Url)"></div>
                                         <div class="experience_entry_content">
