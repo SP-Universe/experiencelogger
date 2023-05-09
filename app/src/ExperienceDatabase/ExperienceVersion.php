@@ -22,6 +22,7 @@ class ExperienceVersion extends DataObject
     private static $db = [
         "Title" => "Varchar(255)",
         "Description" => "HTMLText",
+        "OfficialWebsite" => "Varchar(255)",
         "SortOrder" => "Int",
         "Defunct" => "Boolean",
     ];
