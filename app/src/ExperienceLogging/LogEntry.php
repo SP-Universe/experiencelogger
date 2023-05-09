@@ -4,9 +4,10 @@ namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Security\Member;
-use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
+use SilverStripe\Security\Member;
+use SilverStripe\Forms\DatetimeField;
+use SilverStripe\Security\Permission;
 
 /**
  * Class \App\Database\Experience
@@ -118,6 +119,7 @@ class LogEntry extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
         return $fields;
     }
 
