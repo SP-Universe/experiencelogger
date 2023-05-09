@@ -28,6 +28,21 @@
                     </a>
                 </div>
             <% end_if %>
+            <div class="experience_menu">
+                <a class="experience_menu_symbol" data-behaviour="popup-open" data-popupid="$ID">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+
+                <div class="experience_menu_popup" data-behaviour="popup" data-popupid="$ID">
+                    <div class="popup_inner">
+                        <a class="popup_closingbutton" data-behaviour="popup-close" data-popupid="$ID"></a>
+                        <h2>Settings for $Title <span>in $Parent.Title</span></h2>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+            </div>
         <% end_if %>
     <% end_if %>
 </div>

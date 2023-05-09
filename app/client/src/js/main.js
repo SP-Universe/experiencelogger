@@ -60,6 +60,36 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
+    //Experience menu popups
+    let popupbuttons = document.querySelectorAll('[data-behaviour="popup-open"]');
+    let popups = document.querySelectorAll('[data-behaviour="popup"]');
+    let popupcloses = document.querySelectorAll('[data-behaviour="popup-close"]');
+    if(popupbuttons.length && popups.length && popupcloses.length){
+        popupbuttons.forEach(popupbutton => {
+            popupbutton.addEventListener("click", function (event) {
+                event.preventDefault();
+                popups.forEach(popup => {
+                    popup.classList.remove("active");
+                    if(popup.dataset.popupid === popupbutton.dataset.popupid){
+                        popup.classList.add("active");
+                    }
+                });
+            });
+        });
+
+        popupcloses.forEach(popupclose => {
+            popupclose.addEventListener("click", function (event) {
+                event.preventDefault();
+                popups.forEach(popup => {
+                    if(popup.dataset.popupid === popupclose.dataset.popupid){
+                        popup.classList.remove("active");
+                    }
+                });
+            });
+        });
+    }
+
+
     //Showhide Logs
     let showhide = document.querySelectorAll('[data-behaviour="showhide"]');
     if(showhide.length){
