@@ -166,6 +166,8 @@ class LocationPageController extends PageController
                                 $area = $experience->Area;
                             }
                         }
+                    } else {
+                        $area = $experience->Area;
                     }
                 } else {
                     $area = $experience->Area;
