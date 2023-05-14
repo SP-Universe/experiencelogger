@@ -259,11 +259,11 @@ class Experience extends DataObject
             "Wings"
         )));
         $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Entrance', 'Entrance', array(
-            "None",
-            "Front",
-            "Back",
-            "Left",
-            "Right",
+            "None" => "None",
+            "Front" => "Front",
+            "Back" => "Back",
+            "Left" => "Left",
+            "Right" => "Right",
         )));
 
         $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', array(

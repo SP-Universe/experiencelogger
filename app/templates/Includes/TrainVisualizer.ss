@@ -1,5 +1,4 @@
 <div class="train_visualizer">
-
     <% if $Entrance == "Left" %>
         <div class="entrance">
             Entrance →
