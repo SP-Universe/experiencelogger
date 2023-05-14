@@ -144,7 +144,7 @@
                             <input type="text" id="score" name="score">
                         <% else_if $HasScore == "time" %>
                             <label for="score">Time</label>
-                            <input type="time" id="score" name="score">
+                            <input type="time" id="score" name="score" step="1">
                         <% end_if %>
                         <% if $HasPodest %>
                             <select name="podest" id="podest">
