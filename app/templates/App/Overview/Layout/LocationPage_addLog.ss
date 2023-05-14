@@ -133,7 +133,7 @@
                         <% end_if %>
                     </form-group>
                 <% end_if %>
-                <% if not $HasScore == "0" || $HasPodest %>
+                <% if $HasScore == "numeric" || $HasPodest > 0 || $HasScore == "text" || $HasScore == "time" %>
                     <h2>Score</h2>
                     <form-group class="logging_group">
                         <% if $HasScore == "numeric" %>
@@ -146,29 +146,40 @@
                             <label for="score">Time</label>
                             <input type="time" id="score" name="score" step="1">
                         <% end_if %>
-                        <% if $HasPodest %>
+                        <% if $HasPodest > 0 %>
                             <select name="podest" id="podest">
                                 <option value="-1">Select a Podest Place</option>
                                 <option value="1">1st place</option>
-                                <option value="2">2nd place</option>
-                                <option value="3">3rd place</option>
-                                <option value="4">4th place</option>
-                                <option value="5">5th place</option>
-                                <option value="6">6th place</option>
-                                <option value="7">7th place</option>
-                                <option value="8">8th place</option>
-                                <option value="9">9th place</option>
-                                <option value="10">10th place</option>
-                                <option value="11">11th place</option>
-                                <option value="12">12th place</option>
-                                <option value="13">13th place</option>
-                                <option value="14">14th place</option>
-                                <option value="15">15th place</option>
-                                <option value="16">16th place</option>
-                                <option value="17">17th place</option>
-                                <option value="18">18th place</option>
-                                <option value="19">19th place</option>
-                                <option value="20">20th place</option>
+                                <% if $HasPodest > 1 %><option value="2">2nd place</option><% end_if %>
+                                <% if $HasPodest > 2 %><option value="3">3rd place</option><% end_if %>
+                                <% if $HasPodest > 3 %><option value="4">4th place</option><% end_if %>
+                                <% if $HasPodest > 4 %><option value="5">5th place</option><% end_if %>
+                                <% if $HasPodest > 5 %><option value="6">6th place</option><% end_if %>
+                                <% if $HasPodest > 6 %><option value="7">7th place</option><% end_if %>
+                                <% if $HasPodest > 7 %><option value="8">8th place</option><% end_if %>
+                                <% if $HasPodest > 8 %><option value="9">9th place</option><% end_if %>
+                                <% if $HasPodest > 9 %><option value="10">10th place</option><% end_if %>
+                                <% if $HasPodest > 10 %><option value="11">11th place</option><% end_if %>
+                                <% if $HasPodest > 11 %><option value="12">12th place</option><% end_if %>
+                                <% if $HasPodest > 12 %><option value="13">13th place</option><% end_if %>
+                                <% if $HasPodest > 13 %><option value="14">14th place</option><% end_if %>
+                                <% if $HasPodest > 14 %><option value="15">15th place</option><% end_if %>
+                                <% if $HasPodest > 15 %><option value="16">16th place</option><% end_if %>
+                                <% if $HasPodest > 16 %><option value="17">17th place</option><% end_if %>
+                                <% if $HasPodest > 17 %><option value="18">18th place</option><% end_if %>
+                                <% if $HasPodest > 18 %><option value="19">19th place</option><% end_if %>
+                                <% if $HasPodest > 19 %><option value="20">20th place</option><% end_if %>
+                                <% if $HasPodest > 20 %><option value="21">21st place</option><% end_if %>
+                                <% if $HasPodest > 21 %><option value="22">22nd place</option><% end_if %>
+                                <% if $HasPodest > 22 %><option value="23">23rd place</option><% end_if %>
+                                <% if $HasPodest > 23 %><option value="24">24th place</option><% end_if %>
+                                <% if $HasPodest > 24 %><option value="25">25th place</option><% end_if %>
+                                <% if $HasPodest > 25 %><option value="26">26th place</option><% end_if %>
+                                <% if $HasPodest > 26 %><option value="27">27th place</option><% end_if %>
+                                <% if $HasPodest > 27 %><option value="28">28th place</option><% end_if %>
+                                <% if $HasPodest > 28 %><option value="29">29th place</option><% end_if %>
+                                <% if $HasPodest > 29 %><option value="30">30th place</option><% end_if %>
+                                <% if $HasPodest > 30 %><option value="31">31st place</option><% end_if %>
                             </select>
                         <% end_if %>
                     </form-group>
