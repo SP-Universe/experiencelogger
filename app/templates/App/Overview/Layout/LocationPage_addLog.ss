@@ -133,16 +133,16 @@
                         <% end_if %>
                     </form-group>
                 <% end_if %>
-                <% if not $HasScore == "No Score" || $HasPodest %>
+                <% if not $HasScore == "0" || $HasPodest %>
                     <h2>Score</h2>
                     <form-group class="logging_group">
-                        <% if $HasScore == "Numeric Score" %>
+                        <% if $HasScore == "numeric" %>
                             <label for="score">Score</label>
                             <input type="numeric" id="score" name="score">
-                        <% else_if $HasScore == "Text Score" %>
+                        <% else_if $HasScore == "text" %>
                             <label for="score">Score</label>
                             <input type="text" id="score" name="score">
-                        <% else_if $HasScore == "Time Score" %>
+                        <% else_if $HasScore == "time" %>
                             <label for="score">Time</label>
                             <input type="time" id="score" name="score">
                         <% end_if %>
