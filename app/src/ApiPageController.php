@@ -136,7 +136,6 @@ namespace {
             }
 
             $this->response->addHeader('Content-Type', 'application/json');
-            $this->response->addHeader('Access-Control-Allow-Origin', '*');
             return json_encode($data);
         }
 

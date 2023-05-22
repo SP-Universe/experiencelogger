@@ -12,6 +12,7 @@ use SilverStripe\Security\Permission;
  *
  * @property string $Title
  * @property string $Description
+ * @property string $OfficialWebsite
  * @property int $SortOrder
  * @property bool $Defunct
  * @property int $ParentID
