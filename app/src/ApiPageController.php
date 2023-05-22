@@ -186,13 +186,11 @@ namespace {
             }
 
             $this->response->addHeader('Content-Type', 'application/json');
-            $this->response->addHeader('Access-Control-Allow-Origin', '*');
             return json_encode($data);
         }
 
         public function addLog(HTTPRequest $request)
         {
-            $this->response->addHeader('Access-Control-Allow-Origin', '*');
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
 
