@@ -136,6 +136,15 @@ class LocationPageController extends PageController
         );
     }
 
+    public function getPercent($all, $from)
+    {
+        if ($all > 0) {
+            return round(($from / $all) * 100) . "%";
+        } else {
+            return 0 . "%";
+        }
+    }
+
     public function finishLog()
     {
         $currentUser = Security::getCurrentUser();

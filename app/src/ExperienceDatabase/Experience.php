@@ -23,6 +23,7 @@ use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Security\Group;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
@@ -188,6 +189,11 @@ class Experience extends DataObject
     {
         $locationsHolder = LocationPage::get()->first();
         return $locationsHolder->Link("addLog/") . $this->LinkTitle;
+    }
+
+    public function getLogs()
+    {
+        return GroupedList::create(LogEntry::get()->filter("ExperienceID", $this->ID)->sort('VisitTime DESC'));
     }
 
     public function getCMSFields()

@@ -41,7 +41,7 @@
                 $Description
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
-                    <% if $HasGeneralSeats && $ExperienceTrains.Count > 0 %><a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart</a><% end_if %>
+                    <a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart & Logs</a>
                 </div>
             </div>
 
