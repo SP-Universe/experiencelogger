@@ -1,4 +1,4 @@
-<div class="loggedexperience_card">
+<div class="loggedexperience_card" data-behaviour="filtered_log" data-experiencetype="$Experience.Type.Title">
     <div class="log_text" data-behaviour="showhide_log">
         <p class="date">$FormattedDate</p>
         <h3>$Experience.Title</h3>

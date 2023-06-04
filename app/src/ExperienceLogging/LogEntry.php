@@ -148,6 +148,11 @@ class LogEntry extends DataObject
         return date("Y", strtotime($this->VisitTime));
     }
 
+    public function getExperienceType()
+    {
+        return $this->Experience()->ExperienceType;
+    }
+
     public function canView($member = null)
     {
         return true;

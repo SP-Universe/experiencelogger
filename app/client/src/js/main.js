@@ -336,4 +336,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
             });
         });
     }
+
+    //logsfilter
+    const logsfilter = document.querySelector('[data-behaviour="filter_logs"]');
+    const filteredlogs = document.querySelectorAll('[data-behaviour="filtered_log"]');
+
+    if(logsfilter && filteredlogs){
+        logsfilter.addEventListener("change", function(e) {
+            e.preventDefault();
+            filteredlogs.forEach(element => {
+                if(e.target.value === "All"){
+                    element.classList.remove('hide');
+                    return;
+                } else {
+                    element.classList.add('hide');
+                    if(element.dataset.experiencetype === e.target.value) {
+                        element.classList.remove('hide');
+                    }
+                }
+            });
+        });
+    }
 });

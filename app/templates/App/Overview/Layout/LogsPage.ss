@@ -2,7 +2,7 @@
     <h1>Your recent Trips:</h1>
     <div class="logs_buttons">
         <div class="logs_buttonwrap">
-            <a class="logs_button" href="$Top.Link('')\month\/$VisitDateMonth">
+            <a class="logs_button" href="$Top.Link('')\all">
                 <h4>All</h4>
                 <h4>Logs</h4>
                 <p>$Logs.Count logged Experiences</p>
