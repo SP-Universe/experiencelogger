@@ -128,6 +128,26 @@ class LogEntry extends DataObject
         return date("d.m.Y", strtotime($this->VisitTime));
     }
 
+    public function getVisitDateLink()
+    {
+        return date("d-m-Y", strtotime($this->VisitTime));
+    }
+
+    public function getVisitDateMonth()
+    {
+        return date("m-Y", strtotime($this->VisitTime));
+    }
+
+    public function getVisitDateMonthText()
+    {
+        return date("F", strtotime($this->VisitTime));
+    }
+
+    public function getVisitDateYearText()
+    {
+        return date("Y", strtotime($this->VisitTime));
+    }
+
     public function canView($member = null)
     {
         return true;

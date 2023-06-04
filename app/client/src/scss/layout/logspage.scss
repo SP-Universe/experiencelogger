@@ -6,4 +6,32 @@
     .logs_date{
         margin-bottom: 30px;
     }
+
+    .logs_buttons{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .logs_buttonwrap{
+            padding: 20px;
+
+            .logs_button{
+                padding: 20px;
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhite);
+                text-align: center;
+                display: block;
+                border-radius: 20px;
+                height: 100%;
+
+                h4{
+                    color: var(--ColorWhite);
+                    margin: 0;
+                }
+            }
+        }
+
+        @include media("<=medium") {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 }

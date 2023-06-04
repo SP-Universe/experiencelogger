@@ -1,11 +1,22 @@
 <div class="section section--logspage">
-    <h1>Your recent Logs:</h1>
-    <% loop $Logs.GroupedBy(VisitDate) %>
-        <div class="logs_date">
-            <h4>$VisitDate <span>$Children.Count Experiences</span></h4>
-            <% loop $Children %>
-                <% include LogCard %>
-            <% end_loop %>
+    <h1>Your recent Trips:</h1>
+    <div class="logs_buttons">
+        <div class="logs_buttonwrap">
+            <a class="logs_button" href="$Top.Link('')\month\/$VisitDateMonth">
+                <h4>All</h4>
+                <h4>Logs</h4>
+                <p>$Logs.Count logged Experiences</p>
+            </a>
         </div>
-    <% end_loop %>
+
+        <% loop $Logs.GroupedBy(VisitDateMonth) %>
+            <div class="logs_buttonwrap">
+                <a class="logs_button" href="$Top.Link('')\month\/$VisitDateMonth">
+                    <h4>$Children.First.VisitDateMonthText</h4>
+                    <h4>$Children.First.VisitDateYearText</h4>
+                    <p>$Children.GroupedBy(VisitDateLink).Count Trips</p>
+                </a>
+            </div>
+        <% end_loop %>
+    </div>
 </div>
