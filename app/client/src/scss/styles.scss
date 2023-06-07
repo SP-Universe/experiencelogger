@@ -169,7 +169,7 @@ input:checked + .slider:before {
 
         &:nth-child(2n){
             background-color: var(--ColorPrimaryDark);
-            color: var(--ColorWhite);
+            color: $ColorWhite;
         }
 
         span{
