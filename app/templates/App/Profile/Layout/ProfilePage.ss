@@ -44,18 +44,7 @@
                 <% end_loop %>
             </div>
 
-            <h3 class="profile_section_headline">Your Logs:</h3>
-            <div class="profile_loglist">
-                <p>Logged Experiences: $Logs.Count</p>
-                <% loop $Logs.GroupedBy(VisitDate) %>
-                    <div class="logs_date">
-                        <h4>$VisitDate <span>$Children.Count Experiences</span></h4>
-                        <% loop $Children %>
-                            <% include LogCard %>
-                        <% end_loop %>
-                    </div>
-                <% end_loop %>
-            </div>
+            <p>You are registered since $Created</p>
         <% else %>
             <div class="login_note">
                 <p class="centered">
