@@ -71,7 +71,7 @@ class LogsPageController extends PageController
             $month = explode("-", $date)[0];
             $year = explode("-", $date)[1];
             return array(
-                "MonthText" => date("F", strtotime($month)),
+                "MonthText" => date("F", mktime(0, 0, 0, $month, 10)),
                 "Month" => $month,
                 "Year" => $year,
             );
