@@ -193,7 +193,15 @@ class Experience extends DataObject
 
     public function getLogs()
     {
-        return GroupedList::create(LogEntry::get()->filter("ExperienceID", $this->ID)->sort('VisitTime DESC'));
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return GroupedList::create(LogEntry::get()->filter(
+                [
+                    "ExperienceID" => $this->ID,
+                    "UserID" => $currentUser->ID,
+                ]
+            )->sort('VisitTime DESC'));
+        }
     }
 
     public function getCMSFields()
