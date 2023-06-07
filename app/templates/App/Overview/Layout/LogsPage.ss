@@ -14,7 +14,7 @@
                 <a class="logs_button" href="$Top.Link('')\month\/$VisitDateMonth">
                     <h4>$Children.First.VisitDateMonthText</h4>
                     <h4>$Children.First.VisitDateYearText</h4>
-                    <p>$Children.GroupedBy(VisitDateLink).Count Trips</p>
+                    <p>$Children.GroupedBy(VisitDateLink).Count <% if $Children.GroupedBy(VisitDateLink).Count > 1 %>Trips<% else %>Trip<% end_if %></p>
                 </a>
             </div>
         <% end_loop %>

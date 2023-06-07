@@ -9,7 +9,7 @@
     </select>
     <% loop $getLogsForDay($Day, $Month, $Year).GroupedBy(VisitDate) %>
         <div class="logs_date">
-            <h4>$VisitDate <span>$Children.Count Experiences</span></h4>
+            <h4>$VisitDate <span>$Children.Count <% if $Children.Count > 1 %>Experiences<% else %>Experience<% end_if %></span></h4>
             <% loop $Children %>
                 <% include LogCard %>
             <% end_loop %>

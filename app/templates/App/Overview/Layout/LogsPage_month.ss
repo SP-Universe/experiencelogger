@@ -5,7 +5,7 @@
             <div class="logs_buttonwrap">
                 <a class="logs_button" href="$Top.Link('')\date\/$VisitDateLink">
                     <h4>$Children.First.VisitDate</h4>
-                    <p>$Children.Count Experiences</p>
+                    <p>$Children.Count <% if $Children.Count > 1 %>Experiences<% else %>Experience<% end_if %></p>
                 </a>
             </div>
         <% end_loop %>
