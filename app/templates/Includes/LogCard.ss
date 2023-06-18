@@ -12,6 +12,7 @@
             <% if $Podest && $Podest != "-1" %><p>Podest Place: $Podest</p><% end_if %>
             <% if $Version && $Version != "-1" %><p>Version: $Version</p><% end_if %>
             <% if $Variant && $Variant != "-1" %><p>Variant: $Variant</p><% end_if %>
+            <% if $FoodID && $FoodID != "-1" %><p>Primary Meal: $getFoodTitle($FoodID)</p><% end_if %>
             <p>$Notes</p>
         </div>
     </div>

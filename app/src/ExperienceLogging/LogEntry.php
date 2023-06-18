@@ -2,6 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
+use App\Food\Food;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
@@ -23,6 +24,7 @@ use SilverStripe\Security\Permission;
  * @property int $Seat
  * @property string $Variant
  * @property string $Version
+ * @property int $FoodID
  * @property int $UserID
  * @property int $ExperienceID
  * @method \SilverStripe\Security\Member User()
@@ -43,6 +45,7 @@ class LogEntry extends DataObject
         "Seat" => "Int",
         "Variant" => "Varchar(255)",
         "Version" => "Varchar(255)",
+        "FoodID" => "Int",
         "Notes" => "Varchar(500)",
     ];
 
@@ -171,5 +174,11 @@ class LogEntry extends DataObject
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function getFoodTitle($FoodID)
+    {
+        $food = Food::get()->filter("ID", $FoodID)->first();
+        return $food->Title;
     }
 }

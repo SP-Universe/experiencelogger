@@ -2,6 +2,7 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\Admin\ModelAdmin;
+use App\ExperienceDatabase\FoodType;
 
 /**
  * Class \App\Database\ExperienceAdmin
@@ -14,6 +15,7 @@ class TypesAdmin extends ModelAdmin
         ExperienceType::class,
         ExperienceDataType::class,
         ExperienceLocationType::class,
+        FoodType::class,
     );
 
     private static $url_segment = "types";

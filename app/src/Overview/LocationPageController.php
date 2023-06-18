@@ -11,6 +11,7 @@ use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\ExperienceDatabase\ExperienceSeat;
+use App\Food\Food;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -214,6 +215,10 @@ class LocationPageController extends PageController
                 }
                 if (isset($_GET["notes"])) {
                     $newlogentry->Notes = $_GET["notes"];
+                }
+
+                if (isset($_GET["food"])) {
+                    $newlogentry->FoodID = $_GET["food"];
                 }
 
                 $newlogentry->UserID = $currentUser->ID;

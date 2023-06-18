@@ -81,6 +81,22 @@
                 <% end_if %>
             <% end_if %>
 
+            <% if $Food.Count > 0 %>
+                <div class="section_food">
+                    <h2>Food & Drinks</h2>
+                    <div class="food_list">
+                        <% loop $GroupedFood %>
+                            <h3 class="food_list_grouptitle">$Children.First.FoodType.PluralName</h3>
+                            <div class="food_list_group">
+                                <% loop $Children %>
+                                    <% include FoodCard %>
+                                <% end_loop %>
+                            </div>
+                        <% end_loop %>
+                    </div>
+                </div>
+            <% end_if %>
+
             <% if $ExperienceData.Count > 0 %>
                 <div class="section_data">
                     <h2>Data about this experience</h2>

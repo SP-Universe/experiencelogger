@@ -2,11 +2,13 @@
 
 namespace App\ExperienceDatabase;
 
+use App\Food\Food;
 use SilverStripe\Assets\File;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Group;
 use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
@@ -20,10 +22,10 @@ use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\Food\FoodType;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Security\Group;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
@@ -60,6 +62,7 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVariant[] Variants()
  * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVersion[] Versions()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\Experience[] Characters()
+ * @method \SilverStripe\ORM\ManyManyList|\App\Food\Food[] Food()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
  */
 class Experience extends DataObject
@@ -101,6 +104,7 @@ class Experience extends DataObject
 
     private static $many_many = [
         "Characters" => Experience::class,
+        "Food" => Food::class,
     ];
 
     private static $owns = [
@@ -202,6 +206,11 @@ class Experience extends DataObject
                 ]
             )->sort('VisitTime DESC'));
         }
+    }
+
+    public function getGroupedFood()
+    {
+        return GroupedList::create($this->Food())->GroupedBy("FoodTypeID");
     }
 
     public function getCMSFields()

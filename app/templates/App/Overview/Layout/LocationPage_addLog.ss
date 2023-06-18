@@ -184,6 +184,19 @@
                         <% end_if %>
                     </form-group>
                 <% end_if %>
+
+                <% if $Food.Count > 0 %>
+                    <h2>Food</h2>
+                    <form-group class="logging_group">
+                        <select name="food" id="food">
+                            <option value="-1">Select your primary meal</option>
+                            <% loop $Food %>
+                                <option value="$ID">$Title</option>
+                            <% end_loop %>
+                        </select>
+                    </form-group>
+                <% end_if %>
+
                 <h2>Notes</h2>
                 <form-group class="logging_group">
                     <label for="notes">Notes</label>
