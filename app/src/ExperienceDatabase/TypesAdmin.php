@@ -2,7 +2,7 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\Admin\ModelAdmin;
-use App\ExperienceDatabase\FoodType;
+use App\Food\FoodType;
 
 /**
  * Class \App\Database\ExperienceAdmin
