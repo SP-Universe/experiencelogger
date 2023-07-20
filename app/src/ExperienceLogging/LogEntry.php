@@ -2,7 +2,9 @@
 
 namespace App\ExperienceDatabase;
 
+use DateInterval;
 use App\Food\Food;
+use DateTime;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
@@ -97,7 +99,7 @@ class LogEntry extends DataObject
     {
         $time = $this->dbObject('VisitTime');
         if ($time) {
-            return $time->Format("dd.MM.yyyy | HH:mm:ss");
+            return $time->Format("dd.MM.yy | HH:mm:ss");
         }
     }
 

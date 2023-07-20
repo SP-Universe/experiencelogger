@@ -1,6 +1,8 @@
 <?php
 namespace App\Overview;
 
+use DateInterval;
+use App\Food\Food;
 use PageController;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
@@ -8,10 +10,9 @@ use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
+use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
-use App\ExperienceDatabase\ExperienceSeat;
-use App\Food\Food;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -222,7 +223,8 @@ class LocationPageController extends PageController
                 }
 
                 $newlogentry->UserID = $currentUser->ID;
-                $newlogentry->VisitTime = date("Y-m-d H:i:s");
+                $hours = $experience->Parent->Timezone - 1;
+                $newlogentry->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                 $newlogentry->write();
 
                 if ($currentUser->LinkedLogging) {

@@ -25,6 +25,7 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
  * @property string $Website
  * @property string $Phone
  * @property string $Email
+ * @property int $Timezone
  * @property int $TypeID
  * @property int $ImageID
  * @property int $IconID
@@ -45,6 +46,7 @@ class ExperienceLocation extends DataObject
         "Website" => "Varchar(255)",
         "Phone" => "Varchar(255)",
         "Email" => "Varchar(255)",
+        "Timezone" => "Int",
     ];
 
     private static $has_many = [
@@ -117,6 +119,34 @@ class ExperienceLocation extends DataObject
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridfield = new GridField("Experiences", "Experiences", $this->Experiences(), $gridFieldConfig);
         $fields->addFieldToTab('Root.Experiences', $gridfield);
+
+        $fields->replaceField('Timezone', new DropdownField('Timezone', 'Timezone', [
+            "-12" => "UTC-12 (USA, Baker Island)",
+            "-11" => "UTC-11 (USA, American Samoa)",
+            "-10" => "UTC-10 (USA, Hawaii)",
+            "-9" => "UTC-9 (USA, Alaska)",
+            "-8" => "UTC-8 (USA, Pacific)",
+            "-7" => "UTC-7 (USA, Mountain)",
+            "-6" => "UTC-6 (USA, Central)",
+            "-5" => "UTC-5 (USA, Eastern)",
+            "-4" => "UTC-4 (USA, Atlantic)",
+            "-3" => "UTC-3 (USA, Brazil)",
+            "-2" => "UTC-2 (USA, Brazil)",
+            "-1" => "UTC-1 (USA, Brazil)",
+            "0" => "UTC",
+            "1" => "UTC+1 (Europe, Germany)",
+            "2" => "UTC+2 (Europe, Greece)",
+            "3" => "UTC+3 (East Afrika)",
+            "4" => "UTC+4 (Europe, Russia)",
+            "5" => "UTC+5 (Europe, Russia)",
+            "6" => "UTC+6 (Europe, Russia)",
+            "7" => "UTC+7 (Asia, Thailand)",
+            "8" => "UTC+8 (Asia, China)",
+            "9" => "UTC+9 (Asia, Japan)",
+            "10" => "UTC+10 (Australia, Sydney)",
+            "11" => "UTC+11 (Australia, Sydney)",
+            "12" => "UTC+12 (New Zealand)",
+        ]));
 
         return $fields;
     }
