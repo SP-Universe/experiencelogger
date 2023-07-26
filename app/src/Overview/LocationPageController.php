@@ -235,7 +235,7 @@ class LocationPageController extends PageController
                             $newlogentryArea->Weather = implode(',', $_GET["weather"]);
                         }
                         $newlogentryArea->UserID = $currentUser->ID;
-                        $newlogentryArea->VisitTime = date("Y-m-d H:i:s");
+                        $newlogentryArea->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                         $newlogentryArea->write();
                     }
 
@@ -246,7 +246,7 @@ class LocationPageController extends PageController
                             $newlogentryStage->Weather = implode(',', $_GET["weather"]);
                         }
                         $newlogentryStage->UserID = $currentUser->ID;
-                        $newlogentryStage->VisitTime = date("Y-m-d H:i:s");
+                        $newlogentryStage->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                         $newlogentryStage->write();
                     }
 
