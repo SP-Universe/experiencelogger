@@ -98,8 +98,8 @@ namespace {
                     if ($experience->Description) {
                         $data['items'][$key]['Description'] = $experience->Description;
                     }
-                    if ($experience->PhotoGalleryImages->First->Image->AbsoluteURL) {
-                        $data['items'][$key]['Image'] = $experience->PhotoGalleryImages->First->Image->AbsoluteURL;
+                    if ($experience->PhotoGalleryImages()->first()->Image()) {
+                        $data['items'][$key]['Image'] = $experience->PhotoGalleryImages()->first()->Image()->AbsoluteUrl();
                     }
                     $data['items'][$key]['Location'] = $experience->Parent->Title;
                     $data['items'][$key]['LocationID'] = $experience->ParentID;
