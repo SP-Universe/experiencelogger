@@ -31,6 +31,7 @@ namespace {
             "logout",
             "experiences",
             "places",
+            "token",
             "checklogin",
             "addLog",
         ];

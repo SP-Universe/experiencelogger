@@ -181,7 +181,14 @@ class ExperienceLocation extends DataObject
 
     public function getGroupedExperiencesByState()
     {
-        return GroupedList::create($this->Experiences())->GroupedBy("State");
+        $characterType = ExperienceType::get()->find('Title', 'Character');
+        return GroupedList::create($this->Experiences()->Filter("TypeID:not", $characterType->ID))->GroupedBy("State");
+    }
+
+    public function getGroupedCharacters()
+    {
+        $characterType = ExperienceType::get()->find('Title', 'Character');
+        return GroupedList::create($this->Experiences()->Filter("TypeID", $characterType->ID))->GroupedBy("State");
     }
 
     public function getLink()
