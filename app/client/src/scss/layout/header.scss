@@ -6,6 +6,7 @@ header {
     background-color: transparent;
     width: 100%;
     filter: none;
+    margin-bottom: -80px;
 
 
     .header_nav{
@@ -71,5 +72,12 @@ header {
 }
 
 .login_note{
-    margin: 25px 0;
+    position: absolute;
+    background-color: var(--ColorBackground);
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    z-index: 200;
+    margin: 105px 0 0 0;
+    padding: 10px;
 }

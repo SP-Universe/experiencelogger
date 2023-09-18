@@ -36,6 +36,7 @@ html{
     --ColorWhiteText: #FFF;
     --ColorWhiteTrans: rgba(255, 255, 255, 0.2);
     --ColorBackground: rgb(230, 230, 230);
+    --ImageGradient: linear-gradient(180deg, var(--ColorBackground) 0%, rgba(0,0,0,0) 100%);
 }
 
 body.theme--dark{

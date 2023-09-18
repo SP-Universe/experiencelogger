@@ -78,9 +78,6 @@
                     </div>
                     <div class="characters_list">
                         <% loop $GroupedCharacters %>
-                            <div class="state_hl">
-                                <h2>$Children.First.State</h2>
-                            </div>
                             <% loop $Children %>
                                 <% include CharacterCard %>
                             <% end_loop %>

@@ -34,6 +34,7 @@ namespace {
             "token",
             "checklogin",
             "addLog",
+            "profile"
         ];
 
         public function logout(HTTPRequest $request)
@@ -47,12 +48,25 @@ namespace {
 
         public function login(HTTPRequest $request)
         {
-            try {
-                $payload = JWTUtils::inst()->byBasicAuth($request);
-                return json_encode($payload);
-            } catch (JWTUtilsException $e) {
-                return json_encode("Error! " . $e->getMessage());
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            if(!$request->isPOST()) {
+                // Probably preflight request
+                return 'Ok';
             }
+
+            $payload = json_decode($request->getBody(), true);
+
+            $user = Member::get()->filter('Email', $payload['Username'])->first();
+
+            Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
+
+            return "ok";
+            // try {
+            //     $payload = JWTUtils::inst()->byBasicAuth($request);
+            //     return json_encode($payload);
+            // } catch (JWTUtilsException $e) {
+            //     return json_encode("Error! " . $e->getMessage());
+            // }
         }
 
         public function experiences(HTTPRequest $request)
@@ -314,6 +328,18 @@ namespace {
         protected function init()
         {
             parent::init();
+        }
+
+        public function profile()
+        {
+            $member = Security::getCurrentUser();
+            return json_encode([
+                "ID" => $member->ID,
+                "Email" => $member->Email,
+                "FirstName" => $member->FirstName,
+                "Surname" => $member->Surname,
+                "Nickname" => $member->Nickname,
+            ]);
         }
     }
 }
