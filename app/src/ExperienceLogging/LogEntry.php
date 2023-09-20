@@ -2,13 +2,15 @@
 
 namespace App\ExperienceDatabase;
 
+use DateTime;
 use DateInterval;
 use App\Food\Food;
-use DateTime;
+use App\Votings\Voting;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\Security\Member;
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Security\Permission;
 
@@ -26,12 +28,14 @@ use SilverStripe\Security\Permission;
  * @property int $Seat
  * @property string $Variant
  * @property string $Version
- * @property int $FoodID
  * @property int $UserID
+ * @property int $FoodID
  * @property int $ExperienceID
  * @method \SilverStripe\Security\Member User()
+ * @method \App\Food\Food Food()
  * @method \App\ExperienceDatabase\Experience Experience()
  * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
+ * @method \SilverStripe\ORM\ManyManyList|\App\Votings\Voting[] Votings()
  */
 class LogEntry extends DataObject
 {
@@ -47,7 +51,6 @@ class LogEntry extends DataObject
         "Seat" => "Int",
         "Variant" => "Varchar(255)",
         "Version" => "Varchar(255)",
-        "FoodID" => "Int",
         "Notes" => "Varchar(500)",
     ];
 
@@ -55,11 +58,14 @@ class LogEntry extends DataObject
 
     private static $has_one = [
         "User" => Member::class,
+        "Food" => Food::class,
         "Experience" => Experience::class,
     ];
 
+
     private static $many_many = [
         "Friends" => Member::class,
+        "Votings" => Voting::class,
     ];
 
     private static $summary_fields = [
@@ -124,6 +130,8 @@ class LogEntry extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->addFieldToTab("Root.Main", LiteralField::create("ExperienceTitle", "Experience Title: " . $this->Experience()->Title), "Experience");
 
         return $fields;
     }

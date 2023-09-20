@@ -1,4 +1,4 @@
-<div class="section section--textimage">
+<div class="section section--text">
     <% if $Image %>
         <div class="textimage_image">
             $Image.ScaleWidth(800)
