@@ -3,18 +3,12 @@
 namespace App\ExperienceDatabase;
 
 use App\Food\Food;
-use SilverStripe\Assets\File;
 use App\Overview\LocationPage;
-use SilverStripe\Assets\Image;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Security\Group;
-use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use Colymba\BulkManager\BulkManager;
-use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\ReadonlyField;
@@ -22,9 +16,7 @@ use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
-use App\Food\FoodType;
 use SilverStripe\View\Parsers\URLSegmentFilter;
-use PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;

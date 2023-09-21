@@ -1,5 +1,8 @@
 //console.log("jsonloader loaded");
 
+const response = fetch(urlOrRequest["https://experiencelogger.sp-universe.com/app-api/experiences?ParkID=2", options]);
+const experiences = response.json();
+
 //Load Experiencecard
 let experiencecards = document.querySelectorAll('[data-behaviour="experiencecard"]');
 

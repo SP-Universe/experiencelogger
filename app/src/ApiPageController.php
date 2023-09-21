@@ -76,6 +76,9 @@ namespace {
             if (isset($_GET['ID'])) {
                 $id = intval($_GET['ID']);
                 $experiences = Experience::get()->filter("ID", $id)->sort('Title', 'ASC');
+            } elseif (isset($_GET['ParkID'])) {
+                $id = intval($_GET['ParkID']);
+                $experiences = Experience::get()->filter("ParentID", $id)->sort('Title', 'ASC');
             } else {
                 $experiences = Experience::get()->sort('Title', 'ASC');
 
