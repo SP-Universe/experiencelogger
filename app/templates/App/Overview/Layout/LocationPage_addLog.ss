@@ -197,6 +197,20 @@
                     </form-group>
                 <% end_if %>
 
+                <h2>Rating</h2>
+                <form-group class="logging_group">
+                    <input
+                        class="rating"
+                        min="1"
+                        max="5"
+                        oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                        step="1"
+                        style="--value:1"
+                        type="range"
+                        name="rating" id="rating"
+                        value="3">
+                </form-group>
+
                 <h2>Notes</h2>
                 <form-group class="logging_group">
                     <label for="notes">Notes</label>

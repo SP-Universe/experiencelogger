@@ -357,4 +357,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             });
         });
     }
+
+
+    //Range input
+    for (let e of document.querySelectorAll('input[type="range"].rating')) {
+        e.style.setProperty('--value', e.value);
+        e.addEventListener('input', () => e.style.setProperty('--value', e.value));
+    }
 });

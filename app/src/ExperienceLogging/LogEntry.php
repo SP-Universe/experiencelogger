@@ -2,10 +2,8 @@
 
 namespace App\ExperienceDatabase;
 
-use DateTime;
-use DateInterval;
 use App\Food\Food;
-use App\Votings\Voting;
+use App\Ratings\Rating;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
@@ -35,7 +33,7 @@ use SilverStripe\Security\Permission;
  * @method \App\Food\Food Food()
  * @method \App\ExperienceDatabase\Experience Experience()
  * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
- * @method \SilverStripe\ORM\ManyManyList|\App\Votings\Voting[] Votings()
+ * @method \SilverStripe\ORM\ManyManyList|\App\Ratings\Rating[] Votings()
  */
 class LogEntry extends DataObject
 {
@@ -65,7 +63,7 @@ class LogEntry extends DataObject
 
     private static $many_many = [
         "Friends" => Member::class,
-        "Votings" => Voting::class,
+        "Votings" => Rating::class,
     ];
 
     private static $summary_fields = [

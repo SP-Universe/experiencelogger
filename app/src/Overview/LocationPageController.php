@@ -4,6 +4,7 @@ namespace App\Overview;
 use DateInterval;
 use App\Food\Food;
 use PageController;
+use App\Ratings\Rating;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -253,6 +254,15 @@ class LocationPageController extends PageController
                     $currentUser->LastLoggedAreaID = $experience->AreaID;
                     $currentUser->LastLogDate = date("Y-m-d H:i:s");
                     $currentUser->write();
+                }
+
+                if (isset($_GET["rating"])) {
+                    $rating = $_GET["rating"];
+                    $newrating = Rating::create();
+                    $newrating->ExperienceID = $experience->ID;
+                    $newrating->UserID = $currentUser->ID;
+                    $newrating->Stars = $rating;
+                    $newrating->write();
                 }
 
                 return $this->redirect($experience->Parent->Link . "?success=true");

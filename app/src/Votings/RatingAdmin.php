@@ -1,23 +1,23 @@
 <?php
-namespace App\Votings;
+namespace App\Ratings;
 
-use App\Votings\Voting;
+use App\Ratings\Rating;
 use SilverStripe\Admin\ModelAdmin;
 
 /**
  * Class \App\Database\ExperienceAdmin
  *
  */
-class FoodAdmin extends ModelAdmin
+class RatingAdmin extends ModelAdmin
 {
 
     private static $managed_models = array (
-        Voting::class,
+        Rating::class,
     );
 
-    private static $url_segment = "votings";
+    private static $url_segment = "ratings";
 
-    private static $menu_title = "Votings";
+    private static $menu_title = "Ratings";
 
     private static $menu_icon = "app/client/icons/star_filled.svg";
 

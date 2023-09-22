@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Votings;
+namespace App\Ratings;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
@@ -20,7 +20,7 @@ use App\ExperienceDatabase\Experience;
  * @method \SilverStripe\Security\Member User()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\LogEntry[] LogEntries()
  */
-class Voting extends DataObject
+class Rating extends DataObject
 {
     private static $db = [
         "Stars" => "Int",
@@ -51,12 +51,12 @@ class Voting extends DataObject
 
     private static $default_sort = "ID ASC";
 
-    private static $table_name = "Voting";
+    private static $table_name = "Rating";
 
-    private static $singular_name = "Voting";
-    private static $plural_name = "Votings";
+    private static $singular_name = "Rating";
+    private static $plural_name = "Ratings";
 
-    private static $url_segment = "votings";
+    private static $url_segment = "ratings";
 
     public function getCMSFields()
     {
