@@ -262,6 +262,8 @@ class LocationPageController extends PageController
                     $newrating->ExperienceID = $experience->ID;
                     $newrating->UserID = $currentUser->ID;
                     $newrating->Stars = $rating;
+                    $newrating->LogEntries()->add($newlogentry);
+                    $newlogentry->Votings()->add($newrating);
                     $newrating->write();
                 }
 
