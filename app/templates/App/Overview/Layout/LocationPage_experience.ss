@@ -39,6 +39,12 @@
                 <h1>$Title</h1>
                 <h4>$Type.Title <% if $Stage %><span>in</span> <a href="$Stage.Link">$Stage.Title</a><% else_if $Area %><span>in</span> <a href="$Area.Link">$Area.Title</a><% end_if %></h4>
                 $Description
+                <% if $NumberOfRatings %>
+                    <div class="experience_ratings">
+                        <div class="ratingdisplay" style="--stars: $Rating"></div>
+                        <p>$NumberOfRatings Ratings</p>
+                    </div>
+                <% end_if %>
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
                     <a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart & Logs</a>

@@ -49,7 +49,7 @@ class Rating extends DataObject
         "Text" => "Text",
     ];
 
-    private static $default_sort = "ID ASC";
+    private static $default_sort = "ID DESC";
 
     private static $table_name = "Rating";
 

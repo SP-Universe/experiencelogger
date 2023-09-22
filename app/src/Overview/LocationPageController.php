@@ -258,13 +258,21 @@ class LocationPageController extends PageController
 
                 if (isset($_GET["rating"])) {
                     $rating = $_GET["rating"];
-                    $newrating = Rating::create();
-                    $newrating->ExperienceID = $experience->ID;
-                    $newrating->UserID = $currentUser->ID;
-                    $newrating->Stars = $rating;
-                    $newrating->LogEntries()->add($newlogentry);
-                    $newlogentry->Votings()->add($newrating);
-                    $newrating->write();
+                    if ($rating > 0) {
+                        $newrating = Rating::create();
+                        $newrating->ExperienceID = $experience->ID;
+                        $newrating->UserID = $currentUser->ID;
+                        $newrating->Stars = $rating;
+                        $newrating->LogEntries()->add($newlogentry);
+                        $newlogentry->Votings()->add($newrating);
+                        $totalratings = $experience->NumberOfRatings;
+                        $experiencerating = $experience->Rating;
+                        $calculatedrating = (($experiencerating * $totalratings) + $rating) / ($totalratings + 1);
+                        $experience->Rating = $calculatedrating;
+                        $experience->NumberOfRatings = $totalratings + 1;
+                        $experience->write();
+                        $newrating->write();
+                    }
                 }
 
                 return $this->redirect($experience->Parent->Link . "?success=true");

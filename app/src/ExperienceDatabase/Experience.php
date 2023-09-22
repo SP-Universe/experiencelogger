@@ -40,6 +40,8 @@ use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $Description
  * @property string $ExperienceLink
  * @property string $JSONCode
+ * @property float $Rating
+ * @property int $NumberOfRatings
  * @property int $ParentID
  * @property int $TypeID
  * @property int $AreaID
@@ -76,6 +78,8 @@ class Experience extends DataObject
         "Description" => "HTMLText",
         "ExperienceLink" => "Varchar(255)",
         "JSONCode" => "HTMLText",
+        "Rating" => "Double",
+        "NumberOfRatings" => "Int",
     ];
 
     private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'ExperienceStage', 'State', 'Description', 'ExperienceImage', 'ParentID']];
