@@ -257,4 +257,42 @@ class ExperienceLocation extends DataObject
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
+
+    public function getVisitsThisYear()
+    {
+        $currentYear = date("Y");
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            $userLogs = $currentUser->getLogsInYear($currentYear);
+            return $userLogs->Count();
+            $visitCount = 0;
+            foreach ($userLogs as $userLog) {
+                if ($userLog->Experience->LocationID == $this->ID) {
+                    $visitCount++;
+                }
+            }
+            return $visitCount;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getVisitsLastYear()
+    {
+        $currentYear = date("Y");
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            $userLogs = $currentUser->getLogsInYear($currentYear - 1);
+            return $userLogs->Count();
+            $visitCount = 0;
+            foreach ($userLogs as $userLog) {
+                if ($userLog->Experience->LocationID == $this->ID) {
+                    $visitCount++;
+                }
+            }
+            return $visitCount;
+        } else {
+            return 0;
+        }
+    }
 }

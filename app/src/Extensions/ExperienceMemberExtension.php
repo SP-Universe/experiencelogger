@@ -9,6 +9,7 @@ use SilverStripe\ORM\DataExtension;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\ExperienceLocation;
 use DateTime;
+use SilverStripe\Security\Security;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -74,6 +75,20 @@ class ExperienceMemberExtension extends DataExtension
         if ($checkedUser) {
             return LogEntry::get()->filter([
                 'UserID' => $checkedUser->ID,
+            ]);
+        }
+    }
+
+    public function getLogsInYear($year)
+    {
+        $currentUser = Security::getCurrentUser();
+        $startdate = $year . "-01-01";
+        $enddate = $year . "-12-31";
+        if ($currentUser) {
+            return LogEntry::get()->filter([
+                'UserID' => $currentUser->ID,
+                'VisitTime:GreaterThanOrEqual' => $startdate,
+                'VisitTime:LessThanOrEqual' => $enddate
             ]);
         }
     }
