@@ -45,6 +45,34 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     });
 
+    const itemsliders = document.querySelectorAll('.itemswiper');
+
+    // init Swiper:
+    itemsliders.forEach(function (slider) {
+        const autoSwiper = slider.classList.contains('swiper--auto');
+        const swiper = new Swiper(slider, {
+            // configure Swiper to use modules
+            modules: [Navigation, Autoplay, EffectFade],
+            effect: 'slide',
+            fadeEffect: {
+                crossFade: true
+            },
+            direction: 'horizontal',
+            loop: true,
+
+            autoplay: autoSwiper ? {
+                delay: 5000,
+            } : false,
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.itemswiper-button-next',
+                prevEl: '.itemswiper-button-prev',
+            },
+        });
+
+    });
+
     //Personal Nav
     const personalNavButton = document.querySelector('[data-behaviour="open_personalnav"]');
     const personalNavDiv = document.querySelector('[data-behaviour="personalnav"]');

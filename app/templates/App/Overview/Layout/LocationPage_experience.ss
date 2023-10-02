@@ -54,17 +54,9 @@
             <% if $Type.Title = "Area" %>
                 <div class="section_areachilds">
                     <h2>Experiences in this area</h2>
-                    <div class="experiencearea_list swiper swiper--auto">
-                        <div class="swiper-wrapper">
-                            <% loop $SubExperiences %>
-                                <div class="swiper-slide">
-                                    <% include ExperienceCard ShowLogButton=false %>
-                                </div>
-                            <% end_loop %>
-                        </div>
-                    </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+                    <% loop $SubExperiences %>
+                        <% include ExperienceCard ShowLogButton=false %>
+                    <% end_loop %>
                 </div>
             <% end_if %>
 
@@ -72,17 +64,9 @@
                 <% if $SubShows.Count > 0 %>
                     <div class="section_areachilds">
                         <h2>Shows on this stage</h2>
-                        <div class="experiencearea_list swiper swiper--auto">
-                            <div class="swiper-wrapper">
-                                <% loop $SubShows %>
-                                    <div class="swiper-slide">
-                                        <% include ExperienceCard ShowLogButton=false %>
-                                    </div>
-                                <% end_loop %>
-                            </div>
-                        </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+                        <% loop $SubShows %>
+                            <% include ExperienceCard ShowLogButton=false %>
+                        <% end_loop %>
                     </div>
                 <% end_if %>
             <% end_if %>
