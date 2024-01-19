@@ -1,15 +1,18 @@
 <?php
 namespace App\Extensions;
 
-use App\ExperienceDatabase\Experience;
+use DateTime;
 use SilverStripe\Assets\Image;
-use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
-use App\ExperienceDatabase\LogEntry;
-use App\ExperienceDatabase\ExperienceLocation;
-use DateTime;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
+use App\ExperienceDatabase\LogEntry;
+use App\ExperienceDatabase\Experience;
+use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\ORM\GroupedList;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -82,15 +85,68 @@ class ExperienceMemberExtension extends DataExtension
     public function getLogsInYear($year)
     {
         $currentUser = Security::getCurrentUser();
-        $startdate = $year . "-01-01";
-        $enddate = $year . "-12-31";
         if ($currentUser) {
             return LogEntry::get()->filter([
                 'UserID' => $currentUser->ID,
-                'VisitTime:GreaterThanOrEqual' => $startdate,
-                'VisitTime:LessThanOrEqual' => $enddate
+                'VisitTime:GreaterThanOrEqual' => $year . "-01-01",
+                'VisitTime:LessThanOrEqual' => $year . "-12-31"
             ]);
         }
+    }
+
+    public function getVisitsInYear($year)
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            $logs = LogEntry::get()->filter([
+                'UserID' => $currentUser->ID,
+                'VisitTime:GreaterThanOrEqual' => $year . "-01-01",
+                'VisitTime:LessThanOrEqual' => $year . "-12-31"
+            ]);
+            
+            $counts = array();
+            foreach ($logs as $log) {
+                array_push($counts, date("d.m.y", strtotime($log->VisitTime)));
+            }
+            return count(array_unique($counts));
+        }
+    }
+
+    public function getYears($locationID)
+    {
+        $experiences = Experience::get()->filter("ParentID", $locationID);
+        $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $experiences->column("ID"));
+
+        $uniqueDates = [];
+        $yearCounts = [];
+        foreach ($logs as $item) {
+            $visitTime = strtotime($item->VisitTime);
+            
+            $date = date('Y-m-d', $visitTime);
+
+            if (!in_array($date, $uniqueDates)) {
+                $uniqueDates[] = $date;
+                $year = date('Y', strtotime($date));
+                if (!isset($yearCounts[$year])) {
+                    $yearCounts[$year] = 0;
+                }
+                $yearCounts[$year] += 1;
+            }
+        }
+
+        $years = array();
+        foreach ($uniqueDates as $log) {
+            $year = date("Y", strtotime($log));
+            $construction = array(
+                "year" => $year,
+                "logs" => $yearCounts[$year],
+            );
+            if (!in_array($construction, $years)) {
+                array_push($years, $construction);
+            }
+        }
+
+        return ArrayList::create($years);
     }
 
     public function getProfileImage($size = 200)

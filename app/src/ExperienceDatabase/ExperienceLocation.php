@@ -182,6 +182,7 @@ class ExperienceLocation extends DataObject
     public function getGroupedExperiencesByState()
     {
         $characterType = ExperienceType::get()->find('Title', 'Character');
+        
         return GroupedList::create($this->Experiences()->Filter("TypeID:not", $characterType->ID))->GroupedBy("State");
     }
 
@@ -272,6 +273,17 @@ class ExperienceLocation extends DataObject
                 }
             }
             return $visitCount;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getSingleVisitsThisYear()
+    {
+        $currentYear = date("y");
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return $currentUser->getVisitsInYear($currentYear);
         } else {
             return 0;
         }

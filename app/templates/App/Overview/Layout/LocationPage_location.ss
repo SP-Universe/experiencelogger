@@ -96,6 +96,10 @@
                             <div class="progress_entry">
                                 <p class="progress_value">$VisitsThisYear</p>
                                 <h3>Visits this year</h3>
+                                <% loop $CurrentUser.getYears($ID) %>
+                                    <p>1: $year</p>
+                                    <p>2: $logs</p>
+                                <% end_loop %>
                             </div>
                         </div>
                         <div class="progress_entry_wrap">
