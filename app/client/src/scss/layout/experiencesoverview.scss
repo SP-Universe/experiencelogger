@@ -29,10 +29,13 @@
                 top: 15px;
                 right: 15px;
                 color: $ColorWhite;
+                z-index: 10;
+                pointer-events: all;
 
                 @include media("<medium") {
                     top: unset;
                     bottom: 45px;
+                    right: 20px;
                 }
             }
 
