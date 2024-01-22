@@ -29,6 +29,11 @@
                 top: 15px;
                 right: 15px;
                 color: $ColorWhite;
+
+                @include media("<medium") {
+                    top: unset;
+                    bottom: 45px;
+                }
             }
 
             .header_background{
