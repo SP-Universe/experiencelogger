@@ -34,7 +34,8 @@ namespace {
             "token",
             "checklogin",
             "addLog",
-            "profile"
+            "profile",
+            "locationprogress"
         ];
 
         public function logout(HTTPRequest $request)
@@ -49,7 +50,7 @@ namespace {
         public function login(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
-            if(!$request->isPOST()) {
+            if (!$request->isPOST()) {
                 // Probably preflight request
                 return 'Ok';
             }
@@ -343,6 +344,41 @@ namespace {
                 "Surname" => $member->Surname,
                 "Nickname" => $member->Nickname,
             ]);
+        }
+
+        public function locationprogress(HTTPRequest $request)
+        {
+            $currentUser = Security::getCurrentUser();
+            if ($currentUser) {
+                $id = $_GET['ID'];
+                $data['API_Title'] = "Experiencelogger API";
+                $data['API_Description'] = "This API enables devs to use gathered information about theme parks and other experiences to use in their apps.";
+                $data['API_Version'] = "1.0.0";
+
+                if (isset($_GET['ID'])) {
+                    $location = ExperienceLocation::get()->filter("ID", $id)->first();
+
+                    if (isset($location)) {
+                        $data['LocationProgress']['Title'] = $location->Title;
+                        $data['LocationProgress']['ID'] = $location->ID;
+                        $data['LocationProgress']['Total'] = $location->Experiences()->filter("State", "Active")->count();
+                        $data['LocationProgress']['Progress'] = $location->getLocationProgress();
+                        $data['LocationProgress']['ProgressPercent'] = $location->getLocationProgressInPercent();
+                    } else {
+                        $data['Error'] = "No location found.";
+                        $data['RequestedID'] = $id;
+                    }
+                }
+
+                $data['Copyright'] = "This API is developed and maintained by SP Universe. All rights reserved.";
+                //Get the last edited item:
+                $lastedited = $this->getLastEdited();
+                $data['LastEdited']['US'] = date("Y-m-d H:i:s", $lastedited);
+                $data['LastEdited']['EU'] = date("d.m.Y H:i:s", $lastedited);
+                $data['LastEdited']['Timestamp'] = $lastedited;
+                $this->response->addHeader('Content-Type', 'application/json');
+                return json_encode($data);
+            }
         }
     }
 }
