@@ -17,5 +17,45 @@
         hr{
             margin: 20px 0;
         }
+
+        .progress_list{
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            margin-top: 10px;
+
+            .progress_entry_wrap{
+
+                .progress_entry{
+                    display: flex;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    background-color: var(--ColorPrimaryLight);
+                    padding: 15px;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    text-align: center;
+
+                    .progress_value{
+                        font-size: 40px;
+                        font-weight: 700;
+                    }
+
+                    .progress_year{
+                        color: var(--ColorBlack);
+                    }
+                }
+            }
+
+            @include media("<desktop") {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            @include media("<medium") {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            @include media("<smartphone") {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
     }
 }

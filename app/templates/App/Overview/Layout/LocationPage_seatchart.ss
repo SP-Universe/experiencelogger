@@ -73,6 +73,20 @@
             <h2>Logs</h2>
             <% if $Logs.Count > 0 %>
                 <h3>$Logs.Count Logs</h3>
+                <div class="progress_list">
+                    <% loop $CurrentUser.getRideCounterPerYear($ID) %>
+                        <div class="progress_entry_wrap">
+                            <div class="progress_entry">
+                                <p class="progress_value">$logs</p>
+                                <% if $logs == 1 %>
+                                    <p class="progress_year">Log in $year</p>
+                                <% else %>
+                                    <p class="progress_year">Logs in $year</p>
+                                <% end_if %>
+                            </div>
+                        </div>
+                    <% end_loop %>
+                </div>
                 <% loop $Logs %>
                     <% include LogCard %>
                 <% end_loop %>
