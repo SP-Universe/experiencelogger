@@ -126,7 +126,7 @@ class ExperienceMemberExtension extends DataExtension
         $yearCounts = [];
         foreach ($logs as $item) {
             $visitTime = strtotime($item->VisitTime);
-            
+
             $date = date('Y-m-d', $visitTime);
 
             if (!in_array($date, $uniqueDates)) {

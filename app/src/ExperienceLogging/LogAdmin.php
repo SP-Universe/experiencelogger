@@ -18,7 +18,7 @@ class LogAdmin extends ModelAdmin
 
     private static $menu_title = "Logs";
 
-    private static $menu_icon = "app/client/icons/add.svg";
+    private static $menu_icon = "app/client/icons/admin/LogsAdmin.svg";
 
     public function init()
     {

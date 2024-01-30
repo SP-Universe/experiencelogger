@@ -9,7 +9,6 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\Security\Member;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Security\Permission;
 
 /**

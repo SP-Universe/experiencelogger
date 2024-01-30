@@ -18,7 +18,7 @@ class LocationAdmin extends ModelAdmin
 
     private static $menu_title = "Places";
 
-    private static $menu_icon = "app/client/icons/location.svg";
+    private static $menu_icon = "app/client/icons/admin/PlacesAdmin.svg";
 
     public function init()
     {

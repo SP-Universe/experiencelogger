@@ -3,26 +3,29 @@
     "type": "silverstripe-recipe",
     "description": "A tool for counting experiences",
     "require": {
-        "php": "^7.4 || ^8",
-        "silverstripe/recipe-plugin": "^1.2",
-        "silverstripe/recipe-cms": "^4",
-        "dnadesign/silverstripe-elemental": "^4",
+        "php": "^8.2",
+        "silverstripe/recipe-plugin": "^2",
+        "silverstripe/recipe-cms": "^5.1",
+        "dnadesign/silverstripe-elemental": "^5",
         "ext-json": "*",
-        "colymba/gridfield-bulk-editing-tools": "^3.0",
-        "undefinedoffset/sortablegridfield": "^2.0",
-        "jonom/focuspoint": "^4.0",
-        "dnadesign/silverstripe-elemental-userforms": "3.x-dev",
-        "purplespider/silverstripe-basic-gallery-extension": "3",
-        "silverstripe/linkfield": "1.x-dev",
+        "colymba/gridfield-bulk-editing-tools": "^4.0",
+        "undefinedoffset/sortablegridfield": "^2.2",
+        "jonom/focuspoint": "^5.0",
+        "dnadesign/silverstripe-elemental-userforms": "^4",
+        "purplespider/silverstripe-basic-gallery-extension": "4",
+        "silverstripe/linkfield": "^3",
         "tractorcow/silverstripe-sliderfield": "dev-master",
-        "wilr/silverstripe-googlesitemaps": "^2.2",
-        "ryanpotter/silverstripe-cms-theme": "^3.4",
-        "stevie-mayhew/silverstripe-svg": "^2.2",
-        "jinjie/ss4-duplicate-dataobject": "^1.1",
-        "symbiote/silverstripe-gridfieldextensions": "^3.5",
-        "jamesbolitho/silverstripe-frontenduploadfield": "dev-master",
-        "level51/silverstripe-jwt-utils": "dev-master"
+        "wilr/silverstripe-googlesitemaps": "^3",
+        "symbiote/silverstripe-gridfieldextensions": "^4.0",
+        "symbiote/silverstripe-grouped-cms-menu": "^4.1",
+        "stevenpaw/ss5-duplicate-dataobject": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:stevenpaw/ss5-duplicate-dataobject.git"
+        }
+    ],
     "require-dev": {
         "silverleague/ideannotator": "^3",
         "squizlabs/php_codesniffer": "^3.6"

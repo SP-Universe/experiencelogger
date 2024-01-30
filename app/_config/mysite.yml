@@ -24,3 +24,14 @@ SilverStripe\Core\Injector\Injector:
     class: App\ORM\FulltextBooleanFilter
   MemberLoginForm:
     App/Extensions/MysiteLoginForm
+
+SilverStripe\Admin\LeftAndMain:
+  menu_groups:
+    Other:
+      icon: 'cog'
+      children:
+        - SilverStripe-SiteConfig-SiteConfigLeftAndMain
+        - SilverStripe-Admin-SecurityAdmin
+        - SilverStripe-CampaignAdmin-CampaignAdmin
+        - SilverStripe-VersionedAdmin-ArchiveAdmin
+        - SilverStripe-Reports-ReportAdmin

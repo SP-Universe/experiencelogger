@@ -19,7 +19,7 @@ class RatingAdmin extends ModelAdmin
 
     private static $menu_title = "Ratings";
 
-    private static $menu_icon = "app/client/icons/star_filled.svg";
+    private static $menu_icon = "app/client/icons/admin/RatingsAdmin.svg";
 
     public function init()
     {

@@ -336,14 +336,24 @@ namespace {
 
         public function profile()
         {
-            $member = Security::getCurrentUser();
-            return json_encode([
-                "ID" => $member->ID,
-                "Email" => $member->Email,
-                "FirstName" => $member->FirstName,
-                "Surname" => $member->Surname,
-                "Nickname" => $member->Nickname,
-            ]);
+            if (Security::getCurrentUser()) {
+                //get logs with unique experience IDs
+                $logs = LogEntry::get()->filter("UserID", Security::getCurrentUser()->ID)->sort('LastEdited', 'DESC');
+                $experiences = [];
+                foreach ($logs as $log) {
+                    $experiences[$log->ExperienceID] = $log->Experience();
+                }
+
+                $member = Security::getCurrentUser();
+                return json_encode([
+                    "ID" => $member->ID,
+                    "Email" => $member->Email,
+                    "FirstName" => $member->FirstName,
+                    "Surname" => $member->Surname,
+                    "Nickname" => $member->Nickname,
+                    "UniqueExperiences" => $experiences
+                ]);
+            }
         }
 
         public function locationprogress(HTTPRequest $request)
