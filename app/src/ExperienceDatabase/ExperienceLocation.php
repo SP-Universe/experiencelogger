@@ -182,7 +182,7 @@ class ExperienceLocation extends DataObject
     public function getGroupedExperiencesByState()
     {
         $characterType = ExperienceType::get()->find('Title', 'Character');
-        
+
         return GroupedList::create($this->Experiences()->Filter("TypeID:not", $characterType->ID))->GroupedBy("State");
     }
 
@@ -209,7 +209,7 @@ class ExperienceLocation extends DataObject
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             $completed = 0;
-            foreach ($this->Experiences() as $experience) {
+            foreach ($this->Experiences()->filter("State", "Active") as $experience) {
                 if ($experience->getIsCompletedByUser($currentUser)) {
                     $completed++;
                 }
@@ -221,7 +221,7 @@ class ExperienceLocation extends DataObject
 
     public function getLocationProgressInPercent()
     {
-        $total = $this->Experiences()->count();
+        $total = $this->Experiences()->filter("State", "Active")->count();
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             $completed = 0;

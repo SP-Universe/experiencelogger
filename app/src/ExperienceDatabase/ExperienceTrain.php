@@ -7,15 +7,9 @@ use Colymba\BulkManager\BulkManager;
 use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceWagon;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig;
-use SilverStripe\Forms\GridField\GridFieldDetailForm;
-use SilverStripe\Forms\GridField\GridFieldEditButton;
-use SilverStripe\Forms\GridField\GridFieldConfig_Base;
-use SilverStripe\Forms\GridField\GridFieldDataColumns;
-use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
-use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
+use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
 /**
  * Class \App\Database\ExperienceSeat

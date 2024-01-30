@@ -29,6 +29,14 @@
                 top: 15px;
                 right: 15px;
                 color: $ColorWhite;
+                z-index: 10;
+                pointer-events: all;
+
+                @include media("<medium") {
+                    top: unset;
+                    bottom: 45px;
+                    right: 20px;
+                }
             }
 
             .header_background{
@@ -55,6 +63,10 @@
                 }
             }
 
+            @include media("<maxWidth"){
+                max-width: calc(100% - 20px);
+            }
+
             @include media("<medium") {
                 max-width: 100%;
                 padding: 80px 0 50px 0;
@@ -74,7 +86,7 @@
             align-items: center;
             max-width: $maxWidth;
             margin: 0 auto;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 0;
 
             .partselector{
@@ -91,6 +103,10 @@
                     color: $ColorWhite;
                     background-color: var(--ColorPrimary);
                 }
+            }
+
+            @include media("<maxWidth"){
+                max-width: calc(100% - 20px);
             }
 
             @include media("<medium") {
@@ -127,29 +143,32 @@
         .section_location_progress{
             max-width: $maxWidth;
             margin: 0 auto;
-            padding: 0 10px;
 
             .progress_list{
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
+                margin-top: 10px;
 
                 .progress_entry_wrap{
-                    padding: 10px;
 
                     .progress_entry{
                         display: flex;
-                        aspect-ratio: 1/1;
                         border-radius: 10px;
                         overflow: hidden;
                         background-color: var(--ColorPrimaryLight);
-                        padding: 20px;
+                        padding: 15px;
                         align-items: center;
                         justify-content: center;
                         flex-direction: column;
                         text-align: center;
 
                         .progress_value{
-                            font-size: 30px;
+                            font-size: 40px;
+                            font-weight: 700;
+                        }
+
+                        .progress_year{
+                            color: var(--ColorBlack);
                         }
                     }
                 }
@@ -158,21 +177,15 @@
                     grid-template-columns: repeat(3, 1fr);
                 }
                 @include media("<medium") {
-                    .progress_entry_wrap{
-                        .progress_entry{
-                            aspect-ratio: 3/2;
-                        }
-                    }
                     grid-template-columns: repeat(2, 1fr);
                 }
                 @include media("<smartphone") {
-                    .progress_entry_wrap{
-                        .progress_entry{
-                            aspect-ratio: 2/1;
-                        }
-                    }
                     grid-template-columns: repeat(1, 1fr);
                 }
+            }
+
+            @include media("<maxWidth") {
+                padding: 0 20px;
             }
         }
 

@@ -82,37 +82,42 @@ class ExperienceMemberExtension extends DataExtension
         }
     }
 
-    public function getLogsInYear($year)
+    //Berechne Logs pro Jahr für eine Experience
+    public function getRideCounterPerYear($id)
     {
-        $currentUser = Security::getCurrentUser();
-        if ($currentUser) {
-            return LogEntry::get()->filter([
-                'UserID' => $currentUser->ID,
-                'VisitTime:GreaterThanOrEqual' => $year . "-01-01",
-                'VisitTime:LessThanOrEqual' => $year . "-12-31"
-            ]);
-        }
-    }
-
-    public function getVisitsInYear($year)
-    {
-        $currentUser = Security::getCurrentUser();
-        if ($currentUser) {
-            $logs = LogEntry::get()->filter([
-                'UserID' => $currentUser->ID,
-                'VisitTime:GreaterThanOrEqual' => $year . "-01-01",
-                'VisitTime:LessThanOrEqual' => $year . "-12-31"
-            ]);
-            
-            $counts = array();
-            foreach ($logs as $log) {
-                array_push($counts, date("d.m.y", strtotime($log->VisitTime)));
+        $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $id);
+        $uniqueDates = [];
+        $yearCounts = [];
+        foreach ($logs as $item) {
+            $visitTime = strtotime($item->VisitTime);
+            $date = date('Y-m-d', $visitTime);
+            if (!in_array($date, $uniqueDates)) {
+                $uniqueDates[] = $date;
+                $year = date('Y', strtotime($date));
+                if (!isset($yearCounts[$year])) {
+                    $yearCounts[$year] = 0;
+                }
+                $yearCounts[$year] += 1;
             }
-            return count(array_unique($counts));
         }
+
+        $years = array();
+        foreach ($uniqueDates as $log) {
+            $year = date("Y", strtotime($log));
+            $construction = array(
+                "year" => $year,
+                "logs" => $yearCounts[$year],
+            );
+            if (!in_array($construction, $years)) {
+                array_push($years, $construction);
+            }
+        }
+
+        return ArrayList::create($years);
     }
 
-    public function getYears($locationID)
+    //Berechne Besuche pro Jahr für eine Location
+    public function getVisitCounterPerYear($locationID)
     {
         $experiences = Experience::get()->filter("ParentID", $locationID);
         $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $experiences->column("ID"));
@@ -121,7 +126,7 @@ class ExperienceMemberExtension extends DataExtension
         $yearCounts = [];
         foreach ($logs as $item) {
             $visitTime = strtotime($item->VisitTime);
-            
+
             $date = date('Y-m-d', $visitTime);
 
             if (!in_array($date, $uniqueDates)) {

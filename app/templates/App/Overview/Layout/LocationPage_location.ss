@@ -92,14 +92,14 @@
                     <h2>Your Progress</h2>
                     <input type="radio" id="part_progress" name="partselector">
                     <div class="progress_list">
-                        <% loop $CurrentUser.getYears($ID) %>
+                        <% loop $CurrentUser.getVisitCounterPerYear($ID) %>
                             <div class="progress_entry_wrap">
                                 <div class="progress_entry">
                                     <p class="progress_value">$logs</p>
                                     <% if $logs == 1 %>
-                                        <h3>Visit in $year</h3>
+                                        <p class="progress_year">Visit in $year</p>
                                     <% else %>
-                                        <h3>Visits in $year</h3>
+                                        <p class="progress_year">Visits in $year</p>
                                     <% end_if %>
                                 </div>
                             </div>

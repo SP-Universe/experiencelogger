@@ -392,4 +392,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
         e.style.setProperty('--value', e.value);
         e.addEventListener('input', () => e.style.setProperty('--value', e.value));
     }
+
+
+    //Location Progress rendering
+    let locationProgressBars = document.querySelectorAll('[data-behaviour="location_progress"]');
+    if(locationProgressBars){
+        locationProgressBars.forEach(locationProgress => {
+            const locationID = locationProgress.getAttribute('data-locationid');
+            const locationProgressBar = locationProgress.querySelector('.location_progress_bar');
+            const locationProgressText = locationProgress.querySelector('.location_progress_text');
+            getLocationProgress(locationID, locationProgress, locationProgressBar, locationProgressText);
+        });
+    }
+
+    async function getLocationProgress(locationID, locationProgressHolder, locationProgressBar, locationProgressText) {
+        const response = await fetch('./app-api/locationprogress/?ID=' + locationID);
+        const data = await response.json();
+
+        locationProgressBar.style.width = data["LocationProgress"]["ProgressPercent"] + "%";
+        locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
+        locationProgressHolder.classList.remove("loading");
+    }
 });

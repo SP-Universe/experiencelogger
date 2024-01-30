@@ -3,8 +3,6 @@
 namespace App\ExperienceDatabase;
 
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 
 /**

@@ -2,7 +2,7 @@
   "name": "silverstripe-template",
   "version": "1.0.0",
   "main": "main.js",
-  "author": "Adiwidjaja Teamworks GmbH",
+  "author": "SP Universe",
   "license": "MIT",
   "scripts": {
     "dev": "yarn development",

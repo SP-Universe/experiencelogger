@@ -19,6 +19,11 @@
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             margin: 10px 0;
             align-items: center;
+            position: relative;
+
+            @include media("<=medium") {
+                overflow: hidden;
+            }
 
             .location_entry_image{
                 width: 180px;
@@ -28,7 +33,28 @@
                 border-radius: 20px;
                 box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
                 background-color: var(--ColorPrimary);
-                background-size: cover;
+                overflow: hidden;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                }
+
+                @include media("<=medium") {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    transform: scale(1);
+                    background-color: var(--ColorPrimary);
+                    img{
+                        opacity: 0.5;
+                        filter: blur(2px);
+                    }
+                }
             }
 
             .location_entry_content{
@@ -39,28 +65,88 @@
                 justify-content: center;
                 overflow: hidden;
 
-                .location_progress{
-                    border-radius: 20px;
-                    overflow: hidden;
-                    width: 100%;
-                    height: 10px;
-                    background-color: var(--ColorBackground);
-                    margin-top: 10px;
+                .location_title{
+                    padding-right: 48px;
+                    word-break: break-word;
+                }
 
-                    .location_progress_bar{
+                .progress_handler{
+
+                    .location_progress{
+                        border-radius: 20px;
+                        overflow: hidden;
+                        width: 100%;
                         height: 10px;
-                        background-color: var(--ColorPrimary);
+                        background-color: var(--ColorBackground);
+                        margin-top: 10px;
+
+                        .location_progress_bar{
+                            height: 10px;
+                            background-color: var(--ColorPrimary);
+                            transition: 0.5s ease-in-out;
+                        }
+                    }
+
+                    &.loading{
+
+                        .location_progress_text{
+                            color: var(--ColorLightGray)
+                        }
+
+                        .location_progress{
+                            background-image: linear-gradient(90deg, var(--ColorBackground) 0%, var(--ColorLightGray) 40%, var(--ColorBackground) 100%);
+                            background-size: 1200px;
+                            animation: shine-lines 1.5s infinite;
+                        }
+                    }
+
+                    @include media("<=medium") {
+                        position: relative;
+
+                        .location_progress_text{
+                            padding: 5px 10px;
+                            z-index: 1;
+                            position: relative;
+                            color: var(--ColorPrimaryDark);
+
+                            .theme--dark &{
+                                color: $ColorWhite;
+                            }
+                        }
+
+                        .location_progress{
+                            position: absolute;
+                            left: 0;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            height: 100%;
+                            margin: 0;
+                            background-color: var(--ColorLightGray);
+
+                            .theme--dark &{
+                                background-color: var(--ColorPrimaryLight);
+                            }
+
+                            .location_progress_bar{
+                                height: 100%;
+                                background-color: var(--ColorPrimaryLight);
+
+                                .theme--dark &{
+                                    background-color: var(--ColorPrimaryDark);
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
+                @include media("<=medium") {
+                    z-index: 1;
+                    position: relative;
+                    width: 100%;
 
-
-            @include media("<=medium") {
-                .location_entry_image{
-                    width: 20%;
-                    margin-left: 15px;
-                    border-radius: 10px;
+                    h2, h3, p{
+                        color: $ColorWhite;
+                    }
                 }
             }
         }
@@ -69,10 +155,20 @@
             color: var(--ColorPrimary);
             position: absolute;
             right: 10px;
-            top: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
 
-            @include media(">medium") {
-                right: 30px;
+            @include media(">=medium") {
+                right: 20px;
+            }
+
+            @include media("<medium") {
+                color: $ColorWhite;
+                width: 48px;
+                height: 48px;
+                top: 20px;
+                transform: none;
             }
         }
 
@@ -84,5 +180,14 @@
             overflow: hidden;
             pointer-events: none;
         }
+    }
+}
+
+@keyframes shine-lines {
+    0% {
+        background-position: 0;
+    }
+    100%{
+        background-position: 200%;
     }
 }

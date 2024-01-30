@@ -10,7 +10,7 @@ use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
-use SwiftDevLabs\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
+use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
 /**
  * Class \App\Database\ExperienceSeat

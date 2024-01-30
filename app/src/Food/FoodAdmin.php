@@ -19,7 +19,7 @@ class FoodAdmin extends ModelAdmin
 
     private static $menu_title = "Food";
 
-    private static $menu_icon = "app/client/icons/location.svg";
+    private static $menu_icon = "app/client/icons/admin/FoodAdmin.svg";
 
     public function init()
     {

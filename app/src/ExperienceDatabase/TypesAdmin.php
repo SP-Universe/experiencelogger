@@ -22,7 +22,7 @@ class TypesAdmin extends ModelAdmin
 
     private static $menu_title = "Types";
 
-    private static $menu_icon = "app/client/icons/types.svg";
+    private static $menu_icon = "app/client/icons/admin/TypesAdmin.svg";
 
     public function init()
     {
