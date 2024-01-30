@@ -86,34 +86,25 @@ class ExperienceMemberExtension extends DataExtension
     public function getRideCounterPerYear($id)
     {
         $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $id);
-        $uniqueDates = [];
         $yearCounts = [];
+
         foreach ($logs as $item) {
             $visitTime = strtotime($item->VisitTime);
-            $date = date('Y-m-d', $visitTime);
-            if (!in_array($date, $uniqueDates)) {
-                $uniqueDates[] = $date;
-                $year = date('Y', strtotime($date));
-                if (!isset($yearCounts[$year])) {
-                    $yearCounts[$year] = 0;
-                }
-                $yearCounts[$year] += 1;
+            $year = date('Y', $visitTime);
+            if (!isset($yearCounts[$year])) {
+                $yearCounts[$year] = 0;
             }
+            $yearCounts[$year] += 1;
         }
 
-        $years = array();
-        foreach ($uniqueDates as $log) {
-            $year = date("Y", strtotime($log));
-            $construction = array(
+        foreach ($yearCounts as $year => $count) {
+            $yearCounts[$year] = array(
                 "year" => $year,
-                "logs" => $yearCounts[$year],
+                "logs" => $count,
             );
-            if (!in_array($construction, $years)) {
-                array_push($years, $construction);
-            }
         }
 
-        return ArrayList::create($years);
+        return ArrayList::create($yearCounts);
     }
 
     //Berechne Besuche pro Jahr für eine Location
