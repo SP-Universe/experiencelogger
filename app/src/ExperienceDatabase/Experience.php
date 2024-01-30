@@ -182,13 +182,13 @@ class Experience extends DataObject
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("experience/") . $this->LinkTitle;
+        return $locationsHolder->Link("experience\/") . $this->LinkTitle;
     }
 
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog/") . $this->LinkTitle;
+        return $locationsHolder->Link("addLog\/") . $this->LinkTitle;
     }
 
     public function getLogs()
