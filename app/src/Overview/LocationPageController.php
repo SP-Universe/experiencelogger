@@ -75,7 +75,7 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $experience = Experience::get()->filter("LinkTitle", $title)->first();
-        $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 4);
+        $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 2);
 
         return array(
             "Experience" => $experience,
@@ -250,8 +250,6 @@ class LocationPageController extends PageController
                     $newlogentry->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                 }
 
-                $newlogentry->write();
-
                 if ($currentUser->LinkedLogging) {
                     if (isset($area)) {
                         $newlogentryArea = LogEntry::create();
@@ -260,7 +258,11 @@ class LocationPageController extends PageController
                             $newlogentryArea->Weather = implode(',', $_GET["weather"]);
                         }
                         $newlogentryArea->UserID = $currentUser->ID;
-                        $newlogentryArea->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+                        if (isset($_GET["date"])) {
+                            $newlogentryArea->VisitTime = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
+                        } else {
+                            $newlogentryArea->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+                        }
                         $newlogentryArea->write();
                     }
 
@@ -271,12 +273,21 @@ class LocationPageController extends PageController
                             $newlogentryStage->Weather = implode(',', $_GET["weather"]);
                         }
                         $newlogentryStage->UserID = $currentUser->ID;
-                        $newlogentryStage->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+
+                        if (isset($_GET["date"])) {
+                            $newlogentryStage->VisitTime = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
+                        } else {
+                            $newlogentryStage->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+                        }
                         $newlogentryStage->write();
                     }
 
                     $currentUser->LastLoggedAreaID = $experience->AreaID;
-                    $currentUser->LastLogDate = date("Y-m-d H:i:s");
+                    if (isset($_GET["date"])) {
+                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
+                    } else {
+                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+                    }
                     $currentUser->write();
                 }
 
@@ -298,6 +309,8 @@ class LocationPageController extends PageController
                         $newrating->write();
                     }
                 }
+
+                $newlogentry->write();
 
                 return $this->redirect($experience->Parent->Link . "?success=true");
             } else {
