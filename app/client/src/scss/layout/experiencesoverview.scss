@@ -147,9 +147,10 @@
             .progress_list{
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
-                margin-top: 10px;
+                margin: 10px -10px 0 -10px;
 
                 .progress_entry_wrap{
+                    padding: 10px;
 
                     .progress_entry{
                         display: flex;
