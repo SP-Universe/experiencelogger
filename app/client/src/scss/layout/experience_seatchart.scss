@@ -1,0 +1,21 @@
+.section.section--experience_seatchart {
+    margin-top: 90px;
+    .section_content {
+        .train_selector{
+            text-align: center;
+            margin: 15px 0;
+
+            select{
+                margin: 0 auto;
+            }
+
+            &.hidden{
+                display: none;
+            }
+        }
+
+        hr{
+            margin: 20px 0;
+        }
+    }
+}

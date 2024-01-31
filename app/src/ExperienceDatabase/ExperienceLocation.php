@@ -195,13 +195,13 @@ class ExperienceLocation extends DataObject
     public function getLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("location/") . $this->LinkTitle;
+        return $locationsHolder->Link("location\/") . $this->LinkTitle;
     }
 
     public function getAbsoluteLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->AbsoluteLink("location/") . $this->LinkTitle;
+        return $locationsHolder->AbsoluteLink("location\/") . $this->LinkTitle;
     }
 
     public function getLocationProgress()
