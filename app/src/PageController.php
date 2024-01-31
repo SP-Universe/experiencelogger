@@ -68,7 +68,12 @@ use SilverStripe\Security\IdentityStore;
 
         public function getHomepageLink()
         {
-            return Page::get()->filter(['URLSegment' => 'home'])->first()->Link();
+            $homepage = Page::get()->filter(['URLSegment' => 'home'])->first()->Link();
+            if ($homepage) {
+                return $homepage;
+            } else {
+                echo "ERROR: Homepage not found";
+            }
         }
 
         protected function init()
