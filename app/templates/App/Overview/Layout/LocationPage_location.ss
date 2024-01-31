@@ -90,6 +90,18 @@
                 <!--PROGRESS-->
                 <div class="section_part section_location_progress">
                     <h2>Your Progress</h2>
+                    <% if $Top.CurrentUser %>
+                        <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
+                            <p class="location_progress_text">Loading...</p>
+                            <div class="location_progress">
+                                <div class="location_progress_bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    <% else %>
+                        <div class="progress_handler" data-behaviour="location_progress">
+                            <p class="location_progress_text">$Experiences.Filter("State", "Active").Count Experiences</p>
+                        </div>
+                    <% end_if %>
                     <input type="radio" id="part_progress" name="partselector">
                     <div class="progress_list">
                         <% loop $CurrentUser.getVisitCounterPerYear($ID) %>
