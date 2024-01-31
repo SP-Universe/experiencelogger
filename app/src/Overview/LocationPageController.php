@@ -146,7 +146,7 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $article = Experience::get()->filter("LinkTitle", $title)->first();
-        $now = date("Y-m-d H:i:s", strtotime('1 hour'));
+        $now = date("Y-m-d H:i:s");
         $currentDate = date("Y-m-d", strtotime($now));
         $currentTime = date("H:i", strtotime($now));
 
