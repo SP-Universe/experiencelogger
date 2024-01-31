@@ -7,7 +7,7 @@
                 <p><b>$Logs.Count <% if $Logs.Count > 1 %>Logs<% else %>Log<% end_if %></b> in total</p>
                 <p>All users together logged this experience <b>$TotalLogCount</b> <% if $TotalLogCount > 1 %>times<% else %>time<% end_if %><p>
                 <p>You make up <b>{$Top.PercentOfLogs}%</b> of all that logs</p>
-                <p>You log this experience on average <b>{$Top.AverageLogsPerVisit}</b> times per visit</p>
+                <p>You log this experience on average <b>{$Top.AverageLogsPerVisit}</b> <% if $Top.AverageLogsPerVisit = 1 %>time<% else %>times<% end_if %> per visit</p>
                 <hr>
                 <h2>Your Logs per year:</h2>
                 <div class="progress_list">
