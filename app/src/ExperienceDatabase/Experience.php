@@ -204,6 +204,18 @@ class Experience extends DataObject
         }
     }
 
+    public function getTotalLogCount()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            return LogEntry::get()->filter(
+                [
+                    "ExperienceID" => $this->ID,
+                ]
+            )->count();
+        }
+    }
+
     public function getGroupedFood()
     {
         return GroupedList::create($this->Food())->GroupedBy("FoodTypeID");

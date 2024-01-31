@@ -31,6 +31,7 @@ class LocationPageController extends PageController
         "changeFavourite",
         "addLog",
         "seatchart",
+        "statistics",
         "finishLog",
     ];
 
@@ -67,6 +68,18 @@ class LocationPageController extends PageController
         $article = Experience::get()->filter("LinkTitle", $title)->first();
         return array(
             "Experience" => $article,
+        );
+    }
+
+    public function statistics()
+    {
+        $title = $this->getRequest()->param("ID");
+        $experience = Experience::get()->filter("LinkTitle", $title)->first();
+        $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 4);
+
+        return array(
+            "Experience" => $experience,
+            "PercentOfLogs" => $percentOfLogs,
         );
     }
 
@@ -133,9 +146,14 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $article = Experience::get()->filter("LinkTitle", $title)->first();
+        $now = date("Y-m-d H:i:s", strtotime('1 hour'));
+        $currentDate = date("Y-m-d", strtotime($now));
+        $currentTime = date("H:i", strtotime($now));
 
         return array(
             "Experience" => $article,
+            "CurrentDate" => $currentDate,
+            "CurrentTime" => $currentTime,
         );
     }
 
@@ -225,7 +243,13 @@ class LocationPageController extends PageController
 
                 $newlogentry->UserID = $currentUser->ID;
                 $hours = $experience->Parent->Timezone - 1;
-                $newlogentry->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+
+                if (isset($_GET["date"])) {
+                    $newlogentry->VisitTime = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
+                } else {
+                    $newlogentry->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+                }
+
                 $newlogentry->write();
 
                 if ($currentUser->LinkedLogging) {
