@@ -75,11 +75,26 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $experience = Experience::get()->filter("LinkTitle", $title)->first();
-        $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 2);
+        if ($experience->TotalLogCount > 0) {
+            $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 2);
+        } else {
+            $percentOfLogs = 0;
+        }
+        
+        $logs = $experience->Logs->filter("UserID", Security::getCurrentUser()->ID);
+        $uniqueDates = [];
+        foreach ($logs as $item) {
+            $visitTime = strtotime($item->VisitTime);
+            $date = date('Y-m-d', $visitTime);
+            if (!in_array($date, $uniqueDates)) {
+                $uniqueDates[] = $date;
+            }
+        }
 
         return array(
             "Experience" => $experience,
             "PercentOfLogs" => $percentOfLogs,
+            "AverageLogsPerVisit" => round($experience->Logs->Count() / sizeof($uniqueDates), 2),
         );
     }
 
