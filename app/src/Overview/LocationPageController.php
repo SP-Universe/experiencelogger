@@ -84,7 +84,7 @@ class LocationPageController extends PageController
 
         $currentUser = Security::getCurrentUser();
         $visitsPerYear = $currentUser->getVisitCounterPerYear($experience->ParentID);
-        $logsInExperience = LogEntry::get()->filter("ExperienceID", $experience->ID);
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $currentUser->ID]);
 
         $visitsAllTime = 0;
         foreach ($visitsPerYear as $visit) {
