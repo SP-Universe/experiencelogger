@@ -20,6 +20,10 @@
                         </div>
                     <% end_loop %>
                 </div>
+
+                <% if $StatisticsLink %>
+                    <a href="$StatisticsLink" class="button experience_statistics_button">Extended Experience Statistics →</a>
+                <% end_if %>
             <% else %>
                 <p>You have not yet logged this experience.</p>
             <% end_if %>

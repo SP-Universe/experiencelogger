@@ -117,6 +117,10 @@
                             </div>
                         <% end_loop %>
                     </div>
+
+                    <% if $StatisticsLink %>
+                        <a href="$StatisticsLink" class="button profile_statistics_button">Extended Location Statistics →</a>
+                    <% end_if %>
                 </div>
             <% end_if %>
 
