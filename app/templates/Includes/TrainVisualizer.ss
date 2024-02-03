@@ -1,8 +1,14 @@
 <div class="train_visualizer">
     <% if $Entrance == "Left" %>
-        <div class="entrance">
-            Entrance →
-        </div>
+        <% if $ExperienceTrains.Count < 2 %>
+            <div class="entrance active">
+                Entrance →
+            </div>
+        <% else %>
+            <div class="entrance">
+                Entrance →
+            </div>            
+        <% end_if %>
     <% end_if %>
 
     <% loop $ExperienceTrains() %>
@@ -30,9 +36,15 @@
     <% end_loop %>
 
     <% if $Entrance == "Right" %>
-        <div class="entrance">
-            ← Entrance
-        </div>
+        <% if $ExperienceTrains.Count < 2 %>
+            <div class="entrance active">
+                ← Entrance
+            </div>
+        <% else %>
+            <div class="entrance">
+                ← Entrance
+            </div>            
+        <% end_if %>
     <% end_if %>
 
     <div class="hidden_datafields">

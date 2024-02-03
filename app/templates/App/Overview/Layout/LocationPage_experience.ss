@@ -42,7 +42,7 @@
                 <% if $NumberOfRatings %>
                     <div class="experience_ratings">
                         <div class="ratingdisplay" style="--stars: $Rating"></div>
-                        <p>$NumberOfRatings Ratings</p>
+                        <p>$NumberOfRatings <% if $NumberOfRatings > 1 %>Ratings<% else %>Rating<% end_if %></p>
                     </div>
                 <% end_if %>
                 <div class="experience_buttons">
