@@ -11,12 +11,14 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
+use SilverStripe\Security\Member;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\ORM\PaginatedList;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -30,7 +32,8 @@ class ProfilePageController extends PageController
 
     private static $allowed_actions = [
         'EditForm',
-        'editProfile'
+        'editProfile',
+        'memberlist',
     ];
 
     public function getNickname()
@@ -135,5 +138,15 @@ class ProfilePageController extends PageController
         if ($statisticsPage) {
             return $statisticsPage->Link("user/" . $this->getNickname());
         }
+    }
+
+    public function memberlist()
+    {
+        $members = Member::get();
+        $memberlist = PaginatedList::create($members, $this->getRequest());
+        $memberlist->setPageLength(30);
+        return array(
+            'MemberList' => $memberlist
+        );
     }
 }

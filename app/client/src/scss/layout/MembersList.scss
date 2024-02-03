@@ -1,0 +1,45 @@
+.section.section--memberlist{
+    margin-top: 90px;
+
+    .section_content{
+        .memberlist{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+.usercard{
+    max-width: $maxWidthContent;
+    padding: 10px;
+    width: calc(100% / 3);
+
+
+    .usercard_content{
+        background-color: var(--ColorPrimaryLight);
+        border-radius: 20px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+
+        .usercard_avatar{
+            padding-right: 20px;
+            width: 33%;
+
+            img{
+                width: 100%;
+                aspect-ratio: 1/1;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    @include media("<=medium") {
+        width: calc(100% / 2);
+    }
+
+    @include media("<=smartphone") {
+        width: calc(100% / 1);
+    }
+}

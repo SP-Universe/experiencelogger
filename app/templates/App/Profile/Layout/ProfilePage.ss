@@ -16,13 +16,18 @@
                 <p><span>Full Name:</span> $CurrentUser.FirstName $CurrentUser.LastName</p>
                 <p><span>Email:</span> $CurrentUser.Email</p>
                 <p><span>Birthdate:</span> $CurrentUser.DateOfBirth<p>
-                    <div class="profile_privacy">
-                        <p>Profile-Privacy:</P>
-                        <% if $CurrentUser.ProfilePrivacy == "Private" %><img src="../_resources/app/client/icons/lock.svg" alt="Private Profile"/><p>Private</p><% end_if %>
-                        <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
-                        <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
-                    </div>
-                <a class="button profile_edit_button" data-behaviour="profile_edit_button">Edit Profile</a>
+                <div class="profile_privacy">
+                    <p>Profile-Privacy:</P>
+                    <% if $CurrentUser.ProfilePrivacy == "Private" %><img src="../_resources/app/client/icons/lock.svg" alt="Private Profile"/><p>Private</p><% end_if %>
+                    <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
+                    <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
+                </div>
+                <div class="profile_actions">
+                    <% if $StatisticsLink %>
+                        <a href="$StatisticsLink" class="button profile_statistics_button">Extended User Statistics →</a>
+                    <% end_if %>
+                    <a class="button profile_edit_button" data-behaviour="profile_edit_button">Edit Profile</a>
+                </div>
             </div>
 
             <div class="profile_settings edit">
@@ -44,11 +49,9 @@
                 <% end_loop %>
             </div>
 
-            <% if $StatisticsLink %>
-                <a href="$StatisticsLink" class="button profile_statistics_button">Extended User Statistics →</a>
-            <% end_if %>
+            <a href="$Top.Link('memberlist')" class="add_friend">+ Add Friend</a>
 
-            <p>You are registered since $Created</p>
+            <p>You are registered since $CurrentUser.Created</p>
         <% else %>
             <div class="login_note">
                 <p class="centered">
