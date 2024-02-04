@@ -17,7 +17,6 @@ use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\ORM\PaginatedList;
 
 /**
@@ -34,7 +33,13 @@ class ProfilePageController extends PageController
         'EditForm',
         'editProfile',
         'memberlist',
+        'user',
     ];
+
+    public function index()
+    {
+        return $this->redirect("profile/user/" . $this->getNickname());
+    }
 
     public function getNickname()
     {
@@ -148,5 +153,24 @@ class ProfilePageController extends PageController
         return array(
             'MemberList' => $memberlist
         );
+    }
+
+    public function user()
+    {
+        $currentUser = Security::getCurrentUser();
+        $viewedUser = Member::get()->filter("Nickname", $this->getRequest()->param("ID"))->first();
+
+        if (!$viewedUser) {
+            return array(
+                "CurrentUser" => $currentUser
+            );
+        }
+
+        if ($currentUser) {
+            return array(
+                "UserProfile" => $viewedUser,
+                "CurrentUser" => $currentUser
+            );
+        }
     }
 }
