@@ -13,6 +13,7 @@ use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\Helper\StatisticsHelper;
+use App\Profile\FriendRequest;
 use SilverStripe\ORM\GroupedList;
 
 /**
@@ -24,12 +25,13 @@ use SilverStripe\ORM\GroupedList;
  * @property string $ProfilePrivacy
  * @property bool $LinkedLogging
  * @property string $LastLogDate
+ * @property bool $HasPremium
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \App\ExperienceDatabase\Experience LastLoggedArea()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
- * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
+ * @method \SilverStripe\ORM\ManyManyList|\App\Profile\FriendRequest[] Friends()
  */
 class ExperienceMemberExtension extends DataExtension
 {
@@ -40,6 +42,7 @@ class ExperienceMemberExtension extends DataExtension
         'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
         "LinkedLogging" => "Boolean",
         "LastLogDate" => "Date",
+        "HasPremium" => "Boolean",
     ];
 
     private static $has_one = [
@@ -53,16 +56,22 @@ class ExperienceMemberExtension extends DataExtension
 
     private static $many_many = [
         "FavouritePlaces" => ExperienceLocation::class,
-        "Friends" => Member::class,
+        "Friends" => FriendRequest::class,
     ];
 
     private static $belongs_many = [
         "LogEntries" => LogEntry::class,
-        "Friends" => Member::class,
     ];
 
     private static $searchable_fields = [
         "Nickname",
+    ];
+
+    private static $summary_fields = [
+        "Nickname",
+        "FirstName",
+        "Surname",
+        "Email",
     ];
 
     public function LogCount($id)
@@ -127,5 +136,53 @@ class ExperienceMemberExtension extends DataExtension
         $paginated = new PaginatedList($logs, $this->owner->getRequest());
         $paginated->setPageLength(10);
         return $paginated;
+    }
+
+    public function getFriends()
+    {
+        $acceptedRequests = $this->owner->Friends()->filter([
+            "FriendshipStatus" => "Accepted",
+        ]);
+        $friends = new ArrayList();
+        foreach ($acceptedRequests as $request) {
+            if ($request->RequesterID == $this->owner->ID) {
+                $friends->push($request->Requestee());
+            } else {
+                $friends->push($request->Requester());
+            }
+        }
+        return $friends;
+    }
+
+    public function getFriendRequests()
+    {
+        $acceptedRequests = $this->owner->Friends()->filter([
+            "FriendshipStatus" => "Pending",
+        ]);
+        $friends = new ArrayList();
+        foreach ($acceptedRequests as $request) {
+            if ($request->RequesterID == $this->owner->ID) {
+                //Not a friend request, but a request from the user
+            } else {
+                $friends->push($request->Requester());
+            }
+        }
+        return $friends;
+    }
+
+    public function getPendingFriendRequests()
+    {
+        $acceptedRequests = $this->owner->Friends()->filter([
+            "FriendshipStatus" => "Pending",
+        ]);
+        $friends = new ArrayList();
+        foreach ($acceptedRequests as $request) {
+            if ($request->RequesterID == $this->owner->ID) {
+                $friends->push($request->Requestee());
+            } else {
+                //Not a friend request from the user but from another user
+            }
+        }
+        return $friends;
     }
 }

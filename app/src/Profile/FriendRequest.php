@@ -12,6 +12,7 @@ use App\ExperienceDatabase\Experience;
 /**
  * Class \App\Database\Experience
  *
+ * @property string $FriendshipStatus
  * @property int $RequesterID
  * @property int $RequesteeID
  * @method \SilverStripe\Security\Member Requester()
@@ -20,6 +21,7 @@ use App\ExperienceDatabase\Experience;
 class FriendRequest extends DataObject
 {
     private static $db = [
+        "FriendshipStatus" => "Enum('Pending, Accepted, Declined', 'Pending')",
     ];
 
     private static $api_access = false;
