@@ -85,9 +85,11 @@
 
 <script>
     const trainselector = document.querySelector('.train_visualizer');
+    const entrance = trainselector.querySelectorAll('.entrance');
     const trains = trainselector.querySelectorAll('.train');
 
     function change_train(e){
+        change_entrance(e);
         if(trainselector && trains){
             trains.forEach(train => {
                 train.classList.remove('active');
@@ -96,5 +98,15 @@
                 }
             });
         }
+    }
+
+    function change_entrance(e){
+        entrance.forEach(entrance => {
+            if(e.value == -1){
+                entrance.classList.remove('active');
+            } else {
+                entrance.classList.add('active');
+            }
+        });
     }
 </script>

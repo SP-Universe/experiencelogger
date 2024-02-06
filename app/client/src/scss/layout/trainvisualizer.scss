@@ -5,6 +5,12 @@
     align-items: center;
     gap: 50px;
 
+    .entrance{
+        &:not(.active){
+            display: none;
+        }
+    }
+
     .train{
         background-color: #9CB7B3;
         flex-direction: column;

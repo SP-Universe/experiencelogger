@@ -12,6 +12,7 @@ use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\Helper\StatisticsHelper;
 use SilverStripe\ORM\GroupedList;
 
 /**
@@ -74,75 +75,19 @@ class ExperienceMemberExtension extends DataExtension
 
     public function getLogs($id)
     {
-        $checkedUser = Member::get()->byID($id);
-        if ($checkedUser) {
-            return LogEntry::get()->filter([
-                'UserID' => $checkedUser->ID,
-            ]);
-        }
+        return StatisticsHelper::getLogsOfUser($id);
     }
 
     //Berechne Logs pro Jahr für eine Experience
-    public function getRideCounterPerYear($id)
+    public function getRideCounterPerYear($experienceId)
     {
-        $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $id);
-        $yearCounts = [];
-
-        foreach ($logs as $item) {
-            $visitTime = strtotime($item->VisitTime);
-            $year = date('Y', $visitTime);
-            if (!isset($yearCounts[$year])) {
-                $yearCounts[$year] = 0;
-            }
-            $yearCounts[$year] += 1;
-        }
-
-        foreach ($yearCounts as $year => $count) {
-            $yearCounts[$year] = array(
-                "year" => $year,
-                "logs" => $count,
-            );
-        }
-
-        return ArrayList::create($yearCounts);
+        return StatisticsHelper::getRideCounterPerYear($this->owner->ID, $experienceId);
     }
 
     //Berechne Besuche pro Jahr für eine Location
     public function getVisitCounterPerYear($locationID)
     {
-        $experiences = Experience::get()->filter("ParentID", $locationID);
-        $logs = $this->getLogs($this->owner->ID)->filter("ExperienceID", $experiences->column("ID"));
-
-        $uniqueDates = [];
-        $yearCounts = [];
-        foreach ($logs as $item) {
-            $visitTime = strtotime($item->VisitTime);
-
-            $date = date('Y-m-d', $visitTime);
-
-            if (!in_array($date, $uniqueDates)) {
-                $uniqueDates[] = $date;
-                $year = date('Y', strtotime($date));
-                if (!isset($yearCounts[$year])) {
-                    $yearCounts[$year] = 0;
-                }
-                $yearCounts[$year] += 1;
-            }
-        }
-
-        $years = array();
-        foreach ($uniqueDates as $log) {
-            $year = date("Y", strtotime($log));
-            $construction = array(
-                "year" => $year,
-                "logs" => $yearCounts[$year],
-            );
-            if (!in_array($construction, $years)) {
-                array_push($years, $construction);
-            }
-        }
-
-        return ArrayList::create($years);
+        return StatisticsHelper::getVisitCounterPerYear($this->owner->ID, $locationID);
     }
 
     public function getProfileImage($size = 200)

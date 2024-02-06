@@ -44,6 +44,10 @@
                 <% end_loop %>
             </div>
 
+            <% if $StatisticsLink %>
+                <a href="$StatisticsLink" class="button profile_statistics_button">Extended User Statistics →</a>
+            <% end_if %>
+
             <p>You are registered since $Created</p>
         <% else %>
             <div class="login_note">

@@ -4,6 +4,7 @@ namespace App\ExperienceDatabase;
 
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
+use App\Overview\StatisticsPage;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
@@ -305,6 +306,14 @@ class ExperienceLocation extends DataObject
             return $visitCount;
         } else {
             return 0;
+        }
+    }
+
+    public function getStatisticsLink()
+    {
+        $statisticsPage = StatisticsPage::get()->first();
+        if ($statisticsPage) {
+            return $statisticsPage->Link("location/" . $this->LinkTitle);
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\ExperienceDatabase;
 
 use App\Food\Food;
 use App\Overview\LocationPage;
+use App\Overview\StatisticsPage;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
@@ -491,5 +492,13 @@ class Experience extends DataObject
         }
 
         return true;
+    }
+
+    public function getStatisticsLink()
+    {
+        $statisticsPage = StatisticsPage::get()->first();
+        if ($statisticsPage) {
+            return $statisticsPage->Link("experience/" . $this->LinkTitle);
+        }
     }
 }

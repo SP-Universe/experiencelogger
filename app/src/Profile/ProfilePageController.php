@@ -5,6 +5,7 @@ namespace App\Profile;
 use PageController;
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
+use App\Overview\StatisticsPage;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
@@ -13,9 +14,9 @@ use SilverStripe\ORM\GroupedList;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
-use SilverStripe\Forms\CheckboxField;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -126,5 +127,13 @@ class ProfilePageController extends PageController
             $currentUser->write();
         }
         return $this->redirect("profile/");
+    }
+
+    public function getStatisticsLink()
+    {
+        $statisticsPage = StatisticsPage::get()->first();
+        if ($statisticsPage) {
+            return $statisticsPage->Link("user/" . $this->getNickname());
+        }
     }
 }

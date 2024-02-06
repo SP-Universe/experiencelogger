@@ -144,6 +144,22 @@
             max-width: $maxWidth;
             margin: 0 auto;
 
+            .progress_handler{
+                .location_progress_text{
+                    color: var(--ColorWhite);
+
+                    @include media(">medium") {
+                        color: var(--ColorBlack);
+                    }
+                }
+                .location_progress{
+                    background-color: var(--ColorPrimary);
+                    .location_progress_bar{
+                        background-color: var(--ColorPrimaryDark);
+                    }
+                }
+            }
+
             .progress_list{
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);

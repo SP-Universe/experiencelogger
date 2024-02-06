@@ -14,6 +14,7 @@ use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\Helper\StatisticsHelper;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -75,23 +76,10 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $experience = Experience::get()->filter("LinkTitle", $title)->first();
-        if ($experience->TotalLogCount > 0) {
-            $percentOfLogs = round($experience->Logs->Count() / $experience->TotalLogCount * 100, 2);
-        } else {
-            $percentOfLogs = 0;
-        }
-
+        $percentOfLogs = StatisticsHelper::getPercentAsNumber($experience->TotalLogCount, $experience->Logs->Count(), 2);
 
         $currentUser = Security::getCurrentUser();
-        $visitsPerYear = $currentUser->getVisitCounterPerYear($experience->ParentID);
-        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $currentUser->ID]);
-
-        $visitsAllTime = 0;
-        foreach ($visitsPerYear as $visit) {
-            $visitsAllTime += $visit->logs;
-        }
-
-        $averageLogsPerVisit = round($logsInExperience->Count() / $visitsAllTime, 2);
+        $averageLogsPerVisit = StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUser->ID, $experience);
 
         return array(
             "Experience" => $experience,
@@ -172,15 +160,6 @@ class LocationPageController extends PageController
             "CurrentDate" => $currentDate,
             "CurrentTime" => $currentTime,
         );
-    }
-
-    public function getPercent($all, $from)
-    {
-        if ($all > 0) {
-            return round(($from / $all) * 100) . "%";
-        } else {
-            return 0 . "%";
-        }
     }
 
     public function finishLog()

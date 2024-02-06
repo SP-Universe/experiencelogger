@@ -1,0 +1,127 @@
+.section.section--statistics{
+    margin-top: 100px;
+    text-align: center;
+
+    .section_content{
+        .statistics_list{
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            &.list--1{
+                .list_item{
+                    width: 100%;
+                }
+            }
+
+            &.list--2{
+                .list_item{
+                    width: calc(50% - 10px);
+
+                    @include media("<=medium"){
+                        width: 100%;
+                    }
+                }
+            }
+
+            &.list--3{
+                .list_item{
+                    width: calc(33.33% - 10px);
+
+                    @include media("<=medium"){
+                        width: calc(50% - 10px);
+                    }
+
+                    @include media("<=smartphone"){
+                        width: 100%;
+                    }
+                }
+            }
+
+            &.list--4{
+                .list_item{
+                    width: calc(25% - 10px);
+
+                    @include media("<=medium"){
+                        width: calc(50% - 10px);
+                    }
+
+                    @include media("<=smartphone"){
+                        width: 100%;
+                    }
+                }
+            }
+
+            &.list--5{
+                .list_item{
+                    width: calc(20% - 10px);
+
+                    @include media("<=medium"){
+                        width: calc(50% - 10px);
+                    }
+
+                    @include media("<=smartphone"){
+                        width: 100%;
+                    }
+                }
+            }
+
+            &.list--6{
+                .list_item{
+                    width: calc(16.66% - 10px);
+
+                    @include media("<=medium"){
+                        width: calc(50% - 10px);
+                    }
+
+                    @include media("<=smartphone"){
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .statistics_card{
+            background-color: var(--ColorPrimary);
+            color: #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+            transition: all 0.3s ease-in-out;
+            display: block;
+            word-break: break-word;
+
+            &.card--value{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .experience_card{
+                margin-bottom: 0;
+            }
+
+            .statistics_value{
+                font-size: 30px;
+                font-weight: 700;
+                color: #FFF;
+            }
+
+            .statistics_description{
+                font-size: 14px;
+                font-weight: 300;
+                text-align: center;
+                text-transform: uppercase;
+                color: #FFF;
+            }
+
+            .theme--dark &{
+                background-color: var(--ColorPrimaryLight);
+            }
+        }
+    }
+}
