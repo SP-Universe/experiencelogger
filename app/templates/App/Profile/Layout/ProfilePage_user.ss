@@ -49,6 +49,7 @@
                 <a class="button profile_edit_button" data-behaviour="profile_canceledit_button">Cancel edit</a>
             </div>
 
+            <!-- Friend Requests -->
             <% if $UserProfile.FriendRequests.Count > 0 %>
                 <div class="profile_friendrequests">
                     <h3 class="profile_section_headline">You have $UserProfile.FriendRequests.Count new <% if $UserProfile.FriendRequests.Count > 1 %> friendrequests:<% else %> friendrequest:<% end_if %></h3>
@@ -108,6 +109,7 @@
                     </div>
                 </div>
             <% end_if %>
+            <!-- End Friend Requests -->
 
             <h3 class="profile_section_headline">Your friends:</h3>
             <div class="profile_friendslist">

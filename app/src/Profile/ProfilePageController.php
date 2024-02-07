@@ -34,6 +34,9 @@ class ProfilePageController extends PageController
         'editProfile',
         'memberlist',
         'user',
+        'acceptfriend',
+        'declinefriend',
+        'requestnewfriend'
     ];
 
     public function index()
@@ -171,6 +174,56 @@ class ProfilePageController extends PageController
                 "UserProfile" => $viewedUser,
                 "CurrentUser" => $currentUser
             );
+        }
+    }
+
+    public function requestnewfriend()
+    {
+        $currentUser = Security::getCurrentUser();
+        $requestee = Member::get()->filter("Nickname", $this->getRequest()->param("ID"))->first();
+        $friendRequest = new FriendRequest();
+        $friendRequest->RequesterID = $currentUser->ID;
+        $friendRequest->RequesteeID = $requestee->ID;
+        $friendRequest->write();
+        $currentUser->Friends()->add($friendRequest);
+        $requestee->Friends()->add($friendRequest);
+        return $this->redirect("profile/");
+    }
+
+    public function acceptfriend()
+    {
+        $currentUser = Security::getCurrentUser();
+        $friendRequest = FriendRequest::get()->byID($this->getRequest()->param("ID"));
+        $requestee = Member::get()->byID($friendRequest->RequesteeID);
+        $requester = Member::get()->byID($friendRequest->RequesterID);
+
+        if ($friendRequest && $currentUser && $requestee && $requester) {
+            if ($requestee == $currentUser && $friendRequest->FriendshipStatus == "Pending") {
+                $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
+                $requesterFriendRequest->FriendshipStatus = "accepted";
+                $friendRequest->FriendshipStatus = "accepted";
+                $requesterFriendRequest->write();
+                $friendRequest->write();
+                return $this->redirect("profile/");
+            }
+        }
+    }
+
+    public function declinefriend()
+    {
+        $currentUser = Security::getCurrentUser();
+        $friendRequest = FriendRequest::get()->byID($this->getRequest()->param("ID"));
+        $requestee = Member::get()->byID($friendRequest->RequesteeID);
+        $requester = Member::get()->byID($friendRequest->RequesterID);
+
+        if ($friendRequest && $currentUser && $requestee && $requester) {
+            if ($requestee == $currentUser || $requester == $currentUser) {
+                $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
+                $requesteeFriendRequest = $requestee->Friends()->filter("RequesterID", $requester->ID)->first();
+                $requesterFriendRequest->delete();
+                $requesteeFriendRequest->delete();
+                return $this->redirect("profile/");
+            }
         }
     }
 }
