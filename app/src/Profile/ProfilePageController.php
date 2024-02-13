@@ -5,6 +5,7 @@ namespace App\Profile;
 use PageController;
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
+use App\Profile\FriendRequest;
 use App\Overview\StatisticsPage;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
@@ -13,11 +14,11 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\ORM\PaginatedList;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -213,17 +214,21 @@ class ProfilePageController extends PageController
     {
         $currentUser = Security::getCurrentUser();
         $friendRequest = FriendRequest::get()->byID($this->getRequest()->param("ID"));
-        $requestee = Member::get()->byID($friendRequest->RequesteeID);
-        $requester = Member::get()->byID($friendRequest->RequesterID);
+        if ($friendRequest && $currentUser) {
+            $requestee = Member::get()->byID($friendRequest->RequesteeID);
+            $requester = Member::get()->byID($friendRequest->RequesterID);
 
-        if ($friendRequest && $currentUser && $requestee && $requester) {
-            if ($requestee == $currentUser || $requester == $currentUser) {
-                $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
-                $requesteeFriendRequest = $requestee->Friends()->filter("RequesterID", $requester->ID)->first();
-                $requesterFriendRequest->delete();
-                $requesteeFriendRequest->delete();
-                return $this->redirect("profile/");
+            if ($friendRequest && $currentUser && $requestee && $requester) {
+                if ($requestee == $currentUser || $requester == $currentUser) {
+                    $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
+                    $requesteeFriendRequest = $requestee->Friends()->filter("RequesterID", $requester->ID)->first();
+                    $requesterFriendRequest->delete();
+                    $requesteeFriendRequest->delete();
+                    return $this->redirect("profile/");
+                }
             }
+        } else {
+            return $this->redirect("profile/");
         }
     }
 }

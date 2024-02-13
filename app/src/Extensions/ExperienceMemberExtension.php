@@ -164,7 +164,7 @@ class ExperienceMemberExtension extends DataExtension
             if ($request->RequesterID == $this->owner->ID) {
                 //Not a friend request, but a request from the user
             } else {
-                $friends->push($request->Requester());
+                $friends->push($request);
             }
         }
         return $friends;
@@ -178,7 +178,7 @@ class ExperienceMemberExtension extends DataExtension
         $friends = new ArrayList();
         foreach ($acceptedRequests as $request) {
             if ($request->RequesterID == $this->owner->ID) {
-                $friends->push($request->Requestee());
+                $friends->push($request);
             } else {
                 //Not a friend request from the user but from another user
             }
