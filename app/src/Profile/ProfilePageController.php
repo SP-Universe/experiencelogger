@@ -94,8 +94,8 @@ class ProfilePageController extends PageController
             $textfieldNickname->setValue($currentUser->Nickname);
             $textFieldFirstName = new TextField("FirstName", "First Name");
             $textFieldFirstName->setValue($currentUser->FirstName);
-            $textFieldLastName = new TextField("LastName", "Last Name");
-            $textFieldLastName->setValue($currentUser->LastName);
+            $textFieldLastName = new TextField("Surname", "Last Name");
+            $textFieldLastName->setValue($currentUser->Surname);
             $textFieldEmail = new TextField("Email", "Email");
             $textFieldEmail->setValue($currentUser->Email);
             $dateFieldBirthdate = new DateField("DateOfBirth", "Birthdate");
