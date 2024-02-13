@@ -28,7 +28,7 @@
                     </a>
                 </div>
             <% end_if %>
-            <div class="experience_menu">
+            <!--<div class="experience_menu">
                 <a class="experience_menu_symbol" data-behaviour="popup-open" data-popupid="$ID">
                     <span></span>
                     <span></span>
@@ -42,7 +42,7 @@
                         <p>Coming soon</p>
                     </div>
                 </div>
-            </div>
+            </div>-->
         <% end_if %>
     <% end_if %>
 </div>
