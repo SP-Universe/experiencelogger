@@ -80,4 +80,27 @@ class ExperienceHelper
             throw new Exception('No correct ExperienceID given or user is not logged in');
         }
     }
+
+    /**
+     * Return if the linked area will be linked log at a given date
+     * @param Experience $experience Experience to check
+     * @param string $loggedDate Date to check
+     * @return bool True if the area will be linked log at the given date
+     */
+    public static function getWillLinkLogArea($experience, $loggedDate)
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($experience->AreaID == 0 || !$currentUser) {
+            return false;
+        }
+
+        $lastLoggedArea = $currentUser->LastLoggedArea();
+        $lastLoggedDate = $currentUser->LastLogDate;
+
+        if ($lastLoggedArea && $lastLoggedArea->ID == $experience->AreaID && $lastLoggedDate == $loggedDate) {
+            return false;
+        }
+
+        return true;
+    }
 }

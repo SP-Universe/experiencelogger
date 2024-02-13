@@ -1,6 +1,6 @@
 <div class="loggedexperience_card" data-behaviour="filtered_log" data-experiencetype="$Experience.Type.Title">
     <div class="log_text" data-behaviour="showhide_log">
-        <p class="date">$FormattedDate</p>
+        <p class="date">$FormattedDate <% if $IsLinkedLogged %><span class="linklogged">Link Logged</span><% end_if %></p>
         <h3>$Experience.Title</h3>
         <p class="park">$Experience.ExperienceType in $Experience.Parent.Title</p>
         <div class="seemore">

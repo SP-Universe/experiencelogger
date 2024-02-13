@@ -14,6 +14,7 @@ use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\Helper\ExperienceHelper;
 use App\Helper\StatisticsHelper;
 
 /**
@@ -183,20 +184,15 @@ class LocationPageController extends PageController
 
             //Find out if the area should be logged
             if ($experience->AreaID != 0) {
-                if ($currentUser->LastLogDate != null) {
-                    $lastLogDate = date("Y-m-d", strtotime($currentUser->LastLogDate));
-
-                    if ($lastLogDate === date("Y-m-d")) {
-                        if (isset($currentUser->LastLoggedAreaID)) {
-                            if ($experience->AreaID != 0 && $experience->AreaID != $currentUser->LastLoggedAreaID) {
-                                $area = $experience->Area;
-                            }
-                        }
-                    } else {
+                //Only try logging area if there is an AreaID
+                if (isset($_GET["date"])) {
+                    if (ExperienceHelper::getWillLinkLogArea($experience, $_GET["date"])) {
                         $area = $experience->Area;
                     }
                 } else {
-                    $area = $experience->Area;
+                    if (ExperienceHelper::getWillLinkLogArea($experience, date("Y-m-d"))) {
+                        $area = $experience->Area;
+                    }
                 }
             }
 
@@ -259,8 +255,11 @@ class LocationPageController extends PageController
                         } else {
                             $newlogentryArea->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                         }
+                        $newlogentryArea->IsLinkedLogged = true;
                         $newlogentryArea->write();
+                        $currentUser->LastLoggedArea = $newlogentryArea->Experience;
                     }
+
 
                     if (isset($stage)) {
                         $newlogentryStage = LogEntry::create();
@@ -275,10 +274,9 @@ class LocationPageController extends PageController
                         } else {
                             $newlogentryStage->VisitTime = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
                         }
+                        $newlogentryStage->IsLinkedLogged = true;
                         $newlogentryStage->write();
                     }
-
-                    $currentUser->LastLoggedAreaID = $experience->AreaID;
                     if (isset($_GET["date"])) {
                         $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
                     } else {

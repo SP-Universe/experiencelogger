@@ -4,6 +4,7 @@ namespace App\ExperienceDatabase;
 
 use App\Food\Food;
 use App\Overview\LocationPage;
+use App\Helper\ExperienceHelper;
 use App\Overview\StatisticsPage;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
@@ -478,20 +479,19 @@ class Experience extends DataObject
 
     public function getWillLinkLogArea()
     {
-        $currentUser = Security::getCurrentUser();
+        /*$currentUser = Security::getCurrentUser();
         if ($this->AreaID == 0 || !$currentUser) {
             return false;
         }
 
         $lastLoggedArea = $currentUser->LastLoggedArea();
+        $lastLoggedDate = $currentUser->LastLogDate;
 
-        if ($lastLoggedArea) {
-            if ($lastLoggedArea->ID == $this->AreaID) {
-                return false;
-            }
-        }
+        if ($lastLoggedArea && $lastLoggedArea->ID == $this->AreaID && $lastLoggedDate == date("Y-m-d")) {
+            return false;
+        }*/
 
-        return true;
+        return ExperienceHelper::getWillLinkLogArea($this, date("Y-m-d"));
     }
 
     public function getStatisticsLink()

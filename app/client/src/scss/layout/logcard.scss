@@ -13,8 +13,11 @@
         top: 10px;
         right: 10px;
         height: 25px;
+        width: 50%;
         font-size: 12px;
         color: var(--ColorPrimary);
+        display: flex;
+        justify-content: flex-end;
 
         svg{
             max-height: 100%;
@@ -29,6 +32,7 @@
     .log_text{
         z-index: 5;
         padding-right: 30px;
+        position: relative;
 
         h3{
             margin: 0;
@@ -37,6 +41,22 @@
 
         .date{
             margin-bottom: 5px;
+
+            .linklogged{
+                position: relative;
+                top: -2px;
+                left: 5px;
+                padding: 2px 7px;
+                font-size: 9px;
+                text-transform: uppercase;
+                border: 1px solid var(--ColorPrimary);
+                border-radius: 30px;
+                opacity: 0.5;
+
+                &:hover{
+                    opacity: 1;
+                }
+            }
         }
 
         .park{
