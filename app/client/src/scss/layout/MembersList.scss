@@ -1,0 +1,104 @@
+.section.section--memberlist{
+    margin-top: 90px;
+
+    .section_content{
+        .memberlist{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+.usercard{
+    max-width: $maxWidthContent;
+    padding: 10px;
+    width: calc(100% / 4);
+
+    .usercard_wrap{
+        background-color: var(--ColorPrimaryLight);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px 0px var(--ColorBlackTrans);
+
+        .usercard_content{
+            display: flex;
+            align-items: center;
+
+            .usercard_content_avatar{
+                margin-right: 20px;
+                width: 33%;
+                position: relative;
+                flex-shrink: 0;
+
+                img{
+                    width: 100%;
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    object-fit: cover;
+
+                    &.premium {
+                        box-shadow: 0px 0px 10px 0px var(--ColorPremium);
+                    }
+                }
+
+                .usercard_premium{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 23px;
+                    height: 23px;
+                    background-color: var(--ColorPremium);
+                    padding: 3px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                }
+            }
+
+            .usercard_text{
+                width: 100%;
+
+                .usercard_name{
+                    font-weight: 700;
+                }
+            }
+        }
+
+        .usercard_actions{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            width: 100%;
+            gap: 5px;
+        }
+    }
+
+    &.wide{
+        .usercard_content{
+            .usercard_content_avatar{
+                width: 25%;
+            }
+        }
+        width: calc(100% / 2);
+
+        @include media("<=medium") {
+            width: calc(100% / 1);
+        }
+
+        @include media("<=smartphone") {
+            .usercard_actions{
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    }
+
+    @include media("<=medium") {
+        width: calc(100% / 2);
+    }
+
+    @include media("<=smartphone") {
+        width: calc(100% / 1);
+    }
+}
