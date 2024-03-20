@@ -9,7 +9,6 @@
             </div>
         <% else_if $UserProfile.Nickname == $CurrentUser.Nickname %>
 
-            <h1>Hi, $UserProfile.Nickname!</h1>
             <div class="profile_settings live" id="profileSettings">
                 <div class="profile_settings_avatar">
                 <div class="avatar_image <% if $UserProfile.HasPremium %>premium<% end_if %>">
@@ -21,12 +20,10 @@
                         <% end_if %>
                     </div>
                     <p class="avatar_logcount">$Logs.Count() Logs<p>
+                    <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
                 </div>
                 <div class="profile_settings_content">
-                    <p><span>Nickname:</span> $CurrentUser.Nickname</p>
-                    <p><span>Full Name:</span> $CurrentUser.FirstName $CurrentUser.LastName</p>
-                    <p><span>Email:</span> $CurrentUser.Email</p>
-                    <p><span>Birthdate:</span> $CurrentUser.DateOfBirth.Format("dd.MM.YYYY")<p>
+                    <h1>Hi, $UserProfile.Nickname!</h1>
                     <p><span>Registered since:</span> $CurrentUser.Created.Format("dd.MM.YYYY")<p>
                     <p><span>Last logged at:</span> $CurrentUser.LastLogDate.Format("dd.MM.YYYY")<p>
                     <div class="profile_privacy">
@@ -35,13 +32,13 @@
                         <% if $CurrentUser.ProfilePrivacy == "Friends" %><img src="../_resources/app/client/icons/friends.svg" alt="Friends Profile"/><p>Friends</p><% end_if %>
                         <% if $CurrentUser.ProfilePrivacy == "Public" %><img src="../_resources/app/client/icons/lock_open.svg" alt="Public Profile"/><p>Public</p><% end_if %>
                     </div>
-                    <div class="profile_actions">
-                        <% if $StatisticsLink %>
-                            <a href="$StatisticsLink" class="button profile_statistics_button">Extended User Statistics</a>
-                        <% end_if %>
-                        <a class="button profile_edit_button" data-behaviour="profile_edit_button">Edit Profile</a>
-                    </div>
                 </div>
+            </div>
+            <div class="profile_actions">
+                <% if $StatisticsLink %>
+                    <a href="$StatisticsLink" class="button profile_statistics_button">Extended User Statistics</a>
+                <% end_if %>
+                <a class="button profile_edit_button" data-behaviour="profile_edit_button">Edit Profile</a>
             </div>
 
             <div class="profile_settings edit">

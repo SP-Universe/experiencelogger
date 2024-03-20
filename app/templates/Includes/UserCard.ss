@@ -11,7 +11,7 @@
             </div>
             <div class="usercard_text">
                 <p class="usercard_name">$Nickname</p>
-                <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs)<% else %>(Private)<% end_if %></p>
+                <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs | $LoggedParksCount Parks)<% else %>(Private)<% end_if %></p>
             </div>
         </div>
         <div class="usercard_actions">

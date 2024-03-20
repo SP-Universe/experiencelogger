@@ -185,4 +185,21 @@ class ExperienceMemberExtension extends DataExtension
         }
         return $friends;
     }
+
+    public function getLoggedParksCount()
+    {
+        //get unique ParentIDs of all LogEntries
+        $userLogs = LogEntry::get()->filter([
+            'UserID' => $this->owner->ID,
+        ]);
+        foreach ($userLogs as $log) {
+            $visitedExperiences[] = $log->ExperienceID;
+        }
+        $uniqueExperiences = array_unique($visitedExperiences);
+        foreach ($uniqueExperiences as $experienceID) {
+            $places[] = Experience::get()->byID($experienceID);
+        }
+        $uniquePlaces = array_unique($places);
+        return count($uniquePlaces);
+    }
 }

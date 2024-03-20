@@ -1,7 +1,13 @@
 .section.section--profile {
     margin-top: 90px;
+    width: 100%;
 
     .section_content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
         .login{
             h2{
                 display: inline-block;
@@ -51,10 +57,10 @@
                 gap: 20px;
 
                 .profile_settings_avatar{
-                    width: calc(50% - 10px);
+                    width: 50%;
                     display: flex;
                     flex-direction: column;
-                    align-items: flex-end;
+                    align-items: center;
                     border-radius: 50%;
 
                     .avatar_image{
@@ -84,11 +90,12 @@
                 }
 
                 .profile_settings_content{
-                    width: calc(50% - 10px);
+                    width: 50%;
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-start;
                     text-align: left;
+                    min-width: 300px;
 
                     span{
                         color: var(--ColorPrimary);
@@ -182,6 +189,20 @@
                         padding: 20px 10px;
                         opacity: 1;
                     }
+
+                    .btn-toolbar{
+                        input{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+
+            .profile_actions{
+                margin-top: 20px;
+
+                .profile_edit_active &{
+                    display: none;
                 }
             }
 
@@ -190,10 +211,13 @@
                 flex-wrap: wrap;
                 margin: -10px;
                 justify-content: center;
+                width: 100%;
             }
 
             .profile_addfriend_button{
                 margin-top: 20px;
+                display: inline-block;
+                text-align: center;
             }
         }
     }
