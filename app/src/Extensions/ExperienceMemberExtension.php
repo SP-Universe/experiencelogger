@@ -195,11 +195,28 @@ class ExperienceMemberExtension extends DataExtension
         foreach ($userLogs as $log) {
             $visitedExperiences[] = $log->ExperienceID;
         }
+        if (!isset($visitedExperiences)) {
+            return 0;
+        }
         $uniqueExperiences = array_unique($visitedExperiences);
         foreach ($uniqueExperiences as $experienceID) {
             $places[] = Experience::get()->byID($experienceID);
         }
         $uniquePlaces = array_unique($places);
         return count($uniquePlaces);
+    }
+
+    public function IsFriendWithCurrentUser()
+    {
+        $acceptedRequests = $this->owner->Friends()->filter([
+            "FriendshipStatus" => "Accepted",
+        ]);
+        $currentUser = Security::getCurrentUser();
+        foreach ($acceptedRequests as $request) {
+            if ($request->RequesterID == $currentUser->ID || $request->RequesteeID == $currentUser->ID) {
+                return true;
+            }
+        }
+        return false;
     }
 }
