@@ -205,22 +205,21 @@ class ExperienceMemberExtension extends DataExtension
 
     public function getLoggedParksCount()
     {
-        //get unique ParentIDs of all LogEntries
+        //get a list of all logs of user with unique ExperienceIDs
         $userLogs = LogEntry::get()->filter([
             'UserID' => $this->owner->ID,
-        ]);
-        foreach ($userLogs as $log) {
-            $visitedExperiences[] = $log->ExperienceID;
+        ])->columnUnique('ExperienceID');
+        $uniqueParentIDs = [];
+        foreach ($userLogs as $experienceID) {
+            $experience = Experience::get()->byID($experienceID);
+            if ($experience && $experience->ParentID) {
+                $uniqueParentIDs[$experience->ParentID] = true; // Using associative array to keep track of unique ParentIDs
+            }
         }
-        if (!isset($visitedExperiences)) {
-            return 0;
-        }
-        $uniqueExperiences = array_unique($visitedExperiences);
-        foreach ($uniqueExperiences as $experienceID) {
-            $places[] = Experience::get()->byID($experienceID);
-        }
-        $uniquePlaces = array_unique($places);
-        return count($uniquePlaces);
+
+        $uniqueParentIDs = array_keys($uniqueParentIDs); // Get the unique ParentIDs
+
+        return count($uniqueParentIDs);
     }
 
     public function IsFriendWithCurrentUser()
