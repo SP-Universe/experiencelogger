@@ -17,6 +17,7 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
+use HudhaifaS\Forms\FrontendImageField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 
@@ -90,16 +91,14 @@ class ProfilePageController extends PageController
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             $upload = new FileField('avatar', 'Avatar');
+            $upload->setFolderName('user_avatars');
             $textfieldNickname = new TextField("Nickname", "Nickname");
-            $textfieldNickname->setValue($currentUser->Nickname);
+            $textfieldNickname->setAttribute("readonly", "readonly")->addExtraClass("readonly");
             $textFieldFirstName = new TextField("FirstName", "First Name");
-            $textFieldFirstName->setValue($currentUser->FirstName);
             $textFieldLastName = new TextField("Surname", "Last Name");
-            $textFieldLastName->setValue($currentUser->Surname);
             $textFieldEmail = new TextField("Email", "Email");
-            $textFieldEmail->setValue($currentUser->Email);
             $dateFieldBirthdate = new DateField("DateOfBirth", "Birthdate");
-            $dateFieldBirthdate->setValue($currentUser->DateOfBirth);
+            $dateFieldBirthdate->setAttribute("readonly", "readonly")->addExtraClass("readonly");
             $dropdownFieldProfilePrivacy = new DropdownField("ProfilePrivacy", "Profile Privacy", array(
                 "public" => "Public",
                 "friends" => "Friends Only",
@@ -112,10 +111,10 @@ class ProfilePageController extends PageController
             $fields = new FieldList(
                 $upload,
                 $textfieldNickname,
-                $textFieldFirstName,
-                $textFieldLastName,
-                $textFieldEmail,
-                $dateFieldBirthdate,
+                new TextField("FirstName", "First Name"),
+                new TextField("Surname", "Last Name"),
+                new TextField("Email", "Email"),
+                new DateField("DateOfBirth", "Birthdate"),
                 $dropdownFieldProfilePrivacy,
                 $dropdownFieldLinkedLogging
             );
@@ -175,6 +174,16 @@ class ProfilePageController extends PageController
                 "UserProfile" => $viewedUser,
                 "CurrentUser" => $currentUser
             );
+        } else {
+            if ($viewedUser->ProfilePrivacy == "public") {
+                return array(
+                    "UserProfile" => $viewedUser
+                );
+            } else {
+                return array(
+                    "Error" => "You need to be logged in to view this page."
+                );
+            }
         }
     }
 

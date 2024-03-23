@@ -74,12 +74,18 @@ class ExperienceMemberExtension extends DataExtension
         "Email",
     ];
 
-    //set defaults
     private static $defaults = [
         'ProfilePrivacy' => 'Public',
         'LinkedLogging' => true,
         'HasPremium' => false,
     ];
+
+    public function populateDefaults()
+    {
+        $this->owner->ProfilePrivacy = 'Public';
+        $this->owner->LinkedLogging = true;
+        $this->owner->HasPremium = false;
+    }
 
     public function LogCount($id)
     {

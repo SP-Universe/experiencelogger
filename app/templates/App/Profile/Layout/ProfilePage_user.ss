@@ -1,10 +1,16 @@
 <div class="section section--profile profile">
     <div class="section_content">
 
+        <% if $Error %>
+            <div class="error">
+                <p>$Error</p>
+            </div>
+        <% end_if %>
+
         <% if not $CurrentUser %>
             <div class="login_note">
                 <p class="centered">
-                    <a href="Security/login" class="button login_link">Log in</a> or <a href="$RegistrationPage.Link" class="button login_link">Register</a> to see any profiles.
+                    <a href="./home/login" class="button login_link">Log in</a> or <a href="$RegistrationPage.Link" class="button login_link">Register</a> to see any profiles.
                 </p>
             </div>
         <% else_if $UserProfile.Nickname == $CurrentUser.Nickname %>
