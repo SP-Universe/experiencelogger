@@ -37,11 +37,13 @@
 
             .profile_friendrequests{
                 margin: 20px 0;
+                width: 100%;
 
                 .profile_friendrequests_list{
                     display: flex;
                     flex-wrap: wrap;
                     justify-content: center;
+                    width: 100%;
                 }
             }
 

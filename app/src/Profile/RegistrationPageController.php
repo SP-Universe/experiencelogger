@@ -2,6 +2,7 @@
 
 namespace App\Profile;
 
+use SilverStripe\Forms\FieldsValidator;
 use SilverStripe\Forms\Form;
 use App\Form\ValidatedAliasField;
 use App\Form\ValidatedEmailField;
@@ -87,7 +88,5 @@ class RegistrationPageController extends ContentController
 
             return $this->redirect('./Security/login');
         }
-
-        return $this->redirectBack();
     }
 }
