@@ -71,6 +71,7 @@ class LogEntry extends DataObject
         "FormattedDate" => "Time",
         "User.Nickname" => "User",
         "Experience.Title" => "Experience",
+        "NameOfPark" => "Park Title",
         "SeatName" => "Seat",
     ];
 
@@ -81,6 +82,21 @@ class LogEntry extends DataObject
         "Friends" => "Friends",
         "User" => "User",
     ];
+
+    private static $searchable_fields = [
+        "ExperienceID" => "ExactMatchFilter",
+        "UserID" => "ExactMatchFilter",
+        "VisitTime" => "PartialMatchFilter",
+    ];
+
+    public function NameOfPark()
+    {
+        $experience = Experience::get()->filter("ID", $this->ExperienceID)->first();
+        if ($experience) {
+            $parent = ExperienceLocation::get()->filter("ID", $experience->ParentID)->first();
+            return $parent->Title;
+        }
+    }
 
     private static $default_sort = "VisitTime DESC, UserID ASC";
 
