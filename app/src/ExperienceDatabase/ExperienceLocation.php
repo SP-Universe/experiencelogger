@@ -80,6 +80,7 @@ class ExperienceLocation extends DataObject
     ];
 
     private static $summary_fields = [
+        "ID" => "ID",
         "Title" => "Title",
         "Type.Title" => "Type",
         "Address" => "Address",
