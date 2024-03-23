@@ -20,7 +20,7 @@
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
         <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
-    <body class="<% if $Darkmode %>theme--dark<% end_if %>">
+    <body class="<% if $Darkmode %>theme--dark<% else %>theme--light<% end_if %>">
         <% include Header %>
         $Layout
 

@@ -2,6 +2,8 @@
 namespace App\Profile;
 
 //use jamesbolitho\frontenduploadfield\UploadField;
+use App\News\News;
+use App\News\NewsPage;
 use PageController;
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
@@ -17,9 +19,9 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
-use HudhaifaS\Forms\FrontendImageField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
+use HudhaifaS\Forms\FrontendImageField;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -49,5 +51,16 @@ class DashboardPageController extends PageController
             $logs = LogEntry::get()->filter("UserID", $member->ID)->sort("VisitTime DESC")->limit(5);
             return $logs;
         }
+    }
+
+    public function getNews()
+    {
+        $news = News::get()->sort("Date DESC")->limit(5);
+        return $news;
+    }
+
+    public function getAllNewsLink()
+    {
+        return NewsPage::get()->first()->Link();
     }
 }
