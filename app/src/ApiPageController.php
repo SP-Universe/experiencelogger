@@ -360,7 +360,11 @@ namespace {
         {
             $currentUser = Security::getCurrentUser();
             if ($currentUser) {
-                $uniqueLogs = LogEntry::get()->filter("UserID", $currentUser->ID)->columnUnique('ExperienceID');
+
+
+
+
+                /*$uniqueLogs = LogEntry::get()->filter("UserID", $currentUser->ID)->columnUnique('ExperienceID');
                 $userLogs = [];
                 //print_r($uniqueLogs);
                 $defunctExperiences = 0;
@@ -372,7 +376,7 @@ namespace {
                             $defunctExperiences++;
                         }
                     }
-                }
+                }*/
 
                 $id = $_GET['ID'];
                 $data['API_Title'] = "Experiencelogger API";
@@ -383,10 +387,22 @@ namespace {
                     $location = ExperienceLocation::get()->filter("ID", $id)->first();
 
                     if (isset($location)) {
+                        //Calculate Defuncts
+                        $defunctExperiences = $location->Experiences()->filter(array(
+                            "State:not" => "Active",
+                        ));
+
+                        $defunctExperienceCount = 0;
+                        foreach ($defunctExperiences as $defunctExperience) {
+                            if ($defunctExperience->getIsCompletedByUser($currentUser)) {
+                                $defunctExperienceCount++;
+                            }
+                        }
+
                         $data['LocationProgress']['Title'] = $location->Title;
                         $data['LocationProgress']['ID'] = $location->ID;
                         $data['LocationProgress']['Total'] = $location->Experiences()->filter("State", "Active")->count();
-                        $data['LocationProgress']['Defunct'] = $defunctExperiences;
+                        $data['LocationProgress']['Defunct'] = $defunctExperienceCount;
                         $data['LocationProgress']['Progress'] = $location->getLocationProgress();
                         $data['LocationProgress']['ProgressPercent'] = $location->getLocationProgressInPercent();
                     } else {
