@@ -97,6 +97,26 @@
             //clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
             background-size: cover;
             background-position: center;
+            position: relative;
+
+            .experience_markers{
+                color: $ColorWhite;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                padding: 5px 5px 5px 10px;
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+        
+                .experience_marker{
+                    height: 25px;
+                    width: 25px;
+                    border-radius: 50%;
+                    box-shadow: 0px 0px 5px 0px black;
+                }
+            }
         }
 
         .experience_entry_content{

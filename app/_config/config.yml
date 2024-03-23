@@ -3,7 +3,7 @@ SilverStripe\Security\Member:
     - App\Extensions\ExperienceMemberExtension
 
 Silverstripe\Security:
-    - default_login_dest: 'profile'
+    - default_login_dest: '/profile'
 
 SilverStripe\MimeValidator\MimeUploadValidator:
   MimeTypes:

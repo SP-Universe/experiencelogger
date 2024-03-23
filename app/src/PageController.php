@@ -2,13 +2,14 @@
 
 namespace {
 
-use App\Profile\LoginPage;
-use App\Profile\ProfilePage;
-use App\Profile\RegistrationPage;
-use SilverStripe\Security\Member;
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Security\IdentityStore;
+    use App\Profile\DashboardPage;
+    use App\Profile\LoginPage;
+    use App\Profile\ProfilePage;
+    use App\Profile\RegistrationPage;
+    use SilverStripe\Security\Member;
+    use SilverStripe\Control\HTTPRequest;
+    use SilverStripe\Core\Injector\Injector;
+    use SilverStripe\Security\IdentityStore;
 
     use SilverStripe\Security\Security;
     use Symbiote\MemberProfiles\Pages\MemberProfilePage;
@@ -41,7 +42,17 @@ use SilverStripe\Security\IdentityStore;
          */
         private static $allowed_actions = [
             "logout",
+            "login"
         ];
+
+        public function login($request)
+        {
+            $session = $request->getSession();
+            $profilePage = DashboardPage::get()->first();
+            $link = $profilePage->Link();
+            $session->set("BackURL", $link);
+            return $this->redirect("Security/Login");
+        }
 
         public function logout(HTTPRequest $request)
         {

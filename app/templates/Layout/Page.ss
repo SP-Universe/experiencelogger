@@ -1,4 +1,3 @@
-$ElementalArea
 <% if $Form %>
     <div class="section section--imagetext">
         <div class="section_content">

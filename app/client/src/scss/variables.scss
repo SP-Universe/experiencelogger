@@ -1,5 +1,4 @@
-$maxWidth: 1200px;
-$maxWidthContent: 980px;
+$maxWidth: 1100px;
 
 $breakpoints: (
   'smartphone': 480px,
@@ -14,6 +13,7 @@ $ColorPrimaryDark: #1e4b43;
 $ColorPrimaryDarkTrans: #1e4b4381;
 $ColorPrimaryLight: #e2fffa;
 $ColorSecondary: #1e4b43;
+$ColorPremium: #570091;
 
 $ColorBlack: rgb(0, 14, 15);
 $ColorBlackTrans: rgba(0, 14, 15, 0.5);
@@ -29,6 +29,7 @@ html{
     --ColorPrimaryDarkTrans: #1e4b4381;
     --ColorPrimaryLight: #e2fffa;
     --ColorSecondary: #1e4b43;
+    --ColorPremium: #570091;
 
     --ColorBlack: rgb(0, 14, 15);
     --ColorBlackTrans: rgba(0, 14, 15, 0.5);
@@ -47,6 +48,7 @@ body.theme--dark{
     --ColorPrimaryDarkTrans: #00000081; //#1e4b4381
     --ColorPrimaryLight: #314441; //#e2fffa
     --ColorSecondary: #266056; //#1e4b43
+    --ColorPremium: #570091;
 
     --ColorBlack: rgb(255, 255, 255); //rgb(0, 14, 15)
     --ColorBlackTrans: rgba(255, 255, 255, 0.5);

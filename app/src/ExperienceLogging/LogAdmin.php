@@ -1,6 +1,7 @@
 <?php
 namespace App\ExperienceDatabase;
 
+use App\Profile\FriendRequest;
 use SilverStripe\Admin\ModelAdmin;
 
 /**
@@ -12,6 +13,7 @@ class LogAdmin extends ModelAdmin
 
     private static $managed_models = array (
         LogEntry::class,
+        FriendRequest::class,
     );
 
     private static $url_segment = "logs";

@@ -29,7 +29,7 @@
 <% if not $CurrentUser %>
     <div class="login_note">
         <p class="centered">
-            <a href="Security/login" class="button login_link">Log in</a> or <a href="$RegistrationPage.Link" class="button login_link">Register</a> to save your experiences.
+            <a href="./home/login" class="button login_link">Log in</a> or <a href="$RegistrationPage.Link" class="button login_link">Register</a> to save your experiences.
         </p>
     </div>
 <% end_if %>

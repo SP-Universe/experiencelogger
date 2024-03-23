@@ -19,13 +19,10 @@ use SilverStripe\Control\Cookie;
  * Class \Page
  *
  * @property string $MenuPosition
- * @property int $ElementalAreaID
  * @property int $HeaderImageID
  * @property int $MenuIconID
- * @method \DNADesign\Elemental\Models\ElementalArea ElementalArea()
  * @method \SilverStripe\Assets\Image HeaderImage()
  * @method \SilverStripe\Assets\File MenuIcon()
- * @mixin \DNADesign\Elemental\Extensions\ElementalPageExtension
  */
     class Page extends SiteTree
     {

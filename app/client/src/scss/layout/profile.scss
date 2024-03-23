@@ -1,7 +1,13 @@
 .section.section--profile {
     margin-top: 90px;
-    
+    width: 100%;
+
     .section_content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
         .login{
             h2{
                 display: inline-block;
@@ -29,37 +35,123 @@
                 text-align: center;
             }
 
+            .profile_friendrequests{
+                margin: 20px 0;
+
+                .profile_friendrequests_list{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+            }
+
             .profile_settings{
                 background-color: var(--ColorWhite);
                 padding: 20px 10px;
                 text-align: center;
                 border-radius: 20px;
                 width: auto;
-                display: block;
+                display: flex;
                 box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
                 margin: 0 auto;
+                gap: 20px;
+                justify-content: center;
+                align-items: center;
 
-                .avatar{
-                    margin: 0 auto;
-                    width: 150px;
-                    height: 150px;
-                    //overflow: hidden;
+                .profile_settings_avatar{
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                     border-radius: 50%;
+
+                    .avatar_image{
+                        width: 150px;
+                        height: 150px;
+                        border-radius: 50%;
+
+                        .avatar_premium{
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 35px;
+                            height: 35px;
+                            background-color: var(--ColorPremium);
+                            padding: 5px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .avatar_logcount{
+                        margin-top: 10px;
+                        width: 150px;
+                    }
                 }
 
-                span{
-                    color: var(--ColorPrimary);
-                    font-weight: 600;
+                .profile_settings_content{
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: left;
+                    min-width: 300px;
+
+
+                    span{
+                        color: var(--ColorPrimary);
+                        font-weight: 600;
+                    }
+
+                    .profile_actions{
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        gap: 10px;
+
+                        @include media("<=medium") {
+                            padding-top: 10px;
+                            gap: 20px;
+                            flex-direction: column;
+                        }
+                    }
+
+                    .profile_privacy{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: var(--ColorPrimaryTrans);
+                        border-radius: 10px;
+                        color: $ColorWhite;
+                        width: 100%;
+                        max-width: 250px;
+                        margin: 10px 0;
+
+                        img{
+                            display: inline-block;
+                            width: 18px;
+                            height: 18px;
+                            margin-left: 10px;
+                            object-fit: contain;
+                        }
+                    }
                 }
 
-                a{
-                    font-size: 10px;
-                    padding: 2px 3px;
-                    border-radius: 10px;
+                @include media("<=medium") {
+                    flex-direction: column;
+                    gap: 20px;
 
-                    &:hover{
-                        background-color: var(--ColorPrimary);
-                        color: var(--ColorWhite);
+                    .profile_settings_content{
+                        width: 100%;
+                        align-items: center;
+                    }
+
+                    .profile_settings_avatar{
+                        width: 100%;
+                        align-items: center;
                     }
                 }
 
@@ -94,77 +186,49 @@
                     padding: 0;
                     transition: opacity 0.2s ease-in-out, max-height 0.3s ease-in-out;
                     opacity: 0;
+                    flex-direction: column;
 
                     .profile_edit_active &{
                         max-height: 700px;
                         padding: 20px 10px;
                         opacity: 1;
                     }
-                }
 
-                .profile_edit_button{
-                    color: $ColorWhite;
+                    .btn-toolbar{
+                        input{
+                            margin-bottom: 0;
+                        }
+                    }
                 }
             }
 
-            .profile_privacy{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                //background-color: var(--ColorPrimaryTrans);
-                border-radius: 10px;
-                color: $ColorWhite;
-                width: auto;
-                max-width: 100%;
-                margin: 10px auto;
+            .profile_actions{
+                margin-top: 20px;
 
-                p{
-                    display: inline-block;
-                }
-
-                img{
-                    display: inline-block;
-                    width: 18px;
-                    height: 18px;
-                    margin-left: 10px;
-                    object-fit: contain;
+                .profile_edit_active &{
+                    display: none;
                 }
             }
 
             .profile_friendslist{
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                gap: 15px;
-                align-items: center;
-                justify-content: center;
+                display: flex;
                 flex-wrap: wrap;
-
-                .profile_friend{
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin: 10px 0;
-                    background-color: var(--ColorWhite);
-                    padding: 10px;
-                    box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
-                    border-radius: 20px;
-
-                    .profile_image{
-                        margin-bottom: 10px;
-                        width: 100%;
-                        aspect-ratio: 1/1;
-                        img{
-                            background-color: var(--ColorWhite);
-                            width: 100%;
-                            height: 100%;
-                        }
-                    }
-
-                    a{
-                        margin-top: 10px;
-                    }
-                }
+                margin: -10px;
+                justify-content: center;
+                width: 100%;
             }
+
+            .profile_addfriend_button{
+                margin-top: 20px;
+                display: inline-block;
+                text-align: center;
+            }
+        }
+    }
+
+    &.registration{
+        .section_content{
+            text-align: center;
         }
     }
 }

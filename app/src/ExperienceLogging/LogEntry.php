@@ -25,6 +25,7 @@ use SilverStripe\Security\Permission;
  * @property int $Seat
  * @property string $Variant
  * @property string $Version
+ * @property bool $IsLinkedLogged
  * @property int $UserID
  * @property int $FoodID
  * @property int $ExperienceID
@@ -49,6 +50,7 @@ class LogEntry extends DataObject
         "Variant" => "Varchar(255)",
         "Version" => "Varchar(255)",
         "Notes" => "Varchar(500)",
+        "IsLinkedLogged" => "Boolean",
     ];
 
     private static $api_access = false;

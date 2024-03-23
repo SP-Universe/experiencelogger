@@ -10,7 +10,7 @@
             <p class="trainname" <% if $Color %>style="color: $Color; filter: invert(1) brightness(1.5);"<% end_if %>><% if $Up.ExperienceTrains.Count > 1 %><% if $Up.CustomTrainType %>$Up.CustomTrainType <% else %><% if $Up.Traintype != "None" %>$Up.Traintype <% end_if %><% end_if %>$Title<% end_if %></p>
             <% loop $Wagons %>
                 <div class="wagon" <% if $Color %> style="background-color: $Color;" <% end_if %>>
-                    <% if $Title %><% if $Up.Wagons.Count > 1 %><p>$Title</p><% end_if %><% end_if %>
+                    <% if $Title %><% if $Up.Wagons.Count > 1 %><p <% if $Color %>style="color: $Color; filter: invert(1) brightness(1.5);"<% end_if %>>$Title</p><% end_if %><% end_if %>
                     <% loop $Rows %>
                         <div class="row" <% if $Color %> style="background-color: $Color;" <% end_if %>>
                             <% if $Title %><p <% if $Up.Color %>style="color: $Up.Color;"<% end_if %>>$Title</p><% end_if %>
