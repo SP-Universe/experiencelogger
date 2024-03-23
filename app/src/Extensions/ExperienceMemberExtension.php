@@ -217,8 +217,10 @@ class ExperienceMemberExtension extends DataExtension
             }
         }
 
+        foreach ($uniqueParentIDs as $key => $value) {
+            echo '<p>' . $value . ' | ' . $key . '</p>';
+        }
         $uniqueParentIDs = array_keys($uniqueParentIDs); // Get the unique ParentIDs
-        print($uniqueParentIDs);
 
         return count($uniqueParentIDs);
     }
