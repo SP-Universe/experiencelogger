@@ -38,6 +38,10 @@ class ExperienceLocationType extends DataObject
         "Icon" => Image::class
     ];
 
+    private static $owns = [
+        "Icon"
+    ];
+
     private static $summary_fields = [
         "Title" => "Name",
     ];

@@ -6,7 +6,6 @@
         "php": "^8.2",
         "silverstripe/recipe-plugin": "^2",
         "silverstripe/recipe-cms": "^5.1",
-        "dnadesign/silverstripe-elemental": "^5",
         "ext-json": "*",
         "colymba/gridfield-bulk-editing-tools": "^4.0",
         "undefinedoffset/sortablegridfield": "^2.2",

@@ -1,7 +1,7 @@
 <div class="section section--dashboard">
     <div class="section_content">
-        <h1 class="dashboard_title">Dashboard</h1>
-        <p>Welcome to Experience Logger. The new way to log all your experiences that you can get.</p>
+        <h1 class="dashboard_title">$Title</h1>
+        $Content
     </div>
 </div>
 
@@ -19,33 +19,19 @@
                     <% loop $CurrentUser.FavouritePlaces %>
                         <div class="location_entry_wrap">
                             <a href="$Link" class="location_entry">
-                                <div class="location_entry_image">
+                                <div class="location_entry_background">
                                     <% if $Image %>
-                                        <img src="$Image.FocusFill(600,200).Url" alt="$Image.Title" />
-                                    <% else_if $Logo %>
-                                        <img src="$Logo.FocusFill(600,200).Url" alt="$Logo.Title" />
+                                        <img class="location_entry_background_image" src="$Image.FocusFill(600,200).Url" alt="$Image.Title" />
+                                    <% end_if %>
+                                    <% if $Type.Icon %>
+                                        <img class="location_entry_background_icon" src="$Type.Icon.FocusFill(200,200).Url" alt="$Type.Title" />
                                     <% end_if %>
                                 </div>
                                 <div class="location_entry_content">
-                                    <h2 class="location_title">$Title</h2>
-                                    <h3>$Type.Title</h3>
-                                    <p>$Address</p>
-                                    <p>$Experiences.Filter("State", "Active").Count Experiences
-                                    <% if $Experiences.Filter("State", "Defunct").Count > 0 %> | $Experiences.Filter("State", "Defunct").Count Defunct<% end_if %>
-                                    <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %> | $Experiences.Filter("State", "In Maintenance").Count In Maintenance<% end_if %>
-                                    <% if $Experiences.Filter("State", "Other").Count > 0 %> | $Experiences.Filter("State", "Other").Count Other<% end_if %></p>
-                                    <% if $Top.CurrentUser %>
-                                        <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
-                                            <p class="location_progress_text">Loading...</p>
-                                            <div class="location_progress">
-                                                <div class="location_progress_bar" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                    <% else %>
-                                        <div class="progress_handler" data-behaviour="location_progress">
-                                            <p class="location_progress_text">$Experiences.Filter("State", "Active").Count Experiences</p>
-                                        </div>
-                                    <% end_if %>
+                                    <div class="location_entry_content_text">
+                                        <h2 class="location_title">$Title</h2>
+                                        <h3>$Type.Title</h3>
+                                    </div>
                                 </div>
                             </a>
                         </div>

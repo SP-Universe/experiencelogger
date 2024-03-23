@@ -6,6 +6,7 @@ use App\Food\Food;
 use App\Overview\LocationPage;
 use App\Helper\ExperienceHelper;
 use App\Overview\StatisticsPage;
+use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
@@ -20,6 +21,7 @@ use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\NumericField;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
@@ -44,6 +46,18 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property string $JSONCode
  * @property float $Rating
  * @property int $NumberOfRatings
+ * @property string $TrainNumberPosition
+ * @property string $OpeningDate
+ * @property string $ClosingDate
+ * @property float $Height
+ * @property float $Length
+ * @property int $Duration
+ * @property float $Speed
+ * @property bool $HasSingleRider
+ * @property bool $HasFastpass
+ * @property bool $HasOnridePhoto
+ * @property string $FastpassLink
+ * @property bool $AccessibleToHandicapped
  * @property int $ParentID
  * @property int $TypeID
  * @property int $AreaID
@@ -82,6 +96,19 @@ class Experience extends DataObject
         "JSONCode" => "HTMLText",
         "Rating" => "Double",
         "NumberOfRatings" => "Int",
+        "TrainNumberPosition" => "Varchar(255)",
+
+        "OpeningDate" => "Date",
+        "ClosingDate" => "Date",
+        "Height" => "Double",
+        "Length" => "Double",
+        "Duration" => "Int",
+        "Speed" => "Double",
+        "HasSingleRider" => "Boolean",
+        "HasFastpass" => "Boolean",
+        "HasOnridePhoto" => "Boolean",
+        "FastpassLink" => "Varchar(255)",
+        "AccessibleToHandicapped" => "Boolean",
     ];
 
     private static $api_access = ['view' => ['Title', 'ExperienceType', 'ExperienceArea', 'ExperienceStage', 'State', 'Description', 'ExperienceImage', 'ParentID']];
@@ -254,6 +281,17 @@ class Experience extends DataObject
         }
 
         //Experience Data
+        $fields->addFieldToTab('Root.Data', new DateField('OpeningDate', 'Opening Date'));
+        $fields->addFieldToTab('Root.Data', new DateField('ClosingDate', 'Closing Date'));
+        $fields->addFieldToTab('Root.Data', new NumericField('Height', 'Height (in m)'));
+        $fields->addFieldToTab('Root.Data', new NumericField('Length', 'Length (in m)'));
+        $fields->addFieldToTab('Root.Data', new NumericField('Duration', 'Duration (in seconds)'));
+        $fields->addFieldToTab('Root.Data', new NumericField('Speed', 'Speed (in km/h)'));
+        $fields->addFieldToTab('Root.Data', new CheckboxField('HasSingleRider', 'Has Single Rider'));
+        $fields->addFieldToTab('Root.Data', new CheckboxField('HasFastpass', 'Has Fastpass'));
+        $fields->addFieldToTab('Root.Data', new TextField('FastpassLink', 'Link to Fastpass-System'));
+        $fields->addFieldToTab('Root.Data', new CheckboxField('HasOnridePhoto', 'Has Onride Photos'));
+        $fields->addFieldToTab('Root.Data', new CheckboxField('AccessibleToHandicapped', 'Accessible to Handicapped'));
         $fields->removeByName("ExperienceData");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
         $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
@@ -298,6 +336,7 @@ class Experience extends DataObject
             "Left" => "Left",
             "Right" => "Right",
         )));
+        $fields->addFieldToTab('Root.Trains & Seats', new TextField('TrainNumberPosition', 'Position of Train Number'));
 
         $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', array(
             "0" => "No Score",
