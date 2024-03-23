@@ -2,14 +2,18 @@
 
 namespace App\Profile;
 
+use SilverStripe\Forms\Form;
 use App\Form\ValidatedAliasField;
 use App\Form\ValidatedEmailField;
-use App\Form\ValidatedPasswordField;
-use SilverStripe\CMS\Controllers\ContentController;
+use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\Form;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Security\Security;
+use App\Form\ValidatedPasswordField;
 use SilverStripe\Forms\RequiredFields;
+use SilverStripe\ORM\ValidationResult;
+use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Security\Member; // Will be used later when we do register a new member.
 
 /**
@@ -25,12 +29,23 @@ class RegistrationPageController extends ContentController
         'registerForm'
     ];
 
+    public function index()
+    {
+        if (Security::getCurrentUser()) {
+            return $this->redirect('./profile');
+        }
+        return $this->render();
+    }
+
     public function registerForm()
     {
         $fields = new FieldList(
-            ValidatedAliasField::create('nickname', 'Nickname')->addExtraClass('text'),
-            ValidatedEmailField::create('email', 'Email'),
-            ValidatedPasswordField::create('password', 'Password'),
+            ValidatedAliasField::create('Nickname', 'Nickname')->addExtraClass('text'),
+            TextField::create('FirstName', 'FirstName')->setTitle('First Name'),
+            TextField::create('Surname', 'Surname')->setTitle('Last Name'),
+            DateField::create('DateOfBirth', 'DateOfBirth')->setTitle('Birthday'),
+            ValidatedEmailField::create('Email', 'Email'),
+            ValidatedPasswordField::create('Password', 'Password'),
         );
 
         $actions = new FieldList(
@@ -40,7 +55,7 @@ class RegistrationPageController extends ContentController
             )
         );
 
-        $required = new RequiredFields('alias', 'email', 'password');
+        $required = new RequiredFields('alias', 'email', 'password', 'firstname', 'lastname', 'birthday');
 
         $form = new Form($this, 'RegisterForm', $fields, $actions, $required);
 
@@ -49,11 +64,6 @@ class RegistrationPageController extends ContentController
 
     public function doRegister($data, Form $form)
     {
-        // Make sure we have all the data we need
-        $alias = $data['alias'] ?? null;
-        $email = $data['email'] ?? null;
-        $password = $data['password'] ?? null;
-
         /*
          * Check if the fields clear their validation rules.
          * If there are errors, then the form will be updated with the errors
@@ -63,12 +73,19 @@ class RegistrationPageController extends ContentController
 
         if ($validationResults->isValid()) {
             $member = Member::create();
-            $member->FirstName = $alias;
-            $member->Email = $email;
-            $member->Password = $password;
+            $form->saveInto($member);
             $member->write();
 
             $form->sessionMessage('Registration successful', 'good');
+
+            $message = _t(
+                '',
+                'Hey {firstname}! Welcome! You can now login:',
+                ['firstname' => $member->FirstName]
+            );
+            Security::singleton()->setSessionMessage($message, ValidationResult::TYPE_GOOD);
+
+            return $this->redirect('./Security/login');
         }
 
         return $this->redirectBack();

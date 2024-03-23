@@ -2,7 +2,11 @@
     <div class="section_content">
         <% if $CurrentUser %>
             <div class="favouriteplaces_intro">
-                <h2 class="favouriteplaces_intro_title">{$CurrentUser.FirstName}'s Favourite places</h2>
+                <% if $CurrentUser %>
+                    <h2 class="favouriteplaces_intro_title">{$CurrentUser.FirstName}'s favourite places</h2>
+                <% else %>
+                    <h2 class="favouriteplaces_intro_title">Your favourite places</h2>
+                <% end_if %>
             </div>
 
             <% if $CurrentUser.FavouritePlaces.Count <= 0 %>

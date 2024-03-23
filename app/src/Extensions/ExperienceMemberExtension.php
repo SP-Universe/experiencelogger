@@ -74,6 +74,13 @@ class ExperienceMemberExtension extends DataExtension
         "Email",
     ];
 
+    //set defaults
+    private static $defaults = [
+        'ProfilePrivacy' => 'Public',
+        'LinkedLogging' => true,
+        'HasPremium' => false,
+    ];
+
     public function LogCount($id)
     {
         return LogEntry::get()->filter([
