@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="usercard_actions">
-            <% if not $HideFriendAdd %><a href="$Top.Link()profile/requestnewfriend/$Nickname" class="usercard_action_button">Add Friend</a><% end_if %>
+            <% if not $HideFriendAdd %><a href="$Top.Link()profile/requestnewfriend/$ID" class="usercard_action_button">Add Friend</a><% end_if %>
             <% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>
                 <a href="$Top.Link()profile/user/$Nickname" class="button usercard_action_button">View Profile</a>
             <% else %>

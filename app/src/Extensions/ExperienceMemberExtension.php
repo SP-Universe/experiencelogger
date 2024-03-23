@@ -2,19 +2,20 @@
 namespace App\Extensions;
 
 use DateTime;
+use App\Profile\FriendRequest;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ArrayList;
+use App\Helper\StatisticsHelper;
+use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
+use SilverStripe\ORM\ValidationResult;
 use App\ExperienceDatabase\ExperienceLocation;
-use App\Helper\StatisticsHelper;
-use App\Profile\FriendRequest;
-use SilverStripe\ORM\GroupedList;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
@@ -95,8 +96,11 @@ class ExperienceMemberExtension extends DataExtension
         ])->count();
     }
 
-    public function getLogs($id)
+    public function getLogs($id = 0)
     {
+        if ($id == 0) {
+            $id = $this->owner->ID;
+        }
         return StatisticsHelper::getLogsOfUser($id);
     }
 
@@ -231,5 +235,23 @@ class ExperienceMemberExtension extends DataExtension
             }
         }
         return false;
+    }
+
+    public function validate(ValidationResult $validationResult)
+    {
+        if ($this->owner->DateOfBirth) {
+            $date = new DateTime($this->owner->DateOfBirth);
+            $now = new DateTime();
+            $age = $now->diff($date)->y;
+            if ($age < 13) {
+                $validationResult->addFieldError('DateOfBirth', 'You must be at least 13 years old to register.');
+            }
+        }
+        if ($this->owner->Nickname == "admin") {
+            $validationResult->addFieldError('Nickname', 'This nickname is not allowed.');
+        }
+        if (!ctype_alnum($this->owner->Nickname)) {
+            $validationResult->addFieldError('Nickname', 'Only alphanumeric characters are allowed.');
+        }
     }
 }

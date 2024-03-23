@@ -190,7 +190,7 @@ class ProfilePageController extends PageController
     public function requestnewfriend()
     {
         $currentUser = Security::getCurrentUser();
-        $requestee = Member::get()->filter("Nickname", $this->getRequest()->param("ID"))->first();
+        $requestee = Member::get()->filter("ID", $this->getRequest()->param("ID"))->first();
         $friendRequest = new FriendRequest();
         $friendRequest->RequesterID = $currentUser->ID;
         $friendRequest->RequesteeID = $requestee->ID;

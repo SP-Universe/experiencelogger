@@ -26,7 +26,7 @@
                         <% end_if %>
                     </div>
                     <p class="avatar_logcount">$Logs.Count() Logs<p>
-                    <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
+                    <p class="avatar_logcount">$UserProfile.LoggedParksCount Places<p>
                 </div>
                 <div class="profile_settings_content">
                     <h1>Hi, $UserProfile.Nickname!</h1>
@@ -140,7 +140,7 @@
                                 <% end_if %>
                             </div>
                             <p class="avatar_logcount">$UserProfile.Logs.Count() Logs<p>
-                            <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
+                            <p class="avatar_logcount">$UserProfile.LoggedParksCount Places<p>
                         </div>
                         <div class="profile_settings_content">
                             <h1>{$UserProfile.Nickname}`s Profile</h1>
@@ -169,8 +169,8 @@
                                 </div>
                             <% end_if %>
                         </div>
-                        <p class="avatar_logcount">$UserProfile.Logs.Count() Logs<p>
-                        <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
+                        <p class="avatar_logcount">$UserProfile.getLogs.Count() Logs<p>
+                        <p class="avatar_logcount">$UserProfile.LoggedParksCount Places<p>
                     </div>
                     <div class="profile_settings_content">
                         <h1>{$UserProfile.Nickname}`s Profile</h1>
