@@ -214,11 +214,11 @@ class ExperienceMemberExtension extends DataExtension
             $experience = Experience::get()->byID($experienceID);
             if ($experience && $experience->ParentID) {
                 $uniqueParentIDs[$experience->ParentID] = true; // Using associative array to keep track of unique ParentIDs
-                print($experience->ParentID . "<br>");
             }
         }
 
         $uniqueParentIDs = array_keys($uniqueParentIDs); // Get the unique ParentIDs
+        print($uniqueParentIDs);
 
         return count($uniqueParentIDs);
     }
