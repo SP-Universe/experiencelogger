@@ -217,12 +217,24 @@ class ExperienceMemberExtension extends DataExtension
             }
         }
 
-        foreach ($uniqueParentIDs as $key => $value) {
-            echo '<p>' . $value . ' | ' . $key . '</p>';
-        }
         $uniqueParentIDs = array_keys($uniqueParentIDs); // Get the unique ParentIDs
 
         return count($uniqueParentIDs);
+    }
+
+    public function getLoggedDefunctExperiencesPerPark($id)
+    {
+        $userLogs = LogEntry::get()->filter([
+            'UserID' => $this->owner->ID,
+        ]);
+        $defunctExperiences = [];
+        foreach ($userLogs as $log) {
+            $experience = Experience::get()->byID($log->ExperienceID);
+            if ($experience && $experience->ParentID == $id && $experience->State == "Defunct") {
+                $defunctExperiences[] = $experience;
+            }
+        }
+        return $defunctExperiences;
     }
 
     public function IsFriendWithCurrentUser()

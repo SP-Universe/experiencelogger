@@ -223,11 +223,12 @@ class ExperienceLocation extends DataObject
 
     public function getLocationProgressInPercent()
     {
-        $total = $this->Experiences()->filter("State", "Active")->count();
+        $experiences = $this->Experiences()->filter("State", "Active");
+        $total = $experiences->count();
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             $completed = 0;
-            foreach ($this->Experiences() as $experience) {
+            foreach ($experiences as $experience) {
                 if ($experience->getIsCompletedByUser()) {
                     $completed++;
                 }

@@ -412,7 +412,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const data = await response.json();
 
         locationProgressBar.style.width = data["LocationProgress"]["ProgressPercent"] + "%";
-        locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
+        if(data["LocationProgress"]["Defunct"] > 0){
+            locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences (+" + data["LocationProgress"]["Defunct"] + " not active)";
+        } else {
+            locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
+        }
         locationProgressHolder.classList.remove("loading");
     }
 });

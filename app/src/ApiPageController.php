@@ -360,6 +360,20 @@ namespace {
         {
             $currentUser = Security::getCurrentUser();
             if ($currentUser) {
+                $uniqueLogs = LogEntry::get()->filter("UserID", $currentUser->ID)->columnUnique('ExperienceID');
+                $userLogs = [];
+                //print_r($uniqueLogs);
+                $defunctExperiences = 0;
+                foreach ($uniqueLogs as $experienceID) {
+                    $experience = Experience::get()->byID($experienceID);
+                    if ($experience && $experience->ParentID == $_GET['ID']) {
+                        //print $experience->Title . ": " . $experience->State . " | ";
+                        if ($experience->State == "Defunct" || $experience->State == "In Maintenance" || $experience->State == "InActive" || $experience->State == "Coming Soon" || $experience->State == "Other") {
+                            $defunctExperiences++;
+                        }
+                    }
+                }
+
                 $id = $_GET['ID'];
                 $data['API_Title'] = "Experiencelogger API";
                 $data['API_Description'] = "This API enables devs to use gathered information about theme parks and other experiences to use in their apps.";
@@ -372,6 +386,7 @@ namespace {
                         $data['LocationProgress']['Title'] = $location->Title;
                         $data['LocationProgress']['ID'] = $location->ID;
                         $data['LocationProgress']['Total'] = $location->Experiences()->filter("State", "Active")->count();
+                        $data['LocationProgress']['Defunct'] = $defunctExperiences;
                         $data['LocationProgress']['Progress'] = $location->getLocationProgress();
                         $data['LocationProgress']['ProgressPercent'] = $location->getLocationProgressInPercent();
                     } else {
