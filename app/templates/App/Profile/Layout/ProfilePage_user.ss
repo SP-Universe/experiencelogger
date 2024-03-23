@@ -132,20 +132,20 @@
                     <div class="profile_settings live" id="profileSettings">
                         <div class="profile_settings_avatar">
                         <div class="avatar_image <% if $UserProfile.HasPremium %>premium<% end_if %>">
-                                <img src="$CurrentUser.getProfileImage(200)" alt="Avatar of $CurrentUser.Name">
+                                <img src="$UserProfile.getProfileImage(200)" alt="Avatar of $UserProfile.Name">
                                 <% if $UserProfile.HasPremium %>
                                     <div class="avatar_premium">
                                         <svg fill="#fff" width="100%" height="100%" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z"/></svg>
                                     </div>
                                 <% end_if %>
                             </div>
-                            <p class="avatar_logcount">$Logs.Count() Logs<p>
+                            <p class="avatar_logcount">$UserProfile.Logs.Count() Logs<p>
                             <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
                         </div>
                         <div class="profile_settings_content">
                             <h1>{$UserProfile.Nickname}`s Profile</h1>
-                            <p><span>Registered since:</span> $CurrentUser.Created.Format("dd.MM.YYYY")<p>
-                            <p><span>Last logged at:</span> $CurrentUser.LastLogDate.Format("dd.MM.YYYY")<p>
+                            <p><span>Registered since:</span> $UserProfile.Created.Format("dd.MM.YYYY")<p>
+                            <p><span>Last logged at:</span> $UserProfile.LastLogDate.Format("dd.MM.YYYY")<p>
                             <div class="profile_privacy">
                                 <p>Profile-Privacy:</P>
                                 <% if $UserProfile.ProfilePrivacy == "Private" %><img src="../_resources/app/client/icons/lock.svg" alt="Private Profile"/><p>Private</p><% end_if %>
@@ -162,20 +162,20 @@
                 <div class="profile_settings live" id="profileSettings">
                     <div class="profile_settings_avatar">
                     <div class="avatar_image <% if $UserProfile.HasPremium %>premium<% end_if %>">
-                            <img src="$CurrentUser.getProfileImage(200)" alt="Avatar of $CurrentUser.Name">
+                            <img src="$UserProfile.getProfileImage(200)" alt="Avatar of $UserProfile.Name">
                             <% if $UserProfile.HasPremium %>
                                 <div class="avatar_premium">
                                     <svg fill="#fff" width="100%" height="100%" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z"/></svg>
                                 </div>
                             <% end_if %>
                         </div>
-                        <p class="avatar_logcount">$Logs.Count() Logs<p>
+                        <p class="avatar_logcount">$UserProfile.Logs.Count() Logs<p>
                         <p class="avatar_logcount">$UserProfile.LoggedParksCount Parks<p>
                     </div>
                     <div class="profile_settings_content">
                         <h1>{$UserProfile.Nickname}`s Profile</h1>
-                        <p><span>Registered since:</span> $CurrentUser.Created.Format("dd.MM.YYYY")<p>
-                        <p><span>Last logged at:</span> $CurrentUser.LastLogDate.Format("dd.MM.YYYY")<p>
+                        <p><span>Registered since:</span> $UserProfile.Created.Format("dd.MM.YYYY")<p>
+                        <p><span>Last logged at:</span> $UserProfile.LastLogDate.Format("dd.MM.YYYY")<p>
                         <div class="profile_privacy">
                             <p>Profile-Privacy:</P>
                             <% if $UserProfile.ProfilePrivacy == "Private" %><img src="../_resources/app/client/icons/lock.svg" alt="Private Profile"/><p>Private</p><% end_if %>
