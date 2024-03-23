@@ -30,7 +30,7 @@
                                 <div class="location_entry_content">
                                     <div class="location_entry_content_text">
                                         <h2 class="location_title">$Title</h2>
-                                        <h3>$Type.Title</h3>
+                                        <h3 class="location_type">$Type.Title</h3>
                                     </div>
                                 </div>
                             </a>
