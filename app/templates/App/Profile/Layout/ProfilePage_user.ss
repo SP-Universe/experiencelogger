@@ -75,7 +75,7 @@
                                             <div class="usercard_actions">
                                                 <a href="$Top.Link('acceptfriend')/$ID" class="button usercard_action_button">Accept</a>
                                                 <a href="$Top.Link('declinefriend')/$ID" class="button usercard_action_button">Decline</a>
-                                                <% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>
+                                                <% if $Requester.ProfilePrivacy == "Public" || $Requester.ProfilePrivacy == "Friends" %>
                                                     <a href="$Top.Link()/user/$Nickname" class="button usercard_action_button">View</a>
                                                 <% else %>
                                                     <p>(Private)</p>
@@ -99,10 +99,18 @@
                             <div class="usercard">
                                 <div class="usercard_wrap">
                                     <div class="usercard_content">
+                                        <div class="usercard_content_avatar">
+                                            <img src="$Requestee.getProfileImage(150)" class="<% if $Requestee.HasPremium %>premium<% end_if %>" alt="Avatar of $Nickname">
+                                            <% if $Requestee.HasPremium %>
+                                                <div class="usercard_premium">
+                                                    <svg fill="#fff" width="100%" height="100%" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z"/></svg>
+                                                </div>
+                                            <% end_if %>
+                                        </div>
                                         <div class="usercard_text">
                                             <p class="usercard_name">$Requestee.Nickname</p>
                                             <div class="usercard_actions">
-                                                <a href="$Top.Link('declinefriend')/$ID" class="button usercard_action_button">Cancel request</a>
+                                                <a href="$Top.Link('declinefriend')/$ID" class="button usercard_action_button">Cancel</a>
                                             </div>
                                         </div>
                                     </div>

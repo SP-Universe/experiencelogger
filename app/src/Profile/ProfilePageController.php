@@ -191,6 +191,17 @@ class ProfilePageController extends PageController
     {
         $currentUser = Security::getCurrentUser();
         $requestee = Member::get()->filter("ID", $this->getRequest()->param("ID"))->first();
+
+        $existingFriendRequest = FriendRequest::get()->filter(array(
+            "RequesteeID" => $currentUser->ID,
+            "RequesterID" => $requestee->ID
+        ))->first();
+        if ($existingFriendRequest) {
+            $existingFriendRequest->FriendshipStatus = "Accepted";
+            $existingFriendRequest->write();
+            return $this->redirect("profile/");
+        }
+
         $friendRequest = new FriendRequest();
         $friendRequest->RequesterID = $currentUser->ID;
         $friendRequest->RequesteeID = $requestee->ID;
