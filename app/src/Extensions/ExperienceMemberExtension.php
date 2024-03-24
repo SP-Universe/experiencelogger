@@ -251,6 +251,26 @@ class ExperienceMemberExtension extends DataExtension
         return false;
     }
 
+    public function getFriendshipWithCurrentUser()
+    {
+        $currentUser = Security::getCurrentUser();
+
+        $friendRequest = FriendRequest::get()->filter([
+            "RequesterID" => $this->owner->ID,
+            "RequesteeID" => $currentUser->ID,
+        ])->first();
+        if (!$friendRequest) {
+            $friendRequest = FriendRequest::get()->filter([
+                "RequesterID" => $currentUser->ID,
+                "RequesteeID" => $this->owner->ID,
+            ])->first();
+        }
+
+        if ($friendRequest) {
+            return $friendRequest;
+        }
+    }
+
     public function validate(ValidationResult $validationResult)
     {
         if ($this->owner->DateOfBirth) {
