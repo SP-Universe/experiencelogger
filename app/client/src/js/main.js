@@ -217,32 +217,63 @@ document.addEventListener("DOMContentLoaded", function (event) {
         })
     }
 
-    const advancedsearchbutton = document.querySelector('.advancedfilters_toggle');
-    const advancedFilters = document.querySelector('.advancedfilters');
-
-    if(advancedsearchbutton) {
-        advancedsearchbutton.addEventListener('click', function() {
-            advancedsearchbutton.classList.toggle('active');
-            advancedFilters.classList.toggle('active');
+    //Experience Overlist List Filter toggle
+    const experiencelistfilterToggle = document.querySelector('[data-behaviour="experiencelist_filter"]');
+    const experiencelistFilters = document.querySelector('[data-behaviour="experiencelist_filters"]');
+    if(experiencelistfilterToggle && experiencelistFilters){
+        experiencelistfilterToggle.addEventListener('click', function(e) {
+            experiencelistFilters.classList.toggle('active');
         });
     }
 
-    const experiences = document.querySelectorAll('.experience_entry');
-    let searchExperienceFilters = document.querySelectorAll('.filterbutton');
-    if(searchExperienceFilters) {
+    //Experience Overlist List Filters
+    const experiences = document.querySelectorAll('[data-behaviour="experiencecard"]');
+    let searchExperienceFilters = document.querySelectorAll('[data-behaviour="experiencelist_filter"]');
+    if (experiences && searchExperienceFilters) {
         searchExperienceFilters.forEach(filter => {
-            const filterTypeValue = filter.getAttribute('data-filter').toLowerCase();
-            filter.addEventListener('click', function(e) {
-                e.preventDefault();
-                filter.classList.toggle("inactive");
-
-                experiences.forEach(experience => {
-                    const experienceType = experience.querySelector('.experience_type').textContent.toLowerCase();
-                    if (experienceType == filterTypeValue) {
-                        experience.classList.toggle('hidebyfilter');
-                    }
-                })
+            filter.addEventListener('change', function(e) {
+                recalculateExperienceListFilters(experiences, searchExperienceFilters);
             });
+        });
+    }
+
+    function recalculateExperienceListFilters($experiences, $filters) {
+
+        $experiences.forEach(experience => {
+            experience.classList.remove('hidebyfilter');
+        });
+
+        $filters.forEach(filter => {
+            const $filterType = filter.getAttribute('data-filtertype');
+            switch ($filterType) {
+                case "type":
+                    experiences.forEach(experience => {
+                        const $experiencedataJSON = experience.querySelector('.experiencedata');
+                        const $experiencedata = JSON.parse($experiencedataJSON.textContent);
+                        if (filter.value != "all") {
+                            if ($experiencedata.ExperienceType != filter.value) {
+                                experience.classList.add('hidebyfilter');
+                                console.log($experiencedata.ExperienceType);
+                                console.log(filter.value);
+                            }
+                        }
+                    });
+                    break;
+                case "state":
+                    experiences.forEach(experience => {
+                        const $experiencedataJSON = experience.querySelector('.experiencedata');
+                        const $experiencedata = JSON.parse($experiencedataJSON.textContent);
+                        if (filter.value != "all") {
+                            if ($experiencedata.State != filter.value) {
+                                experience.classList.add('hidebyfilter');
+                                console.log($experiencedata.State);
+                                console.log(filter.value);
+                            }
+                        }
+                    });
+                default:
+                    break;
+            }
         })
     }
 
