@@ -57,26 +57,43 @@ class LocationPageController extends PageController
     public function experience()
     {
         $title = $this->getRequest()->param("ID");
-        $article = Experience::get()->filter("LinkTitle", $title)->first();
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
+
         return array(
-            "Experience" => $article,
+            "Experience" => $experience,
         );
     }
 
     public function seatchart()
     {
         $title = $this->getRequest()->param("ID");
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
 
-        $article = Experience::get()->filter("LinkTitle", $title)->first();
         return array(
-            "Experience" => $article,
+            "Experience" => $experience,
         );
     }
 
     public function statistics()
     {
         $title = $this->getRequest()->param("ID");
-        $experience = Experience::get()->filter("LinkTitle", $title)->first();
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
+
         $percentOfLogs = StatisticsHelper::getPercentAsNumber($experience->TotalLogCount, $experience->Logs->Count(), 2);
 
         $currentUser = Security::getCurrentUser();
@@ -100,7 +117,14 @@ class LocationPageController extends PageController
     public function getLogCountForSeat($train, $wagon, $row, $seat)
     {
         $title = $this->getRequest()->param("ID");
-        $id = Experience::get()->filter("LinkTitle", $title)->first()->ID;
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
+
+        $id = $experience->ID;
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
             return LogEntry::get()->filter([
@@ -151,13 +175,19 @@ class LocationPageController extends PageController
     public function addLog()
     {
         $title = $this->getRequest()->param("ID");
-        $article = Experience::get()->filter("LinkTitle", $title)->first();
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
+
         $now = date("Y-m-d H:i:s");
         $currentDate = date("Y-m-d", strtotime($now));
         $currentTime = date("H:i", strtotime($now));
 
         return array(
-            "Experience" => $article,
+            "Experience" => $experience,
             "CurrentDate" => $currentDate,
             "CurrentTime" => $currentTime,
         );
@@ -169,7 +199,12 @@ class LocationPageController extends PageController
 
         if (isset($currentUser)) {
             $title = $this->getRequest()->param("ID");
-            $experience = Experience::get()->filter("LinkTitle", $title)->first();
+            $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+            $title = explode("---", $title)[1];
+            $experience = Experience::get()->filter(array(
+                "LinkTitle" => $title,
+                "ParentID" => $park->ID
+                ))->first();
 
             $newlogentry = LogEntry::create();
             $newlogentry->ExperienceID = $experience->ID;

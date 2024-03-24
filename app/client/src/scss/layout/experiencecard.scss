@@ -109,12 +109,13 @@
                 width: 100%;
                 justify-content: flex-end;
                 flex-wrap: wrap;
-        
+
                 .experience_marker{
                     height: 25px;
                     width: 25px;
                     border-radius: 50%;
                     box-shadow: 0px 0px 5px 0px black;
+                    background-color: $ColorBlackTrans;
                 }
             }
         }

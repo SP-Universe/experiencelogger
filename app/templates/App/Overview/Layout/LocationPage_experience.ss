@@ -47,8 +47,8 @@
                 <% end_if %>
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
-                    <a class="experience_button" href="$Up.Link('seatchart')/$LinkTitle">Seatchart & Logs</a>
-                    <% if $Logs.Count > 0 && $CurrentUser %> <a class="experience_button" href="$Up.Link('statistics')/$LinkTitle">Statistics</a><% end_if %>
+                    <a class="experience_button" href="$SeatchartLink">Seatchart & Logs</a>
+                    <% if $Logs.Count > 0 && $CurrentUser %> <a class="experience_button" href="$StatisticsLink">Statistics</a><% end_if %>
                 </div>
             </div>
 
