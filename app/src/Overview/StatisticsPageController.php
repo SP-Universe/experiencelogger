@@ -51,13 +51,20 @@ class StatisticsPageController extends PageController
 
     public function experience()
     {
-        $currentUserId = Security::getCurrentUser()->ID;
+
         $title = $this->getRequest()->param("ID");
-        $experience = Experience::get()->filter("LinkTitle", $title)->first();
+        $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
+        $title = explode("---", $title)[1];
+        $experience = Experience::get()->filter(array(
+            "LinkTitle" => $title,
+            "ParentID" => $park->ID
+            ))->first();
+
+        $currentUserId = Security::getCurrentUser()->ID;
 
         return array(
             "Experience" => $experience,
-            "Location" => $experience->Parent(),
+            "Location" => $park,
             "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUserId, $experience),
         );
     }

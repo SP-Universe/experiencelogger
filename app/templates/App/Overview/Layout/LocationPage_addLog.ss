@@ -3,7 +3,7 @@
         <div class="section_content">
             <h1>Adding Log for $Title!</h1>
 
-            <form action="$Top.Link('finishLog')/$LinkTitle" class="logging_form" method="get">
+            <form action="$FinishLogLink" class="logging_form" method="get">
 
                 <!--WEATHER-->
                 <div class="log_wrap loggroup--weather">

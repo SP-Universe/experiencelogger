@@ -208,18 +208,6 @@ class Experience extends DataObject
         return $this->Stage()->exists() ? $this->Stage()->Title : null;
     }
 
-    public function getLink()
-    {
-        $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("experience\/") . $this->LinkTitle;
-    }
-
-    public function getAddLogLink()
-    {
-        $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog\/") . $this->LinkTitle;
-    }
-
     public function getLogs()
     {
         $currentUser = Security::getCurrentUser();
@@ -537,7 +525,31 @@ class Experience extends DataObject
     {
         $statisticsPage = StatisticsPage::get()->first();
         if ($statisticsPage) {
-            return $statisticsPage->Link("experience/" . $this->LinkTitle);
+            return $statisticsPage->Link("experience/" . $this->Parent()->LinkTitle . "---" . $this->LinkTitle);
         }
+    }
+
+    public function getLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("experience\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+    }
+
+    public function getAddLogLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("addLog\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+    }
+
+    public function getFinishLogLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("finishLog\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+    }
+
+    public function getSeatchartLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->Link("seatchart\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
     }
 }
