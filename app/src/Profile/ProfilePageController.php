@@ -150,7 +150,13 @@ class ProfilePageController extends PageController
 
     public function memberlist()
     {
-        $members = Member::get();
+        $currentUser = Security::getCurrentUser();
+        $members = Member::get()->filter(
+            array(
+                "ID:not" => $currentUser->ID,
+                "Nickname:not" => "admin"
+            )
+        );
         $memberlist = PaginatedList::create($members, $this->getRequest());
         $memberlist->setPageLength(30);
         return array(
