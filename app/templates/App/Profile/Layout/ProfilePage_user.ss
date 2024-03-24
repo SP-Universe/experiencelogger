@@ -76,7 +76,7 @@
                                                 <a href="$Top.Link('acceptfriend')/$ID" class="button usercard_action_button">Accept</a>
                                                 <a href="$Top.Link('declinefriend')/$ID" class="button usercard_action_button">Decline</a>
                                                 <% if $Requester.ProfilePrivacy == "Public" || $Requester.ProfilePrivacy == "Friends" %>
-                                                    <a href="$Top.Link()/user/$Nickname" class="button usercard_action_button">View</a>
+                                                    <a href="$Top.Link()/user/$Requester.Nickname" class="button usercard_action_button">View</a>
                                                 <% else %>
                                                     <p>(Private)</p>
                                                 <% end_if %>
