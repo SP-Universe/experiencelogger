@@ -131,11 +131,28 @@
                 <div class="location_experiences">
                     <div class="search_bar" id="search-experience-bar">
                         <input type="text" name="search" id="search-experience" placeholder="Search for an experience" />
-                    </div>
-                    <div class="experience_list">
+                        <a class="experience_togglefilter" data-behaviour="experiencelist_filter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 48 48"><path fill="currentColor" d="M22 40q-.85 0-1.425-.575Q20 38.85 20 38V26L8.05 10.75q-.7-.85-.2-1.8Q8.35 8 9.4 8h29.2q1.05 0 1.55.95t-.2 1.8L28 26v12q0 .85-.575 1.425Q26.85 40 26 40Z"/></svg>
+                        </a>
                         <a class="experience_activatelocation" data-behaviour="locationTracker">
                             <svg fill="currentColor" width="30px" height="30px" viewBox="0 0 284 284" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M141.667,138.237c6.633,0 12.291,-2.346 16.976,-7.031c4.685,-4.684 7.031,-10.343 7.031,-16.976c-0,-6.633 -2.346,-12.292 -7.031,-16.977c-4.685,-4.685 -10.343,-7.03 -16.976,-7.03c-6.633,-0 -12.292,2.345 -16.977,7.03c-4.685,4.685 -7.031,10.344 -7.031,16.977c0,6.633 2.346,12.292 7.031,16.976c4.685,4.685 10.344,7.031 16.977,7.031Zm-0,140.614c-36.814,-31.326 -64.305,-60.416 -82.482,-87.284c-18.177,-26.867 -27.266,-51.732 -27.266,-74.593c0,-34.297 11.03,-61.617 33.096,-81.968c22.066,-20.351 47.617,-30.523 76.652,-30.523c29.035,-0 54.585,10.172 76.651,30.523c22.066,20.351 33.096,47.671 33.096,81.968c0,22.861 -9.088,47.726 -27.265,74.593c-18.177,26.868 -45.669,55.958 -82.482,87.284Z"/></svg>
                         </a>
+                    </div>
+                    <div class="experience_filters" data-behaviour="experiencelist_filters">
+                        <select class="experience_filter type" data-behaviour="experiencelist_filter" data-filtertype="type">
+                            <option value="all">All Types</option>
+                            <% loop $GroupedExperiences %>
+                                <option value="$Children.First.Type.Title">$Children.First.Type.PluralName</option>
+                            <% end_loop %>
+                        </select>
+                        <select class="experience_filter state" data-behaviour="experiencelist_filter" data-filtertype="state">
+                            <option value="all">All States</option>
+                            <% loop $GroupedExperiencesByState %>
+                                <option value="$Children.First.State">$Children.First.State</option>
+                            <% end_loop %>
+                        </select>
+                    </div>
+                    <div class="experience_list">
                         <% loop $GroupedExperiencesByState %>
                             <div class="state_hl">
                                 <h2>$Children.First.State</h2>
