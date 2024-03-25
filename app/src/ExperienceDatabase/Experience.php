@@ -535,6 +535,12 @@ class Experience extends DataObject
         return $locationsHolder->Link("experience\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
     }
 
+    public function AbsoluteLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return $locationsHolder->AbsoluteLink . "experience/" . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+    }
+
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
