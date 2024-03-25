@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3155db4b51b7e742601dc393f1b315ca",
+    "content-hash": "b392172a7dee6ee1fa5f47e8123a7007",
     "packages": [
         {
             "name": "colymba/gridfield-bulk-editing-tools",
@@ -3215,62 +3215,6 @@
                 "source": "https://github.com/silverstripe/silverstripe-graphql/tree/5.1.3"
             },
             "time": "2024-01-22T23:26:08+00:00"
-        },
-        {
-            "name": "silverstripe/linkfield",
-            "version": "3.0.0-beta1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/silverstripe/silverstripe-linkfield.git",
-                "reference": "469ad240cd25c029d9cabffbcc1506e7da032fdf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/silverstripe/silverstripe-linkfield/zipball/469ad240cd25c029d9cabffbcc1506e7da032fdf",
-                "reference": "469ad240cd25c029d9cabffbcc1506e7da032fdf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.1",
-                "silverstripe/cms": "^5"
-            },
-            "require-dev": {
-                "silverstripe/recipe-testing": "^3",
-                "squizlabs/php_codesniffer": "^3"
-            },
-            "type": "silverstripe-vendormodule",
-            "extra": {
-                "branch-alias": {
-                    "dev-2": "2.x-dev",
-                    "dev-1": "1.x-dev"
-                },
-                "expose": [
-                    "client/dist",
-                    "client/lang"
-                ]
-            },
-            "autoload": {
-                "psr-4": {
-                    "SilverStripe\\LinkField\\": "src/",
-                    "SilverStripe\\LinkField\\Tests\\": "tests/php/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Maxime Rainville",
-                    "email": "maxime@silverstripe.com"
-                }
-            ],
-            "description": "Add advanced link functionality to Silverstripe.",
-            "support": {
-                "issues": "https://github.com/silverstripe/silverstripe-linkfield/issues",
-                "source": "https://github.com/silverstripe/silverstripe-linkfield/tree/3.0.0-beta1"
-            },
-            "time": "2023-05-17T19:46:51+00:00"
         },
         {
             "name": "silverstripe/lumberjack",
@@ -6708,5 +6652,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.6.0"
 }

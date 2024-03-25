@@ -90,7 +90,7 @@ class ProfilePageController extends PageController
     {
         $currentUser = Security::getCurrentUser();
         if ($currentUser) {
-            $upload = new FileField('avatar', 'Avatar');
+            $upload = new FileField('Avatar', 'Avatar');
             $upload->setFolderName('user_avatars');
             $textfieldNickname = new TextField("Nickname", "Nickname");
             $textfieldNickname->setAttribute("readonly", "readonly")->addExtraClass("readonly");

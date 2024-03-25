@@ -12,7 +12,6 @@
         "jonom/focuspoint": "^5.0",
         "dnadesign/silverstripe-elemental-userforms": "^4",
         "purplespider/silverstripe-basic-gallery-extension": "4",
-        "silverstripe/linkfield": "^3",
         "tractorcow/silverstripe-sliderfield": "dev-master",
         "wilr/silverstripe-googlesitemaps": "^3",
         "symbiote/silverstripe-gridfieldextensions": "^4.0",
