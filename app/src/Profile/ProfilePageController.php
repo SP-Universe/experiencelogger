@@ -150,7 +150,13 @@ class ProfilePageController extends PageController
 
     public function memberlist()
     {
-        $members = Member::get();
+        $currentUser = Security::getCurrentUser();
+        $members = Member::get()->filter(
+            array(
+                "ID:not" => $currentUser->ID,
+                "Nickname:not" => "admin"
+            )
+        );
         $memberlist = PaginatedList::create($members, $this->getRequest());
         $memberlist->setPageLength(30);
         return array(
@@ -198,6 +204,8 @@ class ProfilePageController extends PageController
         ))->first();
         if ($existingFriendRequest) {
             $existingFriendRequest->FriendshipStatus = "Accepted";
+            $now = new \DateTime();
+            $existingFriendRequest->FriendsSince = $now->format("Y-m-d H:i:s");
             $existingFriendRequest->write();
             return $this->redirect("profile/");
         }
@@ -221,8 +229,10 @@ class ProfilePageController extends PageController
         if ($friendRequest && $currentUser && $requestee && $requester) {
             if ($requestee == $currentUser && $friendRequest->FriendshipStatus == "Pending") {
                 $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
-                $requesterFriendRequest->FriendshipStatus = "accepted";
-                $friendRequest->FriendshipStatus = "accepted";
+                $requesterFriendRequest->FriendshipStatus = "Accepted";
+                $friendRequest->FriendshipStatus = "Accepted";
+                $now = new \DateTime();
+                $friendRequest->FriendsSince = $now->format("Y-m-d H:i:s");
                 $requesterFriendRequest->write();
                 $friendRequest->write();
                 return $this->redirect("profile/");

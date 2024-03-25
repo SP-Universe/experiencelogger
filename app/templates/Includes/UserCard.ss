@@ -12,10 +12,11 @@
             <div class="usercard_text">
                 <p class="usercard_name">$Nickname</p>
                 <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs | $LoggedParksCount Places)<% else %>(Private)<% end_if %></p>
+                <% if $IsFriendWithCurrentUser %><p class="usercard_friendssince">Friends since $getFriendshipWithCurrentUser().FormattedFriendsSince</p><% end_if %>
             </div>
         </div>
         <div class="usercard_actions">
-            <% if not $HideFriendAdd %><a href="$Top.Link()profile/requestnewfriend/$ID" class="usercard_action_button">Add Friend</a><% end_if %>
+            <% if not $HideFriendAdd && not $IsFriendWithCurrentUser %><a href="$Top.Link()profile/requestnewfriend/$ID" class="button usercard_action_button">Add Friend</a><% end_if %>
             <% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>
                 <a href="$Top.Link()profile/user/$Nickname" class="button usercard_action_button">View Profile</a>
             <% else %>

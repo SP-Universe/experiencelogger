@@ -13,6 +13,7 @@ use App\ExperienceDatabase\Experience;
  * Class \App\Database\Experience
  *
  * @property string $FriendshipStatus
+ * @property string $FriendsSince
  * @property int $RequesterID
  * @property int $RequesteeID
  * @method \SilverStripe\Security\Member Requester()
@@ -22,6 +23,7 @@ class FriendRequest extends DataObject
 {
     private static $db = [
         "FriendshipStatus" => "Enum('Pending, Accepted, Declined', 'Pending')",
+        "FriendsSince" => "Datetime",
     ];
 
     private static $api_access = false;
@@ -74,5 +76,13 @@ class FriendRequest extends DataObject
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
+    }
+
+    public function FormattedFriendsSince()
+    {
+        if (!$this->FriendsSince) {
+            return "";
+        }
+        return date("d.m.y", strtotime($this->FriendsSince));
     }
 }
