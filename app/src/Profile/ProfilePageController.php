@@ -3,10 +3,12 @@ namespace App\Profile;
 
 //use jamesbolitho\frontenduploadfield\UploadField;
 use PageController;
+use SilverStripe\ORM\DB;
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
 use App\Profile\FriendRequest;
 use App\Overview\StatisticsPage;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
@@ -17,9 +19,12 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
-use HudhaifaS\Forms\FrontendImageField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
+use HudhaifaS\Forms\FrontendImageField;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\Queries\SQLSelect;
+use SilverStripe\ORM\Connect\MySQLQuery;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -151,16 +156,50 @@ class ProfilePageController extends PageController
     public function memberlist()
     {
         $currentUser = Security::getCurrentUser();
-        $members = Member::get()->filter(
+
+        //Get all members
+        $memberTable = DB::get_conn()->escapeIdentifier(
+            DataObject::getSchema()->tableName(Member::class)
+        );
+        $sqlQuery = new SQLSelect();
+        $sqlQuery->setFrom('Member');
+        $sqlQuery->setSelect("*");
+        $sqlQuery->addWhere([
+            "{$memberTable}.\"Nickname\" != 'admin'",
+            "{$memberTable}.\"ID\" != {$currentUser->ID}"
+        ]);
+        $sqlQuery->addLeftJoin(
+            'FriendRequest',
+            "\"FriendRequest\".\"RequesterID\" = \"Member\".\"ID\" OR \"FriendRequest\".\"RequesteeID\" = \"Member\".\"ID\"",
+            'FriendRequest'
+        );
+        $sqlQuery->addLeftJoin(
+            'LogEntry',
+            "\"LogEntry\".\"UserID\" = \"Member\".\"ID\"",
+            'LogEntry'
+        );
+        $result = $sqlQuery->execute();
+
+        /*$members = Member::get()->filter(
             array(
                 "ID:not" => $currentUser->ID,
                 "Nickname:not" => "admin"
             )
-        );
-        $memberlist = PaginatedList::create($members, $this->getRequest());
+        );*/
+
+        $listOfMembers = new ArrayList();
+        foreach ($result as $row) {
+            $listOfMembers->push(Member::create($row));
+            //print_r($row);
+        }
+        $paginatedList = new PaginatedList($listOfMembers, $this->getRequest());
+
+
+
+        $memberlist = PaginatedList::create($listOfMembers, $this->getRequest());
         $memberlist->setPageLength(30);
         return array(
-            'MemberList' => $memberlist
+            'MemberList' => $paginatedList
         );
     }
 

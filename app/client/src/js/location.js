@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let distanceFields = document.querySelectorAll('[data-behaviour="distance"]');
 
     const locationTracker = document.querySelector('[data-behaviour="locationTracker"]');
+    let distanceActive = false;
+    console.log("distanceActive: " + distanceActive);
     var userPos = {
         lat: 0.0,
         lon: 0.0
@@ -12,23 +14,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
     if(locationTracker){
         locationTracker.addEventListener('click', function(e) {
             e.preventDefault();
-            if(distanceFields.length){
-                distanceFields.forEach(distanceField => {
-                    var loc = distanceField.getAttribute('data-loc');
-                    if(loc){
-                        var coords = loc.split(",");
-                        var lat = coords[0];
-                        var lon = coords[1];
-                        console.log("lat: " + lat + " lon: " + lon)
-                        writeDistance(distanceField, lat, lon);
-                    } else {
-                        distanceField.innerHTML = "? m";
-                    }
-                });
-            }
+            distanceActive = true;
+            updateDistances();
             locationTracker.remove();
         });
     }
+
+    window.updateDistances = function updateDistances() {
+        if(distanceFields.length){
+            distanceFields.forEach(distanceField => {
+                var loc = distanceField.getAttribute('data-loc');
+                if(loc){
+                    var coords = loc.split(",");
+                    var lat = coords[0];
+                    var lon = coords[1];
+                    console.log("lat: " + lat + " lon: " + lon)
+                    writeDistance(distanceField, lat, lon);
+                } else {
+                    distanceField.innerHTML = "? m";
+                    distanceField.parentNode.parentNode.parentNode.setAttribute('data-distance', 999999999); //Set the distance on the parent Experiencecard
+                }
+            });
+        }
+    }
+
 
     function writeDistance(field, lat, lon) {
         if (navigator.geolocation) {
@@ -36,12 +45,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 savePosition(position)
                 var OutputDistance = distance(lat, lon, userPos.lat, userPos.lon);
                 if(OutputDistance > 1){
+                    field.parentNode.parentNode.parentNode.setAttribute('data-distance', OutputDistance); //Set the distance on the parent Experiencecard
                     field.innerHTML = "<p>" + OutputDistance + " km</p>";
                 } else {
+                    field.parentNode.parentNode.parentNode.setAttribute('data-distance', OutputDistance); //Set the distance on the parent Experiencecard
                     field.innerHTML = "<p>" + (OutputDistance * 100) + " m</p>";
                 }
             });
         } else {
+            field.parentNode.parentNode.parentNode.setAttribute('data-distance', 999999999); //Set the distance on the parent Experiencecard
             field.innerHTML = "???";
         }
     }
@@ -73,4 +85,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
     }
+
+    setInterval(function(){
+        if(distanceActive === true) {
+            console.log("updating distances");
+            updateDistances();
+        }
+    }, 20000);
 });

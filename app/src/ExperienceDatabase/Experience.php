@@ -75,6 +75,7 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\Experience[] Characters()
  * @method \SilverStripe\ORM\ManyManyList|\App\Food\Food[] Food()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
+ * @mixin \Wilr\GoogleSitemaps\Extensions\GoogleSitemapExtension
  */
 class Experience extends DataObject
 {

@@ -151,6 +151,11 @@
                                 <option value="$Children.First.State">$Children.First.State</option>
                             <% end_loop %>
                         </select>
+                        <select class="experience_filter sort" data-behaviour="experiencelist_filter" data-filtertype="sort">
+                            <option value="title">Sort by Title</option>
+                            <option value="type">Sort by Type</option>
+                            <option value="distance">Sort by Distance</option>
+                        </select>
                     </div>
                     <div class="experience_list">
                         <% loop $GroupedExperiencesByState %>
