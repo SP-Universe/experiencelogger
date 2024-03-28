@@ -11,7 +11,7 @@
             </div>
             <div class="usercard_text">
                 <p class="usercard_name">$Nickname</p>
-                <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogss($ID).Count Logs | $LoggedParksCount Places)<% else %>(Private)<% end_if %></p>
+                <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs | $LoggedParksCount Places)<% else %>(Private)<% end_if %></p>
                 <% if $IsFriendWithCurrentUser %><p class="usercard_friendssince">Friends since $getFriendshipWithCurrentUser().FormattedFriendsSince</p><% end_if %>
             </div>
         </div>
