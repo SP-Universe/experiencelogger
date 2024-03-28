@@ -237,7 +237,7 @@
                     <h2>Time & Date</h2>
                     <form-group class="logging_group">
                         <input type="date" id="date" name="date" value="$Top.CurrentDate">
-                        <input type="time" id="time" name="time" step="1" value="$Top.CurrentTime">
+                        <input type="time" id="time" name="time" step="60" value="$Top.CurrentTime">
                     </form-group>
                 </div>
 
