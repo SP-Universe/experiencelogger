@@ -6,12 +6,14 @@ use App\Food\Food;
 use App\Overview\LocationPage;
 use App\Helper\ExperienceHelper;
 use App\Overview\StatisticsPage;
-use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\GroupedList;
+use SilverStripe\Control\Director;
 use SilverStripe\Security\Security;
 use Colymba\BulkManager\BulkManager;
+use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\ReadonlyField;
@@ -21,7 +23,6 @@ use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Forms\NumericField;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
 
@@ -74,6 +75,7 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\Experience[] Characters()
  * @method \SilverStripe\ORM\ManyManyList|\App\Food\Food[] Food()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
+ * @mixin \Wilr\GoogleSitemaps\Extensions\GoogleSitemapExtension
  */
 class Experience extends DataObject
 {
@@ -533,6 +535,12 @@ class Experience extends DataObject
     {
         $locationsHolder = LocationPage::get()->first();
         return $locationsHolder->Link("experience\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+    }
+
+    public function AbsoluteLink()
+    {
+        $locationsHolder = LocationPage::get()->first();
+        return Director::absoluteURL($locationsHolder->Link("experience\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle);
     }
 
     public function getAddLogLink()

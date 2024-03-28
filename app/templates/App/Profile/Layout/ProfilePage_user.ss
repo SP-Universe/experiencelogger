@@ -29,7 +29,8 @@
                     <p class="avatar_logcount">$UserProfile.LoggedParksCount Places<p>
                 </div>
                 <div class="profile_settings_content">
-                    <h1>Hi, $UserProfile.Nickname!</h1>
+                    <h1>Hi, $UserProfile.FirstName!</h1>
+                    <p class="profile_settings_username">@$UserProfile.Nickname</p>
                     <p><span>Registered since:</span> $CurrentUser.Created.Format("dd.MM.YYYY")<p>
                     <p><span>Last logged at:</span> $CurrentUser.LastLogDate.Format("dd.MM.YYYY")<p>
                     <div class="profile_privacy">
@@ -70,7 +71,7 @@
                                             <% end_if %>
                                         </div>
                                         <div class="usercard_text">
-                                            <p class="usercard_name">$Requester.Nickname</p>
+                                            <p class="usercard_name">@$Requester.Nickname</p>
                                             <p>wants to ride with you!</p>
                                             <div class="usercard_actions">
                                                 <a href="$Top.Link('acceptfriend')/$ID" class="button usercard_action_button">Accept</a>
@@ -152,6 +153,7 @@
                         </div>
                         <div class="profile_settings_content">
                             <h1>{$UserProfile.Nickname}`s Profile</h1>
+                            <p class="profile_settings_username">@$UserProfile.Nickname</p>
                             <p><span>Registered since:</span> $UserProfile.Created.Format("dd.MM.YYYY")<p>
                             <p><span>Last logged at:</span> $UserProfile.LastLogDate.Format("dd.MM.YYYY")<p>
                             <div class="profile_privacy">

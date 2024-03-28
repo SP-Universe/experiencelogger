@@ -2,8 +2,6 @@
 
 namespace {
 
-    use Firebase\JWT\JWT;
-    use Firebase\JWT\Key;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -16,6 +14,7 @@ namespace {
     use Level51\JWTUtils\JWTUtilsException;
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
+    use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
  * Class \PageController
@@ -31,8 +30,7 @@ namespace {
             "logout",
             "experiences",
             "places",
-            "token",
-            "checklogin",
+            "placesnew",
             "addLog",
             "profile",
             "locationprogress"
@@ -208,6 +206,15 @@ namespace {
             return json_encode($data);
         }
 
+        public function placesnew(HTTPRequest $request)
+        {
+            //BAUSTELLE!
+            $sqlRequest = new SQLSelect();
+            $sqlRequest->setFrom('ExperienceLocation');
+            $sqlRequest->addLeftJoin('ExperienceLocationType', '"ExperienceLocation"."TypeID" = "LocationType"."ID"', 'LocationType');
+            $sqlResult = $sqlRequest->execute();
+        }
+
         public function addLog(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
@@ -293,17 +300,6 @@ namespace {
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
-        }
-
-        public function token(HTTPRequest $request)
-        {
-            try {
-                $payload = JWTUtils::inst()->byBasicAuth($request);
-
-                return json_encode($payload);
-            } catch (JWTUtilsException $e) {
-                return $this->httpError(403, $e->getMessage());
-            }
         }
 
         public function getLastEdited()

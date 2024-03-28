@@ -102,6 +102,15 @@
                     text-align: left;
                     min-width: 300px;
 
+                    h1{
+                        margin: 0;
+                    }
+
+                    .profile_settings_username{
+                        opacity: 0.6;
+                        margin-bottom: 10px;
+                    }
+
 
                     span{
                         color: var(--ColorPrimary);

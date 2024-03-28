@@ -118,7 +118,7 @@ class ExperienceMemberExtension extends DataExtension
 
     public function getProfileImage($size = 200)
     {
-        if ($this->owner->AvatarID) {
+        if ($this->owner->Avatar()->Fill($size, $size) != null) {
             return $this->owner->Avatar()->Fill($size, $size)->Url;
         } else {
             return $this->owner->getGravatar($size);

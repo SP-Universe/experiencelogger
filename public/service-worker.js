@@ -14,8 +14,7 @@ self.addEventListener("fetch" , event => {
     // Get the request
     let request = event.request;
 
-    // Bug fix
-    // https://stackoverflow.com/a/49719964
+    // Bug fix https://stackoverflow.com/a/49719964
     if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return;
 
     // HTML files
