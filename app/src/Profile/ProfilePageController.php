@@ -158,7 +158,7 @@ class ProfilePageController extends PageController
         $currentUser = Security::getCurrentUser();
 
         //Get all members
-        $memberTable = DB::get_conn()->escapeIdentifier(
+        /*$memberTable = DB::get_conn()->escapeIdentifier(
             DataObject::getSchema()->tableName(Member::class)
         );
         $sqlQuery = new SQLSelect();
@@ -178,28 +178,28 @@ class ProfilePageController extends PageController
             "\"LogEntry\".\"UserID\" = \"Member\".\"ID\"",
             'LogEntry'
         );
-        $result = $sqlQuery->execute();
+        $result = $sqlQuery->execute();*/
 
-        /*$members = Member::get()->filter(
+        $members = Member::get()->filter(
             array(
                 "ID:not" => $currentUser->ID,
                 "Nickname:not" => "admin"
             )
-        );*/
+        );
 
-        $listOfMembers = new ArrayList();
+        /*$listOfMembers = new ArrayList();
         foreach ($result as $row) {
             $listOfMembers->push(Member::create($row));
             //print_r($row);
         }
-        $paginatedList = new PaginatedList($listOfMembers, $this->getRequest());
+        $paginatedList = new PaginatedList($listOfMembers, $this->getRequest());*/
 
 
 
-        $memberlist = PaginatedList::create($listOfMembers, $this->getRequest());
+        $memberlist = PaginatedList::create($members, $this->getRequest());
         $memberlist->setPageLength(30);
         return array(
-            'MemberList' => $paginatedList
+            'MemberList' => $memberlist
         );
     }
 
