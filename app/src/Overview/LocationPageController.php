@@ -1,18 +1,14 @@
 <?php
 namespace App\Overview;
 
-use DateInterval;
-use App\Food\Food;
 use PageController;
 use App\Ratings\Rating;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
-use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceSeat;
-use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\Helper\ExperienceHelper;
 use App\Helper\StatisticsHelper;

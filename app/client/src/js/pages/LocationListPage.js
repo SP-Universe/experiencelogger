@@ -33,13 +33,15 @@ if(locationProgressBars){
 //Get the progress of a location asynchronously
 async function getLocationProgress(locationID, locationProgressHolder, locationProgressBar, locationProgressText) {
     const response = await fetch('./app-api/locationprogress/?ID=' + locationID);
-    const data = await response.json();
+    if(response.status != 200){
+        const data = await response.json();
 
-    locationProgressBar.style.width = data["LocationProgress"]["ProgressPercent"] + "%";
-    if(data["LocationProgress"]["Defunct"] > 0){
-        locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences (+" + data["LocationProgress"]["Defunct"] + " not active)";
-    } else {
-        locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
+        locationProgressBar.style.width = data["LocationProgress"]["ProgressPercent"] + "%";
+        if(data["LocationProgress"]["Defunct"] > 0){
+            locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences (+" + data["LocationProgress"]["Defunct"] + " not active)";
+        } else {
+            locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
+        }
+        locationProgressHolder.classList.remove("loading");
     }
-    locationProgressHolder.classList.remove("loading");
 }

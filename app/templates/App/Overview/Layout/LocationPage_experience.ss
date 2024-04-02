@@ -41,7 +41,7 @@
                 $Description
                 <% if $NumberOfRatings %>
                     <div class="experience_ratings">
-                        <div class="ratingdisplay" style="--stars: $Rating"></div>
+                        <div class="ratingdisplay" style="--stars: $Rating" title="$Rating Stars"></div>
                         <p>$NumberOfRatings <% if $NumberOfRatings > 1 %>Ratings<% else %>Rating<% end_if %></p>
                     </div>
                 <% end_if %>
