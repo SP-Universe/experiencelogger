@@ -308,11 +308,10 @@ class LocationPageController extends PageController
                         $newlogentryStage->IsLinkedLogged = true;
                         $newlogentryStage->write();
                     }
-                    if (isset($_GET["date"])) {
-                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
-                    } else {
-                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
-                    }
+
+                    //Always use current time for last logged:
+                    $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+
                     $currentUser->write();
                 }
 
