@@ -100,6 +100,10 @@
         }
     }
 
+    @include media("<=desktop") {
+        width: calc(100% / 3);
+    }
+
     @include media("<=medium") {
         width: calc(100% / 2);
     }

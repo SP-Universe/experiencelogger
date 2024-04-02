@@ -16,7 +16,15 @@
             </div>
         </div>
         <div class="usercard_actions">
-            <% if not $HideFriendAdd && not $IsFriendWithCurrentUser %><a href="$Top.Link()profile/requestnewfriend/$ID" class="button usercard_action_button">Add Friend</a><% end_if %>
+            <% if not $HideFriendAdd && not $IsFriendWithCurrentUser %>
+                <% if $getFriendshipWithCurrentUser.FriendshipStatus == "Pending" %>
+                    <% if $getFriendshipWithCurrentUser.RequesteeID == $CurrentUser.ID %>
+                        <a href="$Top.Link()profile/acceptfriend/$getFriendshipWithCurrentUser.ID" class="button usercard_action_button">Accept Request</a>
+                    <% end_if %>
+                <% else %>
+                    <a href="$Top.Link()profile/requestnewfriend/$ID" class="button usercard_action_button">Add Friend</a>
+                <% end_if %>
+            <% end_if %>
             <% if $ProfilePrivacy == "Public" %>
                 <a href="$Top.Link()profile/user/$Nickname" class="button usercard_action_button">View Profile</a>
             <% else_if $ProfilePrivacy == "Friends" %>
