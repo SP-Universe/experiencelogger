@@ -2,7 +2,9 @@
 
 namespace {
 
-use SilverStripe\ORM\DB;
+use GraphQL\Language\AST\Location;
+    use SilverStripe\ORM\DB;
+use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 
     use App\ExperienceDatabase\Experience;
@@ -209,9 +211,12 @@ use SilverStripe\Assets\Image;
             return json_encode($data);
         }
 
+
+        //New Places API using SQLSelect
         public function placesnew(HTTPRequest $request)
         {
             $currentUser = Security::getCurrentUser();
+            $locationsHolder = LocationPage::get()->first();
 
             //BAUSTELLE!
             $sqlRequest = new SQLSelect("Location.Title AS Title");
@@ -227,12 +232,13 @@ use SilverStripe\Assets\Image;
             $sqlRequest->addSelect('Location.Address AS LocationAddress');
             $sqlRequest->addSelect('Location.Coordinates AS LocationCoordinates');
             $sqlRequest->addSelect('Location.Website AS LocationWebsite');
+            $sqlRequest->addSelect('Location.ImageID AS LocationImageID');
 
             $sqlRequest->addSelect('Experience.ID AS ExperienceID');
             $sqlRequest->addSelect('Experience.Title AS ExperienceTitle');
             $sqlRequest->addSelect('Experience.State AS ExperienceState');
 
-            $sqlRequest->addSelect('LocationType.Title AS TypeTitle');
+            $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
 
             $sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
             $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
@@ -259,11 +265,14 @@ use SilverStripe\Assets\Image;
 
             //Group Experiences by Location:
             $groupedData = [];
+
             foreach ($data as $row) {
-                if ($row['LocationID'] == $currentUser->FavouritePark) {
-                    $row['FavouritePark'] = true;
-                } else {
-                    $row['FavouritePark'] = false;
+                if ($currentUser) {
+                    if ($row['LocationID'] == $currentUser->FavouritePark) {
+                        $row['FavouritePark'] = true;
+                    } else {
+                        $row['FavouritePark'] = false;
+                    }
                 }
 
                 $groupedData[$row['LocationID']]['LocationTitle'] = $row['LocationTitle'];
@@ -271,23 +280,27 @@ use SilverStripe\Assets\Image;
                 $groupedData[$row['LocationID']]['LocationAddress'] = $row['LocationAddress'];
                 $groupedData[$row['LocationID']]['LocationCoordinates'] = $row['LocationCoordinates'];
                 $groupedData[$row['LocationID']]['LocationWebsite'] = $row['LocationWebsite'];
-                $groupedData[$row['LocationID']]['TypeTitle'] = $row['TypeTitle'];
+                $groupedData[$row['LocationID']]['LocationImageLink'] = $row['LocationImageID'];
+                $groupedData[$row['LocationID']]['LocationLink'] = $locationsHolder->Link("location\/") . $row['LocationTitle'];
+                $groupedData[$row['LocationID']]['LocationTypeTitle'] = $row['LocationTypeTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
 
-                if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                if ($currentUser) {
+                    if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                    }
                 }
             }
 
