@@ -38,6 +38,7 @@ use SilverStripe\Assets\Image;
             "placesnew",
             "addLog",
             "profile",
+            "image",
             "locationprogress"
         ];
 
@@ -155,6 +156,26 @@ use SilverStripe\Assets\Image;
                 }
             } else {
                 $data['Error'] = "No experiences found.";
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
+        }
+
+        public function image(HTTPRequest $request)
+        {
+            $id = $this->getRequest()->param("ID");
+            $image = Image::get()->filter("ID", $id)->first();
+
+            if ($image) {
+                $data['ID'] = $image->ID;
+                $data['Title'] = $image->Title;
+                $data['Link'] = $image->AbsoluteURL;
+                $data['Width'] = $image->Width;
+                $data['Height'] = $image->Height;
+                $data['LastEdited'] = $image->LastEdited;
+            } else {
+                $data['Error'] = "No image found.";
             }
 
             $this->response->addHeader('Content-Type', 'application/json');
@@ -280,7 +301,7 @@ use SilverStripe\Assets\Image;
                 $groupedData[$row['LocationID']]['LocationAddress'] = $row['LocationAddress'];
                 $groupedData[$row['LocationID']]['LocationCoordinates'] = $row['LocationCoordinates'];
                 $groupedData[$row['LocationID']]['LocationWebsite'] = $row['LocationWebsite'];
-                $groupedData[$row['LocationID']]['LocationImageLink'] = $row['LocationImageID'];
+                $groupedData[$row['LocationID']]['LocationImageID'] = $row['LocationImageID'];
                 $groupedData[$row['LocationID']]['LocationLink'] = $locationsHolder->Link("location\/") . $row['LocationTitle'];
                 $groupedData[$row['LocationID']]['LocationTypeTitle'] = $row['LocationTypeTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];

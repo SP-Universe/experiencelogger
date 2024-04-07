@@ -25,3 +25,13 @@ window.currentLocationData = async function currentLocationData() {
         return locationData;
     }
 }
+
+window.getImagelink = async function getImagelink(imageID) {
+    const response = await fetch('./app-api/image/' + imageID);
+    if(response.status == 200){
+        const data = await response.json();
+        return data["Link"];
+    } else {
+        console.log("ERROR: Could not fetch iamge data at " + response.url + " with status " + response.status);
+    }
+}

@@ -1,19 +1,21 @@
-import "../js/helpers.js";
-import "../js/location.js";
-import "../js/jsonloader.js";
-import "./pages/ExperienceListPage.js";
-import "./pages/LocationListPage.js";
-import "./pages/LogsListPage.js";
-import "./pages/ProfilePage.js";
+//import "../js/helpers.js";
+//import "../js/location.js";
+//import "../js/jsonloader.js";
+//import "./pages/ExperienceListPage.js";
+//import "./pages/LocationListPage.js";
+//import "./pages/LogsListPage.js";
+//import "./pages/ProfilePage.js";
 import "./tools/Cookies.js";
 import "./tools/Swiper.js";
 import "./tools/Lightbox.js";
 import "./tools/Darkmode.js";
+import "./react/index.jsx";
 
 if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
 }
 
+/*
 document.addEventListener("DOMContentLoaded", function (event) {
 
     //Personal Nav
@@ -45,4 +47,4 @@ document.addEventListener("DOMContentLoaded", function (event) {
         e.style.setProperty('--value', e.value);
         e.addEventListener('input', () => e.style.setProperty('--value', e.value));
     }
-});
+});*/

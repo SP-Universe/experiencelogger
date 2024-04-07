@@ -1,0 +1,41 @@
+.place_card{
+    margin: 10px 0;
+
+    .place_entry{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 20px;
+        text-align: center;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        .place_entry_image{
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+
+            img{
+                filter: blur(2px) brightness(0.6);
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image_placeholder{
+                width: 100%;
+                height: 100%;
+                background-color: $ColorPrimarySuperDark;
+            }
+        }
+
+        .place_entry_content{
+            position: relative;
+            z-index: 1;
+        }
+    }
+}

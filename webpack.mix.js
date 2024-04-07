@@ -2,12 +2,13 @@ let mix = require('laravel-mix');
 
 const src = 'app/client/src/';
 const dist = 'app/client/dist/';
+
 mix.setPublicPath(dist)
     .setResourceRoot('../')
     .options({
-        // processCssUrls: false  //??
+        processCssUrls: false,
     })
-    // .webpackConfig({ devtool: "inline-source-map" })
+    .webpackConfig({ devtool: "inline-source-map" })
     .sass(src + 'scss/styles.scss', dist + "css")
     .sass(src + 'scss/editor.scss', dist + "css")
     .js(src + 'js/main.js', dist + "js/main.js")

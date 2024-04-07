@@ -8,15 +8,27 @@ async function loadLocations() {
     const locationHolder = document.querySelector('.location_list');
     const data = await currentLocationData();
     console.log(data);
-    if(data != ""){
+    if(data != "" && locationHolder != null){
         for(let i = 0; i < data.length; i++){
             if(data[i]["LocationTitle"] != ""){
                 const locationCard = document.createElement('div');
                 locationCard.classList.add('location_card');
+
+                let imageLink = "";
+
+                getImagelink(data[i]["LocationImageID"]).then((value) => {
+                    if(value){
+                        imageLink = value;
+                        console.log("Image link to input: " + imageLink);
+                    } else {
+                        imageLink = "";
+                    }
+                });
+
                 locationCard.innerHTML = `
                     <a href="${data[i]["LocationLink"]}" class="location_entry">
                         <div class="location_entry_image">
-                            <img src="${data[i]["Image"]}" alt="${data[i]["LocationTitle"]}">
+                            <img src="${imageLink}">
                         </div>
                         <div class="location_entry_content">
                             <h2 class="location_title">${data[i]["LocationTitle"]}</h2>
@@ -37,6 +49,7 @@ async function loadLocations() {
                     <svg xmlns="http://www.w3.org/2000/svg" height="48px" width="48px"><path fill="currentColor" d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/></svg>
                 `;
                 locationCard.appendChild(locationFavouriteButton);
+                console.log(locationCard);
                 locationHolder.appendChild(locationCard);
             }
         }

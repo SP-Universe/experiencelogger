@@ -8,30 +8,22 @@
         <meta charset="utf-8">
         <title>$Title - $SiteConfig.Title</title>
         <meta name="description" content="Log all your experiences in one place, organize them and get insights over your visited places.">
-        <link rel="icon" type="image/png" sizes="32x32" href="_resources/app/client/src/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="_resources/app/client/src/images/favicon-16x16.png">
-        <link rel="manifest" href="site.webmanifest">
-        <link rel="mask-icon" href="_resources/app/client/src/images/safari-pinned-tab.svg" color="#266056">
+        <link rel="icon" type="image/png" sizes="32x32" href="../../_resources/app/client/src/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../../_resources/app/client/src/images/favicon-16x16.png">
+        <link rel="manifest" href="../../site.webmanifest">
+        <link rel="mask-icon" href="../../_resources/app/client/src/images/safari-pinned-tab.svg" color="#266056">
         <meta name="msapplication-TileColor" content="#266056">
         <meta name="theme-color" content="#266056">
-        <link rel="stylesheet" href="$Mix('/css/styles.min.css')">
+        <link rel="stylesheet" href="../../_resources/app/client/dist/css/styles.min.css">
 
         <!-- iOS Support -->
         <link rel="apple-touch-icon" sizes="180x180" href="_resources/app/client/src/images/apple-touch-icon.png">
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
-        <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
+        <script src="../../_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
-    <body class="<% if $Darkmode %>theme--dark<% else %>theme--light<% end_if %>">
-        <% include Header %>
-        $Layout
+    <body>
+        <div id="react-entry"></div>
 
-        <div class="cookie_accept_prompt <% if $HasAcceptedCookies %>hide<% end_if %>">
-            <div class="cookie_accept_prompt__content">
-                <p class="cookie_accept_prompt__text">For most of our features to work you need to enable cookies to stay logged in. We don't track any behaviour and don't use ads on this site.</p>
-                <button class="cookie_accept_prompt__button" data-behaviour="cookie_accept_button">Accept functional cookies</button>
-            </div>
-        </div>
-
-        <script src="$Mix('/js/main.js')"></script>
+        <script src="../../_resources/app/client/dist/js/main.js"></script>
     </body>
 </html>
