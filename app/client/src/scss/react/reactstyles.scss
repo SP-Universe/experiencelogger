@@ -2,10 +2,16 @@
 @import "./components/nav.scss";
 
 @import "./components/LocationsCard.scss";
+@import "./pages/PlacesPage.scss";
 
 #react-entry{
     background-color: $ColorBackground;
     min-height: 100vh;
     padding: 0 20px;
     color: $ColorFont;
+}
+
+.page{
+    max-width: 1000px;
+    margin: 0 auto;
 }

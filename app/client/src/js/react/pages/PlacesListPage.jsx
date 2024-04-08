@@ -5,10 +5,8 @@ import PlacesList from "../atoms/PlacesList";
 class PlacesListPage extends React.Component {
     render() {
         return (
-            <div>
+            <div class="page--placeslistpage">
                 <Header SiteTitle="Places"/>
-                <p>Coming soon...</p>
-                <p>Test2</p>
                 <PlacesList />
             </div>
         );
