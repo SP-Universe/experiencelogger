@@ -6,7 +6,7 @@ const PlaceCard = ({ place }) => {
 
     return (
         <div className='place_card' key={place.id}>
-            <Link to={`/places/${place.LocationTitle}`} className='place_entry'>
+            <Link to={`./${place.LocationTitle}`} className='place_entry'>
                 <div className="place_entry_image">
                     <FetchedImage imageID={place.LocationImageID} />
                 </div>

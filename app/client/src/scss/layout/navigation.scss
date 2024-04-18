@@ -1,13 +1,13 @@
 .section.section--navigation{
     position: fixed;
     bottom: 0;
-    background-color: var(--ColorPrimaryDarkTrans);
     backdrop-filter: blur(10px) saturate(180%);
     width: 100%;
     max-width: 100%;
     z-index: 300;
     margin: 0;
     transform: translateY(10px);
+    background-color: $ColorPrimaryDark;
 
     .nav_menu{
         display: flex;

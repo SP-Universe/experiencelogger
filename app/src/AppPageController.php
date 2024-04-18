@@ -19,11 +19,11 @@ namespace {
     /**
  * Class \PageController
  *
- * @property \Page $dataRecord
- * @method \Page data()
- * @mixin \Page
+ * @property \AppPage $dataRecord
+ * @method \AppPage data()
+ * @mixin \AppPage
  */
-    class PageController extends ContentController
+    class AppPageController extends ContentController
     {
         /**
          * An array of actions that can be accessed via a request. Each array element should be an action name, and the
@@ -48,8 +48,8 @@ namespace {
         public function login($request)
         {
             $session = $request->getSession();
-            $appPage = AppPage::get()->first();
-            $link = $appPage->Link();
+            $profilePage = DashboardPage::get()->first();
+            $link = $profilePage->Link();
             $session->set("BackURL", $link);
             return $this->redirect("Security/Login");
         }
@@ -65,33 +65,6 @@ namespace {
         public function getCurrentUser()
         {
             return Security::getCurrentUser();
-        }
-
-        public function getProfilePage()
-        {
-            return ProfilePage::get()->first();
-        }
-
-        public function getRegistrationPage()
-        {
-            return RegistrationPage::get()->first();
-        }
-
-        public function getHomepageLink()
-        {
-            $homepage = Page::get()->filter(['URLSegment' => 'home'])->first()->Link();
-            if ($homepage) {
-                return $homepage;
-            } else {
-                echo "ERROR: Homepage not found";
-            }
-        }
-
-        protected function init()
-        {
-            parent::init();
-            // You can include any CSS or JS required by your project here.
-            // See: https://docs.silverstripe.org/en/developer_guides/templates/requirements/
         }
     }
 }

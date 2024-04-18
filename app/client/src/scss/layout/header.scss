@@ -6,12 +6,11 @@ header {
     background-color: transparent;
     width: 100%;
     filter: none;
-    margin-bottom: -80px;
 
 
     .header_nav{
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         position: relative;
         padding: 0 20px;
@@ -19,23 +18,19 @@ header {
         width: 100%;
         position: relative;
         height: 80px;
-        top: 5px;
         margin-bottom: 80px;
 
         .nav_brand{
             height: 100%;
             aspect-ratio: 1;
-            padding: 10px 10px 0px;
-            position: absolute;
-            left: 50%;
-            top: 35%;
-            transform: translate(-50%, -50%);
             z-index: 100;
             @include media(">desktop") {
                 display: block;
             }
             img {
                 width: 100%;
+                height: 100%;
+                object-fit: contain;
             }
         }
 
