@@ -14,7 +14,7 @@
             <div class="section_location_header">
                 <div class="header_background" style="background-image: url($Image.FocusFill(600,600).Url)"></div>
                 <div class="location_title">
-                    <p>$Type.Title</p>
+                    <p>$Up.LocationType.Title</p>
                     <h1>$Title</h1>
                     <% if $Top.CurrentUser %>
                         <a href="$Top.Link('changeFavourite')\/$LinkTitle?backurl=$AbsoluteLink" class="location_favouritemarker">
@@ -55,14 +55,14 @@
                     <hr/>
                     <h2>States of Experiences</h2>
                     <p>$Experiences.Filter("ParentID", $ID).Count Experiences total</p>
-                    <% if $Experiences.Filter("State", "Active").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Active").Count Active</p><% end_if %>
-                    <% if $Experiences.Filter("State", "In Maintenance").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "In Maintenance").Count In Maintenance</p><% end_if %>
-                    <% if $Experiences.Filter("State", "Coming Soon").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Coming Soon").Count Coming Soon</p><% end_if %>
-                    <% if $Experiences.Filter("State", "Defunct").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Defunct").Count Defunct</p><% end_if %>
-                    <% if $Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
+                    <% if $Up.Experiences.Filter("State", "Active").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Active").Count Active</p><% end_if %>
+                    <% if $Up.Experiences.Filter("State", "In Maintenance").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "In Maintenance").Count In Maintenance</p><% end_if %>
+                    <% if $Up.Experiences.Filter("State", "Coming Soon").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Coming Soon").Count Coming Soon</p><% end_if %>
+                    <% if $Up.Experiences.Filter("State", "Defunct").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Defunct").Count Defunct</p><% end_if %>
+                    <% if $Up.Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
                     <hr/>
                     <h2>Types of Experiences</h2>
-                    <% loop $GroupedExperiences %>
+                    <% loop $Up.GroupedExperiences %>
                         <p>$Children.Count $Children.First.Type.PluralName</p>
                     <% end_loop %>
                 </div>
@@ -158,7 +158,7 @@
                         </select>
                     </div>
                     <div class="experience_list">
-                        <% loop $GroupedExperiencesByState %>
+                        <% loop $Up.GroupedExperiences %>
                             <div class="state_hl" data-behavior="experience-group-headline" data-state="$Children.First.State">
                                 <h2>$Children.First.State</h2>
                             </div>
