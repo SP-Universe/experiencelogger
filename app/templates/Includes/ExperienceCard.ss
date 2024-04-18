@@ -2,7 +2,7 @@
     <div class="experiencedata">
         $JSONCode.Raw
     </div>
-    <a href="$Link" class="experience_entry">
+    <a href="$Top.ExperienceLink" class="experience_entry">
 
         <div class="experience_entry_image" style="background-image: url($PhotoGalleryImages.First.Image.FocusFill(200,200).Url)">
             <div class="experience_markers">

@@ -3,6 +3,9 @@ namespace App\Overview;
 
 use PageController;
 use App\Ratings\Rating;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\Sortable;
+use SilverStripe\ORM\ArrayList;
 use App\Helper\ExperienceHelper;
 use App\Helper\StatisticsHelper;
 use SilverStripe\ORM\GroupedList;
@@ -12,10 +15,8 @@ use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use SilverStripe\ORM\Queries\SQLSelect;
 use App\ExperienceDatabase\ExperienceSeat;
+use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\Sortable;
-use SilverStripe\ORM\SS_List;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -99,6 +100,7 @@ class LocationPageController extends PageController
          //Create the location object
         $location = ExperienceLocation::create();
         $location->Title = $data[0]["LocationTitle"];
+        $location->LinkTitle = $data[0]["LocationLinkTitle"];
         $location->ID = $data[0]["LocationID"];
         $location->Description = $data[0]["LocationDescription"];
         $location->Address = $data[0]["LocationAddress"];
@@ -122,7 +124,6 @@ class LocationPageController extends PageController
 
         //Create all experience objects and put into groupedList
         $experiences = ArrayList::create();
-        $experienceLocation = $row["LocationLinkTitle"];
         foreach ($data as $row) {
             $experience = Experience::create();
             $experience->Title = $row["ExperienceTitle"];
@@ -133,7 +134,7 @@ class LocationPageController extends PageController
             $experience->TypeID = $row["ExperienceTypeID"];
             $experience->Coordinates = $row["ExperienceCoordinates"];
             $experience->LinkTitle = $row["ExperienceLinkTitle"];
-            $experience->Link = $this->Link() . "/experience/" . $experienceLocation . "---" . $experience->LinkTitle;
+            $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
 
             /*$logEntry = LogEntry::create();
             $logEntry->ID = $row["LogEntryID"];
