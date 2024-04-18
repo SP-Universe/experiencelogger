@@ -2,6 +2,11 @@
 
 namespace {
 
+use GraphQL\Language\AST\Location;
+    use SilverStripe\ORM\DB;
+use App\Overview\LocationPage;
+use SilverStripe\Assets\Image;
+
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -206,13 +211,116 @@ namespace {
             return json_encode($data);
         }
 
+
+        //New Places API using SQLSelect
         public function placesnew(HTTPRequest $request)
         {
+            $currentUser = Security::getCurrentUser();
+            $locationsHolder = LocationPage::get()->first();
+
             //BAUSTELLE!
-            $sqlRequest = new SQLSelect();
-            $sqlRequest->setFrom('ExperienceLocation');
-            $sqlRequest->addLeftJoin('ExperienceLocationType', '"ExperienceLocation"."TypeID" = "LocationType"."ID"', 'LocationType');
+            $sqlRequest = new SQLSelect("Location.Title AS Title");
+            $sqlRequest->setFrom('ExperienceLocation AS Location');
+            $sqlRequest->addLeftJoin('ExperienceLocationType', '"Location"."TypeID" = "LocationType"."ID"', 'LocationType');
+            $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
+            $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
+            $sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
+
+            $sqlRequest->addSelect('Location.Title AS LocationTitle');
+            $sqlRequest->addSelect('Location.ID AS LocationID');
+            $sqlRequest->addSelect('Location.Description AS LocationDescription');
+            $sqlRequest->addSelect('Location.Address AS LocationAddress');
+            $sqlRequest->addSelect('Location.Coordinates AS LocationCoordinates');
+            $sqlRequest->addSelect('Location.Website AS LocationWebsite');
+            $sqlRequest->addSelect('Location.ImageID AS LocationImageID');
+
+            $sqlRequest->addSelect('Experience.ID AS ExperienceID');
+            $sqlRequest->addSelect('Experience.Title AS ExperienceTitle');
+            $sqlRequest->addSelect('Experience.State AS ExperienceState');
+
+            $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
+
+            $sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
+            $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
+            $sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
+            $sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
+            $sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
+            $sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
+            $sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
+            $sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
+            $sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
+            $sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
+            $sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
+            $sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
+            $sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');
+
             $sqlResult = $sqlRequest->execute();
+
+            $data = [];
+            foreach ($sqlResult as $row) {
+                $data[] = $row;
+            }
+
+            Image::class;
+
+            //Group Experiences by Location:
+            $groupedData = [];
+
+            foreach ($data as $row) {
+                if ($currentUser) {
+                    if ($row['LocationID'] == $currentUser->FavouritePark) {
+                        $row['FavouritePark'] = true;
+                    } else {
+                        $row['FavouritePark'] = false;
+                    }
+                }
+
+                $groupedData[$row['LocationID']]['LocationTitle'] = $row['LocationTitle'];
+                $groupedData[$row['LocationID']]['LocationDescription'] = $row['LocationDescription'];
+                $groupedData[$row['LocationID']]['LocationAddress'] = $row['LocationAddress'];
+                $groupedData[$row['LocationID']]['LocationCoordinates'] = $row['LocationCoordinates'];
+                $groupedData[$row['LocationID']]['LocationWebsite'] = $row['LocationWebsite'];
+                $groupedData[$row['LocationID']]['LocationImageLink'] = $row['LocationImageID'];
+                $groupedData[$row['LocationID']]['LocationLink'] = $locationsHolder->Link("location\/") . $row['LocationTitle'];
+                $groupedData[$row['LocationID']]['LocationTypeTitle'] = $row['LocationTypeTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
+
+                if ($currentUser) {
+                    if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                    }
+                }
+            }
+
+            $data = [];
+            foreach ($groupedData as $row) {
+                $data[] = $row;
+            }
+
+
+
+            /*$items = DB::Query("
+                SELECT
+                    ExperienceLocation.Title AS LocationTitle,
+                    ExperienceLocationType.Title AS LocationTypeTitle
+                FROM ExperienceLocation
+                LEFT JOIN ExperienceLocationType ON ExperienceLocationType.ID = ExperienceLocation.TypeID
+            ");*/
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
         }
 
         public function addLog(HTTPRequest $request)

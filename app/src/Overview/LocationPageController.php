@@ -1,8 +1,6 @@
 <?php
 namespace App\Overview;
 
-use DateInterval;
-use App\Food\Food;
 use PageController;
 use App\Ratings\Rating;
 use App\Helper\ExperienceHelper;
@@ -11,11 +9,9 @@ use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
-use SilverStripe\Control\HTTPRequest;
 use App\ExperienceDatabase\Experience;
 use SilverStripe\ORM\Queries\SQLSelect;
 use App\ExperienceDatabase\ExperienceSeat;
-use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\Sortable;
@@ -452,11 +448,10 @@ class LocationPageController extends PageController
                         $newlogentryStage->IsLinkedLogged = true;
                         $newlogentryStage->write();
                     }
-                    if (isset($_GET["date"])) {
-                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime($_GET["date"] . " " . $_GET["time"]));
-                    } else {
-                        $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
-                    }
+
+                    //Always use current time for last logged:
+                    $currentUser->LastLogDate = date("Y-m-d H:i:s", strtotime('+' . $hours . ' hours'));
+
                     $currentUser->write();
                 }
 

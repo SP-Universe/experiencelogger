@@ -9,3 +9,5 @@
 .graphql-generated/
 
 silverstripe.log
+
+public/_graphql/

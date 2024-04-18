@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charset="utf-8">
         <title>$Title - $SiteConfig.Title</title>
+        <meta name="description" content="Log all your experiences in one place, organize them and get insights over your visited places.">
         <link rel="icon" type="image/png" sizes="32x32" href="_resources/app/client/src/images/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="_resources/app/client/src/images/favicon-16x16.png">
         <link rel="manifest" href="site.webmanifest">

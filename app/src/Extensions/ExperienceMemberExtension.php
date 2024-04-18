@@ -288,4 +288,39 @@ class ExperienceMemberExtension extends DataExtension
             $validationResult->addFieldError('Nickname', 'Only alphanumeric characters are allowed.');
         }
     }
+
+    public function getFriendStatusToCurrentUser()
+    {
+        $currentUser = Security::getCurrentUser();
+        if ($currentUser) {
+            //First check incoming
+            $friendRequest = FriendRequest::get()->filter([
+                "RequesterID" => $this->owner->ID,
+                "RequesteeID" => $currentUser->ID,
+            ])->first();
+            if ($friendRequest) {
+                if ($friendRequest->FriendshipStatus == "Pending") {
+                    return "IncomingPending";
+                } else {
+                    return "Accepted";
+                }
+            }
+
+            //Then check outgoing
+            if (!$friendRequest) {
+                $friendRequest = FriendRequest::get()->filter([
+                    "RequesterID" => $currentUser->ID,
+                    "RequesteeID" => $this->owner->ID,
+                ])->first();
+            }
+            if ($friendRequest) {
+                if ($friendRequest->FriendshipStatus == "Pending") {
+                    return "OutgoingPending";
+                } else {
+                    return "Accepted";
+                }
+            }
+        }
+        return "NotFriends";
+    }
 }
