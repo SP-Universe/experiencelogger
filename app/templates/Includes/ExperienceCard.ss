@@ -1,8 +1,8 @@
-<div class="experience_card data--loading state-{$State}" data-behaviour="experiencecard" data-title="$Title" data-type="$Type.Title">
+<div class="experience_card data--loadingX state-{$State}" data-behaviour="experiencecardX" data-title="$Title" data-type="$TypeTitle">
     <div class="experiencedata">
         $JSONCode.Raw
     </div>
-    <a href="" class="experience_entry">
+    <a href="$Link" class="experience_entry">
 
         <div class="experience_entry_image" style="background-image: url($PhotoGalleryImages.First.Image.FocusFill(200,200).Url)">
             <div class="experience_markers">
@@ -29,8 +29,8 @@
             </div>
         </div>
         <div class="experience_entry_content">
-            <h2 class="experience_title"> Loading ... </h2>
-            <h4 class="experience_type" data-filter="" data-status="">...</h4>
+            <h2 class="experience_title">$Title</h2>
+            <h4 class="experience_type" data-filter="" data-status="">$TypeTitle</h4>
             <p class="experience_distance" data-behaviour="distance" data-loc="$Coordinates"></p>
         </div>
     </a>
@@ -51,21 +51,6 @@
                     </a>
                 </div>
             <% end_if %>
-            <!--<div class="experience_menu">
-                <a class="experience_menu_symbol" data-behaviour="popup-open" data-popupid="$ID">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </a>
-
-                <div class="experience_menu_popup" data-behaviour="popup" data-popupid="$ID">
-                    <div class="popup_inner">
-                        <a class="popup_closingbutton" data-behaviour="popup-close" data-popupid="$ID"></a>
-                        <h2>Settings for $Title <span>in $Parent.Title</span></h2>
-                        <p>Coming soon</p>
-                    </div>
-                </div>
-            </div>-->
         <% end_if %>
     <% end_if %>
 </div>
