@@ -65,6 +65,10 @@ class LocationPageController extends PageController
         $sqlRequest->addSelect('Experience.State AS ExperienceState');
         $sqlRequest->addSelect('Experience.JSONCode AS ExperienceJSONCode');
         $sqlRequest->addSelect('Experience.Coordinates AS ExperienceCoordinates');
+        $sqlRequest->addSelect('Experience.HasOnridePhoto AS ExperienceHasOnridePhoto');
+        $sqlRequest->addSelect('Experience.HasFastpass AS ExperienceHasFastpass');
+        $sqlRequest->addSelect('Experience.HasSingleRider AS ExperienceHasSingleRider');
+        $sqlRequest->addSelect('Experience.AccessibleToHandicapped AS ExperienceAccessibleToHandicapped');
 
         $sqlRequest->addSelect('ExperienceType.ID AS ExperienceTypeID');
         $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
@@ -135,6 +139,11 @@ class LocationPageController extends PageController
             $experience->Coordinates = $row["ExperienceCoordinates"];
             $experience->LinkTitle = $row["ExperienceLinkTitle"];
             $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
+            $experience->ExperienceAddLogLink = $this->Link() . "/addlog/" . $title . "---" . $experience->LinkTitle;
+            $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
+            $experience->HasFastpass = $row["ExperienceHasFastpass"];
+            $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
+            $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
 
             /*$logEntry = LogEntry::create();
             $logEntry->ID = $row["LogEntryID"];
