@@ -195,6 +195,60 @@ class StatisticsHelper
     }
 
     /**
+     * Get Average amount of logs of experience per park visit
+     * @param integer $userId ID of the checked user
+     * @param Experience $experience Experience to check
+     * @return double Average amount as double
+     */
+    public static function getHighestScoreOfExperienceAllTime($userId, $experience)
+    {
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
+
+        if ($logsInExperience->Count() <= 0) {
+            return -1;
+        }
+        return max($logsInExperience->column("Score"));
+    }
+
+    /**
+     * Get Average amount of logs of experience per park visit
+     * @param integer $userId ID of the checked user
+     * @param Experience $experience Experience to check
+     * @return double Average amount as double
+     */
+    public static function getHighestScoreOfExperiencePerYear($userId, $experience)
+    {
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
+
+        $sortedLogs = []; // year, all scores
+
+        foreach ($logsInExperience as $item) {
+            $visitTime = strtotime($item->VisitTime);
+            $year = date('Y', $visitTime);
+
+            $tempLogs = [];
+            if (in_array($year, $sortedLogs)) {
+                $tempLogs = $sortedLogs[$year];
+            }
+            array_push($tempLogs, $item->Score);
+            $sortedLogs[$year] = $tempLogs;
+        }
+
+        $years = array();
+        foreach ($sortedLogs as $log => $scores) {
+            $construction = array(
+                "year" => $log,
+                "score" => max($scores),
+            );
+            if (!in_array($construction, $years)) {
+                array_push($years, $construction);
+            }
+        }
+
+        return ArrayList::create($years);
+    }
+
+    /**
      * Get Average amount of logs of experience per year
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check
