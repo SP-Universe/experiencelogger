@@ -60,15 +60,18 @@ class StatisticsPageController extends PageController
             "ParentID" => $park->ID
             ))->first();
 
-        $currentUserId = Security::getCurrentUser()->ID;
+        $currentUser = Security::getCurrentUser();
+        if (!$currentUser) {
+            $currentUser = Member::get()->filter("Nickname", "CoasterBot")->first();
+        }
 
         return array(
             "Experience" => $experience,
             "Location" => $park,
-            "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUserId, $experience),
-            "HighestScoreOfExperienceAllTime" => StatisticsHelper::getHighestScoreOfExperienceAllTime($currentUserId, $experience),
-            "HighestScoreOfExperiencePerYear" => StatisticsHelper::getHighestScoreOfExperiencePerYear($currentUserId, $experience),
-            "LogsPerYear" => StatisticsHelper::getRideCounterPerYear($currentUserId, $experience->ID),
+            "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUser->Id, $experience),
+            "HighestScoreOfExperienceAllTime" => StatisticsHelper::getHighestScoreOfExperienceAllTime($currentUser->Id, $experience),
+            "HighestScoreOfExperiencePerYear" => StatisticsHelper::getHighestScoreOfExperiencePerYear($currentUser->Id, $experience),
+            "LogsPerYear" => StatisticsHelper::getRideCounterPerYear($currentUser->Id, $experience->ID),
         );
     }
 
