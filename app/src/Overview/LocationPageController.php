@@ -75,19 +75,19 @@ class LocationPageController extends PageController
 
         $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
 
-        /*$sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
-        $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
-        $sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
-        $sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
-        $sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
-        $sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
-        $sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
-        $sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
-        $sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
-        $sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
-        $sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
-        $sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
-        $sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');*/
+        //$sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
+        //$sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
+        //$sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
+        //$sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
+        //$sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
+        //$sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
+        //$sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
+        //$sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
+        //$sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
+        //$sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
+        //$sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
+        //$sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
+        //$sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');
 
         $sqlResult = $sqlRequest->execute();
 
@@ -126,8 +126,30 @@ class LocationPageController extends PageController
             $experienceTypes->push($experienceType);
         }
 
+        //Create all logEntries
+        /*$logEntries = ArrayList::create();
+        foreach ($data as $row) {
+            $logEntry = LogEntry::create();
+            $logEntry->ID = $row["LogEntryID"];
+            $logEntry->VisitTime = $row["LogEntryVisitTime"];
+            $logEntry->Weather = $row["LogEntryWeather"];
+            $logEntry->Train = $row["LogEntryTrain"];
+            $logEntry->Wagon = $row["LogEntryWagon"];
+            $logEntry->Row = $row["LogEntryRow"];
+            $logEntry->Seat = $row["LogEntrySeat"];
+            $logEntry->Score = $row["LogEntryScore"];
+            $logEntry->Podest = $row["LogEntryPodest"];
+            $logEntry->Variant = $row["LogEntryVariant"];
+            $logEntry->Version = $row["LogEntryVersion"];
+            $logEntry->Notes = $row["LogEntryNotes"];
+            $logEntry->UserID = $row["LogEntryUserID"];
+
+            $logEntries->push($logEntry);
+        }*/
+
         //Create all experience objects and put into groupedList
         $experiences = ArrayList::create();
+        $experiencesActive= ArrayList::create();
         foreach ($data as $row) {
             $experience = Experience::create();
             $experience->Title = $row["ExperienceTitle"];
@@ -145,20 +167,10 @@ class LocationPageController extends PageController
             $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
             $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
 
-            /*$logEntry = LogEntry::create();
-            $logEntry->ID = $row["LogEntryID"];
-            $logEntry->VisitTime = $row["LogEntryVisitTime"];
-            $logEntry->Weather = $row["LogEntryWeather"];
-            $logEntry->Train = $row["LogEntryTrain"];
-            $logEntry->Wagon = $row["LogEntryWagon"];
-            $logEntry->Row = $row["LogEntryRow"];
-            $logEntry->Seat = $row["LogEntrySeat"];
-            $logEntry->Score = $row["LogEntryScore"];
-            $logEntry->Podest = $row["LogEntryPodest"];
-            $logEntry->Variant = $row["LogEntryVariant"];
-            $logEntry->Version = $row["LogEntryVersion"];
-            $logEntry->Notes = $row["LogEntryNotes"];
-            $logEntry->UserID = $row["LogEntryUserID"];*/
+            $experience->LogEntries = LogEntry::get()->filter(array(
+                'ExperienceID' => $experience->ID,
+                'UserID' => Security::getCurrentUser()->ID
+            ));
 
             $experiences->push($experience);
         }
@@ -166,37 +178,28 @@ class LocationPageController extends PageController
         $characterType = ExperienceType::get()->find('Title', 'Character');
 
         $experiencesNotCharacters = ArrayList::create();
+        $characters = ArrayList::create();
         foreach ($experiences as $experience) {
             if ($experience->TypeID != $characterType->ID) {
                 $experiencesNotCharacters->push($experience);
+            } else {
+                $characters->push($experience);
             }
         }
-        $groupedExperiences = GroupedList::create($experiencesNotCharacters)->GroupedBy("State");
+        $groupedExperiences = GroupedList::create($experiencesNotCharacters);
+
+        $success = false;
+        if (isset($_GET["success"])) {
+            $success = $_GET["success"];
+        }
 
         return array(
             "Location" => $location,
             "LocationType" => $locationType,
             "Experiences" => $experiences,
             "GroupedExperiences" => $groupedExperiences,
-        );
-
-
-        //$characterType = ExperienceType::get()->find('Title', 'Character');
-        //return GroupedList::create($this->Experiences()->Filter("TypeID:not", $characterType->ID))->GroupedBy("State");
-
-
-        $article = ExperienceLocation::get()->filter("LinkTitle", $title)->first();
-        $success = false;
-
-        //if get is set, then we are coming from the search page
-        if (isset($_GET["success"])) {
-            $success = $_GET["success"];
-        }
-
-        return array(
+            "Characters" => $characters,
             "Success" => $success,
-            "Location" => $article,
-            "Experiences" => $article->Experiences(),
         );
     }
 

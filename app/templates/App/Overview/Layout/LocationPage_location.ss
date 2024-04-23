@@ -62,7 +62,7 @@
                     <% if $Up.Experiences.Filter("State", "Other").Count > 0 %><p class="sideinfo">$Experiences.Filter("State", "Other").Count Other</p><% end_if %>
                     <hr/>
                     <h2>Types of Experiences</h2>
-                    <% loop $Up.GroupedExperiences %>
+                    <% loop $Up.GroupedExperiences.GroupedBy("TypeID") %>
                         <p>$Children.Count $Children.First.Type.PluralName</p>
                     <% end_loop %>
                 </div>
@@ -77,10 +77,8 @@
                         <input type="text" name="search" id="search-characters" placeholder="Search for a character" />
                     </div>
                     <div class="characters_list">
-                        <% loop $GroupedCharacters %>
-                            <% loop $Children %>
-                                <% include CharacterCard %>
-                            <% end_loop %>
+                        <% loop $Top.Characters %>
+                            <% include CharacterCard LoggedIn=$CurrentUser %>
                         <% end_loop %>
                     </div>
                 </div>
@@ -90,18 +88,12 @@
                 <!--PROGRESS-->
                 <div class="section_part section_location_progress">
                     <h2>Your Progress</h2>
-                    <% if $Top.CurrentUser %>
-                        <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
-                            <p class="location_progress_text">Loading...</p>
-                            <div class="location_progress">
-                                <div class="location_progress_bar" style="width: 0%"></div>
-                            </div>
+                    <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
+                        <p class="location_progress_text">Loading...</p>
+                        <div class="location_progress">
+                            <div class="location_progress_bar" style="width: 0%"></div>
                         </div>
-                    <% else %>
-                        <div class="progress_handler" data-behaviour="location_progress">
-                            <p class="location_progress_text">$Experiences.Filter("State", "Active").Count Experiences</p>
-                        </div>
-                    <% end_if %>
+                    </div>
                     <input type="radio" id="part_progress" name="partselector">
                     <div class="progress_list">
                         <% loop $CurrentUser.getVisitCounterPerYear($ID) %>
@@ -141,13 +133,13 @@
                     <div class="experience_filters" data-behaviour="experiencelist_filters">
                         <select class="experience_filter type" data-behaviour="experiencelist_filter" data-filtertype="type">
                             <option value="all">All Types</option>
-                            <% loop $GroupedExperiences %>
+                            <% loop $Top.GroupedExperiences.GroupedBy("TypeID") %>
                                 <option value="$Children.First.Type.Title">$Children.First.Type.PluralName</option>
                             <% end_loop %>
                         </select>
                         <select class="experience_filter state" data-behaviour="experiencelist_filter" data-filtertype="state">
                             <option value="all">All States</option>
-                            <% loop $GroupedExperiencesByState %>
+                            <% loop $Top.GroupedExperiences.GroupedBy("State") %>
                                 <option value="$Children.First.State">$Children.First.State</option>
                             <% end_loop %>
                         </select>
@@ -158,12 +150,12 @@
                         </select>
                     </div>
                     <div class="experience_list">
-                        <% loop $Up.GroupedExperiences %>
+                        <% loop $Top.GroupedExperiences.GroupedBy("State") %>
                             <div class="state_hl" data-behavior="experience-group-headline" data-state="$Children.First.State">
                                 <h2>$Children.First.State</h2>
                             </div>
                             <% loop $Children %>
-                                <% include ExperienceCard %>
+                                <% include ExperienceCard LoggedIn=$CurrentUser %>
                             <% end_loop %>
                         <% end_loop %>
                     </div>
