@@ -5,7 +5,7 @@
         <hr>
 
         <h2>Logs</h2>
-        <div class="statistics_list list--2">
+        <div class="statistics_list list--5">
             <% loop $LogsPerYear %>
                 <div class="list_item statistics_card card--value">
                     <p class="statistics_value">$logs</p>
@@ -21,17 +21,20 @@
                 <p class="statistics_description">Average Logs Per Visit</p>
             </div>
         </div>        
-        
-        <% if $HighestScoreOfExperienceAllTime > 0 %>  
+        <% if $HighestScoreOfExperienceAllTime.score > 0 %>  
             <h2>Scores</h2>
-            <div class="statistics_list list--2">         
+            <div class="statistics_list list--5">         
                 <div class="list_item statistics_card card--value">
-                    <p class="statistics_value">$HighestScoreOfExperienceAllTime</p>
-                    <p class="statistics_description">Highest Score of all time</p>
+                    <% with $HighestScoreOfExperienceAllTime %>
+                        <p class="statistics_value">$score</p>
+                        <p class="statistics_train">on $trainname</p>
+                        <p class="statistics_description">Highest Score of all time</p>
+                    <% end_with %>
                 </div>
                 <% loop $HighestScoreOfExperiencePerYear %>
                     <div class="list_item statistics_card card--value">
                         <p class="statistics_value">$score</p>
+                        <p class="statistics_train">on $trainname</p>
                         <p class="statistics_description">Highest Score in $year</p>
                     </div>
                 <% end_loop %>

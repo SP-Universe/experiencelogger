@@ -195,26 +195,37 @@ class StatisticsHelper
     }
 
     /**
-     * Get Average amount of logs of experience per park visit
+     * Get highest score of experience of all time
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check
-     * @return double Average amount as double
+     * @return array Highest score and trainname
      */
     public static function getHighestScoreOfExperienceAllTime($userId, $experience)
     {
         $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
 
         if ($logsInExperience->Count() <= 0) {
+            echo "No logs found for this experience";
             return -1;
         }
-        return max($logsInExperience->column("Score"));
+        $maxScore = max($logsInExperience->column("Score"));
+        
+        $log = $logsInExperience->filter(["Score" => $maxScore])->first();
+        $trainname = $experience->getTrainName($log->Train);
+
+        $construction = array(
+            "score" => $maxScore,
+            "trainname" => $trainname,
+        );
+
+        return $construction;
     }
 
     /**
-     * Get Average amount of logs of experience per park visit
+     * Get highest score of experience per year
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check
-     * @return double Average amount as double
+     * @return array year, Highest score and trainname
      */
     public static function getHighestScoreOfExperiencePerYear($userId, $experience)
     {
@@ -235,10 +246,15 @@ class StatisticsHelper
         }
 
         $years = array();
-        foreach ($sortedLogs as $log => $scores) {
+        foreach ($sortedLogs as $year => $scores) {
+            $maxScore = max($scores);
+            $log = $logsInExperience->filter(["Score" => $maxScore])->first();
+            $trainname = $experience->getTrainName($log->Train);
+
             $construction = array(
-                "year" => $log,
-                "score" => max($scores),
+                "year" => $year,
+                "score" => $maxScore,
+                "trainname" => $trainname,
             );
             if (!in_array($construction, $years)) {
                 array_push($years, $construction);
