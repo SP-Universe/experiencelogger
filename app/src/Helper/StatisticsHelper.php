@@ -195,6 +195,76 @@ class StatisticsHelper
     }
 
     /**
+     * Get highest score of experience of all time
+     * @param integer $userId ID of the checked user
+     * @param Experience $experience Experience to check
+     * @return array Highest score and trainname
+     */
+    public static function getHighestScoreOfExperienceAllTime($userId, $experience)
+    {
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
+
+        if ($logsInExperience->Count() <= 0) {
+            echo "No logs found for this experience";
+            return -1;
+        }
+        $maxScore = max($logsInExperience->column("Score"));
+        
+        $log = $logsInExperience->filter(["Score" => $maxScore])->first();
+        $trainname = $experience->getTrainName($log->Train);
+
+        $construction = array(
+            "score" => $maxScore,
+            "trainname" => $trainname,
+        );
+
+        return $construction;
+    }
+
+    /**
+     * Get highest score of experience per year
+     * @param integer $userId ID of the checked user
+     * @param Experience $experience Experience to check
+     * @return array year, Highest score and trainname
+     */
+    public static function getHighestScoreOfExperiencePerYear($userId, $experience)
+    {
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
+
+        $sortedLogs = []; // year, all scores
+
+        foreach ($logsInExperience as $item) {
+            $visitTime = strtotime($item->VisitTime);
+            $year = date('Y', $visitTime);
+
+            $tempLogs = [];
+            if (in_array($year, $sortedLogs)) {
+                $tempLogs = $sortedLogs[$year];
+            }
+            array_push($tempLogs, $item->Score);
+            $sortedLogs[$year] = $tempLogs;
+        }
+
+        $years = array();
+        foreach ($sortedLogs as $year => $scores) {
+            $maxScore = max($scores);
+            $log = $logsInExperience->filter(["Score" => $maxScore])->first();
+            $trainname = $experience->getTrainName($log->Train);
+
+            $construction = array(
+                "year" => $year,
+                "score" => $maxScore,
+                "trainname" => $trainname,
+            );
+            if (!in_array($construction, $years)) {
+                array_push($years, $construction);
+            }
+        }
+
+        return ArrayList::create($years);
+    }
+
+    /**
      * Get Average amount of logs of experience per year
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check

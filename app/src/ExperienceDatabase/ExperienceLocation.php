@@ -176,7 +176,7 @@ class ExperienceLocation extends DataObject
         return false;
     }
 
-    public function getGroupedExperiences()
+    /* public function getGroupedExperiences()
     {
         return GroupedList::create($this->Experiences())->GroupedBy("TypeID");
     }
@@ -192,7 +192,7 @@ class ExperienceLocation extends DataObject
     {
         $characterType = ExperienceType::get()->find('Title', 'Character');
         return GroupedList::create($this->Experiences()->Filter("TypeID", $characterType->ID))->GroupedBy("State");
-    }
+    } */
 
     public function getLink()
     {

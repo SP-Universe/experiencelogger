@@ -66,6 +66,9 @@ class StatisticsPageController extends PageController
             "Experience" => $experience,
             "Location" => $park,
             "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUserId, $experience),
+            "HighestScoreOfExperienceAllTime" => StatisticsHelper::getHighestScoreOfExperienceAllTime($currentUserId, $experience),
+            "HighestScoreOfExperiencePerYear" => StatisticsHelper::getHighestScoreOfExperiencePerYear($currentUserId, $experience),
+            "LogsPerYear" => StatisticsHelper::getRideCounterPerYear($currentUserId, $experience->ID),
         );
     }
 
