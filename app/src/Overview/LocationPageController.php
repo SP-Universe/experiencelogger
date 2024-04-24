@@ -166,7 +166,7 @@ class LocationPageController extends PageController
             $experience->Coordinates = $row["ExperienceCoordinates"];
             $experience->LinkTitle = $row["ExperienceLinkTitle"];
             $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
-            $experience->ExperienceAddLogLink = $this->Link() . "/addlog/" . $title . "---" . $experience->LinkTitle;
+            $experience->ExperienceAddLogLink = $this->Link() . "/addLog/" . $title . "---" . $experience->LinkTitle;
             $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
             $experience->HasFastpass = $row["ExperienceHasFastpass"];
             $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
