@@ -195,6 +195,24 @@ class StatisticsHelper
     }
 
     /**
+     * Get Average amount of logs of experience per park visit
+     * @param integer $userId ID of the checked user
+     * @param Experience $experience Experience to check
+     * @return double Average amount as double
+     */
+    public static function getAverageScoreOfExperience($userId, $experience, $accuracy = 2)
+    {
+        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
+
+        $scoreSum = 0;
+        foreach ($logsInExperience as $logs) {
+            $scoreSum += $logs->Score;
+        }
+
+        return round($scoreSum / $logsInExperience->Count(), $accuracy);
+    }
+
+    /**
      * Get highest score of experience of all time
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check
@@ -234,18 +252,16 @@ class StatisticsHelper
         $sortedLogs = []; // year, all scores
 
         foreach ($logsInExperience as $item) {
-            $visitTime = strtotime($item->VisitTime);
-            $year = date('Y', $visitTime);
+            $year = date('Y', strtotime($item->VisitTime));
 
-            $tempLogs = [];
-            if (in_array($year, $sortedLogs)) {
-                $tempLogs = $sortedLogs[$year];
+            if (!isset($sortedLogs[$year])) {
+                $sortedLogs[$year] = array();
             }
-            array_push($tempLogs, $item->Score);
-            $sortedLogs[$year] = $tempLogs;
+
+            array_push($sortedLogs[$year], $item->Score);
         }
 
-        $years = array();
+        $result = array();
         foreach ($sortedLogs as $year => $scores) {
             $maxScore = max($scores);
             $log = $logsInExperience->filter(["Score" => $maxScore])->first();
@@ -256,12 +272,13 @@ class StatisticsHelper
                 "score" => $maxScore,
                 "trainname" => $trainname,
             );
-            if (!in_array($construction, $years)) {
-                array_push($years, $construction);
+            if (!in_array($construction, $result)) {
+                array_push($result, $construction);
             }
         }
 
-        return ArrayList::create($years);
+        return ArrayList::create($result);
+        
     }
 
     /**

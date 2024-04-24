@@ -19,7 +19,13 @@
             <div class="list_item statistics_card card--value">
                 <p class="statistics_value">$AverageLogsPerVisit</p>
                 <p class="statistics_description">Average Logs Per Visit</p>
-            </div>
+            </div>          
+            <% if $AverageScore > 0 %>  
+                <div class="list_item statistics_card card--value">
+                    <p class="statistics_value">$AverageScore</p>
+                    <p class="statistics_description">Average Score</p>
+                </div>
+            <% end_if %>
         </div>        
         <% if $HighestScoreOfExperienceAllTime.score > 0 %>  
             <h2>Scores</h2>
