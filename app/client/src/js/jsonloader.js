@@ -4,7 +4,7 @@
 let experiencecards = document.querySelectorAll('[data-behaviour="experiencecard"]');
 
 //console.log(experiencecards);
-if(experiencecards.length){
+/*if(experiencecards.length){
     experiencecards.forEach(experiencecard => {
         if(experiencecard.querySelector('.experiencedata').textContent) {
             var rawexperience = experiencecard.querySelector('.experiencedata');
@@ -27,7 +27,7 @@ if(experiencecards.length){
             experiencecard.classList.remove("data--loading");
         }
     });
-}
+}*/
 
 
 //Load Experiencecard
