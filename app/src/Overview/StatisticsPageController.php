@@ -37,7 +37,7 @@ class StatisticsPageController extends PageController
         $averageVisitsPerYear = StatisticsHelper::getAverageVisitsPerYear($currentUserId, $location->ID);
         $averageLogsPerVisit = StatisticsHelper::getAverageLogCountPerVisit($currentUserId, $location->ID);
         $mostLoggedExperiencePerVisitAllTime = StatisticsHelper::getMostLoggedExperiencePerVisitAllTime($currentUserId, $location->ID); //returns experience
-        $mostLoggedExperiencePerVisitPerYear = StatisticsHelper::getMostLoggedExperiencePerVisitPerYear($currentUserId, $location->ID); //returns array with year and experience
+        $mostLoggedExperiencePerYear = StatisticsHelper::getMostLoggedExperiencePerYear($currentUserId, $location->ID); //returns array with year and experience
 
         return array(
             "Location" => $location,
@@ -45,7 +45,7 @@ class StatisticsPageController extends PageController
             "AverageVisitsPerYear" => $averageVisitsPerYear,
             "AverageLogsPerVisit" => $averageLogsPerVisit,
             "MostLoggedExperiencePerVisitAllTime" => $mostLoggedExperiencePerVisitAllTime,
-            "MostLoggedExperiencePerVisitPerYear" => $mostLoggedExperiencePerVisitPerYear,
+            "MostLoggedExperiencePerYear" => $mostLoggedExperiencePerYear,
         );
     }
 
@@ -60,15 +60,18 @@ class StatisticsPageController extends PageController
             "ParentID" => $park->ID
             ))->first();
 
-        $currentUserId = Security::getCurrentUser()->ID;
+        $currentUser = Security::getCurrentUser();
+        if (!$currentUser) {
+            $currentUser = Member::get()->filter("Nickname", "CoasterBot")->first();
+        }
 
         return array(
             "Experience" => $experience,
             "Location" => $park,
-            "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUserId, $experience),
-            "HighestScoreOfExperienceAllTime" => StatisticsHelper::getHighestScoreOfExperienceAllTime($currentUserId, $experience),
-            "HighestScoreOfExperiencePerYear" => StatisticsHelper::getHighestScoreOfExperiencePerYear($currentUserId, $experience),
-            "LogsPerYear" => StatisticsHelper::getRideCounterPerYear($currentUserId, $experience->ID),
+            "AverageLogsPerVisit" => StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUser->Id, $experience),
+            "HighestScoreOfExperienceAllTime" => StatisticsHelper::getHighestScoreOfExperienceAllTime($currentUser->Id, $experience),
+            "HighestScoreOfExperiencePerYear" => StatisticsHelper::getHighestScoreOfExperiencePerYear($currentUser->Id, $experience),
+            "LogsPerYear" => StatisticsHelper::getRideCounterPerYear($currentUser->Id, $experience->ID),
         );
     }
 

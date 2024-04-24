@@ -50,6 +50,11 @@ class LocationPageController extends PageController
         $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
         //$sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
 
+        $currentUser = Security::getCurrentUser();
+        if (!$currentUser) {
+            $currenUser = null;
+        }
+
         $sqlRequest->addSelect('Location.Title AS LocationTitle');
         $sqlRequest->addSelect('Location.ID AS LocationID');
         $sqlRequest->addSelect('Location.Description AS LocationDescription');
@@ -161,16 +166,18 @@ class LocationPageController extends PageController
             $experience->Coordinates = $row["ExperienceCoordinates"];
             $experience->LinkTitle = $row["ExperienceLinkTitle"];
             $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
-            $experience->ExperienceAddLogLink = $this->Link() . "/addlog/" . $title . "---" . $experience->LinkTitle;
+            $experience->ExperienceAddLogLink = $this->Link() . "/addLog/" . $title . "---" . $experience->LinkTitle;
             $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
             $experience->HasFastpass = $row["ExperienceHasFastpass"];
             $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
             $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
 
-            $experience->LogEntries = LogEntry::get()->filter(array(
-                'ExperienceID' => $experience->ID,
-                'UserID' => Security::getCurrentUser()->ID
-            ));
+            if ($currentUser) {
+                $experience->LogEntries = LogEntry::get()->filter(array(
+                    'ExperienceID' => $experience->ID,
+                    'UserID' => Security::getCurrentUser()->ID
+                ));
+            }
 
             $experiences->push($experience);
         }
