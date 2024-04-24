@@ -227,8 +227,7 @@ class StatisticsHelper
         $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
 
         if ($logsInExperience->Count() <= 0) {
-            echo "No logs found for this experience";
-            return -1;
+            return array("score" => 0, "trainname" => null);
         }
         $maxScore = max($logsInExperience->column("Score"));
 
@@ -247,7 +246,7 @@ class StatisticsHelper
      * Get highest score of experience per year
      * @param integer $userId ID of the checked user
      * @param Experience $experience Experience to check
-     * @return array year, Highest score and trainname
+     * @return ArrayList year, Highest score and trainname
      */
     public static function getHighestScoreOfExperiencePerYear($userId, $experience)
     {
@@ -282,7 +281,6 @@ class StatisticsHelper
         }
 
         return ArrayList::create($result);
-
     }
 
     /**
