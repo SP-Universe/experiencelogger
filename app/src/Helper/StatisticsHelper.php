@@ -204,6 +204,10 @@ class StatisticsHelper
     {
         $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:GreaterThan" => 0]);
 
+        if ($logsInExperience->Count() == 0) {
+            return 0;
+        }
+
         $scoreSum = 0;
         foreach ($logsInExperience as $logs) {
             $scoreSum += $logs->Score;
@@ -227,7 +231,7 @@ class StatisticsHelper
             return -1;
         }
         $maxScore = max($logsInExperience->column("Score"));
-        
+
         $log = $logsInExperience->filter(["Score" => $maxScore])->first();
         $trainname = $experience->getTrainName($log->Train);
 
@@ -278,7 +282,7 @@ class StatisticsHelper
         }
 
         return ArrayList::create($result);
-        
+
     }
 
     /**
