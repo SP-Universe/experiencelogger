@@ -37,7 +37,7 @@ class StatisticsPageController extends PageController
         $averageVisitsPerYear = StatisticsHelper::getAverageVisitsPerYear($currentUserId, $location->ID);
         $averageLogsPerVisit = StatisticsHelper::getAverageLogCountPerVisit($currentUserId, $location->ID);
         $mostLoggedExperiencePerVisitAllTime = StatisticsHelper::getMostLoggedExperiencePerVisitAllTime($currentUserId, $location->ID); //returns experience
-        $mostLoggedExperiencePerVisitPerYear = StatisticsHelper::getMostLoggedExperiencePerVisitPerYear($currentUserId, $location->ID); //returns array with year and experience
+        $mostLoggedExperiencePerYear = StatisticsHelper::getMostLoggedExperiencePerYear($currentUserId, $location->ID); //returns array with year and experience
 
         return array(
             "Location" => $location,
@@ -45,7 +45,7 @@ class StatisticsPageController extends PageController
             "AverageVisitsPerYear" => $averageVisitsPerYear,
             "AverageLogsPerVisit" => $averageLogsPerVisit,
             "MostLoggedExperiencePerVisitAllTime" => $mostLoggedExperiencePerVisitAllTime,
-            "MostLoggedExperiencePerVisitPerYear" => $mostLoggedExperiencePerVisitPerYear,
+            "MostLoggedExperiencePerYear" => $mostLoggedExperiencePerYear,
         );
     }
 

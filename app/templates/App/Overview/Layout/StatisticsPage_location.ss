@@ -42,10 +42,10 @@
         <hr>
         <h2>Most logged experience per year:</h2>
         <div class="statistics_list list--3">
-            <% loop MostLoggedExperiencePerVisitPerYear %>
+            <% loop MostLoggedExperiencePerYear %>
                 <div class="list_item statistics_card card--value">
                 <p class="statistics_value">$experience.Title</p>
-                <p class="statistics_description">Most logged in $year</p>
+                <p class="statistics_description">Most logged ($count times) in $year</p>
             </div>
             <% end_loop %>
         </div>
