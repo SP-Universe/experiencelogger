@@ -40,6 +40,7 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property bool $HasRows
  * @property bool $HasSeats
  * @property string $HasScore
+ * @property string $ScoreVehicleTitle
  * @property int $HasPodest
  * @property string $SeatOrientation
  * @property string $Description
@@ -91,6 +92,7 @@ class Experience extends DataObject
         "HasRows" => "Boolean",
         "HasSeats" => "Boolean",
         "HasScore" => "Varchar(255)",
+        "ScoreVehicleTitle" => "Varchar(255)",
         "HasPodest" => "Int",
         "SeatOrientation" => "Varchar(255)",
         "Description" => "HTMLText",
@@ -334,6 +336,15 @@ class Experience extends DataObject
             "text" => "Text Score",
             "time" => "Time Score"
         )));
+
+        $fields->addFieldToTab('Root.Other', new DropdownField('ScoreVehicleTitle', 'Score per', array(
+            "0" => "None",
+            "train" => "Train",
+            "wagon" => "Wagon",
+            "row" => "Row",
+            "seat" => "Seat"
+        )));
+
         $fields->addFieldToTab('Root.Other', new DropdownField('HasPodest', 'Number of Podest places', array(
             "0" => "No Podest",
             "1" => "1 Position",
@@ -478,6 +489,63 @@ class Experience extends DataObject
             } else {
                 return $number;
             }
+        }
+    }
+
+    public function getWagonName($trainnumber, $wagonnumber)
+    {
+        if ($this->ExperienceTrains()->count() == 0) {
+            return $wagonnumber;
+        } else {
+            $train = $this->ExperienceTrains()->filter("SortOrder", $trainnumber)->first();
+            if ($train) {
+                $wagon = $train->Wagons()->filter("SortOrder", $wagonnumber)->first();
+                if ($wagon) {
+                    return $wagon->Title;
+                }
+            }
+            return $wagonnumber;
+        }
+    }
+
+    public function getRowName($trainnumber, $wagonnumber, $rownumber)
+    {
+        if ($this->ExperienceTrains()->count() == 0) {
+            return $rownumber;
+        } else {
+            $train = $this->ExperienceTrains()->filter("SortOrder", $trainnumber)->first();
+            if ($train) {
+                $wagon = $train->Wagons()->filter("SortOrder", $wagonnumber)->first();
+                if ($wagon) {
+                    $row = $wagon->Rows()->filter("SortOrder", $rownumber)->first();
+                    if ($row) {
+                        return $row->Title;
+                    }
+                }
+            }
+            return $rownumber;
+        }
+    }
+
+    public function getSeatName($trainnumber, $wagonnumber, $rownumber, $seatnumber)
+    {
+        if ($this->ExperienceTrains()->count() == 0) {
+            return $seatnumber;
+        } else {
+            $train = $this->ExperienceTrains()->filter("SortOrder", $trainnumber)->first();
+            if ($train) {
+                $wagon = $train->Wagons()->filter("SortOrder", $wagonnumber)->first();
+                if ($wagon) {
+                    $row = $wagon->Rows()->filter("SortOrder", $rownumber)->first();
+                    if ($row) {
+                        $seat = $row->Seats()->filter("SortOrder", $seatnumber)->first();
+                        if ($seat) {
+                            return $seat->Title;
+                        }
+                    }
+                }
+            }
+            return $seatnumber;
         }
     }
 
