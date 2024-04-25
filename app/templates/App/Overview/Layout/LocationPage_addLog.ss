@@ -146,17 +146,17 @@
                 <% end_if %>
 
                 <!--SCORE-->
-                <% if $HasScore == "numeric" || $HasPodest > 0 || $HasScore == "text" || $HasScore == "time" %>
+                <% if $HasScore == "numericHighest" || $HasScore == "numericLowest" || $HasPodest > 0 || $HasScore == "text" || $HasScore == "timeHighest" || $HasScore == "timeLowest" %>
                     <div class="log_wrap loggroup--score">
                         <h2>Score</h2>
                         <form-group class="logging_group">
-                            <% if $HasScore == "numeric" %>
+                            <% if $HasScore == "numericHighest" || $HasScore == "numericLowest" %>
                                 <label for="score">Score</label>
                                 <input type="numeric" id="score" name="score">
                             <% else_if $HasScore == "text" %>
                                 <label for="score">Score</label>
                                 <input type="text" id="score" name="score">
-                            <% else_if $HasScore == "time" %>
+                            <% else_if $HasScore == "timeHighest" || $HasScore == "timeLowest" %>
                                 <label for="score">Time</label>
                                 <input type="time" id="score" name="score" step="1">
                             <% end_if %>
