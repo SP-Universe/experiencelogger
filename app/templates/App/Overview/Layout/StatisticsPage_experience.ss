@@ -9,7 +9,7 @@
             <% loop $LogsPerYear %>
                 <div class="list_item statistics_card card--value">
                     <p class="statistics_value">$logs</p>
-                    <p class="statistics_description">Logs in $year</p>
+                    <p class="statistics_description">Log<% if $logs > 1 %>s<% end_if %> in $year</p>
                 </div>
             <% end_loop %>
         </div>   
@@ -33,15 +33,15 @@
                 <div class="list_item statistics_card card--value">
                     <% with $HighestScoreOfExperienceAllTime %>
                         <p class="statistics_value">$score</p>
-                        <p class="statistics_train">on $trainname</p>
-                        <p class="statistics_description">Highest Score of all time</p>
+                        <p class="statistics_train">$trainname</p>
+                        <p class="statistics_description">Best Score of all time</p>
                     <% end_with %>
                 </div>
                 <% loop $HighestScoreOfExperiencePerYear %>
                     <div class="list_item statistics_card card--value">
                         <p class="statistics_value">$score</p>
-                        <p class="statistics_train">on $trainname</p>
-                        <p class="statistics_description">Highest Score in $year</p>
+                        <p class="statistics_train">$trainname</p>
+                        <p class="statistics_description">Best Score in $year</p>
                     </div>
                 <% end_loop %>
             </div>

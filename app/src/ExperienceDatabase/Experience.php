@@ -332,9 +332,11 @@ class Experience extends DataObject
 
         $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', array(
             "0" => "No Score",
-            "numeric" => "Numeric Score",
+            "numericHighest" => "Numeric Score - Highest",
+            "numericLowest" => "Numeric Score - Lowest",
             "text" => "Text Score",
-            "time" => "Time Score"
+            "timeHighest" => "Time Score - Highest",
+            "timeLowest" => "Time Score - Lowest"
         )));
 
         $fields->addFieldToTab('Root.Other', new DropdownField('ScoreVehicleTitle', 'Score per', array(
