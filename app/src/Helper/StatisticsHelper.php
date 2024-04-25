@@ -249,7 +249,11 @@ class StatisticsHelper
         if ($experience->HasScore == "0") {
             return null;
         }
-        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:not" => ""]);
+        $logsInExperience = ArrayList::create();
+        $logEntries = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:not" => ""]);
+        foreach ($logEntries as $log) {
+            $logsInExperience->push($log);
+        }
         foreach ($logsInExperience as $log) {
             if ($log->Score == null || $log->Score == "" || $log->Score == 0) {
                 $logsInExperience->remove($log);
@@ -321,7 +325,11 @@ class StatisticsHelper
         if ($experience->HasScore == "0") {
             return null;
         }
-        $logsInExperience = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:not" => ""]);
+        $logsInExperience = ArrayList::create();
+        $logEntries = LogEntry::get()->filter(["ExperienceID" => $experience->ID, "UserID" => $userId, "Score:not" => ""]);
+        foreach ($logEntries as $log) {
+            $logsInExperience->push($log);
+        }
         foreach ($logsInExperience as $log) {
             if ($log->Score == null || $log->Score == "" || $log->Score == 0) {
                 $logsInExperience->remove($log);
