@@ -146,7 +146,7 @@
                 <% end_if %>
 
                 <!--SCORE-->
-                <% if $HasScore == "numericHighest" || $HasScore == "numericLowest" || $HasPodest > 0 || $HasScore == "text" || $HasScore == "timeHighest" || $HasScore == "timeLowest" %>
+                <% if $HasScore != 0 %>
                     <div class="log_wrap loggroup--score">
                         <h2>Score</h2>
                         <form-group class="logging_group">
