@@ -232,7 +232,25 @@ class StatisticsHelper
         $maxScore = max($logsInExperience->column("Score"));
 
         $log = $logsInExperience->filter(["Score" => $maxScore])->first();
-        $trainname = $experience->getTrainName($log->Train);
+        $trainname = "";
+
+        switch ($experience->ScoreVehicleTitle) {
+            default:
+                $trainname = "";
+                break;
+            case "train":
+                $trainname = $experience->getTrainName($log->Train);
+                break;
+            case "wagon":
+                $trainname = $experience->getWagonName($log->Train, $log->Wagon);
+                break;
+            case "row":
+                $trainname = $experience->getRowName($log->Train, $log->Wagon, $log->Row);
+                break;
+            case "seat":
+                $trainname = $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat);
+                break;
+        }
 
         $construction = array(
             "score" => $maxScore,
@@ -268,7 +286,25 @@ class StatisticsHelper
         foreach ($sortedLogs as $year => $scores) {
             $maxScore = max($scores);
             $log = $logsInExperience->filter(["Score" => $maxScore])->first();
-            $trainname = $experience->getTrainName($log->Train);
+            $trainname = "";
+            
+            switch ($experience->ScoreVehicleTitle) {
+                default:
+                    $trainname = "";
+                    break;
+                case "train":
+                    $trainname = $experience->getTrainName($log->Train);
+                    break;
+                case "wagon":
+                    $trainname = $experience->getWagonName($log->Train, $log->Wagon);
+                    break;
+                case "row":
+                    $trainname = $experience->getRowName($log->Train, $log->Wagon, $log->Row);
+                    break;
+                case "seat":
+                    $trainname = $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat);
+                    break;
+            }
 
             $construction = array(
                 "year" => $year,
