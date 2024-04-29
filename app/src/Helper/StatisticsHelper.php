@@ -611,38 +611,40 @@ class StatisticsHelper
     {
         $logs = self::getLogsOfUser($userId);
 
-        $uniqueDates = [];
-        $yearCounts = [];
+
+        $sortedLogs = []; // year, all scores
+
         foreach ($logs as $item) {
-            $visitTime = strtotime($item->VisitTime);
+            $year = date('Y', strtotime($item->VisitTime));
 
-            $date = date('Y-m-d', $visitTime);
-
-            if (!in_array($date, $uniqueDates)) {
-                $uniqueDates[] = $date;
-                $year = date('Y', strtotime($date));
-                if (!isset($yearCounts[$year])) {
-                    $yearCounts[$year] = [];
-                }
-                if (!isset($yearCounts[$year][$item->ExperienceID])) {
-                    $yearCounts[$year][$item->ExperienceID] = 0;
-                }
-                $yearCounts[$year][$item->ExperienceID] += 1;
+            if (!isset($sortedLogs[$year])) {
+                $sortedLogs[$year] = array();
             }
+            $experienceID = $item->ExperienceID;
+            if (!isset($sortedLogs[$year][$experienceID])) {
+                $sortedLogs[$year][$experienceID] = 0;
+            }
+            $sortedLogs[$year][$experienceID] += 1;
         }
 
-        $years = array();
-        foreach ($uniqueDates as $log) {
-            $year = date("Y", strtotime($log));
-            $construction = array(
+        $result = array();
+        foreach ($sortedLogs as $year => $experienceCounts) {
+            $maxCount = 0;
+            $maxExperienceID = null;
+            foreach ($experienceCounts as $experienceID => $count) {
+                if ($count > $maxCount) {
+                    $maxCount = $count;
+                    $maxExperienceID = $experienceID;
+                }
+            }
+            
+            $result[$year] = array(
                 "year" => $year,
-                "experience" => Experience::get()->byID(array_search(max($yearCounts[$year]), $yearCounts[$year])),
+                "experience" => Experience::get()->byID($maxExperienceID),
+                "count" => $maxCount
             );
-            if (!in_array($construction, $years)) {
-                array_push($years, $construction);
-            }
         }
 
-        return ArrayList::create($years);
+        return ArrayList::create($result);
     }
 }
