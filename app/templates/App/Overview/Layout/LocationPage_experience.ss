@@ -39,17 +39,25 @@
                 <h1>$Title</h1>
                 <h4>$Type.Title <% if $Stage %><span>in</span> <a href="$Stage.Link">$Stage.Title</a><% else_if $Area %><span>in</span> <a href="$Area.Link">$Area.Title</a><% end_if %></h4>
                 $Description
+                <div class="experience_buttons">
+                    <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
+                    <a class="experience_button" href="$SeatchartLink">Seatchart & Logs</a>
+                    <% if $Logs.Count > 0 && $CurrentUser %> <a class="experience_button" href="$StatisticsLink">Statistics</a><% end_if %>
+                </div>
                 <% if $NumberOfRatings %>
                     <div class="experience_ratings">
                         <div class="ratingdisplay" style="--stars: $Rating" title="$Rating Stars"></div>
                         <p>$NumberOfRatings <% if $NumberOfRatings > 1 %>Ratings<% else %>Rating<% end_if %></p>
                     </div>
                 <% end_if %>
-                <div class="experience_buttons">
-                    <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
-                    <a class="experience_button" href="$SeatchartLink">Seatchart & Logs</a>
-                    <% if $Logs.Count > 0 && $CurrentUser %> <a class="experience_button" href="$StatisticsLink">Statistics</a><% end_if %>
-                </div>
+                <% if $TrainNumberPosition %>
+                    <div class="trainNumberPosition">                                
+                        <div class="info_icon">
+                            <svg width="100%" height="100%" viewBox="0 0 2134 2134"><path fill="currentColor" d="M2032.31,1066.67c0,532.48 -433.158,965.638 -965.638,965.638c-532.481,0 -965.639,-433.158 -965.639,-965.638c-0,-532.481 433.158,-965.639 965.639,-965.639c532.48,-0 965.638,433.158 965.638,965.639Zm-165.538,-0c0,-441.435 -358.665,-800.101 -800.1,-800.101c-441.435,-0 -800.101,358.666 -800.101,800.101c-0,441.435 358.666,800.1 800.101,800.1c441.435,2.759 800.1,-358.665 800.1,-800.1Zm-800.1,-140.708c46.902,0 82.769,35.867 82.769,82.769l-0,422.122c-0,46.903 -35.867,82.769 -82.769,82.769c-46.903,0 -82.769,-35.866 -82.769,-82.769l-0,-422.122c-0,-46.902 35.866,-82.769 82.769,-82.769Zm-0,-303.486c22.071,-0 44.143,8.277 63.456,24.831c16.554,13.794 24.831,35.866 24.831,57.938c-0,5.518 -2.759,11.036 -2.759,16.554c-2.759,5.518 -2.759,11.036 -5.518,16.553c-2.759,5.518 -5.518,8.277 -8.277,13.795c-2.759,5.518 -8.277,11.036 -11.036,13.795c-30.349,30.349 -85.528,30.349 -115.877,0c-5.518,-5.518 -8.277,-8.277 -11.036,-13.795c-2.759,-5.518 -5.518,-8.277 -8.276,-13.795c-2.759,-5.517 -5.518,-11.035 -5.518,-16.553c-2.759,-5.518 -2.759,-11.036 -2.759,-16.554c-0,-22.072 8.277,-44.144 24.83,-57.938c13.795,-16.554 35.867,-24.831 57.939,-24.831Z"/></svg>
+                        </div>
+                        <p>$TrainNumberPosition</p>
+                    </div>
+                <% end_if %>
             </div>
 
             <% if $Type.Title = "Area" %>
