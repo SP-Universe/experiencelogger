@@ -8,6 +8,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\Security\Member;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
+use App\ExperienceDatabase\ExperienceType;
 use SilverStripe\Security\Security;
 
 class StatisticsHelper
@@ -645,6 +646,34 @@ class StatisticsHelper
             );
         }
 
+        return ArrayList::create($result);
+    }
+
+    public static function getCounts($userId)
+    {
+        $logs = self::getLogsOfUser($userId);
+        $counts = [];
+        foreach ($logs as $log) {
+            $id = $log->ExperienceID;
+            if (!in_array($id, $counts)) {
+                $coasterType = ExperienceType::get()->filter("Title", "Coaster")->first()->ID;
+                $typeId = Experience::get()->byID($id)->TypeID;
+                if (strcasecmp($typeId, $coasterType) == 0) {
+                    array_push($counts, $id);
+                }
+            }
+        }
+
+        $result = array();
+        foreach ($counts as $count) {
+            $getLog = $logs->filter("ExperienceID", $count)->sort("VisitTime", "ASC")->first();
+            $result[$count] = array(
+                "VisitTime" => $getLog->VisitTime,
+                "Name" => Experience::get()->byID($count)->Title,
+            );
+        }
+        $column = array_column($result, 'VisitTime');
+        array_multisort($column, SORT_DESC, $result);
         return ArrayList::create($result);
     }
 }

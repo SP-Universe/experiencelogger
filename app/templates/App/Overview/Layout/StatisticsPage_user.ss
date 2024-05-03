@@ -24,6 +24,17 @@
                 </div>
                 <% end_loop %>
             </div>
+            <hr>
+            <h2>Counts:</h2>
+            <div class="statistics_list list--3">
+                <% loop Counts %>
+                    <div class="list_item statistics_card card--value">
+                        <p>$FromEnd</p>
+                        <p>$Name</p>
+                        <p>$VisitTime</p>
+                    </div>
+                <% end_loop %>
+            </div>
         <% else_if $User.ProfilePrivacy == "Friends" %>
             <p>ProfilePrivacy is not yet supported for statistics...</p>
             <p>This Profile is for friends only.</p>
