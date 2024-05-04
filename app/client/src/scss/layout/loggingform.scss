@@ -12,6 +12,21 @@
 
         .logging_form{
 
+            .log_wrap{
+                .trainNumberPosition{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    font-style: italic;
+
+                    .info_icon{
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
             .logging_group{
                 display: flex;
                 flex-wrap: wrap;

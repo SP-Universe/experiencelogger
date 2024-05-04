@@ -19,8 +19,21 @@
                 <% loop MostLoggedExperiencePerYear %>
                     <div class="list_item statistics_card card--value">
                     <p class="statistics_value">$experience.Title</p>
+                    <p class="statistics_parent">in $experience.Parent.Title</p>
                     <p class="statistics_description">Most logged in $year</p>
                 </div>
+                <% end_loop %>
+            </div>
+            <hr>
+            <h2>Counts:</h2>
+            <div class="statistics_list list--3">
+                <% loop Counts %>
+                    <div class="list_item statistics_card card--value">
+                        <p>$FromEnd</p>
+                        <p class="statistics_value">$experience</p>
+                        <p class="statistics_parent">in $ParentName</p>
+                        <p class="statistics_description">$VisitTime</p>
+                    </div>
                 <% end_loop %>
             </div>
         <% else_if $User.ProfilePrivacy == "Friends" %>

@@ -90,6 +90,7 @@ class StatisticsPageController extends PageController
             "User" => $currentUser,
             "MostLoggedExperienceAllTime" => StatisticsHelper::getMostLoggedExperienceOfUserAllTime($currentUser->ID),
             "MostLoggedExperiencePerYear" => StatisticsHelper::getMostLoggedExperienceOfUserPerYear($currentUser->ID),
+            "Counts" => StatisticsHelper::getCounts($currentUser->ID),
         );
     }
 }

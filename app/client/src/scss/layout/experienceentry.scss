@@ -88,6 +88,20 @@
                     }
                 }
             }
+            
+            .trainNumberPosition{
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                gap: 10px;
+                font-style: italic;
+                margin-top: 10px;
+
+                .info_icon{
+                    width: 20px;
+                    height: 20px;
+                }
+            }
 
             .experience_ratings{
                 display: flex;

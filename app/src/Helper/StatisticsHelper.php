@@ -8,6 +8,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\Security\Member;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
+use App\ExperienceDatabase\ExperienceType;
 use SilverStripe\Security\Security;
 
 class StatisticsHelper
@@ -611,38 +612,76 @@ class StatisticsHelper
     {
         $logs = self::getLogsOfUser($userId);
 
-        $uniqueDates = [];
-        $yearCounts = [];
+
+        $sortedLogs = []; // year, all scores
+
         foreach ($logs as $item) {
-            $visitTime = strtotime($item->VisitTime);
+            $year = date('Y', strtotime($item->VisitTime));
 
-            $date = date('Y-m-d', $visitTime);
-
-            if (!in_array($date, $uniqueDates)) {
-                $uniqueDates[] = $date;
-                $year = date('Y', strtotime($date));
-                if (!isset($yearCounts[$year])) {
-                    $yearCounts[$year] = [];
-                }
-                if (!isset($yearCounts[$year][$item->ExperienceID])) {
-                    $yearCounts[$year][$item->ExperienceID] = 0;
-                }
-                $yearCounts[$year][$item->ExperienceID] += 1;
+            if (!isset($sortedLogs[$year])) {
+                $sortedLogs[$year] = array();
             }
+            $experienceID = $item->ExperienceID;
+            if (!isset($sortedLogs[$year][$experienceID])) {
+                $sortedLogs[$year][$experienceID] = 0;
+            }
+            $sortedLogs[$year][$experienceID] += 1;
         }
 
-        $years = array();
-        foreach ($uniqueDates as $log) {
-            $year = date("Y", strtotime($log));
-            $construction = array(
+        $result = array();
+        foreach ($sortedLogs as $year => $experienceCounts) {
+            $maxCount = 0;
+            $maxExperienceID = null;
+            foreach ($experienceCounts as $experienceID => $count) {
+                if ($count > $maxCount) {
+                    $maxCount = $count;
+                    $maxExperienceID = $experienceID;
+                }
+            }
+            
+            $result[$year] = array(
                 "year" => $year,
-                "experience" => Experience::get()->byID(array_search(max($yearCounts[$year]), $yearCounts[$year])),
+                "experience" => Experience::get()->byID($maxExperienceID),
+                "count" => $maxCount
             );
-            if (!in_array($construction, $years)) {
-                array_push($years, $construction);
+        }
+
+        return ArrayList::create($result);
+    }
+
+    public static function getCounts($userId)
+    {
+        $logs = self::getLogsOfUser($userId);
+
+        $experienceType = ExperienceType::get()->filter("Title", "Coaster")->first()->ID;
+        $coasterIds = Experience::get()->filter("TypeID", $experienceType)->columnUnique();
+
+        // Die Anzahl der einzigartigen Achterbahn-IDs zählen
+        $uniqueCoasterIds = [];
+        foreach ($logs as $log) {
+            $id = $log->ExperienceID;
+            if (in_array($id, $coasterIds) && !in_array($id, $uniqueCoasterIds)) {
+                $uniqueCoasterIds[] = $id;
             }
         }
 
-        return ArrayList::create($years);
+        // Die Daten für die eindeutigen Achterbahn-IDs sammeln
+        $result = [];
+        foreach ($uniqueCoasterIds as $id) {
+            $log = $logs->filter("ExperienceID", $id)->sort("VisitTime", "ASC")->first();
+            $experience = $log->Experience();
+            $result[$id] = [
+                "VisitTime" => $log->VisitTime,
+                "experience" => $experience->Title,
+                "ParentName" => $experience->Parent()->Title,
+            ];
+        }
+
+        // Die Ergebnisse nach Besuchszeit sortieren
+        uasort($result, function ($a, $b) {
+            return $b['VisitTime'] <=> $a['VisitTime'];
+        });
+
+        return ArrayList::create($result);
     }
 }
