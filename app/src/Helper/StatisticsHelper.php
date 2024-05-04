@@ -652,28 +652,36 @@ class StatisticsHelper
     public static function getCounts($userId)
     {
         $logs = self::getLogsOfUser($userId);
-        $counts = [];
+
+        $experienceType = ExperienceType::get()->filter("Title", "Coaster")->first()->ID;
+        $coasterIds = Experience::get()->filter("TypeID", $experienceType)->columnUnique();
+
+        // Die Anzahl der einzigartigen Achterbahn-IDs zählen
+        $uniqueCoasterIds = [];
         foreach ($logs as $log) {
             $id = $log->ExperienceID;
-            if (!in_array($id, $counts)) {
-                $coasterType = ExperienceType::get()->filter("Title", "Coaster")->first()->ID;
-                $typeId = Experience::get()->byID($id)->TypeID;
-                if (strcasecmp($typeId, $coasterType) == 0) {
-                    array_push($counts, $id);
-                }
+            if (in_array($id, $coasterIds) && !in_array($id, $uniqueCoasterIds)) {
+                $uniqueCoasterIds[] = $id;
             }
         }
 
-        $result = array();
-        foreach ($counts as $count) {
-            $getLog = $logs->filter("ExperienceID", $count)->sort("VisitTime", "ASC")->first();
-            $result[$count] = array(
-                "VisitTime" => $getLog->VisitTime,
-                "Name" => Experience::get()->byID($count)->Title,
-            );
+        // Die Daten für die eindeutigen Achterbahn-IDs sammeln
+        $result = [];
+        foreach ($uniqueCoasterIds as $id) {
+            $log = $logs->filter("ExperienceID", $id)->sort("VisitTime", "ASC")->first();
+            $experience = $log->Experience();
+            $result[$id] = [
+                "VisitTime" => $log->VisitTime,
+                "experience" => $experience->Title,
+                "ParentName" => $experience->Parent()->Title,
+            ];
         }
-        $column = array_column($result, 'VisitTime');
-        array_multisort($column, SORT_DESC, $result);
+
+        // Die Ergebnisse nach Besuchszeit sortieren
+        uasort($result, function ($a, $b) {
+            return $b['VisitTime'] <=> $a['VisitTime'];
+        });
+
         return ArrayList::create($result);
     }
 }

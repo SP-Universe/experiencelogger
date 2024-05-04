@@ -30,7 +30,8 @@
                 <% loop Counts %>
                     <div class="list_item statistics_card card--value">
                         <p>$FromEnd</p>
-                        <p>$Name</p>
+                        <p>$experience</p>
+                        <p>in $ParentName</p>
                         <p>$VisitTime</p>
                     </div>
                 <% end_loop %>
