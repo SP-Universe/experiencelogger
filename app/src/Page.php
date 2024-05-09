@@ -19,24 +19,20 @@ use SilverStripe\Control\Cookie;
  * Class \Page
  *
  * @property string $MenuPosition
- * @property int $HeaderImageID
  * @property int $MenuIconID
- * @method \SilverStripe\Assets\Image HeaderImage()
  * @method \SilverStripe\Assets\File MenuIcon()
  */
     class Page extends SiteTree
     {
         private static $db = [
-            "MenuPosition" => "Enum('main, footer, personal', 'main')",
+            "MenuPosition" => "Enum('main, footer, more', 'main')",
         ];
 
         private static $has_one = [
-            "HeaderImage" => Image::class,
             "MenuIcon" => File::class,
         ];
 
         private static $owns = [
-            "HeaderImage",
             "MenuIcon",
         ];
 
@@ -46,9 +42,8 @@ use SilverStripe\Control\Cookie;
             $fields->addFieldToTab("Root.Main", new DropdownField("MenuPosition", "Menü", [
                 "main" => "Mainmenu",
                 "footer" => "Footer",
-                "personal" => "Personal",
+                "more" => "More",
             ]), "Content");
-            $fields->addFieldToTab("Root.Images", new UploadField("HeaderImage", "Headerimage"), "Content");
             $fields->addFieldToTab("Root.Images", new UploadField("MenuIcon", "Menuicon"), "Content");
             return $fields;
         }

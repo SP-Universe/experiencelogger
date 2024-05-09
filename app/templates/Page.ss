@@ -21,9 +21,11 @@
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
         <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
     </head>
-    <body class="<% if $Darkmode %>theme--dark<% else %>theme--light<% end_if %>">
+    <body class="theme--new">
         <% include Header %>
         $Layout
+
+        <% include Navigation_MainNav %>
 
         <div class="cookie_accept_prompt <% if $HasAcceptedCookies %>hide<% end_if %>">
             <div class="cookie_accept_prompt__content">

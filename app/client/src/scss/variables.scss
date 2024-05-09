@@ -1,4 +1,5 @@
 $maxWidth: 1100px;
+$maxWidthInner: 800px;
 
 $breakpoints: (
   'smartphone': 480px,
@@ -61,4 +62,26 @@ body.theme--dark{
     .loggedexperience_card>.background_image>img{
         filter: brightness(0.1);
     }
+}
+
+body.theme--new{
+    --ColorNavigation: #0A1816;
+    --ColorWhite: #FFFFFF;
+    --ColorBackground: #1B2D2A;
+    --ColorPrimaryDark: #163631;
+    --ColorPrimary: #266056;
+
+    --FontSizeXXS: 8px;
+    --FontSizeXS: 10px;
+    --FontSizeS: 12px;
+    --FontSizeM: 16px;
+    --FontSizeL: 20px;
+    --FontSizeXL: 24px;
+    --FontSizeXXL: 32px;
+
+    --FontWeightLight: 300;
+    --FontWeightNormal: 400;
+    --FontWeightBold: 700;
+
+    color: $ColorWhite;
 }

@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    background: linear-gradient(15deg, var(--ColorWhite), var(--ColorLightGray));
+    background-color: var(--ColorPrimary);
     border-radius: 20px;
     margin: 0 0 10px 0;
     padding-right: 10px;
@@ -20,8 +20,6 @@
             padding: 5px 180px 5px 20px;
             transform: rotate(-15deg);
             background-color: var(--ColorBlackTrans);
-            color: var(--ColorWhite);
-
         }
     }
 
@@ -86,15 +84,14 @@
         height: 100%;
         width: 100%;
         overflow: hidden;
+        padding-right: 30px;
 
         .experience_entry_image{
             width: 25%;
-            max-width: 100px;
+            max-width: 80px;
             flex-shrink: 0;
-            //aspect-ratio: 1;
             padding: 0;
-            background-color: var(--ColorPrimary);
-            //clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+            background-color: var(--ColorPrimaryDark);
             background-size: cover;
             background-position: center;
             position: relative;
@@ -135,12 +132,19 @@
             .experience_type{
                 margin: 0;
                 hyphens: auto;
+                display: flex;
+                align-items: center;
+                gap: 5px;
 
                 span{
                     hyphens: auto;
                     font-size: 18px;
                     padding-bottom: 5px;
                     font-weight: normal;
+                }
+
+                p{
+                    display: inline;
                 }
             }
 
@@ -158,153 +162,59 @@
     }
 
     .experience_logging{
-        background-color: var(--ColorWhite);
+        position: absolute;
+        right: 0;
+        top: 0;
         flex-shrink: 0;
-        border-radius: 20px;
-        box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
         z-index: 30;
+        height: 100%;
+        width: 50px;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         transition: max-height 0.1s ease-in-out;
+        border-left: 1px solid var(--ColorPrimaryDark);
 
         .logging_link{
             width: 100%;
-            //height: 55px;
+            height: 100%;
             padding: 2px;
             aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 
-            &:hover{
-                background-color: var(--ColorPrimary);
-                color: var(--ColorWhite);
+            svg{
+                width: 35px;
+                height: 35px;
+            }
+
+            .logcount{
+                height: 25px;
+                width: 100%;
+                text-align: center;
             }
 
             &.notnew{
-                background-color: var(--ColorPrimary);
-                color: var(--ColorWhite);
+                background-color: var(--ColorPrimaryDark);
 
                 &:hover{
                     background-color: var(--ColorWhite);
-                    color: var(--ColorPrimary);
                 }
             }
-        }
 
-        .logcount{
-            height: 25px;
-            width: 100%;
-            text-align: center;
-            background-color: var(--ColorPrimary);
-            color: var(--ColorWhite);
-        }
-    }
-
-    .experience_menu{
-        position: absolute;
-        top: 0px;
-        left: 5px;
-
-        .experience_menu_symbol{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
-            gap: 2px;
-            aspect-ratio: 1;
-            span{
+            &:hover{
                 background-color: var(--ColorWhite);
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
+                color: $ColorPrimary;
             }
         }
 
-        .experience_menu_popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: $ColorBlackTrans;
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            display: none;
 
-            .popup_inner{
-                width: 80%;
-                height: 90%;
-                padding: 20px;
-                background-color: var(--ColorPrimaryDark);
-                border-radius: 20px;
-                position: relative;
-                overflow: hidden;
-
-                span{
-                    font-weight: 400;
-                }
-
-                .popup_closingbutton{
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    padding: 15px;
-                    width: 50px;
-                    height: 50px;
-                    aspect-ratio: 1;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: background-color 0.1s ease-in-out;
-                    border-radius: 0 0 0 20px;
-
-                    &::before{
-                        content: "";
-                        position: absolute;
-                        top: 50%;
-                        right: 50%;
-                        width: 20px;
-                        height: 2px;
-                        transform-origin: center;
-                        transform: translateX(50%) translateY(-50%) rotate(45deg);
-                        background-color: var(--ColorPrimary);
-                        transition: background-color 0.1s ease-in-out;
-                    }
-
-                    &::after{
-                        content: "";
-                        position: absolute;
-                        top: 50%;
-                        right: 50%;
-                        width: 20px;
-                        height: 2px;
-                        transform-origin: center;
-                        transform: translateX(50%) translateY(-50%) rotate(-45deg);
-                        background-color: var(--ColorPrimary);
-                        transition: background-color 0.1s ease-in-out;
-                    }
-
-                    &:hover{
-                        background-color: var(--ColorPrimary);
-                        color: var(--ColorWhite);
-
-                        &::after, &::before{
-                            background-color: $ColorWhite;
-                        }
-                    }
-                }
-            }
-
-            &.active{
-                display: flex;
-            }
-        }
     }
 
     .experiencedata{

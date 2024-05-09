@@ -48,6 +48,7 @@ class LocationPageController extends PageController
         $sqlRequest->addLeftJoin('ExperienceLocationType', '"Location"."TypeID" = "LocationType"."ID"', 'LocationType');
         $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
         $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
+        $sqlRequest->addLeftJoin('Rating', '"Rating"."ExperienceID" = "Experience"."ID"', 'Rating');
         //$sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
 
         $currentUser = Security::getCurrentUser();
@@ -74,11 +75,15 @@ class LocationPageController extends PageController
         $sqlRequest->addSelect('Experience.HasFastpass AS ExperienceHasFastpass');
         $sqlRequest->addSelect('Experience.HasSingleRider AS ExperienceHasSingleRider');
         $sqlRequest->addSelect('Experience.AccessibleToHandicapped AS ExperienceAccessibleToHandicapped');
+        $sqlRequest->addSelect('Experience.AreaID AS AreaID');
 
         $sqlRequest->addSelect('ExperienceType.ID AS ExperienceTypeID');
         $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
 
         $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
+
+        $sqlRequest->addSelect('Rating.ID AS RatingID');
+        $sqlRequest->addSelect('Rating.Stars AS RatingStars');
 
         //$sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
         //$sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
@@ -131,6 +136,17 @@ class LocationPageController extends PageController
             $experienceTypes->push($experienceType);
         }
 
+        //Create all ratings
+        $ratings = ArrayList::create();
+        foreach ($data as $row) {
+            $rating = Rating::create();
+            $rating->ID = $row["RatingID"];
+            $rating->Stars = $row["RatingStars"];
+            $rating->ExperienceID = $row["ExperienceID"];
+
+            $ratings->push($rating);
+        }
+
         //Create all logEntries
         /*$logEntries = ArrayList::create();
         foreach ($data as $row) {
@@ -171,6 +187,25 @@ class LocationPageController extends PageController
             $experience->HasFastpass = $row["ExperienceHasFastpass"];
             $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
             $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
+            $experience->AreaID = $row["AreaID"];
+
+            if ($experience->AreaID != 0) {
+                $area = Experience::get()->byID($experience->AreaID);
+                $experience->AreaTitle = $area->Title;
+                $experience->AreaLinkTitle = $area->LinkTitle;
+                $experience->AreaLink = $this->Link() . "/experience/" . $title . "---" . $experience->AreaLinkTitle;
+            }
+
+            $filteredRatings = $ratings->filter("ExperienceID", $experience->ID);
+            if ($filteredRatings->Count() > 0) {
+                $sumOfStars = 0;
+                foreach ($filteredRatings as $rating) {
+                    $sumOfStars += $rating->Stars;
+                }
+                $experience->Rating = $sumOfStars / $filteredRatings->Count();
+            } else {
+                $experience->Rating = 0;
+            }
 
             if ($currentUser) {
                 $experience->LogEntries = LogEntry::get()->filter(array(

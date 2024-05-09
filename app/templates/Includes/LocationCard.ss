@@ -10,7 +10,7 @@
         </div>
         <div class="location_entry_content">
             <h2 class="location_title">$Title</h2>
-            <h3>$Type.Title</h3>
+            <h3 class="location_type">$Type.Title</h3>
             <% if $Top.CurrentUser %>
                 <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
                     <p class="location_progress_text">Loading...</p>

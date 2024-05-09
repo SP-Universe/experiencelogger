@@ -45,4 +45,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
         e.style.setProperty('--value', e.value);
         e.addEventListener('input', () => e.style.setProperty('--value', e.value));
     }
+
+    //More Menu Toggle
+    const moreMenuButton = document.querySelector('[data-behaviour="moremenu--toggle"]');
+
+    if(moreMenuButton){
+        moreMenuButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            document.body.classList.toggle("moremenu--active");
+        });
+    }
 });

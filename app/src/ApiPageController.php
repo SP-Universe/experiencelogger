@@ -491,6 +491,7 @@ use SilverStripe\Assets\Image;
                 $data['LastEdited']['EU'] = date("d.m.Y H:i:s", $lastedited);
                 $data['LastEdited']['Timestamp'] = $lastedited;
                 $this->response->addHeader('Content-Type', 'application/json');
+                $this->response->setStatusCode(200);
                 return json_encode($data);
             }
         }

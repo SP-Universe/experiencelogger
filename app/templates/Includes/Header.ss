@@ -34,25 +34,6 @@
     </div>
 <% end_if %>
 
-<div class="section section--navigation">
-    <ul class="nav_menu">
-        <% loop $Menu(1) %>
-            <% if $MenuPosition == "main" %>
-
-                <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
-                    <a href="$Link">
-                        <% if $MenuIcon %>
-                            <img alt="Menuicon for $MenuTitle" class="menuicon" src="$MenuIcon.Url"/>
-                        <% end_if %>
-                        <p>$MenuTitle</p>
-                    </a>
-                </li>
-
-            <% end_if %>
-        <% end_loop %>
-    </ul>
-</div>
-
 <% if $CurrentUser %>
     <div class="section section--personalnav">
         <ul class="section_content" data-behaviour="personalnav">
