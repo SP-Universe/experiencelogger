@@ -1,38 +1,60 @@
 .loggedexperience_card{
-    background-color: var(--ColorWhiteTrans);
+    background-color: var(--ColorPrimary);
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 0;
     margin: 10px 0;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     position: relative;
-    overflow: hidden;
     transition: 0.3s ease-in-out;
 
-    .log_weather_wrap{
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        height: 25px;
-        width: 50%;
+    .log_header{
+        position: relative;
+        top: 0px;
+        right: 0px;
+        height: auto;
+        width: 100%;
         font-size: 12px;
-        color: var(--ColorPrimary);
+        color: var(--ColorWhite);
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+        padding: 3px 15px;
+        border-bottom: 2px solid var(--ColorBackground);
 
         svg{
             max-height: 100%;
         }
 
         .log_weather{
+            position: absolute;
             display: flex;
             height: 100%;
+            right: 0px;
+            top: 0;
+            align-items: center;
+
+            .linklogged{
+                height: 100%;
+                padding: 5px 7px 5px 10px;
+                font-size: 9px;
+                text-transform: uppercase;
+                border-radius: 0px 0px 0px 10px;
+                background-color: var(--ColorPrimaryDark);
+            }
+
+            svg{
+                margin-right: 5px;
+            }
+
         }
     }
 
     .log_text{
         z-index: 5;
-        max-width: calc(100% - 30px);
+        max-width: 100%;
         position: relative;
+        padding: 10px 15px;
+
 
         h3{
             margin: 0;
@@ -41,26 +63,14 @@
 
         .date{
             margin-bottom: 5px;
-
-            .linklogged{
-                position: relative;
-                top: -2px;
-                left: 5px;
-                padding: 2px 7px;
-                font-size: 9px;
-                text-transform: uppercase;
-                border: 1px solid var(--ColorPrimary);
-                border-radius: 30px;
-                opacity: 0.5;
-
-                &:hover{
-                    opacity: 1;
-                }
-            }
         }
 
         .park{
             font-weight: 400;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+
         }
 
         .seemore{
@@ -69,37 +79,19 @@
         }
     }
 
-    .background_image{
-        z-index: -1;
-        position: absolute;
-        top: -5%;
-        left: -5%;
-        width: 100%;
-        height: 100%;
-
-        img{
-            width: 110%;
-            height: 110%;
-            object-fit: cover;
-            object-position: center;
-            filter: brightness(1) blur(2px);
-            opacity: 0.2;
-        }
-    }
-
     .moreinfo_button{
         position: absolute;
         bottom: 0px;
         right: 0px;
         font-size: 18px;
-        background-color: var(--ColorPrimary);
-        width: 48px;
-        height: 48px;
-        border-radius: 50% 0 9px 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 0;
         text-align: center;
-        padding: 12px;
+        padding: 10px;
         color: var(--ColorWhite);
         cursor: pointer;
+        z-index: 5;
     }
 
     &.hide{
@@ -107,5 +99,35 @@
         opacity: 0;
         margin: 0;
         padding: 0;
+    }
+
+    &.loggedexperience_card--linklogged{
+        margin-left: 30px;
+        position: relative;
+
+        &::before{
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: -20px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--ColorPrimary);
+            border-radius: 10px 10px;
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            top: 1px;
+            transform: translateY(-50%);
+            left: -16px;
+            width: 25px;
+            height: 100%;
+            border-left: 2px solid var(--ColorPrimary);
+            border-bottom: 2px solid var(--ColorPrimary);
+            z-index: -1;
+        }
     }
 }
