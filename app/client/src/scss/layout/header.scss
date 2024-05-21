@@ -22,21 +22,10 @@ header {
         top: 5px;
         margin-bottom: 80px;
 
-        .nav_brand{
-            height: 100%;
-            aspect-ratio: 1;
-            padding: 10px 10px 0px;
-            position: absolute;
-            left: 50%;
-            top: 35%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            @include media(">desktop") {
-                display: block;
-            }
-            img {
-                width: 100%;
-            }
+        .header_nav_title{
+            font-weight: 300;
+            text-transform: uppercase;
+            margin: 0;
         }
 
         .userimage{
@@ -64,7 +53,7 @@ header {
         }
 
         .backbutton{
-            color: var(--ColorPrimary);
+            color: var(--ColorWhite);
             &:hover{
                 filter: brightness(1);
             }

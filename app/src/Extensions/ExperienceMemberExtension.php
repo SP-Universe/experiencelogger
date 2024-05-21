@@ -2,11 +2,13 @@
 namespace App\Extensions;
 
 use DateTime;
+use App\Profile\ProfilePage;
 use App\Profile\FriendRequest;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ArrayList;
 use App\Helper\StatisticsHelper;
+use App\Overview\StatisticsPage;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataExtension;
@@ -23,6 +25,7 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property \SilverStripe\Security\Member|\App\Extensions\ExperienceMemberExtension $owner
  * @property string $DateOfBirth
  * @property string $Nickname
+ * @property string $Displayname
  * @property string $ProfilePrivacy
  * @property bool $LinkedLogging
  * @property string $LastLogDate
@@ -40,6 +43,7 @@ class ExperienceMemberExtension extends DataExtension
     private static $db = [
         'DateOfBirth' => 'Date',
         'Nickname' => 'Varchar(255)',
+        'Displayname' => 'Varchar(255)',
         'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
         "LinkedLogging" => "Boolean",
         "LastLogDate" => "Date",
@@ -322,5 +326,25 @@ class ExperienceMemberExtension extends DataExtension
             }
         }
         return "NotFriends";
+    }
+
+    public function getCoasterCount()
+    {
+        $userID = $this->owner->ID;
+        return StatisticsHelper::getCounts($userID);
+    }
+
+    public function getStatisticsLink()
+    {
+        $statisticsPage = StatisticsPage::get()->first();
+        if ($statisticsPage) {
+            return $statisticsPage->Link("user/" . $this->owner->Nickname);
+        }
+    }
+
+    public function getProfileLink()
+    {
+        $profilePage = ProfilePage::get()->first();
+        return $profilePage->Link("user/" . $this->owner->Nickname);
     }
 }

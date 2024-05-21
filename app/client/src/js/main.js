@@ -9,6 +9,7 @@ import "./tools/Cookies.js";
 import "./tools/Swiper.js";
 import "./tools/Lightbox.js";
 import "./tools/Darkmode.js";
+import "./tools/CardEffect.js";
 
 if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
@@ -16,21 +17,7 @@ if (navigator && navigator.serviceWorker) {
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
-    //Personal Nav
-    const personalNavButton = document.querySelector('[data-behaviour="open_personalnav"]');
-    const personalNavDiv = document.querySelector('[data-behaviour="personalnav"]');
-    if(personalNavButton){
-        personalNavButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            document.body.classList.toggle("personalnav_active");
-        });
-        document.addEventListener('click', function(e){
-            if (!personalNavDiv.contains(e.target) && !personalNavButton.contains(e.target)){
-                document.body.classList.remove("personalnav_active");
-            }
-        });
-    }
-
+    //Add Log Button
     const addlogbutton = document.querySelector('[data-behaviour="addlog_button"]');
     const addlogloading = document.querySelector('[data-behaviour="addlog_loading"]');
     if (addlogbutton) {
@@ -53,6 +40,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
         moreMenuButton.addEventListener("click", function (event) {
             event.preventDefault();
             document.body.classList.toggle("moremenu--active");
+        });
+    }
+
+    //Share Button
+    const shareButton = document.querySelector('[data-behaviour="share_button"]');
+    if(shareButton){
+        shareButton.addEventListener('click', event => {
+            const sharedlink = shareButton.getAttribute('data-link');
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Experiencelogger',
+                    url: sharedlink
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                })
+                .catch(console.error);
+            } else {
+                // fallback
+            }
         });
     }
 });

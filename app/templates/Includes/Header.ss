@@ -7,15 +7,13 @@
                 </a>
             <% end_if %>
         </div>
-        <a href="$Top.HomepageLink" class="nav_brand">
-            <img width="80px" height="80px" src="_resources/app/client/icons/ExperienceLogger-Symbol.svg" alt="Logo of Experience Logger">
-        </a>
+        <h1 class="header_nav_title">$Top.Title</h1>
         <% if $CurrentUser %>
-            <div class="userimage" data-behaviour="open_personalnav">
+            <a class="userimage" href="$CurrentUser.ProfileLink" data-behaviour="open_personalnav">
                 <div class="avatar_image">
                     <img src="$CurrentUser.getProfileImage(50)" alt="Avatar of $CurrentUser.Nickname">
                 </div>
-            </div>
+            </a>
         <% else %>
             <a class="userimage" href="$RegistrationPage.Link" aria-label="Login to page">
                 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">

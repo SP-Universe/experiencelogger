@@ -37,6 +37,8 @@
 @import "layout/MembersList";
 @import "layout/RatingDisplay";
 
+@import "layout/ProfileCard";
+
 @import "elements/TextImageElement";
 @import "elements/FavouritePlacesElement";
 @import "elements/NewsElement";
@@ -44,6 +46,7 @@
 body{
     background-color: var(--ColorBackground); //rgb(230, 230, 230);
     margin-bottom: 120px;
+    perspective: 1500px;
 }
 
 .section {
