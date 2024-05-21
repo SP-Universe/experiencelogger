@@ -46,7 +46,6 @@
 body{
     background-color: var(--ColorBackground); //rgb(230, 230, 230);
     margin-bottom: 120px;
-    perspective: 1500px;
 }
 
 .section {
@@ -179,4 +178,8 @@ input:checked + .slider:before {
             font-size: 10px;
         }
     }
+}
+
+.section.section--dashboard{
+    margin-top: 80px;
 }
