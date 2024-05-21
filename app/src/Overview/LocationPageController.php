@@ -53,7 +53,7 @@ class LocationPageController extends PageController
 
         $currentUser = Security::getCurrentUser();
         if (!$currentUser) {
-            $currenUser = null;
+            $currentUser = null;
         }
 
         $sqlRequest->addSelect('Location.Title AS LocationTitle');
@@ -85,25 +85,11 @@ class LocationPageController extends PageController
         $sqlRequest->addSelect('Rating.ID AS RatingID');
         $sqlRequest->addSelect('Rating.Stars AS RatingStars');
 
-        //$sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
-        //$sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
-        //$sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
-        //$sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
-        //$sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
-        //$sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
-        //$sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
-        //$sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
-        //$sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
-        //$sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
-        //$sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
-        //$sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
-        //$sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');
-
         $sqlResult = $sqlRequest->execute();
 
         $data = [];
 
-        // debug display all data in echo
+         //debug display all data in echo
         //echo "<pre>";
         //print_r($sqlResult);
 
@@ -170,7 +156,6 @@ class LocationPageController extends PageController
 
         //Create all experience objects and put into groupedList
         $experiences = ArrayList::create();
-        $experiencesActive= ArrayList::create();
         foreach ($data as $row) {
             $experience = Experience::create();
             $experience->Title = $row["ExperienceTitle"];
@@ -210,7 +195,7 @@ class LocationPageController extends PageController
             if ($currentUser) {
                 $experience->LogEntries = LogEntry::get()->filter(array(
                     'ExperienceID' => $experience->ID,
-                    'UserID' => Security::getCurrentUser()->ID
+                    'UserID' =>  $currentUser->ID
                 ));
             }
 
@@ -223,11 +208,20 @@ class LocationPageController extends PageController
         $characters = ArrayList::create();
         foreach ($experiences as $experience) {
             if ($experience->TypeID != $characterType->ID) {
-                $experiencesNotCharacters->push($experience);
+
+                //check if similar experienceTitle is already in the list (Bad Fix!)
+                $similarExperience = $experiencesNotCharacters->find('Title', $experience->Title);
+                if (!$similarExperience) {
+                    $experiencesNotCharacters->push($experience);
+                }
             } else {
-                $characters->push($experience);
+                $similarExperience = $characters->find('Title', $experience->Title);
+                if (!$similarExperience) {
+                    $characters->push($experience);
+                }
             }
         }
+        $experiencesNotCharacters = $experiencesNotCharacters->sort('Title');
         $groupedExperiences = GroupedList::create($experiencesNotCharacters);
 
         $success = false;

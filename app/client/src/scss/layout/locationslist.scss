@@ -139,11 +139,11 @@
     &.loading{
 
         .location_progress_text{
-            color: var(--ColorLightGray)
+            color: var(--ColorPrimaryDark)
         }
 
         .location_progress{
-            background-image: linear-gradient(90deg, var(--ColorBackground) 0%, var(--ColorLightGray) 40%, var(--ColorBackground) 100%);
+            background-image: linear-gradient(90deg, var(--ColorBackground) 0%, var(--ColorPrimary) 40%, var(--ColorBackground) 100%);
             background-size: 1200px;
             animation: shine-lines 1.5s infinite;
         }

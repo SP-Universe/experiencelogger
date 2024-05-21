@@ -5,13 +5,13 @@ header {
     margin-left: auto;
     width: 100%;
     filter: none;
-    //margin-bottom: -80px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: var(--ColorBackground);
+    background-color: transparent;
+    transition: 0.2s ease-in-out;
 
     .header_nav{
         display: flex;
@@ -24,7 +24,8 @@ header {
         position: relative;
         height: 70px;
         top: 0;
-        background-color: var(--ColorBackground);
+        background-color: transparent;
+        transition: 0.2s ease-in-out;
 
         .header_nav_title{
             font-weight: 300;
@@ -61,6 +62,19 @@ header {
             &:hover{
                 filter: brightness(1);
             }
+
+            &.backbutton--hidden{
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+    }
+
+    .menu--fixed & {
+        background-color: var(--ColorBackground);
+
+        .header_nav{
+            background-color: var(--ColorBackground);
         }
     }
 }

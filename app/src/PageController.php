@@ -93,5 +93,45 @@ namespace {
             // You can include any CSS or JS required by your project here.
             // See: https://docs.silverstripe.org/en/developer_guides/templates/requirements/
         }
+
+        public function getLoadingText()
+        {
+            $randomLoadingTexts = array(
+                "Waxing the Coaster tracks...",
+                "Preparing Popcorn...",
+                "Cuddling Mascots...",
+                "Running test drives...",
+                "Opening the Queuelines...",
+                "Designing the Rollercoaster...",
+                "Checking the Safety Harness...",
+                "Polishing the Rollercoaster...",
+                "Checking the Rollercoaster tracks...",
+                "Checking the Rollercoaster brakes...",
+                "Checking the Rollercoaster wheels...",
+                "Checking the Rollercoaster seats...",
+                "Preparing the mascots...",
+                "Fueling the fog machines...",
+                "Designing Tickets...",
+                "Testing the trimbrakes...",
+                "Testing the launch system...",
+                "Starting animatronics...",
+                "Checking the animatronics...",
+                "Turning on the speakers...",
+                "Composing the soundtrack...",
+                "Cooking Burgers...",
+                "Cooking Hotdogs...",
+                "Cooking Fries...",
+                "Cooking Pizza...",
+                "Cooking Popcorn...",
+                "Freezing Icecream...",
+                "Baking Cookies...",
+                "Inspiring team members...",
+                "Preparing Shows...",
+                "Preparing Parades...",
+                "Preparing Fireworks...",
+            );
+
+            return $randomLoadingTexts[array_rand($randomLoadingTexts)];
+        }
     }
 }

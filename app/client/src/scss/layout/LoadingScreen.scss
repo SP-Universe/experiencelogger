@@ -1,0 +1,100 @@
+.loading_screen{
+    opacity: 1;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--ColorPrimary);
+    z-index: 99999;
+    animation: animateOut 0.5s ease-in-out forwards;
+    pointer-events: none;
+
+    .loading_screen_wave{
+        position: absolute;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+
+        svg{
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            max-height: 100px;
+        }
+
+        &.top{
+            top: 0;
+        }
+
+        &.bottom{
+            bottom: 0;
+            transform: rotate(180deg);
+        }
+    }
+
+    .loading_screen_wrap{
+        position: absolute;
+        left: 50%;
+        bottom: 50%;
+        transform: translate(-50%, 50%);
+        text-align: center;
+
+        .xpl_logo{
+            color: transparent;
+            width: 20vw;
+            height: auto;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+
+            svg{
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform-origin: 50% 50%;
+                animation: rotate 15s linear infinite;
+
+                #block_center_empty{
+                    transform-origin: 50% 50%;
+                    animation: rotate 5s linear infinite;
+                }
+
+                #blocks_filled{
+                    transform-origin: 50% 50%;
+                    animation: rotate 10s linear infinite;
+                }
+            }
+
+            &.clicked{
+                opacity: 1;
+            }
+        }
+    }
+
+    &.fadeout{
+        animation: animateIn 0.5s ease-in-out forwards;
+    }
+
+    @keyframes animateIn {
+        0%{
+            opacity: 0;
+            pointer-events: none;
+        }
+        100%{
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    @keyframes animateOut {
+        0%{
+            opacity: 1;
+            pointer-events: all;
+        }
+        100%{
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+}

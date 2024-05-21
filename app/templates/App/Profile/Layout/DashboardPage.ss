@@ -1,6 +1,5 @@
 <div class="section section--dashboard">
     <div class="section_content">
-        <h1 class="dashboard_title">$Title</h1>
         $Content
     </div>
 </div>
@@ -41,7 +40,7 @@
         </div>
     </div>
 
-    <div class="section section--lastloggedexperiences">
+    <div class="section section--LogsElement">
         <div class="section_content">
             <h2>Your last logged Experiences</h2>
             <% if $CurrentUser %>

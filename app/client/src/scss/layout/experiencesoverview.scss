@@ -1,6 +1,7 @@
 .section.section--experiencesoverview{
     padding: 0;
     max-width: 100%;
+    margin-top: -90px;
 
     .section_content{
         margin-top: 90px;
@@ -8,34 +9,51 @@
 
         .section_location_header{
             width: 100%;
-            padding: 20px 15px;
             position: relative;
             overflow: hidden;
-            border-radius: 20px 20px 0 0;
-            color: $ColorWhite;
+            color: var(--ColorWhite);
             max-width: $maxWidth;
             margin: 0 auto;
             pointer-events: none;
+            padding: 90px 0 20px 0;
+            text-align: center;
 
-            h1{
-                color: $ColorWhite;
-                text-shadow: 0 0 10px rgba($ColorBlack, 1);
-                max-width: $maxWidth;
+            .location_title{
+                color: var(--ColorWhite);
+                text-shadow: 0 0 10px rgba(var(--ColorBlack), 1);
+                max-width: 75%;
                 margin: 0 auto;
             }
 
             .location_favouritemarker{
                 position: absolute;
-                top: 15px;
+                bottom: 35px;
                 right: 15px;
-                color: $ColorWhite;
+                color: var(--ColorWhite);
                 z-index: 10;
+                padding: 5px;
                 pointer-events: all;
+                width: 48px;
+                height: 48px;
 
                 @include media("<medium") {
-                    top: unset;
-                    bottom: 45px;
-                    right: 20px;
+                    bottom: 55px;
+                }
+            }
+
+            .location_statisticsbutton{
+                position: absolute;
+                bottom: 35px;
+                left: 15px;
+                color: var(--ColorWhite);
+                z-index: 10;
+                pointer-events: all;
+                padding: 10px;
+                width: 48px;
+                height: 48px;
+
+                @include media("<medium") {
+                    bottom: 55px;
                 }
             }
 
@@ -48,19 +66,8 @@
                 z-index: -1;
                 background-size: cover;
                 background-position: center;
-                background-color: var(--ColorPrimary);
-
-                @include media("<medium") {
-                    &::before{
-                        content: "";
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: var(--ImageGradient);
-                    }
-                }
+                background-color: var(--ColorPrimaryDark);
+                filter: brightness(0.5);
             }
 
             @include media("<maxWidth"){
@@ -69,8 +76,9 @@
 
             @include media("<medium") {
                 max-width: 100%;
-                padding: 80px 0 50px 0;
                 border-radius: 0;
+                padding: 90px 0 50px 0;
+
                 h1, p{
                     text-align: center;
                     text-shadow: 0 0 10px rgba($ColorBlack, 1);
@@ -80,7 +88,7 @@
         }
 
         .section_location_partselect{
-            background-color: var(--ColorPrimaryLight);
+            background-color: var(--ColorPrimary);
             border-radius: 0 0 20px 20px;
             display: flex;
             align-items: center;
@@ -88,12 +96,13 @@
             margin: 0 auto;
             margin-bottom: 20px;
             padding: 0;
+            box-shadow: 0 0 10px rgba(var(--ColorBlack), 0.5);
 
             .partselector{
                 display: block;
                 width: calc(100% / 3);
                 text-align: center;
-                color: var(--ColorPrimary);
+                color: var(--ColorWhite);
                 border-radius: 0 0 20px 20px;
                 padding: 10px 0;
                 margin: 0;
@@ -101,7 +110,7 @@
 
                 &.selected{
                     color: $ColorWhite;
-                    background-color: var(--ColorPrimary);
+                    background-color: var(--ColorPrimaryDark);
                 }
             }
 
@@ -203,6 +212,21 @@
 
             @include media("<maxWidth") {
                 padding: 0 20px;
+            }
+        }
+
+        .section_location_map{
+            max-width: $maxWidth;
+            margin: 0 auto;
+            padding: 0 10px;
+
+            .location_map{
+                position: relative;
+                width: 100%;
+                height: 400px;
+                border-radius: 20px;
+                overflow: hidden;
+                margin: 10px 0;
             }
         }
 
@@ -316,7 +340,7 @@
                 }
 
                 .experience_filters{
-                    background-color: var(--ColorPrimaryLight);
+                    background-color: var(--ColorPrimaryDark);
                     border-radius: 20px;
                     padding: 10px;
                     margin-top: -40px;
@@ -347,8 +371,6 @@
 
             }
         }
-
-
 
         .section_location_characters {
             max-width: $maxWidth;
@@ -387,6 +409,15 @@
                 .search_bar{
                     margin: 10px auto;
 
+                    input{
+                        width: 100%;
+                        height: 30px;
+                        border-radius: 10px;
+                        border: 1px solid var(--ColorPrimary);
+                        font-size: 16px;
+                        z-index: 2;
+                    }
+
                     @include media(">medium") {
                         margin: 0 auto 10px auto;
                     }
@@ -423,11 +454,6 @@
                     }
                 }
             }
-        }
-
-
-        @include media("<medium") {
-            margin-top: 0;
         }
     }
 }

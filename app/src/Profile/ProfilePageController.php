@@ -97,8 +97,7 @@ class ProfilePageController extends PageController
         if ($currentUser) {
             $upload = new FileField('Avatar', 'Avatar');
             $upload->setFolderName('user_avatars');
-            $textfieldNickname = new TextField("Nickname", "Nickname");
-            $textfieldNickname->setAttribute("readonly", "readonly")->addExtraClass("readonly");
+            $textfieldNickname = new TextField("Displayname", "Displayname");
             $textFieldFirstName = new TextField("FirstName", "First Name");
             $textFieldLastName = new TextField("Surname", "Last Name");
             $textFieldEmail = new TextField("Email", "Email");

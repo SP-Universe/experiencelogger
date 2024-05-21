@@ -3,9 +3,9 @@
     <a href="$Link" class="location_entry">
         <div class="location_entry_image">
             <% if $Image %>
-                <img src="$Image.FocusFill(600,200).Url" alt="$Image.Title" />
+                <img src="$Image.FocusFill(1000,400).Url" alt="$Image.Title" />
             <% else_if $Logo %>
-                <img src="$Logo.FocusFill(600,200).Url" alt="$Logo.Title" />
+                <img src="$Logo.FocusFill(1000,400).Url" alt="$Logo.Title" />
             <% end_if %>
         </div>
         <div class="location_entry_content">

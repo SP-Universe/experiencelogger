@@ -1,4 +1,4 @@
-<a href="$Link" class="news_entry">
+<a href="$Link" class="news_card">
     <div class="news_entry_image">
         <h4 class="news_entry_image_date">$FormattedDate | $FormattedCategories</h4>
         <% if $Image %>

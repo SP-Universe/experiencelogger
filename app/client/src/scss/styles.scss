@@ -38,10 +38,17 @@
 @import "layout/RatingDisplay";
 
 @import "layout/ProfileCard";
+@import "layout/LoadingScreen";
+@import "layout/NewsCard";
 
 @import "elements/TextImageElement";
 @import "elements/FavouritePlacesElement";
 @import "elements/NewsElement";
+@import "elements/LogsElement";
+
+@import "Pages/DashboardPage";
+@import "Pages/NewsPage";
+@import "Pages/TripsPage";
 
 body{
     background-color: var(--ColorBackground); //rgb(230, 230, 230);
@@ -178,8 +185,4 @@ input:checked + .slider:before {
             font-size: 10px;
         }
     }
-}
-
-.section.section--dashboard{
-    margin-top: 80px;
 }

@@ -4,31 +4,13 @@
         .experience_block{
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
-            background-color: var(--ColorWhite);
+            background-color: var(--ColorPrimary);
             overflow: hidden;
             padding: 20px;
             position: relative;
 
             span{
                 font-weight: 400;
-            }
-
-            .backbutton{
-                position: absolute;
-                top: 20px;
-                left: 20px;
-                background-color: var(--ColorWhite);
-                padding: 5px 15px;
-                border-radius: 0px 0 10px 0;
-                transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, left 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-                z-index: 50;
-                cursor: pointer;
-
-                &:hover{
-                    border-radius: 10px 0 10px 0;
-                    background-color: var(--ColorPrimary);
-                    color: var(--ColorWhite);
-                }
             }
 
             .experiencegallery{
@@ -120,10 +102,16 @@
                 flex-wrap: wrap;
 
                 .experience_button{
-                    background-color: var(--ColorPrimary);
+                    background-color: var(--ColorPrimaryDark);
                     border-radius: 20px;
                     color: white;
                     padding: 5px 10px;
+                    transition: 0.2s ease-in-out;
+
+                    &:hover{
+                        background-color: var(--ColorWhite);
+                        color: var(--ColorPrimaryDark);
+                    }
                 }
             }
 
@@ -134,7 +122,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                background-color: var(--ColorWhite);
                 border-radius: 10px;
                 box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
                 background-color: var(--ColorPrimary);
@@ -156,7 +143,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: var(--ColorWhite);
+                    background-color: var(--ColorPrimaryDark);
                     box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 
                     &:hover{

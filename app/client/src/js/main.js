@@ -16,17 +16,6 @@ if (navigator && navigator.serviceWorker) {
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
-
-    //Add Log Button
-    const addlogbutton = document.querySelector('[data-behaviour="addlog_button"]');
-    const addlogloading = document.querySelector('[data-behaviour="addlog_loading"]');
-    if (addlogbutton) {
-        addlogbutton.addEventListener('click', function(e) {
-            addlogbutton.classList.add('clicked');
-            addlogloading.classList.add('clicked');
-        });
-    }
-
     //Range input for ratings
     for (let e of document.querySelectorAll('input[type="range"].rating')) {
         e.style.setProperty('--value', e.value);
@@ -59,6 +48,56 @@ document.addEventListener("DOMContentLoaded", function (event) {
             } else {
                 // fallback
             }
+        });
+    }
+
+
+    // FIXED HEADER
+    window.addEventListener('scroll', () => {
+        if (document.documentElement.scrollTop > 30 || document.body.scrollTop > 30){
+            document.body.classList.add('menu--fixed');
+        } else {
+            document.body.classList.remove('menu--fixed');
+        }
+    });
+
+
+    // Button to Loading Screen
+    const buttons = document.querySelectorAll('a');
+    const loadingScreen = document.querySelector('.loading_screen');
+    buttons.forEach(button => {
+
+        if(button.getAttribute('data-noloadingscreen') == "true"){
+            return;
+        }
+
+        if(button.href != '' && button.href != '#')
+        {
+            button.addEventListener('click', e => {
+                if(button.getAttribute('data-behaviour') == 'addlog_button') return;
+                //e.preventDefault();
+                loadingScreen.classList.add('fadeout');
+                setTimeout(() => {
+                    window.location.href = button.href;
+                }, 300);
+            });
+        }
+    });
+
+    //Add Log Button
+    const addlogbutton = document.querySelector('[data-behaviour="addlog_button"]');
+    const addlogloading = document.querySelector('[data-behaviour="addlog_loading"]');
+    if (addlogbutton) {
+        addlogbutton.addEventListener('click', function(e) {
+            loadingScreen.classList.add('fadeout');
+        });
+    }
+
+    //Backbutton
+    const backbutton = document.querySelector('backbutton');
+    if (backbutton && loadingScreen) {
+        backbutton.addEventListener('click', function(e) {
+            loadingScreen.classList.add('fadeout');
         });
     }
 });
