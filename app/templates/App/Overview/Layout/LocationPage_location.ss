@@ -88,14 +88,6 @@
                 </div>
             <% end_if %>
 
-            <% if $CurrentUser %>
-                <!--PROGRESS-->
-                <div class="section_part section_location_map">
-                    <input type="radio" id="part_map" name="partselector" checked="checked">
-                    <h2>Coming Soon</h2>
-                </div>
-            <% end_if %>
-
             <!--EXPERIENCES-->
             <div class="section_part section_location_experiences">
                 <input type="radio" id="part_experiences" name="partselector" checked="checked">
@@ -139,6 +131,12 @@
                         <% end_loop %>
                     </div>
                 </div>
+            </div>
+
+            <!--MAP-->
+            <div class="section_part section_location_map">
+                <input type="radio" id="part_map" name="partselector">
+                <h2>Coming Soon</h2>
             </div>
         </div>
     </div>

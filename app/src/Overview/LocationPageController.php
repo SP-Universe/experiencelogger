@@ -28,7 +28,6 @@ use SilverStripe\ORM\DataList;
  */
 class LocationPageController extends PageController
 {
-
     private static $allowed_actions = [
         "location",
         "experience",

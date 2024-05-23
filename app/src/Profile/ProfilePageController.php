@@ -109,8 +109,8 @@ class ProfilePageController extends PageController
                 "private" => "Private"
             ));
             $dropdownFieldProfilePrivacy->setValue($currentUser->ProfilePrivacy);
-            $dropdownFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
-            $dropdownFieldLinkedLogging->setValue($currentUser->LinkedLogging);
+            $checkboxFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
+            $checkboxFieldLinkedLogging->setValue($currentUser->LinkedLogging);
 
             $fields = new FieldList(
                 $upload,
@@ -120,7 +120,7 @@ class ProfilePageController extends PageController
                 new TextField("Email", "Email"),
                 new DateField("DateOfBirth", "Birthdate"),
                 $dropdownFieldProfilePrivacy,
-                $dropdownFieldLinkedLogging
+                $checkboxFieldLinkedLogging
             );
 
             $actions = new FieldList(
