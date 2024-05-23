@@ -17,6 +17,7 @@ use SilverStripe\ORM\Queries\SQLSelect;
 use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
+use SilverStripe\ORM\DataList;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -208,7 +209,6 @@ class LocationPageController extends PageController
         $characters = ArrayList::create();
         foreach ($experiences as $experience) {
             if ($experience->TypeID != $characterType->ID) {
-
                 //check if similar experienceTitle is already in the list (Bad Fix!)
                 $similarExperience = $experiencesNotCharacters->find('Title', $experience->Title);
                 if (!$similarExperience) {
@@ -221,7 +221,7 @@ class LocationPageController extends PageController
                 }
             }
         }
-        $experiencesNotCharacters = $experiencesNotCharacters->sort('Title');
+        $experiencesNotCharacters = $experiencesNotCharacters->sort('State ASC');
         $groupedExperiences = GroupedList::create($experiencesNotCharacters);
 
         $success = false;
