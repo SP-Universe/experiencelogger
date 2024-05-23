@@ -13,7 +13,6 @@
         "dnadesign/silverstripe-elemental-userforms": "^4",
         "purplespider/silverstripe-basic-gallery-extension": "4",
         "tractorcow/silverstripe-sliderfield": "dev-master",
-        "wilr/silverstripe-googlesitemaps": "^3",
         "symbiote/silverstripe-gridfieldextensions": "^4.0",
         "symbiote/silverstripe-grouped-cms-menu": "^4.1",
         "stevenpaw/ss5-duplicate-dataobject": "dev-master"
