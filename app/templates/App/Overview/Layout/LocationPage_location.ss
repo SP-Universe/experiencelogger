@@ -133,7 +133,7 @@
                             <div class="state_hl" data-behavior="experience-group-headline" data-state="$Children.First.State">
                                 <h2>$Children.First.State</h2>
                             </div>
-                            <% loop $Children %>
+                            <% loop $Children.Sort("Title") %>
                                 <% include ExperienceCard LoggedIn=$CurrentUser %>
                             <% end_loop %>
                         <% end_loop %>
