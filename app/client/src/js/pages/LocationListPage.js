@@ -32,8 +32,10 @@ if(locationProgressBars){
 
 //Get the progress of a location asynchronously
 async function getLocationProgress(locationID, locationProgressHolder, locationProgressBar, locationProgressText) {
+    console.log("Getting progress for location " + locationID);
     const response = await fetch('./app-api/locationprogress/?ID=' + locationID);
-    if(response.status != 200){
+    if(response.status == 200){
+        console.log("Loading progress: " + response + " - " + response.url);
         const data = await response.json();
 
         locationProgressBar.style.width = data["LocationProgress"]["ProgressPercent"] + "%";
@@ -42,6 +44,10 @@ async function getLocationProgress(locationID, locationProgressHolder, locationP
         } else {
             locationProgressText.textContent = data["LocationProgress"]["Progress"] + " / " + data["LocationProgress"]["Total"] + " Experiences";
         }
+        locationProgressHolder.classList.remove("loading");
+    } else {
+        locationProgressBar.style.width = "0%";
+        locationProgressText.textContent = "Error loading progress. API didnt answer " + " (Response: " + response.status + ")";
         locationProgressHolder.classList.remove("loading");
     }
 }

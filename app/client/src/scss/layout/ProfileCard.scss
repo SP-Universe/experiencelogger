@@ -1,0 +1,189 @@
+.profile_card{
+    border-radius: 10px;
+    background-color: var(--ColorPrimary);
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: rotate3d(0);
+
+    .profile_card_head{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+
+        .profile_card_head_nickname{
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+
+        .profile_card_head_image{
+            position: relative;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                background-color: var(--ColorPrimaryDark);
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .profile_card_head_premium{
+                position: absolute;
+                right: 0px;
+                bottom: 0px;
+                width: 30px;
+                height: 30px;
+                background-color: var(--ColorPremium);
+                border-radius: 50%;
+
+                svg{
+                    padding: 5px;
+                }
+            }
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            display: block;
+            background-color: var(--ColorPrimaryDark);
+            border-radius: 50%;
+            width: 102%;
+            height: 200px;
+            top: -100px;
+            left: -1%;
+            z-index: -1;
+        }
+    }
+
+    .profile_card_body{
+        margin-top: 20px;
+    }
+
+    .profile_card_footer{
+        position: relative;
+        z-index: 2;
+
+        .profile_card_footer_buttons{
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: auto;
+
+            .profile_card_footer_button{
+                width: auto;
+                padding: 5px 15px;
+                background-color: var(--ColorPrimaryDark);
+                border-right: 1px solid var(--ColorPrimary);
+
+                &:first-of-type{
+                    border-radius: 10px 0 0 10px;
+                }
+
+                &:last-of-type{
+                    border-radius: 0 10px 10px 0;
+                    border-right: none;
+                }
+            }
+        }
+
+        .profile_privacy{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--ColorPrimaryDark);
+            border-radius: 10px;
+            color: $ColorWhite;
+            width: auto;
+            margin: 20px 0;
+
+            img{
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                margin-left: 10px;
+                object-fit: contain;
+            }
+        }
+    }
+
+    .profile_card_username{
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        margin-top: 15px;
+        margin-bottom: -20px;
+        background-color: var(--ColorPrimaryDark);
+        padding: 5px 0;
+
+        .profile_card_username_text{
+            z-index: 2;
+        }
+    }
+
+    .background_design{
+        position: absolute;
+        display: block;
+        bottom: -100px;
+        left: -100px;
+        height: 250px;
+        width: 250px;
+        border-radius: 50%;
+        border: 1px solid var(--ColorWhite);
+        z-index: -1;
+        opacity: 0.3;
+
+        &:nth-of-type(1){
+            transform: translateY(10px);
+        }
+
+        &:nth-of-type(2){
+            transform: translateY(20px);
+        }
+
+        &:nth-of-type(3){
+            transform: translateY(30px);
+        }
+
+        &:nth-of-type(4){
+            transform: translateY(-10px);
+        }
+
+        &:nth-of-type(5){
+            transform: translateY(-20px);
+        }
+
+        &:nth-of-type(6){
+            transform: translateY(-30px);
+        }
+
+        &.top{
+            top: -100px;
+            right: -200px;
+            left: auto;
+            bottom: auto;
+        }
+    }
+
+    .glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+
+        background-image: radial-gradient(circle at 50% -20%, #ffffff10, #0000000f);
+    }
+}

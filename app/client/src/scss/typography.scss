@@ -2,12 +2,11 @@ body{
     font-family: 'Jost', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: var(--ColorBlack);
+    color: var(--ColorWhite);
 }
 
 h1, h2, h3, h4, h5{
     font-weight: 700;
-    color: var(--ColorPrimary);
     margin: 0 0 5px 0;
 }
 
@@ -59,18 +58,24 @@ p{
 a{
     cursor: pointer;
     text-decoration: none;
-    color: var(--ColorPrimary);
+    color: var(--ColorWhite);
 
     &.button{
-        background: linear-gradient(to top left, var(--ColorPrimaryDarkTrans), var(--ColorPrimaryTrans));
         color: $ColorWhite;
         padding: 5px 10px;
-        border-radius: 10px;
+        border-radius: 10px 12px;
+        text-transform: uppercase;
+        background-color: var(--ColorNavigation);
+        transition: 0.2s ease-in-out;
 
         &.centered{
             margin: 0 auto;
             display: block;
             text-align: center;
+        }
+
+        &:hover{
+            background-color: var(--ColorPrimary);
         }
     }
 }

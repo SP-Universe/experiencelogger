@@ -10,8 +10,14 @@
                 <% end_if %>
             </div>
             <div class="usercard_text">
-                <p class="usercard_name">$Nickname</p>
-                <p><% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>($getLogs($ID).Count Logs | $LoggedParksCount Places)<% else %>(Private)<% end_if %></p>
+                <p class="usercard_name">$Displayname</p>
+                <% if $ProfilePrivacy == "Public" || $ProfilePrivacy == "Friends" %>
+                    <p>$Logs.Count <% if $Logs.Count == 1 %>Log<% else %>Logs<% end_if %></p>
+                    <p>$LoggedParksCount <% if $LoggedParksCount == 1 %>Place<% else %>Places<% end_if %></p>
+                    <p>$CoasterCount.Count <% if $CoasterCount.Count == 1 %>Coaster<% else %>Coasters<% end_if %></p>
+                <% else %>
+                    <p>(Private)</p>
+                <% end_if %>
                 <% if $IsFriendWithCurrentUser %><p class="usercard_friendssince">Friends since $getFriendshipWithCurrentUser().FormattedFriendsSince</p><% end_if %>
             </div>
         </div>

@@ -10,8 +10,10 @@
 @import "typography";
 
 @import "layout/header.scss";
-@import "layout/navigation.scss";
 @import "layout/personalnav";
+
+@import "Navigation/MainNav";
+@import "Navigation/LoginNote";
 
 @import "layout/text.scss";
 @import "layout/locationsoverview.scss";
@@ -33,10 +35,20 @@
 @import "layout/Food";
 @import "layout/StatisticsPage";
 @import "layout/MembersList";
+@import "layout/RatingDisplay";
+
+@import "layout/ProfileCard";
+@import "layout/LoadingScreen";
+@import "layout/NewsCard";
 
 @import "elements/TextImageElement";
 @import "elements/FavouritePlacesElement";
 @import "elements/NewsElement";
+@import "elements/LogsElement";
+
+@import "Pages/DashboardPage";
+@import "Pages/NewsPage";
+@import "Pages/TripsPage";
 
 body{
     background-color: var(--ColorBackground); //rgb(230, 230, 230);

@@ -3,11 +3,15 @@ header {
     max-width: $maxWidth;
     margin-right: auto;
     margin-left: auto;
-    background-color: transparent;
     width: 100%;
     filter: none;
-    margin-bottom: -80px;
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: transparent;
+    transition: 0.2s ease-in-out;
 
     .header_nav{
         display: flex;
@@ -18,25 +22,15 @@ header {
         display: flex;
         width: 100%;
         position: relative;
-        height: 80px;
-        top: 5px;
-        margin-bottom: 80px;
+        height: 70px;
+        top: 0;
+        background-color: transparent;
+        transition: 0.2s ease-in-out;
 
-        .nav_brand{
-            height: 100%;
-            aspect-ratio: 1;
-            padding: 10px 10px 0px;
-            position: absolute;
-            left: 50%;
-            top: 35%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            @include media(">desktop") {
-                display: block;
-            }
-            img {
-                width: 100%;
-            }
+        .header_nav_title{
+            font-weight: 300;
+            text-transform: uppercase;
+            margin: 0;
         }
 
         .userimage{
@@ -64,21 +58,23 @@ header {
         }
 
         .backbutton{
-            color: var(--ColorPrimary);
+            color: var(--ColorWhite);
             &:hover{
                 filter: brightness(1);
             }
+
+            &.backbutton--hidden{
+                opacity: 0;
+                pointer-events: none;
+            }
         }
     }
-}
 
-.login_note{
-    position: fixed;
-    background-color: var(--ColorBackground);
-    bottom: 60px;
-    left: 0;
-    width: 100%;
-    z-index: 200;
-    margin: 105px 0 0 0;
-    padding: 15px 10px 30px 10px;
+    .menu--fixed & {
+        background-color: var(--ColorBackground);
+
+        .header_nav{
+            background-color: var(--ColorBackground);
+        }
+    }
 }

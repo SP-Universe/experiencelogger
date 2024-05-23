@@ -48,13 +48,11 @@
             }
 
             .profile_settings{
-                background-color: var(--ColorWhite);
                 padding: 20px 10px;
                 text-align: center;
                 border-radius: 20px;
-                width: auto;
+                width: 100%;
                 display: flex;
-                box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
                 margin: 0 auto;
                 gap: 20px;
                 justify-content: center;
@@ -71,6 +69,7 @@
                         width: 150px;
                         height: 150px;
                         border-radius: 50%;
+                        background-color: var(--ColorPrimaryDark);
 
                         .avatar_premium{
                             position: absolute;

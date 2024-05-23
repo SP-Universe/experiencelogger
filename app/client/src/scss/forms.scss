@@ -21,11 +21,11 @@ label{
 input{
     width: 100%;
     border-radius: 10px;
-    border: 1px solid var(--ColorPrimaryTrans);
-    background-color: var(--ColorWhite);
-    box-shadow: inset 0 0 5px 0 rgba(0,0,0,0.3);
+    border: 1px solid transparent;
+    background-color: var(--ColorPrimary);
     padding: 5px 10px;
-    color: var(--ColorBlack);
+    color: var(--ColorWhite);
+    accent-color: var(--ColorWhite);
 
     &[type="submit"]{
         margin: 10px 0px 30px 0px;
@@ -34,29 +34,20 @@ input{
         text-transform: uppercase;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
-        box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 
         &:hover{
-            background-color: var(--ColorSecondary);
+            background-color: var(--ColorPrimaryDark);
         }
     }
 
     &[type="checkbox"]{
-        box-shadow: 0 0 0px 0 rgba(0,0,0,0.3);
         width: auto;
         display: inline-block;
     }
 
-    &[type="text"]{
-        color: var(--ColorBlack);
-    }
-
-    &[type="number"]{
-        color: var(--ColorBlack);
-    }
-
-    &[type="date"]{
-        color: var(--ColorBlack);
+    &::placeholder{
+        color: var(--ColorWhite);
+        opacity: 0.5;
     }
 }
 
@@ -65,7 +56,6 @@ textarea{
     border-radius: 10px;
     border: 0;
     background-color: var(--ColorWhite);
-    box-shadow: inset 0 0 10px 0 rgba(0,0,0,0.3);
     padding: 5px 10px;
     color: var(--ColorBlack);
 }

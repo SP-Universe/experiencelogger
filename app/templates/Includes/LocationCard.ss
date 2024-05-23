@@ -3,14 +3,14 @@
     <a href="$Link" class="location_entry">
         <div class="location_entry_image">
             <% if $Image %>
-                <img src="$Image.FocusFill(600,200).Url" alt="$Image.Title" />
+                <img src="$Image.FocusFill(1000,400).Url" alt="$Image.Title" />
             <% else_if $Logo %>
-                <img src="$Logo.FocusFill(600,200).Url" alt="$Logo.Title" />
+                <img src="$Logo.FocusFill(1000,400).Url" alt="$Logo.Title" />
             <% end_if %>
         </div>
         <div class="location_entry_content">
             <h2 class="location_title">$Title</h2>
-            <h3>$Type.Title</h3>
+            <h3 class="location_type">$Type.Title</h3>
             <% if $Top.CurrentUser %>
                 <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$ID">
                     <p class="location_progress_text">Loading...</p>

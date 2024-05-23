@@ -207,4 +207,14 @@ class LogEntry extends DataObject
         $food = Food::get()->filter("ID", $FoodID)->first();
         return $food->Title;
     }
+
+    public function getRating()
+    {
+        $rating = $this->Votings()->first();
+        if ($rating) {
+            return $rating->Stars;
+        } else {
+            return 3;
+        }
+    }
 }

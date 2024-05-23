@@ -2,6 +2,12 @@
     <div class="section_content">
         <h1>Your Statistics of $Location.Title</h1>
         <hr>
+        <div class="progress_handler loading" data-behaviour="location_progress" data-locationid="$Location.ID">
+            <p class="location_progress_text">Loading...</p>
+            <div class="location_progress">
+                <div class="location_progress_bar" style="width: 0%"></div>
+            </div>
+        </div>
         <h2>Visits per year</h2>
         <div class="statistics_list list--5">
             <% loop $VisitsPerYear %>

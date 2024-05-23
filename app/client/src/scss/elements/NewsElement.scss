@@ -1,4 +1,5 @@
 .section.section--news{
+    text-align: center;
     .section_content{
         .news_title{
             margin-top: 40px;
@@ -6,42 +7,7 @@
         }
 
         .news_list{
-            .news_entry{
-                display: flex;
-                background-color: var(--ColorPrimaryDark);
-                border-radius: 20px;
-                overflow: hidden;
-                margin-bottom: 20px;
-                color: $ColorWhite;
-                justify-content: flex-end;
 
-                .news_entry_image{
-                    aspect-ratio: 16/9;
-                    width: 25%;
-                    object-fit: cover;
-                    background-color: $ColorPrimaryDark;
-                    display: block;
-                }
-
-                .news_entry_text{
-                    padding: 20px;
-                    width: 75%;
-                }
-
-                .theme--light &{
-                    background-color: var(--ColorPrimaryLight);
-                    color: $ColorBlack;
-                }
-
-                @include media("<medium"){
-                    flex-direction: column;
-
-                    .news_entry_image{
-                        width: 100%;
-                        height: 100px;
-                    }
-                }
-            }
         }
 
         .section_news_image{
@@ -51,10 +17,6 @@
             object-fit: cover;
             min-height: 200px;
             max-height: 400px;
-        }
-
-        .section_news_title{
-            padding-top: 10px;
         }
     }
 }

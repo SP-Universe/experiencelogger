@@ -1,21 +1,17 @@
 <header>
     <div class="header_nav">
         <div class="leftmenu">
-            <% if URLSegment != 'home' %>
-                <a class="backbutton" onclick="window.history.back();">
+                <a class="backbutton <% if URLSegment == 'home' %>backbutton--hidden<% end_if %>" onclick="window.history.back();">
                     <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path fill="currentColor" d="M24 40 8 24 24 8l2.1 2.1-12.4 12.4H40v3H13.7l12.4 12.4Z"/></svg>
                 </a>
-            <% end_if %>
         </div>
-        <a href="$Top.HomepageLink" class="nav_brand">
-            <img width="80px" height="80px" src="_resources/app/client/icons/ExperienceLogger-Symbol.svg" alt="Logo of Experience Logger">
-        </a>
+        <h1 class="header_nav_title">$Top.Title</h1>
         <% if $CurrentUser %>
-            <div class="userimage" data-behaviour="open_personalnav">
+            <a class="userimage" href="$CurrentUser.ProfileLink" data-behaviour="open_personalnav">
                 <div class="avatar_image">
                     <img src="$CurrentUser.getProfileImage(50)" alt="Avatar of $CurrentUser.Nickname">
                 </div>
-            </div>
+            </a>
         <% else %>
             <a class="userimage" href="$RegistrationPage.Link" aria-label="Login to page">
                 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -31,54 +27,5 @@
         <p class="centered">
             <a href="./home/login" class="button login_link">Log in</a> or <a href="$RegistrationPage.Link" class="button login_link">Register</a> to save your experiences.
         </p>
-    </div>
-<% end_if %>
-
-<div class="section section--navigation">
-    <ul class="nav_menu">
-        <% loop $Menu(1) %>
-            <% if $MenuPosition == "main" %>
-
-                <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
-                    <a href="$Link">
-                        <% if $MenuIcon %>
-                            <img alt="Menuicon for $MenuTitle" class="menuicon" src="$MenuIcon.Url"/>
-                        <% end_if %>
-                        <p>$MenuTitle</p>
-                    </a>
-                </li>
-
-            <% end_if %>
-        <% end_loop %>
-    </ul>
-</div>
-
-<% if $CurrentUser %>
-    <div class="section section--personalnav">
-        <ul class="section_content" data-behaviour="personalnav">
-            <% loop $Menu(1) %>
-                <% if $MenuPosition == "personal" %>
-                    <li class="nav_link<% if $LinkOrSection == "section" %> nav_link--active<% end_if %>">
-                        <a href="$Link">
-                            <p>$MenuTitle</p>
-                        </a>
-                    </li>
-                <% end_if %>
-            <% end_loop %>
-
-            <li class="nav_link">
-                <a href="Security/logout">
-                    <p>Logout</p>
-                </a>
-            </li>
-
-            <li class="nav_link">
-                <label class="switch">
-                    <input type="checkbox" id="toggle_darkmode" name="darkmode" <% if $Darkmode %>checked<% end_if %>>
-                    <span class="slider round"></span>
-                </label>
-            </li>
-
-        </ul>
     </div>
 <% end_if %>

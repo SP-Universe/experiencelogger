@@ -35,33 +35,43 @@
                 gap: 0px;
                 margin-bottom: 20px;
 
+                input[type="time"]::-webkit-calendar-picker-indicator{
+                    filter: invert(100%);
+                }
+
+                input[type="date"]::-webkit-calendar-picker-indicator{
+                    filter: invert(100%);
+                }
+
                 label{
                     margin: 0;
                 }
 
                 .group_entry{
-                    background-color: var(--ColorWhite);
+                    background-color: var(--ColorPrimary);
                     border-radius: 20px;
                     box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
                     width: 22%;
                     margin: 5px 0;
 
-                    color: var(--ColorPrimary);
+                    color: var(--ColorWhite);
                     position: relative;
                     overflow: hidden;
                     display: block;
+                    border: 3px solid transparent;
+                    transform: scale(1.0);
+                    transition: 0.2s ease-in-out;
+                    background-color: var(--ColorPrimaryDark);
 
                     label{
                         padding: 10px;
-                        color: var(--ColorSecondary);
+                        color: var(--ColorWhite);
                         text-align: center;
                         font-size: 10px;
                         height: 100%;
                         display: block;
-
-                        .theme--dark & {
-                            color: var(--ColorBlack);
-                        }
+                        cursor: pointer;
+                        transition: 0.2s ease-in-out;
                     }
 
                     input[type="checkbox"] {
@@ -74,12 +84,14 @@
                     &:has(input[type="checkbox"]:checked){
                         background-color: var(--ColorPrimary);
                         color: var(--ColorWhite);
+                        border: 3px solid var(--ColorWhite);
+                        transform: scale(1.05);
+
                         label{
+                            background-color: var(--ColorPrimary);
                             color: var(--ColorWhite);
                         }
                     }
-
-
                 }
 
                 @include media(">medium") {
@@ -108,7 +120,7 @@
             input[type="submit"] {
                 mask-image: url("../../../icons/add.svg");
                 color: transparent;
-                background-color: var(--ColorPrimary);
+                background-color: var(--ColorWhite);
                 position: fixed;
                 right: 10px;
                 bottom: 100px;
@@ -125,7 +137,7 @@
             }
 
             .xpl_logo{
-                color: transparent;
+                color: var(--ColorWhite);
                 position: fixed;
                 right: 10px;
                 bottom: 100px;
@@ -157,6 +169,11 @@
                     opacity: 1;
                 }
             }
+
+            #notes{
+                background-color: var(--ColorPrimary);
+                color: var(--ColorWhite);
+            }
         }
     }
 }
@@ -180,7 +197,7 @@
     &::before{
         content: '';
         display: block;
-        background-color: $ColorPrimary;
+        background-color: var(--ColorWhite);
         width: calc((100% / 5) * var(--value));
         height: 100%;
         position: absolute;
@@ -189,12 +206,12 @@
     }
 
     &::-webkit-slider-runnable-track{
-        background: $ColorWhite;
-        height: 50pxpx;
+        background: var(--ColorPrimary);
+        height: 50px;
     }
 
     &::-moz-range-track{
-        background: $ColorPrimary;
+        background: var(--ColorPrimary);
         height: 50px;
     }
 
@@ -202,14 +219,14 @@
         height: 50px;
         width: 50px;
         -webkit-appearance: none;
-        background-color: $ColorPrimary;
+        background-color: var(--ColorPrimary);
     }
 
     &::-moz-range-thumb{
         height: 50px;
         width: 50px;
         -webkit-appearance: none;
-        background-color: $ColorPrimary;
+        background-color: var(--ColorPrimary);
         border: none;
         border-radius: 0;
     }

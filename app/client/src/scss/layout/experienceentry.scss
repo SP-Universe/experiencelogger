@@ -4,31 +4,13 @@
         .experience_block{
             box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
             border-radius: 20px;
-            background-color: var(--ColorWhite);
+            background-color: var(--ColorPrimary);
             overflow: hidden;
             padding: 20px;
             position: relative;
 
             span{
                 font-weight: 400;
-            }
-
-            .backbutton{
-                position: absolute;
-                top: 20px;
-                left: 20px;
-                background-color: var(--ColorWhite);
-                padding: 5px 15px;
-                border-radius: 0px 0 10px 0;
-                transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, left 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-                z-index: 50;
-                cursor: pointer;
-
-                &:hover{
-                    border-radius: 10px 0 10px 0;
-                    background-color: var(--ColorPrimary);
-                    color: var(--ColorWhite);
-                }
             }
 
             .experiencegallery{
@@ -88,7 +70,7 @@
                     }
                 }
             }
-            
+
             .trainNumberPosition{
                 display: flex;
                 justify-content: left;
@@ -110,32 +92,6 @@
                 align-items: center;
                 flex-wrap: wrap;
                 cursor: default;
-
-                .ratingdisplay{
-                    --star: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="auto" height="100%"><path d="M12 17.25l-6.188 3.75 1.641-7.031-5.438-4.734 7.172-0.609 2.813-6.609 2.813 6.609 7.172 0.609-5.438 4.734 1.641 7.031z"/></svg>');
-                    -webkit-appearance: none;
-                    --stars: 3;
-                    background: $ColorPrimaryTrans;
-                    cursor: pointer;
-                    width: 125px;
-                    overflow: hidden;
-                    height: 25px;
-                    padding: 0;
-                    mask: var(--star) repeat-x 0 0;
-                    position: relative;
-                    cursor: default;
-
-                    &::before{
-                        content: '';
-                        display: block;
-                        background-color: $ColorPrimary;
-                        width: calc((100% / 5) * var(--stars));
-                        height: 100%;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                    }
-                }
             }
 
             .experience_buttons{
@@ -146,10 +102,16 @@
                 flex-wrap: wrap;
 
                 .experience_button{
-                    background-color: var(--ColorPrimary);
+                    background-color: var(--ColorPrimaryDark);
                     border-radius: 20px;
                     color: white;
                     padding: 5px 10px;
+                    transition: 0.2s ease-in-out;
+
+                    &:hover{
+                        background-color: var(--ColorWhite);
+                        color: var(--ColorPrimaryDark);
+                    }
                 }
             }
 
@@ -160,7 +122,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                background-color: var(--ColorWhite);
                 border-radius: 10px;
                 box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
                 background-color: var(--ColorPrimary);
@@ -182,7 +143,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background-color: var(--ColorWhite);
+                    background-color: var(--ColorPrimaryDark);
                     box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 
                     &:hover{
