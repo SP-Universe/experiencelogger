@@ -16,7 +16,7 @@
         <% else_if $UserProfile.Nickname == $CurrentUser.Nickname %>
 
             <div class="profile_settings live" id="profileSettings">
-                <% include ProfileCard %>
+                <% cached %><% include ProfileCard %><% end_cached %>
             </div>
 
             <div class="profile_settings edit">
@@ -97,12 +97,14 @@
             <% end_if %>
             <!-- End Friend Requests -->
 
-            <h3 class="profile_section_headline">Your friends:</h3>
-            <div class="profile_friendslist">
-                <% loop $UserProfile.getFriends %>
-                    <% include UserCard HideFriendAdd=true %>
-                <% end_loop %>
-            </div>
+            <% cached %>
+                <h3 class="profile_section_headline">Your friends:</h3>
+                <div class="profile_friendslist">
+                    <% loop $UserProfile.getFriends %>
+                        <% include UserCard HideFriendAdd=true %>
+                    <% end_loop %>
+                </div>
+            <% end_cached %>
 
             <a href="$Top.Link('memberlist')" class="button centered profile_addfriend_button">Add new Friend</a>
 

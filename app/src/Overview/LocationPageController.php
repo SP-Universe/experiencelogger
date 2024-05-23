@@ -49,7 +49,7 @@ class LocationPageController extends PageController
         $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
         $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
         $sqlRequest->addLeftJoin('Rating', '"Rating"."ExperienceID" = "Experience"."ID"', 'Rating');
-        //$sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
+        $sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
 
         $currentUser = Security::getCurrentUser();
         if (!$currentUser) {
@@ -80,6 +80,20 @@ class LocationPageController extends PageController
         $sqlRequest->addSelect('ExperienceType.ID AS ExperienceTypeID');
         $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
 
+        $sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
+        $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
+        $sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
+        $sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
+        $sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
+        $sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
+        $sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
+        $sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
+        $sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
+        $sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
+        $sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
+        $sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
+        $sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');
+
         $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
 
         $sqlRequest->addSelect('Rating.ID AS RatingID');
@@ -89,7 +103,7 @@ class LocationPageController extends PageController
 
         $data = [];
 
-         //debug display all data in echo
+        //debug display all data in echo
         //echo "<pre>";
         //print_r($sqlResult);
 
@@ -97,7 +111,7 @@ class LocationPageController extends PageController
             $data[] = $row;
         }
 
-         //Create the location object
+        //Create the location object
         $location = ExperienceLocation::create();
         $location->Title = $data[0]["LocationTitle"];
         $location->LinkTitle = $data[0]["LocationLinkTitle"];
@@ -114,100 +128,103 @@ class LocationPageController extends PageController
 
         //Create all experience types
         $experienceTypes = ArrayList::create();
-        foreach ($data as $row) {
-            $experienceType = ExperienceType::create();
-            $experienceType->Title = $row["ExperienceTypeTitle"];
-            $experienceType->ID = $row["ExperienceTypeID"];
-
-            $experienceTypes->push($experienceType);
-        }
-
-        //Create all ratings
         $ratings = ArrayList::create();
-        foreach ($data as $row) {
-            $rating = Rating::create();
-            $rating->ID = $row["RatingID"];
-            $rating->Stars = $row["RatingStars"];
-            $rating->ExperienceID = $row["ExperienceID"];
+        $logEntries = DataList::create(LogEntry::class);
+        $experiences = ArrayList::create();
 
-            $ratings->push($rating);
+        foreach ($data as $row) {
+            if ($row["ExperienceTypeID"]!= null) {
+                //ExperienceTypes
+                $experienceType = ExperienceType::create();
+                $experienceType->Title = $row["ExperienceTypeTitle"];
+                $experienceType->ID = $row["ExperienceTypeID"];
+                $experienceTypes->push($experienceType);
+            }
+
+            if ($row["RatingID"]!= null) {
+                //Ratings
+                $rating = Rating::create();
+                $rating->ID = $row["RatingID"];
+                $rating->Stars = $row["RatingStars"];
+                $rating->ExperienceID = $row["ExperienceID"];
+                $ratings->push($rating);
+            }
+
+            if ($row["LogEntryID"]!= null) {
+                //Logs
+                $logEntry = LogEntry::create();
+                $logEntry->ID = $row["LogEntryID"];
+                $logEntry->VisitTime = $row["LogEntryVisitTime"];
+                $logEntry->Weather = $row["LogEntryWeather"];
+                $logEntry->Train = $row["LogEntryTrain"];
+                $logEntry->Wagon = $row["LogEntryWagon"];
+                $logEntry->Row = $row["LogEntryRow"];
+                $logEntry->Seat = $row["LogEntrySeat"];
+                $logEntry->Score = $row["LogEntryScore"];
+                $logEntry->Podest = $row["LogEntryPodest"];
+                $logEntry->Variant = $row["LogEntryVariant"];
+                $logEntry->Version = $row["LogEntryVersion"];
+                $logEntry->Notes = $row["LogEntryNotes"];
+                $logEntry->UserID = $row["LogEntryUserID"];
+                $logEntries->add($logEntry);
+            }
+
+            if ($row["ExperienceID"]!= null) {
+                //Experiences
+                $experience = Experience::create();
+                $experience->Title = $row["ExperienceTitle"];
+                $experience->ID = $row["ExperienceID"];
+                $experience->State = $row["ExperienceState"];
+                $experience->TypeTitle = $experienceTypes->find('ID', $row["ExperienceTypeID"])->Title;
+                $experience->JSONCode = $row["ExperienceJSONCode"];
+                $experience->TypeID = $row["ExperienceTypeID"];
+                $experience->Coordinates = $row["ExperienceCoordinates"];
+                $experience->LinkTitle = $row["ExperienceLinkTitle"];
+                $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
+                $experience->ExperienceAddLogLink = $this->Link() . "/addLog/" . $title . "---" . $experience->LinkTitle;
+                $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
+                $experience->HasFastpass = $row["ExperienceHasFastpass"];
+                $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
+                $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
+                $experience->AreaID = $row["AreaID"];
+
+                $filteredRatings = $ratings->filter("ExperienceID", $experience->ID);
+                if ($filteredRatings->Count() > 0) {
+                    $sumOfStars = 0;
+                    foreach ($filteredRatings as $rating) {
+                        $sumOfStars += $rating->Stars;
+                    }
+                    $experience->Rating = $sumOfStars / $filteredRatings->Count();
+                } else {
+                    $experience->Rating = 0;
+                }
+
+                if ($currentUser) {
+                    $experience->LoggedEntries = $logEntries->filter(array(
+                        'ExperienceID' => $experience->ID,
+                        'UserID' =>  $currentUser->ID
+                    ));
+
+                    //$experience->LoggedEntriesCount = $experience->LoggedEntries->Count();
+                }
+
+                $experiences->push($experience);
+            }
         }
 
-        //Create all logEntries
-        /*$logEntries = ArrayList::create();
-        foreach ($data as $row) {
-            $logEntry = LogEntry::create();
-            $logEntry->ID = $row["LogEntryID"];
-            $logEntry->VisitTime = $row["LogEntryVisitTime"];
-            $logEntry->Weather = $row["LogEntryWeather"];
-            $logEntry->Train = $row["LogEntryTrain"];
-            $logEntry->Wagon = $row["LogEntryWagon"];
-            $logEntry->Row = $row["LogEntryRow"];
-            $logEntry->Seat = $row["LogEntrySeat"];
-            $logEntry->Score = $row["LogEntryScore"];
-            $logEntry->Podest = $row["LogEntryPodest"];
-            $logEntry->Variant = $row["LogEntryVariant"];
-            $logEntry->Version = $row["LogEntryVersion"];
-            $logEntry->Notes = $row["LogEntryNotes"];
-            $logEntry->UserID = $row["LogEntryUserID"];
+        $characterTypeID = ExperienceType::get()->find('Title', 'Character')->ID;
 
-            $logEntries->push($logEntry);
-        }*/
-
-        //Create all experience objects and put into groupedList
-        $experiences = ArrayList::create();
-        foreach ($data as $row) {
-            $experience = Experience::create();
-            $experience->Title = $row["ExperienceTitle"];
-            $experience->ID = $row["ExperienceID"];
-            $experience->State = $row["ExperienceState"];
-            $experience->TypeTitle = $experienceTypes->find('ID', $row["ExperienceTypeID"])->Title;
-            $experience->JSONCode = $row["ExperienceJSONCode"];
-            $experience->TypeID = $row["ExperienceTypeID"];
-            $experience->Coordinates = $row["ExperienceCoordinates"];
-            $experience->LinkTitle = $row["ExperienceLinkTitle"];
-            $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
-            $experience->ExperienceAddLogLink = $this->Link() . "/addLog/" . $title . "---" . $experience->LinkTitle;
-            $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
-            $experience->HasFastpass = $row["ExperienceHasFastpass"];
-            $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
-            $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
-            $experience->AreaID = $row["AreaID"];
-
+        $experiencesNotCharacters = ArrayList::create();
+        $characters = ArrayList::create();
+        foreach ($experiences as $experience) {
             if ($experience->AreaID != 0) {
-                $area = Experience::get()->byID($experience->AreaID);
+                $area = $experiences->find('ID', $experience->AreaID);
                 $experience->AreaTitle = $area->Title;
                 $experience->AreaLinkTitle = $area->LinkTitle;
                 $experience->AreaLink = $this->Link() . "/experience/" . $title . "---" . $experience->AreaLinkTitle;
             }
 
-            $filteredRatings = $ratings->filter("ExperienceID", $experience->ID);
-            if ($filteredRatings->Count() > 0) {
-                $sumOfStars = 0;
-                foreach ($filteredRatings as $rating) {
-                    $sumOfStars += $rating->Stars;
-                }
-                $experience->Rating = $sumOfStars / $filteredRatings->Count();
-            } else {
-                $experience->Rating = 0;
-            }
-
-            if ($currentUser) {
-                $experience->LogEntries = LogEntry::get()->filter(array(
-                    'ExperienceID' => $experience->ID,
-                    'UserID' =>  $currentUser->ID
-                ));
-            }
-
-            $experiences->push($experience);
-        }
-
-        $characterType = ExperienceType::get()->find('Title', 'Character');
-
-        $experiencesNotCharacters = ArrayList::create();
-        $characters = ArrayList::create();
-        foreach ($experiences as $experience) {
-            if ($experience->TypeID != $characterType->ID) {
+            if ($experience->TypeID != $characterTypeID) {
                 //check if similar experienceTitle is already in the list (Bad Fix!)
                 $similarExperience = $experiencesNotCharacters->find('Title', $experience->Title);
                 if (!$similarExperience) {
