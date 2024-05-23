@@ -27,10 +27,10 @@
     <div class="log_text" data-behaviour="showhide_log">
         <h3>$Experience.Title</h3>
         <div class="park">
-            <p>$Experience.ExperienceType in $Experience.Parent.Title</p>
-            <% if $Experience.Rating %>
+            <p><b>$Experience.ExperienceType</b> in $Experience.Parent.Title</p>
+            <% if $Rating %>
                 <p>|</p>
-                <div class="ratingdisplay ratingdisplay--inline" style="--stars: $Experience.Rating" title="$Experience.Rating Stars"></div>
+                <div class="ratingdisplay ratingdisplay--inline" style="--stars: $Rating" title="$Rating Stars"></div>
             <% end_if %>
         </div>
 
