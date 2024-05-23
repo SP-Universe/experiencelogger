@@ -11,4 +11,3 @@ $validator = PasswordValidator::create();
 // Settings are registered via Injector configuration - see passwords.yml in framework
 Member::set_password_validator($validator);
 i18n::set_locale('en_EN');
-GoogleSitemap::register_dataobject(Experience::class);
