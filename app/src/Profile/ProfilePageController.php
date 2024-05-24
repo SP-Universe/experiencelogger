@@ -7,6 +7,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;
 use App\Profile\FriendRequest;
+use SilverStripe\ORM\ArrayList;
 use App\Overview\StatisticsPage;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DateField;
@@ -22,9 +23,9 @@ use App\ExperienceDatabase\LogEntry;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use HudhaifaS\Forms\FrontendImageField;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\ORM\Connect\MySQLQuery;
+use SilverStripe\Control\Middleware\HTTPCacheControlMiddleware;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -45,6 +46,16 @@ class ProfilePageController extends PageController
         'declinefriend',
         'requestnewfriend'
     ];
+
+    public function init()
+    {
+        HTTPCacheControlMiddleware::singleton()
+        ->enableCache()
+        // 1 minute
+        ->setMaxAge(60);
+
+        parent::init();
+    }
 
     public function index()
     {
@@ -109,8 +120,8 @@ class ProfilePageController extends PageController
                 "private" => "Private"
             ));
             $dropdownFieldProfilePrivacy->setValue($currentUser->ProfilePrivacy);
-            $dropdownFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
-            $dropdownFieldLinkedLogging->setValue($currentUser->LinkedLogging);
+            $checkboxFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
+            $checkboxFieldLinkedLogging->setValue($currentUser->LinkedLogging);
 
             $fields = new FieldList(
                 $upload,
@@ -120,7 +131,7 @@ class ProfilePageController extends PageController
                 new TextField("Email", "Email"),
                 new DateField("DateOfBirth", "Birthdate"),
                 $dropdownFieldProfilePrivacy,
-                $dropdownFieldLinkedLogging
+                $checkboxFieldLinkedLogging
             );
 
             $actions = new FieldList(
