@@ -59,7 +59,6 @@ class LocationPageController extends PageController
         $sqlRequest->addLeftJoin('ExperienceLocationType', '"Location"."TypeID" = "LocationType"."ID"', 'LocationType');
         $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
         $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
-        $sqlRequest->addLeftJoin('Rating', '"Rating"."ExperienceID" = "Experience"."ID"', 'Rating');
 
         $sqlRequest->addSelect('Location.Title AS LocationTitle');
         $sqlRequest->addSelect('Location.ID AS LocationID');
@@ -86,9 +85,6 @@ class LocationPageController extends PageController
         $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
 
         $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
-
-        $sqlRequest->addSelect('Rating.ID AS RatingID');
-        $sqlRequest->addSelect('Rating.Stars AS RatingStars');
 
         $sqlResult = $sqlRequest->execute();
 
@@ -119,7 +115,6 @@ class LocationPageController extends PageController
 
         //Create all experience types
         $experienceTypes = ArrayList::create();
-        $ratings = ArrayList::create();
         $experiences = ArrayList::create();
 
         foreach ($data as $row) {
@@ -129,15 +124,6 @@ class LocationPageController extends PageController
                 $experienceType->Title = $row["ExperienceTypeTitle"];
                 $experienceType->ID = $row["ExperienceTypeID"];
                 $experienceTypes->push($experienceType);
-            }
-
-            if ($row["RatingID"]!= null) {
-                //Ratings
-                $rating = Rating::create();
-                $rating->ID = $row["RatingID"];
-                $rating->Stars = $row["RatingStars"];
-                $rating->ExperienceID = $row["ExperienceID"];
-                $ratings->push($rating);
             }
 
             if ($row["ExperienceID"]!= null) {
