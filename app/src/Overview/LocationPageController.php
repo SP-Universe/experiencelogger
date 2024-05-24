@@ -40,6 +40,17 @@ class LocationPageController extends PageController
 
     public function location()
     {
+        $currentUser = Security::getCurrentUser();
+        $logs = DataList::create(LogEntry::class);
+        $ratings = DataList::create(Rating::class);
+        if (!$currentUser) {
+            $currentUser = null;
+            $logs = null;
+        } else {
+            $logs = LogEntry::get()->filter("UserID", $currentUser->ID);
+        }
+        $ratings = Rating::get();
+
         $title = $this->getRequest()->param("ID");
         $sqlRequest = new SQLSelect("Location.Title AS Title");
         $sqlRequest->setFrom('ExperienceLocation AS Location');
@@ -49,12 +60,6 @@ class LocationPageController extends PageController
         $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
         $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
         $sqlRequest->addLeftJoin('Rating', '"Rating"."ExperienceID" = "Experience"."ID"', 'Rating');
-        $sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
-
-        $currentUser = Security::getCurrentUser();
-        if (!$currentUser) {
-            $currentUser = null;
-        }
 
         $sqlRequest->addSelect('Location.Title AS LocationTitle');
         $sqlRequest->addSelect('Location.ID AS LocationID');
@@ -79,20 +84,6 @@ class LocationPageController extends PageController
 
         $sqlRequest->addSelect('ExperienceType.ID AS ExperienceTypeID');
         $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
-
-        $sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
-        $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
-        $sqlRequest->addSelect('LogEntry.Weather AS LogEntryWeather');
-        $sqlRequest->addSelect('LogEntry.Train AS LogEntryTrain');
-        $sqlRequest->addSelect('LogEntry.Wagon AS LogEntryWagon');
-        $sqlRequest->addSelect('LogEntry.Row AS LogEntryRow');
-        $sqlRequest->addSelect('LogEntry.Seat AS LogEntrySeat');
-        $sqlRequest->addSelect('LogEntry.Score AS LogEntryScore');
-        $sqlRequest->addSelect('LogEntry.Podest AS LogEntryPodest');
-        $sqlRequest->addSelect('LogEntry.Variant AS LogEntryVariant');
-        $sqlRequest->addSelect('LogEntry.Version AS LogEntryVersion');
-        $sqlRequest->addSelect('LogEntry.Notes AS LogEntryNotes');
-        $sqlRequest->addSelect('LogEntry.UserID AS LogEntryUserID');
 
         $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
 
@@ -129,7 +120,6 @@ class LocationPageController extends PageController
         //Create all experience types
         $experienceTypes = ArrayList::create();
         $ratings = ArrayList::create();
-        $logEntries = DataList::create(LogEntry::class);
         $experiences = ArrayList::create();
 
         foreach ($data as $row) {
@@ -148,25 +138,6 @@ class LocationPageController extends PageController
                 $rating->Stars = $row["RatingStars"];
                 $rating->ExperienceID = $row["ExperienceID"];
                 $ratings->push($rating);
-            }
-
-            if ($row["LogEntryID"]!= null) {
-                //Logs
-                $logEntry = LogEntry::create();
-                $logEntry->ID = $row["LogEntryID"];
-                $logEntry->VisitTime = $row["LogEntryVisitTime"];
-                $logEntry->Weather = $row["LogEntryWeather"];
-                $logEntry->Train = $row["LogEntryTrain"];
-                $logEntry->Wagon = $row["LogEntryWagon"];
-                $logEntry->Row = $row["LogEntryRow"];
-                $logEntry->Seat = $row["LogEntrySeat"];
-                $logEntry->Score = $row["LogEntryScore"];
-                $logEntry->Podest = $row["LogEntryPodest"];
-                $logEntry->Variant = $row["LogEntryVariant"];
-                $logEntry->Version = $row["LogEntryVersion"];
-                $logEntry->Notes = $row["LogEntryNotes"];
-                $logEntry->UserID = $row["LogEntryUserID"];
-                $logEntries->add($logEntry);
             }
 
             if ($row["ExperienceID"]!= null) {
@@ -200,12 +171,8 @@ class LocationPageController extends PageController
                 }
 
                 if ($currentUser) {
-                    $experience->LoggedEntries = $logEntries->filter(array(
-                        'ExperienceID' => $experience->ID,
-                        'UserID' =>  $currentUser->ID
-                    ));
-
-                    //$experience->LoggedEntriesCount = $experience->LoggedEntries->Count();
+                    $experience->LoggedEntries = $logs->filter("ExperienceID", $experience->ID);
+                    $experience->LoggedEntriesCount = $logs->filter("ExperienceID", $experience->ID)->count();
                 }
 
                 $experiences->push($experience);
