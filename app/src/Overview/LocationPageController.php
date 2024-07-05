@@ -145,22 +145,6 @@ class LocationPageController extends PageController
                 $experience->AccessibleToHandicapped = $row["ExperienceAccessibleToHandicapped"];
                 $experience->AreaID = $row["AreaID"];
 
-                $filteredRatings = $ratings->filter("ExperienceID", $experience->ID);
-                if ($filteredRatings->Count() > 0) {
-                    $sumOfStars = 0;
-                    foreach ($filteredRatings as $rating) {
-                        $sumOfStars += $rating->Stars;
-                    }
-                    $experience->Rating = $sumOfStars / $filteredRatings->Count();
-                } else {
-                    $experience->Rating = 0;
-                }
-
-                if ($currentUser) {
-                    $experience->LoggedEntries = $logs->filter("ExperienceID", $experience->ID);
-                    $experience->LoggedEntriesCount = $logs->filter("ExperienceID", $experience->ID)->count();
-                }
-
                 $experiences->push($experience);
             }
         }
@@ -258,14 +242,6 @@ class LocationPageController extends PageController
             "PercentOfLogs" => $percentOfLogs,
             "AverageLogsPerVisit" => $averageLogsPerVisit,
         );
-    }
-
-    public function getLogs()
-    {
-        $currentUser = Security::getCurrentUser();
-        if ($currentUser) {
-            return GroupedList::create(LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime", "DESC"));
-        }
     }
 
     public function getLogCountForSeat($train, $wagon, $row, $seat)
