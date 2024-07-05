@@ -29,4 +29,8 @@
         height: 1em;
         width: 5em;
     }
+
+    &.ratingdisplay--loading{
+        animation: loadingbackground 3s infinite;
+    }
 }

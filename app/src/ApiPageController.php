@@ -8,6 +8,7 @@ namespace {
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
+    use App\Ratings\Rating;
     use SilverStripe\Security\Member;
     use SilverStripe\Control\HTTPRequest;
     use SilverStripe\Core\Injector\Injector;
@@ -15,14 +16,15 @@ namespace {
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
     use SilverStripe\ORM\Queries\SQLSelect;
+    use Symfony\Component\Validator\Constraints\Count;
 
     /**
-     * Class \PageController
-     *
-     * @property \ApiPage $dataRecord
-     * @method \ApiPage data()
-     * @mixin \ApiPage
-     */
+ * Class \PageController
+ *
+ * @property \ApiPage $dataRecord
+ * @method \ApiPage data()
+ * @mixin \ApiPage
+ */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -33,7 +35,9 @@ namespace {
             "placesnew",
             "addLog",
             "profile",
-            "locationprogress"
+            "locationprogress",
+            "logCountForExperience",
+            "ratingForExperience",
         ];
 
         public function logout(HTTPRequest $request)
@@ -370,6 +374,63 @@ namespace {
                 $data['Content'] = "Error: " . "You need to be logged in to add a log entry.";
             }
 
+            return json_encode($data);
+        }
+
+        public function logCountForExperience(HTTPRequest $request)
+        {
+            $currentUser = Security::getCurrentUser();
+
+            if (!$currentUser) {
+                $data['Status'] = false;
+                $data['Content'] = "Error: " . "You need to be logged in to use this feature.";
+            } else {
+                $experience = Experience::get()->filter("ID", $request->param("ID"))->first();
+                $logs = LogEntry::get()->filter([
+                    "ExperienceID" => $experience->ID,
+                    "UserID" => $currentUser->ID
+                ]);
+                $data['Status'] = true;
+                $data['Experience'] = $experience->Title;
+                $data['LogCount'] = $logs->count();
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
+        }
+
+        public function ratingForExperience(HTTPRequest $request)
+        {
+            $experience = Experience::get()->filter("ID", $request->param("ID"))->first();
+            if (!$experience) {
+                $data['Status'] = false;
+                $data['Content'] = "Error: " . "The experience couldn't be found...";
+            } else {
+                $ratings = Rating::get()->filter([
+                    "ExperienceID" => $experience->ID
+                ]);
+
+                //Get the average stars from all ratings
+                $totalStars = 0;
+                $totalRatings = 0;
+                foreach ($ratings as $rating) {
+                    $totalStars += $rating->Stars;
+                    $totalRatings++;
+                }
+
+                if ($totalStars > 0) {
+                    $averageStars = $totalStars / $totalRatings;
+                    $averageStars = round($averageStars, 2);
+                } else {
+                    $averageStars = 0;
+                }
+
+                $data['Status'] = false;
+                $data['Experience'] = $experience->Title;
+                $data['Rating'] = $averageStars;
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
         }
 
