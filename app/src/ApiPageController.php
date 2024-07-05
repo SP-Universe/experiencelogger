@@ -2,9 +2,8 @@
 
 namespace {
 
-use SilverStripe\ORM\DB;
-use SilverStripe\Assets\Image;
-
+    use SilverStripe\ORM\DB;
+    use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -13,19 +12,17 @@ use SilverStripe\Assets\Image;
     use SilverStripe\Control\HTTPRequest;
     use SilverStripe\Core\Injector\Injector;
     use SilverStripe\Security\IdentityStore;
-    use Level51\JWTUtils\JWTUtils;
-    use Level51\JWTUtils\JWTUtilsException;
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
     use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
- * Class \PageController
- *
- * @property \ApiPage $dataRecord
- * @method \ApiPage data()
- * @mixin \ApiPage
- */
+     * Class \PageController
+     *
+     * @property \ApiPage $dataRecord
+     * @method \ApiPage data()
+     * @mixin \ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
