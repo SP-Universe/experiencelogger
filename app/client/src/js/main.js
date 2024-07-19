@@ -121,4 +121,4 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 });
 
-loadingScreen.classList.add('fadeout');
+loadingScreen.classList.remove('fadeout');
