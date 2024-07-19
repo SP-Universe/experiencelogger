@@ -98,6 +98,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
+    window.onpopstate = function(event) {
+        // "event" object seems to contain value only when the back button is clicked
+        // and if the pop state event fires due to clicks on a button
+        // or a link it comes up as "undefined"
+        loadingScreen.classList.add('fadeout');
+        if(event){
+            event.preventDefault();
+            // Code to handle back button or prevent from navigation
+        }
+        else{
+            // Continue user action through link or button
+        }
+    };
+
     //Backbutton
     const backbutton = document.querySelector('backbutton');
     if (backbutton && loadingScreen) {
