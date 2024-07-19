@@ -85,6 +85,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     });
 
+    window.addEventListener('popstate', function(event) {
+        loadingScreen.classList.remove('fadeout');
+    });
+
     //Add Log Button
     const addlogbutton = document.querySelector('[data-behaviour="addlog_button"]');
     const addlogloading = document.querySelector('[data-behaviour="addlog_loading"]');
