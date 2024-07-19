@@ -16,6 +16,9 @@ if (navigator && navigator.serviceWorker) {
     navigator.serviceWorker.register('service-worker.js');
 }
 
+
+const loadingScreen = document.querySelector('.loading_screen');
+
 document.addEventListener("DOMContentLoaded", function (event) {
     //Range input for ratings
     for (let e of document.querySelectorAll('input[type="range"].rating')) {
@@ -65,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // Button to Loading Screen
     const buttons = document.querySelectorAll('a');
-    const loadingScreen = document.querySelector('.loading_screen');
     buttons.forEach(button => {
 
         if(button.getAttribute('data-noloadingscreen') == "true"){
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         // "event" object seems to contain value only when the back button is clicked
         // and if the pop state event fires due to clicks on a button
         // or a link it comes up as "undefined"
-        loadingScreen.classList.add('fadeout');
+        loadingScreen.classList.remove('fadeout');
         if(event){
             event.preventDefault();
             // Code to handle back button or prevent from navigation
