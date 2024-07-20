@@ -1,5 +1,5 @@
 .loading_screen{
-    opacity: 1;
+    opacity: 0;
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -7,7 +7,7 @@
     left: 0;
     background-color: var(--ColorPrimary);
     z-index: 99999;
-    animation: animateOut 0.5s ease-in-out forwards;
+    //animation: animateOut 0.5s ease-in-out forwards;
     pointer-events: none;
 
     .loading_screen_wave{
@@ -101,6 +101,4 @@
             pointer-events: none;
         }
     }
-
-    display: none;
 }
