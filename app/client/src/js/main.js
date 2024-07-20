@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             button.addEventListener('click', e => {
                 if(button.getAttribute('data-behaviour') == 'addlog_button') return;
                 //e.preventDefault();
-                loadingScreen.classList.add('fadeout');
+                //loadingScreen.classList.add('fadeout');
                 setTimeout(() => {
                     window.location.href = button.href;
                 }, 300);
