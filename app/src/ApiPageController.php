@@ -8,6 +8,7 @@ namespace {
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
+    use App\Overview\LocationPage;
     use App\Ratings\Rating;
     use SilverStripe\Security\Member;
     use SilverStripe\Control\HTTPRequest;
@@ -38,6 +39,7 @@ namespace {
             "locationprogress",
             "logCountForExperience",
             "ratingForExperience",
+            "checkLogin",
         ];
 
         public function logout(HTTPRequest $request)
@@ -109,13 +111,15 @@ namespace {
                 $data['LastEdited']['Timestamp'] = $lastedited;
 
                 $data["Count"] = count($experiences);
+                $data["LoggedIn"] = Security::getCurrentUser() ? true : false;
 
                 foreach ($experiences as $experience) {
                     $key = $experience->Title;
                     $data['items'][$key]['ID'] = $experience->ID;
                     $data['items'][$key]['Title'] = $experience->Title;
-                    $data['items'][$key]['Link'] = $experience->AbsoluteLink;
                     $data['items'][$key]['LinkTitle'] = $experience->LinkTitle;
+                    $data['items'][$key]['DetailsLink'] = $experience->getLink();
+                    $data['items'][$key]['LoggingLink'] = $experience->getAddLogLink();
                     if ($experience->Description) {
                         $data['items'][$key]['Description'] = $experience->Description;
                     }
@@ -125,6 +129,7 @@ namespace {
                     $data['items'][$key]['Location'] = $experience->Parent->Title;
                     $data['items'][$key]['LocationID'] = $experience->ParentID;
                     $data['items'][$key]['Type'] = $experience->Type->Title;
+                    $data['items'][$key]['Area'] = $experience->Area->Title;
                     $data['items'][$key]['State'] = $experience->State;
                     $data['items'][$key]['Coordinates'] = $experience->Coordinates;
                     $data['items'][$key]['LastEdited'] = $experience->LastEdited;
@@ -296,16 +301,6 @@ namespace {
             foreach ($groupedData as $row) {
                 $data[] = $row;
             }
-
-
-
-            /*$items = DB::Query("
-                SELECT
-                    ExperienceLocation.Title AS LocationTitle,
-                    ExperienceLocationType.Title AS LocationTypeTitle
-                FROM ExperienceLocation
-                LEFT JOIN ExperienceLocationType ON ExperienceLocationType.ID = ExperienceLocation.TypeID
-            ");*/
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
@@ -552,6 +547,20 @@ namespace {
                 $this->response->setStatusCode(200);
                 return json_encode($data);
             }
+        }
+
+        public function CheckLogin(HTTPRequest $request)
+        {
+            $currentUser = Security::getCurrentUser();
+
+            if (!$currentUser) {
+                $data['LoggedIn'] = false;
+            } else {
+                $data['LoggedIn'] = true;
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
         }
     }
 }
