@@ -432,8 +432,8 @@ namespace {
             $data['API_Description'] = "This API enables devs to use gathered information about theme parks and other experiences to use in their apps.";
             $data['API_Version'] = "1.0.0";
 
-            $data['Places'] = $this->AbsoluteLink() . "places";
-            $data['Experiences'] = $this->AbsoluteLink() . "experiences";
+            $data['Places'] = $this->AbsoluteLink() . "/places";
+            $data['Experiences'] = $this->AbsoluteLink() . "/experiences";
 
             $data['Copyright'] = "This API is developed and maintained by SP Universe. All rights reserved.";
 

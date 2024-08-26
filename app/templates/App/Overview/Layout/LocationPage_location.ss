@@ -120,6 +120,7 @@
                             <option value="default">Sort by State</option>
                             <option value="title">Sort by Title</option>
                             <option value="type">Sort by Type</option>
+                            <option value="logcount">Sort by LogCount</option>
                             <!--<option value="distance">Sort by Distance</option>-->
                         </select>
                     </div>
