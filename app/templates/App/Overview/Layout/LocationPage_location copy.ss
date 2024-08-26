@@ -117,16 +117,24 @@
                             <% end_loop %>
                         </select>
                         <select class="experience_filter sort" data-behaviour="experiencelist_filter" data-filtertype="sort">
-                            <option value="default">Sort by State</option>
                             <option value="title">Sort by Title</option>
                             <option value="type">Sort by Type</option>
-                            <!--<option value="distance">Sort by Distance</option>-->
+                            <option value="distance">Sort by Distance</option>
                         </select>
                     </div>
 
-                    <div class="experience_list" data-behaviour="experienceList" data-parkID="$ID">
-
-                    </div>
+                    <% cached 'ExperienceList-$Top.ID', $Top.GroupedExperiences.max('LastEdited'), $Top.GroupedExperiences.count() %>
+                        <div class="experience_list">
+                            <% loop $Top.GroupedExperiences.GroupedBy("State") %>
+                                <div class="state_hl" data-behavior="experience-group-headline" data-state="$Children.First.State">
+                                    <h2>$Children.First.State</h2>
+                                </div>
+                                <% loop $Children.Sort("Title") %>
+                                    <% include ExperienceCard LoggedIn=$CurrentUser %>
+                                <% end_loop %>
+                            <% end_loop %>
+                        </div>
+                    <% end_cached %>
                 </div>
             </div>
 
