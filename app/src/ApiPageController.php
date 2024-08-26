@@ -190,6 +190,7 @@ namespace {
             $sqlRequest->addSelect('Experience.ID AS ExperienceID');
             $sqlRequest->addSelect('Experience.Title AS ExperienceTitle');
             $sqlRequest->addSelect('Experience.State AS ExperienceState');
+            $sqlRequest->addSelect('Experience.ImageID AS ExperienceImageID');
             $sqlRequest->addSelect('Experience.TypeID AS ExperienceType');
 
             $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
@@ -265,6 +266,7 @@ namespace {
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceType'] = $row['ExperienceTypeTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceImageID'] = $row['ExperienceImageID'];
 
                 $groupedData[$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
 
