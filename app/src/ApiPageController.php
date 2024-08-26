@@ -2,6 +2,8 @@
 
 namespace {
 
+    use SilverStripe\Assets\Image;
+
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -36,6 +38,7 @@ namespace {
             "logCountForExperience",
             "ratingForExperience",
             "checkLogin",
+            "imagebyid",
         ];
 
         public function logout(HTTPRequest $request)
@@ -562,6 +565,27 @@ namespace {
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
+        }
+
+        public function imagebyid(HTTPRequest $request)
+        {
+            $id = $request->param('ID');
+            if (!$id) {
+                $data['Result'] = false;
+                $data['Error'] = "No ID provided.";
+                $this->response->addHeader('Content-Type', 'application/json');
+                return json_encode($data);
+            } else {
+                $image = Image::get()->byID($id);
+                if ($image) {
+                    return $image;
+                } else {
+                    $data['Result'] = false;
+                    $data['Error'] = "Image not found.";
+                    $this->response->addHeader('Content-Type', 'application/json');
+                    return json_encode($data);
+                }
+            }
         }
     }
 }
