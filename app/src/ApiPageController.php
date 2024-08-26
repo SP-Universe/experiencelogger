@@ -578,7 +578,7 @@ namespace {
             } else {
                 $image = Image::get()->byID($id);
                 if ($image) {
-                    return $image;
+                    return $image->AbsoluteLink();
                 } else {
                     $data['Result'] = false;
                     $data['Error'] = "Image not found.";
