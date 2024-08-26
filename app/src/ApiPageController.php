@@ -2,6 +2,8 @@
 
 namespace {
 
+    use SilverStripe\Assets\Image;
+
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -36,6 +38,7 @@ namespace {
             "logCountForExperience",
             "ratingForExperience",
             "checkLogin",
+            "imagebyid",
         ];
 
         public function logout(HTTPRequest $request)
@@ -190,6 +193,7 @@ namespace {
             $sqlRequest->addSelect('Experience.ID AS ExperienceID');
             $sqlRequest->addSelect('Experience.Title AS ExperienceTitle');
             $sqlRequest->addSelect('Experience.State AS ExperienceState');
+            $sqlRequest->addSelect('Experience.ImageID AS ExperienceImageID');
             $sqlRequest->addSelect('Experience.TypeID AS ExperienceType');
 
             $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
@@ -265,22 +269,25 @@ namespace {
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceType'] = $row['ExperienceTypeTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceImageID'] = $row['ExperienceImageID'];
 
-                $groupedData['items'][$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
+                $groupedData[$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
 
-                if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
-                    $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                if ($currentUser) {
+                    if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                    }
                 }
             }
 
@@ -432,8 +439,8 @@ namespace {
             $data['API_Description'] = "This API enables devs to use gathered information about theme parks and other experiences to use in their apps.";
             $data['API_Version'] = "1.0.0";
 
-            $data['Places'] = $this->AbsoluteLink() . "places";
-            $data['Experiences'] = $this->AbsoluteLink() . "experiences";
+            $data['Places'] = $this->AbsoluteLink() . "/places";
+            $data['Experiences'] = $this->AbsoluteLink() . "/experiences";
 
             $data['Copyright'] = "This API is developed and maintained by SP Universe. All rights reserved.";
 
@@ -558,6 +565,27 @@ namespace {
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
+        }
+
+        public function imagebyid(HTTPRequest $request)
+        {
+            $id = $request->param('ID');
+            if (!$id) {
+                $data['Result'] = false;
+                $data['Error'] = "No ID provided.";
+                $this->response->addHeader('Content-Type', 'application/json');
+                return json_encode($data);
+            } else {
+                $image = Image::get()->byID($id);
+                if ($image) {
+                    return $image->AbsoluteLink();
+                } else {
+                    $data['Result'] = false;
+                    $data['Error'] = "Image not found.";
+                    $this->response->addHeader('Content-Type', 'application/json');
+                    return json_encode($data);
+                }
+            }
         }
     }
 }
