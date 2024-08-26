@@ -266,7 +266,7 @@ namespace {
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceType'] = $row['ExperienceTypeTitle'];
 
-                $groupedData['items'][$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
+                $groupedData[$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
 
                 if ($currentUser) {
                     if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
