@@ -2,8 +2,6 @@
 
 namespace {
 
-    use SilverStripe\ORM\DB;
-    use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -17,15 +15,14 @@ namespace {
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
     use SilverStripe\ORM\Queries\SQLSelect;
-    use Symfony\Component\Validator\Constraints\Count;
 
     /**
- * Class \PageController
- *
- * @property \ApiPage $dataRecord
- * @method \ApiPage data()
- * @mixin \ApiPage
- */
+     * Class \PageController
+     *
+     * @property \ApiPage $dataRecord
+     * @method \ApiPage data()
+     * @mixin \ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -33,7 +30,6 @@ namespace {
             "logout",
             "experiences",
             "places",
-            "placesnew",
             "addLog",
             "profile",
             "locationprogress",
@@ -167,56 +163,6 @@ namespace {
 
         public function places(HTTPRequest $request)
         {
-            $places = ExperienceLocation::get()->sort('Title', 'ASC');
-
-            $data['Count'] = count($places);
-
-            if ($places) {
-                foreach ($places as $place) {
-                    $data['items'][$place->Title]['ID'] = $place->ID;
-                    $data['items'][$place->Title]['Title'] = $place->Title;
-                    $data['items'][$place->Title]['Link'] = $place->AbsoluteLink;
-                    $data['items'][$place->Title]['Type'] = $place->Type->Title;
-                    $data['items'][$place->Title]['LinkTitle'] = $place->LinkTitle;
-                    if ($place->Description) {
-                        $data['items'][$place->Title]['Description'] = $place->Description;
-                    }
-                    if ($place->Image->AbsoluteURL) {
-                        $data['items'][$place->Title]['Image'] = $place->Image->AbsoluteURL;
-                    }
-                    if ($place->Icon->AbsoluteURL) {
-                        $data['items'][$place->Title]['Icon'] = $place->Icon->AbsoluteURL;
-                    }
-                    if ($place->Address) {
-                        $data['items'][$place->Title]['Address'] = $place->Address;
-                    }
-                    if ($place->Coordinates) {
-                        $data['items'][$place->Title]['Coordinates'] = $place->Coordinates;
-                    }
-                    if ($place->Website) {
-                        $data['items'][$place->Title]['Website'] = $place->Website;
-                    }
-                    if ($place->Phone) {
-                        $data['items'][$place->Title]['Phone'] = $place->Phone;
-                    }
-                    if ($place->Email) {
-                        $data['items'][$place->Title]['Email'] = $place->Email;
-                    }
-                    if ($place->OpeningDate) {
-                        $data['items'][$place->Title]['OpeningDate'] = $place->OpeningDate;
-                    }
-                    $data['items'][$place->Title]['LastEdited'] = $place->LastEdited;
-                }
-            } else {
-                $data['Error'] = "No places found.";
-            }
-
-            $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
-        }
-
-        public function placesnew(HTTPRequest $request)
-        {
             $currentUser = Security::getCurrentUser();
 
             //BAUSTELLE!
@@ -233,12 +179,21 @@ namespace {
             $sqlRequest->addSelect('Location.Address AS LocationAddress');
             $sqlRequest->addSelect('Location.Coordinates AS LocationCoordinates');
             $sqlRequest->addSelect('Location.Website AS LocationWebsite');
+            $sqlRequest->addSelect('Location.Phone AS LocationPhone');
+            $sqlRequest->addSelect('Location.Email AS LocationEmail');
+            $sqlRequest->addSelect('Location.OpeningDate AS LocationOpeningDate');
+            $sqlRequest->addSelect('Location.LastEdited AS LocationLastEdited');
+            $sqlRequest->addSelect('Location.ImageID AS LocationImageID');
+            $sqlRequest->addSelect('Location.IconID AS LocationIconID');
+            $sqlRequest->addSelect('Location.LinkTitle AS LocationLinkTitle');
 
             $sqlRequest->addSelect('Experience.ID AS ExperienceID');
             $sqlRequest->addSelect('Experience.Title AS ExperienceTitle');
             $sqlRequest->addSelect('Experience.State AS ExperienceState');
+            $sqlRequest->addSelect('Experience.TypeID AS ExperienceType');
 
-            $sqlRequest->addSelect('LocationType.Title AS TypeTitle');
+            $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
+            $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
 
             $sqlRequest->addSelect('LogEntry.ID AS LogEntryID');
             $sqlRequest->addSelect('LogEntry.VisitTime AS LogEntryVisitTime');
@@ -261,25 +216,57 @@ namespace {
                 $data[] = $row;
             }
 
-            Image::class;
+            //Get Locations Overview Page
+            $locationsHolder = LocationPage::get()->first();
 
             //Group Experiences by Location:
             $groupedData = [];
             foreach ($data as $row) {
-                if ($row['LocationID'] == $currentUser->FavouritePark) {
-                    $row['FavouritePark'] = true;
-                } else {
-                    $row['FavouritePark'] = false;
+                if ($currentUser) {
+                    if ($row['LocationID'] == $currentUser->FavouritePark) {
+                        $row['FavouritePark'] = true;
+                    } else {
+                        $row['FavouritePark'] = false;
+                    }
                 }
 
-                $groupedData[$row['LocationID']]['LocationTitle'] = $row['LocationTitle'];
-                $groupedData[$row['LocationID']]['LocationDescription'] = $row['LocationDescription'];
-                $groupedData[$row['LocationID']]['LocationAddress'] = $row['LocationAddress'];
-                $groupedData[$row['LocationID']]['LocationCoordinates'] = $row['LocationCoordinates'];
-                $groupedData[$row['LocationID']]['LocationWebsite'] = $row['LocationWebsite'];
-                $groupedData[$row['LocationID']]['TypeTitle'] = $row['TypeTitle'];
+                $groupedData[$row['LocationID']]['Title'] = $row['LocationTitle'];
+                $groupedData[$row['LocationID']]['LinkTitle'] = $row['LocationLinkTitle'];
+                $groupedData[$row['LocationID']]['Link'] = $locationsHolder->AbsoluteLink("location\/") . $row['LocationLinkTitle'];
+                if ($row['LocationDescription']) {
+                    $groupedData[$row['LocationID']]['Description'] = strip_tags($row['LocationDescription']);
+                }
+                if ($row['LocationAddress']) {
+                    $groupedData[$row['LocationID']]['Address'] = $row['LocationAddress'];
+                }
+                if ($row['LocationCoordinates']) {
+                    $groupedData[$row['LocationID']]['Coordinates'] = $row['LocationCoordinates'];
+                }
+                if ($row['LocationWebsite']) {
+                    $groupedData[$row['LocationID']]['Website'] = $row['LocationWebsite'];
+                }
+                if ($row['LocationPhone']) {
+                    $groupedData[$row['LocationID']]['Phone'] = $row['LocationPhone'];
+                }
+                if ($row['LocationEmail']) {
+                    $groupedData[$row['LocationID']]['Email'] = $row['LocationEmail'];
+                }
+                if ($row['LocationOpeningDate']) {
+                    $groupedData[$row['LocationID']]['OpeningDate'] = $row['LocationOpeningDate'];
+                }
+                if ($row['LocationImageID']) {
+                    $groupedData[$row['LocationID']]['ImageID'] = $row['LocationImageID'];
+                }
+                if ($row['LocationIconID']) {
+                    $groupedData[$row['LocationID']]['IconID'] = $row['LocationIconID'];
+                }
+                $groupedData[$row['LocationID']]['LastEdited'] = $row['LocationLastEdited'];
+                $groupedData[$row['LocationID']]['Type'] = $row['LocationTypeTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceType'] = $row['ExperienceTypeTitle'];
+
+                $groupedData['items'][$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
 
                 if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
                     $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
@@ -298,8 +285,18 @@ namespace {
             }
 
             $data = [];
-            foreach ($groupedData as $row) {
-                $data[] = $row;
+            if (count($groupedData) > 0) {
+                $data["Count"] = count($groupedData);
+                $data["LoggedIn"] = Security::getCurrentUser() ? true : false;
+                foreach ($groupedData as $row) {
+                    $data['Items'][] = $row;
+                }
+                $lastedited = $this->getLastEdited();
+                $data['LastEdited']['US'] = date("Y-m-d H:i:s", $lastedited);
+                $data['LastEdited']['EU'] = date("d.m.Y H:i:s", $lastedited);
+                $data['LastEdited']['Timestamp'] = $lastedited;
+            } else {
+                $data['Error'] = "No places found.";
             }
 
             $this->response->addHeader('Content-Type', 'application/json');
