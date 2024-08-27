@@ -112,6 +112,10 @@
                     color: $ColorWhite;
                     background-color: var(--ColorPrimaryDark);
                 }
+
+                &.partselect--hidden{
+                    display: none;
+                }
             }
 
             @include media("<maxWidth"){
@@ -131,6 +135,111 @@
             }
         }
 
+        .section_filters{
+            max-width: $maxWidth;
+            margin: 0 auto;
+            padding: 0 10px;
+
+            .search_bar {
+                margin: 10px auto;
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
+                gap: 10px;
+
+                .experience_activatelocation {
+                    top: 4px;
+                    right: 4px;
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                    text-align: center;
+                    padding: 5px;
+                    border-radius: 10px;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorWhiteText);
+                    cursor: pointer;
+                    transition: background-color 0.2s ease-in-out;
+                    flex-shrink: 0;
+                    z-index: 2;
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+
+                    &:hover {
+                        background-color: var(--ColorPrimaryDark);
+                    }
+                }
+
+                .experience_togglefilter {
+                    top: 4px;
+                    right: 30px;
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                    text-align: center;
+                    padding: 5px;
+                    border-radius: 10px;
+                    background-color: var(--ColorPrimary);
+                    color: var(--ColorWhiteText);
+                    cursor: pointer;
+                    transition: background-color 0.2s ease-in-out;
+                    flex-shrink: 0;
+                    z-index: 2;
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+
+                    &:hover {
+                        background-color: var(--ColorPrimaryDark);
+                    }
+                }
+
+                input {
+                    width: 100%;
+                    height: 30px;
+                    border-radius: 10px;
+                    border: 1px solid var(--ColorPrimary);
+                    font-size: 16px;
+                    z-index: 2;
+                }
+
+                @include media(">medium") {
+                    margin: 0 auto 10px auto;
+                }
+            }
+
+            .experience_filters {
+                background-color: var(--ColorPrimaryDark);
+                border-radius: 20px;
+                padding: 10px;
+                margin-top: -40px;
+                padding-top: 40px;
+                max-height: 0px;
+                opacity: 0;
+                transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                pointer-events: none;
+                position: relative;
+                margin-bottom: 10px;
+
+                .experience_filter {
+                    margin: 0px;
+                }
+
+                &.active {
+                    max-height: 1000px;
+                    opacity: 1;
+                    pointer-events: all;
+                }
+            }
+        }
+
         input[type="radio"]{
             display: none;
         }
@@ -138,21 +247,18 @@
         .section_part{
             display: none;
 
+            .location_page{
+                max-width: $maxWidth;
+                margin: 0 auto;
+                padding: 0 10px;
+            }
+
             &:has(input[type="radio"]:checked) {
                 display: block;
             }
         }
 
-        .section_location_info{
-            max-width: $maxWidth;
-            margin: 0 auto;
-            padding: 0 10px;
-        }
-
         .section_location_progress{
-            max-width: $maxWidth;
-            margin: 0 auto;
-
             .progress_handler{
                 .location_progress_text{
                     color: var(--ColorWhite);
@@ -216,10 +322,6 @@
         }
 
         .section_location_map{
-            max-width: $maxWidth;
-            margin: 0 auto;
-            padding: 0 10px;
-
             .location_map{
                 position: relative;
                 width: 100%;
@@ -231,137 +333,10 @@
         }
 
         .section_location_experiences {
-            max-width: $maxWidth;
-            margin: 0 auto;
-            padding: 0 10px;
-
-            .state_hl{
-                position: relative;
-                display: block;
-
-                h2{
-                    padding: 5px 10px;
-                    text-align: center;
-                    background-color: var(--ColorBackground);
-                    display: inline-block;
-                }
-
-                &::after{
-                    content: "";
-                    position: absolute;
-                    top: 45%;
-                    left: 0;
-                    display: block;
-                    width: calc(100% - 10px);
-                    height: 2px;
-                    background-color: var(--ColorPrimary);
-                    z-index: -1;
-                }
-            }
-
             .location_experiences{
                 grid-row: 3/4;
                 grid-column: 1/-1;
                 position: relative;
-
-                .search_bar{
-                    margin: 10px auto;
-                    display: flex;
-                    width: 100%;
-                    justify-content: flex-end;
-                    gap: 10px;
-
-                    .experience_activatelocation{
-                        top: 4px;
-                        right: 4px;
-                        width: 30px;
-                        height: 30px;
-                        display: block;
-                        text-align: center;
-                        padding: 5px;
-                        border-radius: 10px;
-                        background-color: var(--ColorPrimary);
-                        color: var(--ColorWhiteText);
-                        cursor: pointer;
-                        transition: background-color 0.2s ease-in-out;
-                        flex-shrink: 0;
-                        z-index: 2;
-
-                        svg{
-                            width: 100%;
-                            height: 100%;
-                            object-fit: contain;
-                        }
-
-                        &:hover{
-                            background-color: var(--ColorPrimaryDark);
-                        }
-                    }
-
-                    .experience_togglefilter{
-                        top: 4px;
-                        right: 30px;
-                        width: 30px;
-                        height: 30px;
-                        display: block;
-                        text-align: center;
-                        padding: 5px;
-                        border-radius: 10px;
-                        background-color: var(--ColorPrimary);
-                        color: var(--ColorWhiteText);
-                        cursor: pointer;
-                        transition: background-color 0.2s ease-in-out;
-                        flex-shrink: 0;
-                        z-index: 2;
-
-                        svg{
-                            width: 100%;
-                            height: 100%;
-                            object-fit: contain;
-                        }
-
-                        &:hover{
-                            background-color: var(--ColorPrimaryDark);
-                        }
-                    }
-
-                    input{
-                        width: 100%;
-                        height: 30px;
-                        border-radius: 10px;
-                        border: 1px solid var(--ColorPrimary);
-                        font-size: 16px;
-                        z-index: 2;
-                    }
-
-                    @include media(">medium") {
-                        margin: 0 auto 10px auto;
-                    }
-                }
-
-                .experience_filters{
-                    background-color: var(--ColorPrimaryDark);
-                    border-radius: 20px;
-                    padding: 10px;
-                    margin-top: -40px;
-                    padding-top: 40px;
-                    max-height: 0px;
-                    opacity: 0;
-                    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-                    pointer-events: none;
-                    position: relative;
-                    margin-bottom: 10px;
-
-                    .experience_filter{
-                        margin: 0px;
-                    }
-
-                    &.active{
-                        max-height: 1000px;
-                        opacity: 1;
-                        pointer-events: all;
-                    }
-                }
 
                 .source{
                     display: block;
@@ -373,55 +348,11 @@
         }
 
         .section_location_characters {
-            max-width: $maxWidth;
-            margin: 0 auto;
-            padding: 0 10px;
-
-            .state_hl{
-                position: relative;
-                display: block;
-
-                h2{
-                    padding: 5px 10px;
-                    text-align: center;
-                    background-color: var(--ColorBackground);
-                    display: inline-block;
-                }
-
-                &::after{
-                    content: "";
-                    position: absolute;
-                    top: 45%;
-                    left: 0;
-                    display: block;
-                    width: calc(100% - 10px);
-                    height: 2px;
-                    background-color: var(--ColorPrimary);
-                    z-index: -1;
-                }
-            }
 
             .location_characters{
                 grid-row: 3/4;
                 grid-column: 1/-1;
                 position: relative;
-
-                .search_bar{
-                    margin: 10px auto;
-
-                    input{
-                        width: 100%;
-                        height: 30px;
-                        border-radius: 10px;
-                        border: 1px solid var(--ColorPrimary);
-                        font-size: 16px;
-                        z-index: 2;
-                    }
-
-                    @include media(">medium") {
-                        margin: 0 auto 10px auto;
-                    }
-                }
 
                 .source{
                     display: block;
