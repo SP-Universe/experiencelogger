@@ -36,6 +36,12 @@ function LoadExperiencesFromLocalStorage() {
     experienceCardData = JSON.parse(localStorage.getItem("place-" + parkID));
     loggedIn = experienceCardData.LoggedIn;
     experienceCardData.forEach(experience => {
+        if (experience.Rating == -1) {
+            CalculateRating(experience);
+        }
+        if (experience.ImageLink == null) {
+            GetImage(experience);
+        }
         //count the state up
         if(stateCounter[experience.State]){
             stateCounter[experience.State] += 1;
