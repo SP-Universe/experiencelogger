@@ -384,8 +384,7 @@ function getRatingStars(experience) {
         starRatingDiv.title = "Loading Rating...";
         starRatingDiv.style.setProperty('--stars', 0);
     } else if (experience.Rating == 0) {
-        starRatingDiv.previousElementSibling.remove();
-        starRatingDiv.remove();
+        return "";
     } else {
         starRatingDiv.style.setProperty('--stars', experience.Rating);
         starRatingDiv.title = experience.Rating + " Stars";
