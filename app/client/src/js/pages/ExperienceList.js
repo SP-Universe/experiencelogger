@@ -277,7 +277,6 @@ function getExperienceCard(experience) {
                 <h2 class="experience_title">${experience.Title}</h2>
                 <div class="experience_type" data-filter="" data-status="${experience.Status}">
                     <p>${typeTitle}</p>
-                    <p>|</p>
                 </div>
                 <p class="experience_distance" data-behaviour="distance" data-loc="${experience.Coordinates}"></p>
             </div>
@@ -384,7 +383,7 @@ function getRatingStars(experience) {
         starRatingDiv.title = "Loading Rating...";
         starRatingDiv.style.setProperty('--stars', 0);
     } else if (experience.Rating == 0) {
-        return "";
+        starRatingDiv.style.display = "none";
     } else {
         starRatingDiv.style.setProperty('--stars', experience.Rating);
         starRatingDiv.title = experience.Rating + " Stars";
