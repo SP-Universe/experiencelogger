@@ -120,50 +120,56 @@
     }
 
     .experience_logging{
-        background-color: var(--ColorPrimaryDark);
+        position: absolute;
+        right: 0;
+        top: 0;
         flex-shrink: 0;
-        border-radius: 20px;
-        box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
         z-index: 30;
+        height: 100%;
+        width: 50px;
+        max-height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         transition: max-height 0.1s ease-in-out;
+        border-left: 1px solid var(--ColorPrimaryDark);
 
-        .logging_link{
+        .logging_link {
             width: 100%;
-            //height: 55px;
+            height: 100%;
             padding: 2px;
             aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 
-            &:hover{
-                background-color: var(--ColorPrimary);
-                color: var(--ColorWhite);
+            svg {
+                width: 35px;
+                height: 35px;
             }
 
-            &.notnew{
-                background-color: var(--ColorPrimary);
-                color: var(--ColorWhite);
+            .logcount {
+                height: 25px;
+                width: 100%;
+                text-align: center;
+            }
 
-                &:hover{
+            &.notnew {
+                background-color: var(--ColorPrimaryDark);
+
+                &:hover {
                     background-color: var(--ColorWhite);
-                    color: var(--ColorPrimary);
                 }
             }
-        }
 
-        .logcount{
-            height: 25px;
-            width: 100%;
-            text-align: center;
-            background-color: var(--ColorPrimary);
-            color: var(--ColorWhite);
+            &:hover {
+                background-color: var(--ColorWhite);
+                color: $ColorPrimary;
+            }
         }
     }
 

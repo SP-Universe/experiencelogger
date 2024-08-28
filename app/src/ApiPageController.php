@@ -168,6 +168,10 @@ namespace {
         {
             $currentUser = Security::getCurrentUser();
 
+            if (isset($_GET['ParkID'])) {
+                $parkid = intval($_GET['ParkID']);
+            }
+
             //BAUSTELLE!
             $sqlRequest = new SQLSelect("Location.Title AS Title");
             $sqlRequest->setFrom('ExperienceLocation AS Location');
@@ -175,6 +179,11 @@ namespace {
             $sqlRequest->addLeftJoin('Experience', '"Experience"."ParentID" = "Location"."ID"', 'Experience');
             $sqlRequest->addLeftJoin('ExperienceType', '"ExperienceType"."ID" = "Experience"."TypeID"', 'ExperienceType');
             $sqlRequest->addLeftJoin('LogEntry', '"LogEntry"."ExperienceID" = "Experience"."ID"', 'LogEntry');
+            if (isset($parkid)) {
+                $sqlRequest->addWhere([
+                    'Location.ID' => $parkid
+                ]);
+            }
 
             $sqlRequest->addSelect('Location.Title AS LocationTitle');
             $sqlRequest->addSelect('Location.ID AS LocationID');
@@ -195,6 +204,11 @@ namespace {
             $sqlRequest->addSelect('Experience.State AS ExperienceState');
             $sqlRequest->addSelect('Experience.ImageID AS ExperienceImageID');
             $sqlRequest->addSelect('Experience.TypeID AS ExperienceType');
+            $sqlRequest->addSelect('Experience.HasOnridePhoto AS ExperienceHasOnridePhoto');
+            $sqlRequest->addSelect('Experience.HasFastpass AS ExperienceHasFastpass');
+            $sqlRequest->addSelect('Experience.HasSingleRider AS ExperienceHasSingleRider');
+            $sqlRequest->addSelect('Experience.AccessibleToHandicapped AS ExperienceAccessibleToHandicapped');
+            $sqlRequest->addSelect('Experience.LinkTitle AS ExperienceLinkTitle');
 
             $sqlRequest->addSelect('LocationType.Title AS LocationTypeTitle');
             $sqlRequest->addSelect('ExperienceType.Title AS ExperienceTypeTitle');
@@ -266,27 +280,34 @@ namespace {
                 }
                 $groupedData[$row['LocationID']]['LastEdited'] = $row['LocationLastEdited'];
                 $groupedData[$row['LocationID']]['Type'] = $row['LocationTypeTitle'];
-                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceTitle'] = $row['ExperienceTitle'];
-                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceState'] = $row['ExperienceState'];
-                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceType'] = $row['ExperienceTypeTitle'];
-                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ExperienceImageID'] = $row['ExperienceImageID'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ID'] = $row['ExperienceID'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['DetailsLink'] = $locationsHolder->AbsoluteLink("experience\/") . $row['LocationLinkTitle'] . "---" . $row['ExperienceLinkTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LoggingLink'] = $locationsHolder->AbsoluteLink("addlog\/") . $row['LocationLinkTitle'] . "---" . $row['ExperienceLinkTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['Title'] = $row['ExperienceTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['State'] = $row['ExperienceState'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['Type'] = $row['ExperienceTypeTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ImageID'] = $row['ExperienceImageID'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['HasOnridePhoto'] = $row['ExperienceHasOnridePhoto'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['HasFastpass'] = $row['ExperienceHasFastpass'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['HasSingleRider'] = $row['ExperienceHasSingleRider'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['AccessibleToHandicapped'] = $row['ExperienceAccessibleToHandicapped'];
 
                 $groupedData[$row['LocationID']]['ExperienceCount'] = count($groupedData[$row['LocationID']]['Experiences']);
 
                 if ($currentUser) {
                     if ($row['LogEntryID'] && $row['LogEntryUserID'] == $currentUser->ID) {
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVisitTime'] = $row['LogEntryVisitTime'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWeather'] = $row['LogEntryWeather'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryTrain'] = $row['LogEntryTrain'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryWagon'] = $row['LogEntryWagon'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryRow'] = $row['LogEntryRow'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntrySeat'] = $row['LogEntrySeat'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryScore'] = $row['LogEntryScore'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryPodest'] = $row['LogEntryPodest'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVariant'] = $row['LogEntryVariant'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryVersion'] = $row['LogEntryVersion'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryNotes'] = $row['LogEntryNotes'];
-                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['LogEntryUserID'] = $row['LogEntryUserID'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['VisitTime'] = $row['LogEntryVisitTime'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Weather'] = $row['LogEntryWeather'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Train'] = $row['LogEntryTrain'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Wagon'] = $row['LogEntryWagon'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Row'] = $row['LogEntryRow'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Seat'] = $row['LogEntrySeat'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Score'] = $row['LogEntryScore'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Podest'] = $row['LogEntryPodest'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Variant'] = $row['LogEntryVariant'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Version'] = $row['LogEntryVersion'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['Notes'] = $row['LogEntryNotes'];
+                        $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LogEntries'][$row['LogEntryID']]['UserID'] = $row['LogEntryUserID'];
                     }
                 }
             }
@@ -294,10 +315,16 @@ namespace {
             $data = [];
             if (count($groupedData) > 0) {
                 $data["Count"] = count($groupedData);
-                $data["LoggedIn"] = Security::getCurrentUser() ? true : false;
+                if ($currentUser) {
+                    $data["LoggedIn"] = true;
+                } else {
+                    $data["LoggedIn"] = false;
+                }
+
                 foreach ($groupedData as $row) {
                     $data['Items'][] = $row;
                 }
+
                 $lastedited = $this->getLastEdited();
                 $data['LastEdited']['US'] = date("Y-m-d H:i:s", $lastedited);
                 $data['LastEdited']['EU'] = date("d.m.Y H:i:s", $lastedited);
@@ -567,7 +594,7 @@ namespace {
             return json_encode($data);
         }
 
-        public function imagebyid(HTTPRequest $request)
+        public function imagebyidOLD(HTTPRequest $request)
         {
             $id = $request->param('ID');
             if (!$id) {
@@ -577,8 +604,68 @@ namespace {
                 return json_encode($data);
             } else {
                 $image = Image::get()->byID($id);
-                if ($image) {
-                    return $image->AbsoluteLink();
+                if ($image && $image != null && $image->exists()) {
+                    $width = intval(2000);
+                    $height = intval(2000);
+
+                    if (isset($_GET['width'])) {
+                        $width = intval($_GET['width']);
+                    }
+
+                    if (isset($_GET['height'])) {
+                        $height = intval($_GET['height']);
+                    }
+
+                    if (isset($_GET['json'])) {
+                        $data['Result'] = true;
+                        $data['Image'] = $image->FocusFill($width, $height)->AbsoluteLink();
+                        $this->response->addHeader('Content-Type', 'application/json');
+                        return json_encode($data);
+                    } else {
+                        return $image->FocusFill($width, $height)->AbsoluteLink();
+                    }
+                } else {
+                    $data['Result'] = false;
+                    $data['Error'] = "Image not found.";
+                    $this->response->addHeader('Content-Type', 'application/json');
+                    return json_encode($data);
+                }
+            }
+        }
+
+        public function imagebyid(HTTPRequest $request)
+        {
+            $id = $request->param('ID');
+            if (!$id) {
+                $data['Result'] = false;
+                $data['Error'] = "No ID provided.";
+                $this->response->addHeader('Content-Type', 'application/json');
+                return json_encode($data);
+            } else {
+                $experience = Experience::get()->byID($id);
+                $firstgalleryimage = $experience->PhotoGalleryImages()->first();
+                $experienceimage = null;
+                if ($firstgalleryimage) {
+                    $experienceimage = $firstgalleryimage->Image();
+                }
+                if ($experience && $experienceimage && $experienceimage->exists()) {
+                    $width = 2000;
+                    $height = 2000;
+
+                    if (isset($_GET['width'])) {
+                        $width = intval($_GET['width']);
+                    }
+
+                    if (isset($_GET['height'])) {
+                        $height = intval($_GET['height']);
+                    }
+                    $imagelink = $experienceimage->FocusFill($width, $height)->AbsoluteLink();
+
+                    $data['Result'] = true;
+                    $data['Image'] = $imagelink;
+                    $this->response->addHeader('Content-Type', 'application/json');
+
+                    return json_encode($data);
                 } else {
                     $data['Result'] = false;
                     $data['Error'] = "Image not found.";
