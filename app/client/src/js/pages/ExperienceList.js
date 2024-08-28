@@ -8,7 +8,7 @@ const arealist = document.querySelector('[data-behaviour="areaList"]');
 let parkID = 0;
 
 let experiencecards = [];
-let experienceCardData;
+let experienceCardData = [];
 let locationData = {};
 let loggedIn = true;
 let timeout = null;
@@ -19,8 +19,6 @@ let typeCounter = [];
 if(experiencelist) {
     parkID = experiencelist.getAttribute('data-parkID');
     CheckLogin();
-
-    FetchExperiencesFromServer();
 
     //if place is saved in browser storage and not older than 1 day, load from storage
     if(localStorage.getItem("place-" + parkID) && Date.now() - localStorage.getItem("lastLoaded-" + parkID) < 86400000){
@@ -38,8 +36,6 @@ function LoadExperiencesFromLocalStorage() {
     experienceCardData = JSON.parse(localStorage.getItem("place-" + parkID));
     loggedIn = experienceCardData.LoggedIn;
     experienceCardData.forEach(experience => {
-        CalculateLogs(experience);
-        CalculateRating(experience);
         //count the state up
         if(stateCounter[experience.State]){
             stateCounter[experience.State] += 1;
@@ -68,8 +64,6 @@ function FetchExperiencesFromServer(){
             experienceCardData = [];
             locationData = data.Items[0];
 
-            console.log("Data", locationData);
-
             loggedIn = data.LoggedIn;
 
             //iterate over json data to get array of experiences
@@ -92,7 +86,8 @@ function FetchExperiencesFromServer(){
                     HasOnridePhoto: item[1].HasOnridePhoto == 1 ? true : false,
                     HasFastpass: item[1].HasFastpass == 1 ? true : false,
                     HasSingleRider: item[1].HasSingleRider == 1 ? true : false,
-                    AccessibleToHandicapped: item[1].AccessibleToHandicapped == 1 ? true : false
+                    AccessibleToHandicapped: item[1].AccessibleToHandicapped == 1 ? true : false,
+                    ImageLink: null,
                 };
                 //save experience to browser storage
                 localStorage.setItem("experience-" + newExperience.ID, JSON.stringify(newExperience));
@@ -104,6 +99,8 @@ function FetchExperiencesFromServer(){
             localStorage.setItem("lastLoaded-" + parkID, Date.now());
 
             experienceCardData.forEach(experience => {
+                GetImage(experience);
+                CalculateRating(experience);
                 //count the state up
                 if(stateCounter[experience.State]){
                     stateCounter[experience.State] += 1;
@@ -135,22 +132,20 @@ function UpdatePartVisibility() {
                 part.classList.remove('partselect--hidden');
                 break;
             case "characters":
-                if (characterlist.children.length > 0) {
+                if (typeCounter["Character"] > 0) {
                     part.classList.remove('partselect--hidden');
                 }
                 break;
             case "areas":
-                if (arealist.children.length > 0) {
+                if (typeCounter["Area"] > 0) {
                     part.classList.remove('partselect--hidden');
                 }
                 break;
             case "experiences":
-                if (experiencelist.children.length > 0) {
-                    part.classList.remove('partselect--hidden');
-                }
+                part.classList.remove('partselect--hidden');
                 break;
             case "food":
-                if (foodlist.children.length > 0) {
+                if (typeCounter["Restaurant"] > 0 || typeCounter["Snacks"] > 0 || typeCounter["Bar"] > 0) {
                     part.classList.remove('partselect--hidden');
                 }
                 break;
@@ -213,8 +208,6 @@ function RenderInfoPage() {
 // RENDER EXPERIENCE CARDS ==========================================================================================
 // Renders all experience cards from the current experienceCardData
 function RenderCards(){
-    console.log("Updating cards...");
-
     //First make sure the ordering is correct:
     SortExperienceList();
 
@@ -420,11 +413,10 @@ function CalculateLogs(experience) {
 
 function GetImage(experience) {
     return new Promise(function (resolve, reject) {
-        fetch(apiEndpoint + `/imagebyid/` + experience.ImageID + '?json&width=200&height=200')
+        fetch(apiEndpoint + `/imagebyid/` + experience.ID + '?json&width=200&height=200')
             .then(response => response.json())
             .then(data => {
-                if (data.Result == "true") {
-                    console.log("Image", data.Image);
+                if (data.Result == true) {
                     experience.ImageLink = data.Image;
                     localStorage.setItem("experience-" + experience.ID, JSON.stringify(experience));
                     localStorage.setItem("place-" + parkID, JSON.stringify(experienceCardData));
@@ -474,7 +466,6 @@ function CheckLogin(){
         .then(data => {
             loggedIn = data.LoggedIn;
             RenderCards();
-            console.log("LoggedIn", loggedIn);
         });
 }
 
@@ -666,12 +657,10 @@ function SortExperienceList() {
 }
 
 
-async function ReloadAllCards() {
+function ReloadAllCards() {
     //Queue all cards for reload after one another while awaiting requests to finish
     experienceCardData.forEach(async experience => {
-        await CalculateLogs(experience);
-        await CalculateRating(experience);
-        await GetImage(experience);
+        CalculateLogs(experience);
         //wait for the requests to finish
     });
 

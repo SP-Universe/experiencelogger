@@ -594,7 +594,7 @@ namespace {
             return json_encode($data);
         }
 
-        public function imagebyid(HTTPRequest $request)
+        public function imagebyidOLD(HTTPRequest $request)
         {
             $id = $request->param('ID');
             if (!$id) {
@@ -605,8 +605,8 @@ namespace {
             } else {
                 $image = Image::get()->byID($id);
                 if ($image && $image != null && $image->exists()) {
-                    $width = 2000;
-                    $height = 2000;
+                    $width = intval(2000);
+                    $height = intval(2000);
 
                     if (isset($_GET['width'])) {
                         $width = intval($_GET['width']);
@@ -624,6 +624,48 @@ namespace {
                     } else {
                         return $image->FocusFill($width, $height)->AbsoluteLink();
                     }
+                } else {
+                    $data['Result'] = false;
+                    $data['Error'] = "Image not found.";
+                    $this->response->addHeader('Content-Type', 'application/json');
+                    return json_encode($data);
+                }
+            }
+        }
+
+        public function imagebyid(HTTPRequest $request)
+        {
+            $id = $request->param('ID');
+            if (!$id) {
+                $data['Result'] = false;
+                $data['Error'] = "No ID provided.";
+                $this->response->addHeader('Content-Type', 'application/json');
+                return json_encode($data);
+            } else {
+                $experience = Experience::get()->byID($id);
+                $firstgalleryimage = $experience->PhotoGalleryImages()->first();
+                $experienceimage = null;
+                if ($firstgalleryimage) {
+                    $experienceimage = $firstgalleryimage->Image();
+                }
+                if ($experience && $experienceimage && $experienceimage->exists()) {
+                    $width = 2000;
+                    $height = 2000;
+
+                    if (isset($_GET['width'])) {
+                        $width = intval($_GET['width']);
+                    }
+
+                    if (isset($_GET['height'])) {
+                        $height = intval($_GET['height']);
+                    }
+                    $imagelink = $experienceimage->FocusFill($width, $height)->AbsoluteLink();
+
+                    $data['Result'] = true;
+                    $data['Image'] = $imagelink;
+                    $this->response->addHeader('Content-Type', 'application/json');
+
+                    return json_encode($data);
                 } else {
                     $data['Result'] = false;
                     $data['Error'] = "Image not found.";
