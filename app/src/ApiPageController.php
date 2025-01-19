@@ -34,7 +34,7 @@ namespace {
             "experiences",
             "places",
             "news",
-            "addLog",
+            "addnewlog",
             "profile",
             "locationprogress",
             "logCountForExperience",
@@ -284,7 +284,7 @@ namespace {
                 $groupedData[$row['LocationID']]['Type'] = $row['LocationTypeTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['ID'] = $row['ExperienceID'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['DetailsLink'] = $locationsHolder->AbsoluteLink("experience\/") . $row['LocationLinkTitle'] . "---" . $row['ExperienceLinkTitle'];
-                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LoggingLink'] = $locationsHolder->AbsoluteLink("addlog\/") . $row['LocationLinkTitle'] . "---" . $row['ExperienceLinkTitle'];
+                $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['LoggingLink'] = $locationsHolder->AbsoluteLink("addnewlog\/") . $row['LocationLinkTitle'] . "---" . $row['ExperienceLinkTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['Title'] = $row['ExperienceTitle'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['State'] = $row['ExperienceState'];
                 $groupedData[$row['LocationID']]['Experiences'][$row['ExperienceID']]['Type'] = $row['ExperienceTypeTitle'];
@@ -339,7 +339,7 @@ namespace {
             return json_encode($data);
         }
 
-        public function addLog(HTTPRequest $request)
+        public function addnewlog(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
