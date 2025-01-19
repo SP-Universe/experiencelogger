@@ -33,7 +33,7 @@ class LocationPageController extends PageController
         "location",
         "experience",
         "changeFavourite",
-        "addlog",
+        "addnewlog",
         "seatchart",
         "statistics",
         "finishLog",
@@ -139,7 +139,7 @@ class LocationPageController extends PageController
                 $experience->Coordinates = $row["ExperienceCoordinates"];
                 $experience->LinkTitle = $row["ExperienceLinkTitle"];
                 $experience->ExperienceLink = $this->Link() . "/experience/" . $title . "---" . $experience->LinkTitle;
-                $experience->ExperienceAddLogLink = $this->Link() . "/addLog/" . $title . "---" . $experience->LinkTitle;
+                $experience->ExperienceAddLogLink = $this->Link() . "/addnewlog/" . $title . "---" . $experience->LinkTitle;
                 $experience->HasOnridePhoto = $row["ExperienceHasOnridePhoto"];
                 $experience->HasFastpass = $row["ExperienceHasFastpass"];
                 $experience->HasSingleRider = $row["ExperienceHasSingleRider"];
@@ -303,7 +303,7 @@ class LocationPageController extends PageController
         return $this->redirect($this->Link());
     }
 
-    public function addlog()
+    public function addnewlog()
     {
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
