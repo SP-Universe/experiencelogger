@@ -683,33 +683,35 @@ namespace {
             $news = News::get()->sort('Date', 'DESC');
             $data = [];
 
-            $data['News'] = [];
+            $data[] = [];
 
             foreach ($news as $newsitem) {
                 if ($newsitem->Date > date("Y-m-d H:i:s")) {
                     continue;
                 }
 
-                $data['News']['Title'] = $newsitem->Title;
+                $data[$newsitem->ID]['ID'] = $newsitem->ID;
+                $data[$newsitem->ID]['ReleaseDate'] = $newsitem->Date;
+                $data[$newsitem->ID]['Title'] = $newsitem->Title;
                 $newscontent = $newsitem->Content;
-                $data['News']['FormattedContent'] = $newscontent;
+                $data[$newsitem->ID]['FormattedContent'] = $newscontent;
                 $filteredContent = strip_tags($newscontent);
                 $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
-                $data['News']['TextContent'] = $filteredContent;
+                $data[$newsitem->ID]['TextContent'] = $filteredContent;
 
                 if ($newsitem->ShortDescription) {
-                    $data['News']['Summary'] = $newsitem->ShortDescription;
+                    $data[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
                 } else {
-                    $data['News']['Summary'] = substr($filteredContent, 0, 200) . "...";
+                    $data[$newsitem->ID]['Summary'] = substr($filteredContent, 0, 200) . "...";
                 }
-                $data['News']['Summary'] = $newsitem->ShortDescription;
-                $data['News']['Link'] = $newsitem->getLink();
+                $data[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
+                $data[$newsitem->ID]['Link'] = $newsitem->getLink();
                 if ($newsitem->Image() && $newsitem->Image()->exists()) {
-                    $data['News']['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
+                    $data[$newsitem->ID]['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
                 }
-                $data['News']['Categories'] = [];
+                $data[$newsitem->ID]['Categories'] = [];
                 foreach ($newsitem->Category() as $category) {
-                    $data['News']['Categories'][] = $category->Title;
+                    $data[$newsitem->ID]['Categories'][] = $category->Title;
                 }
             }
 
