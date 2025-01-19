@@ -8,6 +8,7 @@ namespace {
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
+    use App\News\News;
     use App\Overview\LocationPage;
     use App\Ratings\Rating;
     use SilverStripe\Security\Member;
@@ -32,6 +33,7 @@ namespace {
             "logout",
             "experiences",
             "places",
+            "news",
             "addLog",
             "profile",
             "locationprogress",
@@ -468,6 +470,7 @@ namespace {
 
             $data['Places'] = $this->AbsoluteLink() . "/places";
             $data['Experiences'] = $this->AbsoluteLink() . "/experiences";
+            $data['News'] = $this->AbsoluteLink() . "/news";
 
             $data['Copyright'] = "This API is developed and maintained by SP Universe. All rights reserved.";
 
@@ -673,6 +676,45 @@ namespace {
                     return json_encode($data);
                 }
             }
+        }
+
+        public function news(HTTPRequest $request)
+        {
+            $news = News::get()->sort('Date', 'DESC');
+            $data = [];
+
+            $data['News'] = [];
+
+            foreach ($news as $newsitem) {
+                if ($newsitem->Date > date("Y-m-d H:i:s")) {
+                    continue;
+                }
+
+                $data['News']['Title'] = $newsitem->Title;
+                $newscontent = $newsitem->Content;
+                $data['News']['FormattedContent'] = $newscontent;
+                $filteredContent = strip_tags($newscontent);
+                $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
+                $data['News']['TextContent'] = $filteredContent;
+
+                if ($newsitem->ShortDescription) {
+                    $data['News']['Summary'] = $newsitem->ShortDescription;
+                } else {
+                    $data['News']['Summary'] = substr($filteredContent, 0, 200) . "...";
+                }
+                $data['News']['Summary'] = $newsitem->ShortDescription;
+                $data['News']['Link'] = $newsitem->getLink();
+                if ($newsitem->Image() && $newsitem->Image()->exists()) {
+                    $data['News']['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
+                }
+                $data['News']['Categories'] = [];
+                foreach ($newsitem->Category() as $category) {
+                    $data['News']['Categories'][] = $category->Title;
+                }
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
         }
     }
 }
