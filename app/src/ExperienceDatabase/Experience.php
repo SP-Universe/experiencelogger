@@ -450,7 +450,7 @@ class Experience extends DataObject
             return LogEntry::get()->filter([
                 "UserID" => $currentUser->ID,
                 "ExperienceID" => $this->ID,
-                ])->sort("VisitTime", "DESC")->first();
+            ])->sort("VisitTime", "DESC")->first();
         }
     }
 
@@ -615,7 +615,7 @@ class Experience extends DataObject
     public function getAddLogLink()
     {
         $locationsHolder = LocationPage::get()->first();
-        return $locationsHolder->Link("addLog\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
+        return $locationsHolder->Link("addlog\/") . $this->Parent()->LinkTitle . "---" . $this->LinkTitle;
     }
 
     public function getFinishLogLink()

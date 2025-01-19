@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Overview;
 
 use PageController;
@@ -32,7 +33,7 @@ class LocationPageController extends PageController
         "location",
         "experience",
         "changeFavourite",
-        "addLog",
+        "addlog",
         "seatchart",
         "statistics",
         "finishLog",
@@ -118,7 +119,7 @@ class LocationPageController extends PageController
         $experiences = ArrayList::create();
 
         foreach ($data as $row) {
-            if ($row["ExperienceTypeID"]!= null) {
+            if ($row["ExperienceTypeID"] != null) {
                 //ExperienceTypes
                 $experienceType = ExperienceType::create();
                 $experienceType->Title = $row["ExperienceTypeTitle"];
@@ -126,7 +127,7 @@ class LocationPageController extends PageController
                 $experienceTypes->push($experienceType);
             }
 
-            if ($row["ExperienceID"]!= null) {
+            if ($row["ExperienceID"] != null) {
                 //Experiences
                 $experience = Experience::create();
                 $experience->Title = $row["ExperienceTitle"];
@@ -200,7 +201,7 @@ class LocationPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         return array(
             "Experience" => $experience,
@@ -215,7 +216,7 @@ class LocationPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         return array(
             "Experience" => $experience,
@@ -230,7 +231,7 @@ class LocationPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         $percentOfLogs = StatisticsHelper::getPercentAsNumber($experience->TotalLogCount, $experience->Logs->Count(), 2);
 
@@ -252,7 +253,7 @@ class LocationPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         $id = $experience->ID;
         $currentUser = Security::getCurrentUser();
@@ -302,7 +303,7 @@ class LocationPageController extends PageController
         return $this->redirect($this->Link());
     }
 
-    public function addLog()
+    public function addlog()
     {
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
@@ -310,7 +311,7 @@ class LocationPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         $now = date("Y-m-d H:i:s");
         $currentDate = date("Y-m-d", strtotime($now));
@@ -334,7 +335,7 @@ class LocationPageController extends PageController
             $experience = Experience::get()->filter(array(
                 "LinkTitle" => $title,
                 "ParentID" => $park->ID
-                ))->first();
+            ))->first();
 
             $newlogentry = LogEntry::create();
             $newlogentry->ExperienceID = $experience->ID;
