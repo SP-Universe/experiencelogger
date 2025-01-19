@@ -683,8 +683,6 @@ namespace {
             $news = News::get()->sort('Date', 'DESC');
             $data = [];
 
-            $data[] = [];
-
             foreach ($news as $newsitem) {
                 if ($newsitem->Date > date("Y-m-d H:i:s")) {
                     continue;
