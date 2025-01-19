@@ -683,35 +683,79 @@ namespace {
             $news = News::get()->sort('Date', 'DESC');
             $data = [];
 
+            $groupedNews = [];
+
+            //Add each news to the json data array
             foreach ($news as $newsitem) {
+
                 if ($newsitem->Date > date("Y-m-d H:i:s")) {
                     continue;
                 }
 
-                $data[$newsitem->ID]['ID'] = $newsitem->ID;
-                $data[$newsitem->ID]['ReleaseDate'] = $newsitem->Date;
-                $data[$newsitem->ID]['Title'] = $newsitem->Title;
+                $groupedNews[$newsitem->ID]['ID'] = $newsitem->ID;
+                $groupedNews[$newsitem->ID]['ReleaseDate'] = $newsitem->Date;
+                $groupedNews[$newsitem->ID]['Title'] = $newsitem->Title;
                 $newscontent = $newsitem->Content;
-                $data[$newsitem->ID]['FormattedContent'] = $newscontent;
+                $groupedNews[$newsitem->ID]['FormattedContent'] = $newscontent;
                 $filteredContent = strip_tags($newscontent);
                 $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
-                $data[$newsitem->ID]['TextContent'] = $filteredContent;
+                $groupedNews[$newsitem->ID]['TextContent'] = $filteredContent;
 
                 if ($newsitem->ShortDescription) {
-                    $data[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
+                    $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
                 } else {
-                    $data[$newsitem->ID]['Summary'] = substr($filteredContent, 0, 200) . "...";
+                    $groupedNews[$newsitem->ID]['Summary'] = substr($filteredContent, 0, 200) . "...";
                 }
-                $data[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
-                $data[$newsitem->ID]['Link'] = $newsitem->getLink();
+                $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
+                $groupedNews[$newsitem->ID]['Link'] = $newsitem->getLink();
                 if ($newsitem->Image() && $newsitem->Image()->exists()) {
-                    $data[$newsitem->ID]['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
+                    $groupedNews[$newsitem->ID]['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
                 }
-                $data[$newsitem->ID]['Categories'] = [];
+                $groupedNews[$newsitem->ID]['Categories'] = [];
                 foreach ($newsitem->Category() as $category) {
-                    $data[$newsitem->ID]['Categories'][] = $category->Title;
+                    $groupedNews[$newsitem->ID]['Categories'][] = $category->Title;
                 }
             }
+
+            foreach ($groupedNews as $newsEntry) {
+                $data[] = $newsEntry;
+            }
+
+
+            /* foreach ($news as $newsitem) {
+
+                $newsEntry = $newsitem->toMap();
+
+                if ($newsitem->Date > date("Y-m-d H:i:s")) {
+                    continue;
+                }
+
+                $newsEntry['ID'] = $newsitem->ID;
+                $newsEntry['ReleaseDate'] = $newsitem->Date;
+                $newsEntry['Title'] = $newsitem->Title;
+                $newscontent = $newsitem->Content;
+                $newsEntry['FormattedContent'] = $newscontent;
+                $filteredContent = strip_tags($newscontent);
+                $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
+                $newsEntry['TextContent'] = $filteredContent;
+
+                if ($newsitem->ShortDescription) {
+                    $newsEntry['Summary'] = $newsitem->ShortDescription;
+                } else {
+                    $newsEntry['Summary'] = substr($filteredContent, 0, 200) . "...";
+                }
+                $newsEntry['Summary'] = $newsitem->ShortDescription;
+                $newsEntry['Link'] = $newsitem->getLink();
+                if ($newsitem->Image() && $newsitem->Image()->exists()) {
+                    $newsEntry['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
+                }
+                $newsEntry['Categories'] = [];
+                foreach ($newsitem->Category() as $category) {
+                    $newsEntry['Categories'][] = $category->Title;
+                }
+
+                $data[] = $newsEntry;
+            } */
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);
