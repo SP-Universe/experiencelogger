@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extensions;
 
 use DateTime;
@@ -17,6 +18,7 @@ use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use SilverStripe\ORM\ValidationResult;
+use App\ExperienceDatabase\UserAuthToken;
 use App\ExperienceDatabase\ExperienceLocation;
 
 /**
@@ -30,10 +32,12 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property bool $LinkedLogging
  * @property string $LastLogDate
  * @property bool $HasPremium
+ * @property string $LastOnline
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \App\ExperienceDatabase\Experience LastLoggedArea()
+ * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\UserAuthToken[] UserAuthTokens()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
  * @method \SilverStripe\ORM\ManyManyList|\App\Profile\FriendRequest[] Friends()
  */
@@ -48,11 +52,16 @@ class ExperienceMemberExtension extends DataExtension
         "LinkedLogging" => "Boolean",
         "LastLogDate" => "Date",
         "HasPremium" => "Boolean",
+        "LastOnline" => "Datetime",
     ];
 
     private static $has_one = [
         'Avatar' => Image::class,
         "LastLoggedArea" => Experience::class,
+    ];
+
+    private static $has_many = [
+        "UserAuthTokens" => UserAuthToken::class,
     ];
 
     private static $owns = [

@@ -2,8 +2,8 @@
 
 namespace {
 
+    use App\Api\Helper\ApiUserDataHelper;
     use SilverStripe\Assets\Image;
-
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
@@ -20,12 +20,12 @@ namespace {
     use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
-     * Class \PageController
-     *
-     * @property \ApiPage $dataRecord
-     * @method \ApiPage data()
-     * @mixin \ApiPage
-     */
+ * Class \PageController
+ *
+ * @property \ApiPage $dataRecord
+ * @method \ApiPage data()
+ * @mixin \ApiPage
+ */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -36,6 +36,7 @@ namespace {
             "news",
             "addnewlog",
             "profile",
+            "user",
             "locationprogress",
             "logCountForExperience",
             "ratingForExperience",
@@ -67,12 +68,6 @@ namespace {
             Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
 
             return "ok";
-            // try {
-            //     $payload = JWTUtils::inst()->byBasicAuth($request);
-            //     return json_encode($payload);
-            // } catch (JWTUtilsException $e) {
-            //     return json_encode("Error! " . $e->getMessage());
-            // }
         }
 
         public function experiences(HTTPRequest $request)
@@ -255,6 +250,8 @@ namespace {
                 $groupedData[$row['LocationID']]['Link'] = $locationsHolder->AbsoluteLink("location\/") . $row['LocationLinkTitle'];
                 if ($row['LocationDescription']) {
                     $groupedData[$row['LocationID']]['Description'] = strip_tags($row['LocationDescription']);
+                } else {
+                    $groupedData[$row['LocationID']]['Description'] = "";
                 }
                 if ($row['LocationAddress']) {
                     $groupedData[$row['LocationID']]['Address'] = $row['LocationAddress'];
@@ -471,6 +468,7 @@ namespace {
             $data['Places'] = $this->AbsoluteLink() . "/places";
             $data['Experiences'] = $this->AbsoluteLink() . "/experiences";
             $data['News'] = $this->AbsoluteLink() . "/news";
+            $data['User'] = $this->AbsoluteLink() . "/user";
 
             $data['Copyright'] = "This API is developed and maintained by SP Universe. All rights reserved.";
 
@@ -687,7 +685,6 @@ namespace {
 
             //Add each news to the json data array
             foreach ($news as $newsitem) {
-
                 if ($newsitem->Date > date("Y-m-d H:i:s")) {
                     continue;
                 }
@@ -721,41 +718,27 @@ namespace {
                 $data[] = $newsEntry;
             }
 
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
+        }
 
-            /* foreach ($news as $newsitem) {
+        public function user(HTTPRequest $request)
+        {
+            $token = $_GET['Token'];
+            if (isset($token)) {
+                $user = ApiUserDataHelper::getUserFromToken($token);
 
-                $newsEntry = $newsitem->toMap();
-
-                if ($newsitem->Date > date("Y-m-d H:i:s")) {
-                    continue;
-                }
-
-                $newsEntry['ID'] = $newsitem->ID;
-                $newsEntry['ReleaseDate'] = $newsitem->Date;
-                $newsEntry['Title'] = $newsitem->Title;
-                $newscontent = $newsitem->Content;
-                $newsEntry['FormattedContent'] = $newscontent;
-                $filteredContent = strip_tags($newscontent);
-                $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
-                $newsEntry['TextContent'] = $filteredContent;
-
-                if ($newsitem->ShortDescription) {
-                    $newsEntry['Summary'] = $newsitem->ShortDescription;
+                if ($user) {
+                    $data = ApiUserDataHelper::getUserData($user);
+                    $data['LoggedIn'] = true;
+                    $data['Token'] = $token;
                 } else {
-                    $newsEntry['Summary'] = substr($filteredContent, 0, 200) . "...";
+                    $data['Error'] = "Unknown Auth Token";
                 }
-                $newsEntry['Summary'] = $newsitem->ShortDescription;
-                $newsEntry['Link'] = $newsitem->getLink();
-                if ($newsitem->Image() && $newsitem->Image()->exists()) {
-                    $newsEntry['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
-                }
-                $newsEntry['Categories'] = [];
-                foreach ($newsitem->Category() as $category) {
-                    $newsEntry['Categories'][] = $category->Title;
-                }
-
-                $data[] = $newsEntry;
-            } */
+            } else {
+                $data['LoggedIn'] = false;
+                $data['Error'] = "You need to provide your Auth Token to access this data";
+            }
 
             $this->response->addHeader('Content-Type', 'application/json');
             return json_encode($data);

@@ -30,6 +30,20 @@ class StatisticsHelper
         }
     }
 
+    public static function getVisitedPlacesOfUser($id)
+    {
+        $logs = self::getLogsOfUser($id);
+        $visitedPlaces = [];
+        foreach ($logs as $log) {
+            $experience = $log->Experience();
+            $place = $experience->Parent();
+            if (!in_array($place->ID, $visitedPlaces)) {
+                $visitedPlaces[] = $place->ID;
+            }
+        }
+        return $visitedPlaces;
+    }
+
     /**
      * Get logs count of a experience per year
      * @param integer $userId ID of the checked user
@@ -638,7 +652,7 @@ class StatisticsHelper
                     $maxExperienceID = $experienceID;
                 }
             }
-            
+
             $result[$year] = array(
                 "year" => $year,
                 "experience" => Experience::get()->byID($maxExperienceID),
