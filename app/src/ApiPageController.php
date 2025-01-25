@@ -750,7 +750,7 @@ namespace {
             return json_encode($data);
         }
 
-        public function userPOST(HTTPRequest $request)
+        public function user(HTTPRequest $request)
         {
             $token = $request->postVar('Token');
             if (isset($token)) {
