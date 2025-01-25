@@ -30,6 +30,20 @@ class ApiUserDataHelper
         return $user;
     }
 
+    public static function loginUserAndCreateToken($user, $deviceName)
+    {
+        // Create a new token for the user
+        $token = UserAuthToken::create();
+        $token->ParentID = $user->ID;
+        $token->DeviceName = $deviceName;
+        $token->write();
+
+        $data = self::getUserData($user);
+        $data['token'] = $token->Token;
+
+        return $data;
+    }
+
     public static function getUserData($user)
     {
         // Get user data from database
@@ -45,6 +59,7 @@ class ApiUserDataHelper
             'lastonline' => $user->LastOnline,
             'lastlogged' => $user->LastLogDate,
             'registrationdate' => $user->Created,
+            'premium' => $user->HasPremium,
             'logCount' => StatisticsHelper::getLogsOfUser($user->ID)->count(),
             'placesCount' => count(StatisticsHelper::getVisitedPlacesOfUser($user->ID)),
         ];

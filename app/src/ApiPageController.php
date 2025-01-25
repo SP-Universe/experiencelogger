@@ -18,14 +18,15 @@ namespace {
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
     use SilverStripe\ORM\Queries\SQLSelect;
+    use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 
     /**
- * Class \PageController
- *
- * @property \ApiPage $dataRecord
- * @method \ApiPage data()
- * @mixin \ApiPage
- */
+     * Class \PageController
+     *
+     * @property \ApiPage $dataRecord
+     * @method \ApiPage data()
+     * @mixin \ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -53,11 +54,10 @@ namespace {
         }
 
 
-        public function login(HTTPRequest $request)
+        /*public function login(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             if (!$request->isPOST()) {
-                // Probably preflight request
                 return 'Ok';
             }
 
@@ -67,7 +67,35 @@ namespace {
 
             Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
 
+            Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
+
             return "ok";
+        }*/
+
+        public function login(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            if (!$request->isPOST()) {
+                $data['LoggedIn'] = false;
+                $data['Error'] = 'No POST request';
+            } else {
+                $username = $request->postVar('Username');
+                $password = $request->postVar('Password');
+                $deviceName = $request->postVar('DeviceName');
+
+                $member = Member::get()->filter('Email', $username)->first();
+
+                if ($member && Injector::inst()->get(MemberAuthenticator::class)->checkPassword($member, $password)->isValid()) {
+                    $data = ApiUserDataHelper::loginUserAndCreateToken($member, $deviceName);
+                    $data['LoggedIn'] = true;
+                } else {
+                    $data['LoggedIn'] = false;
+                    $data['Error'] = 'Invalid credentials';
+                }
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
         }
 
         public function experiences(HTTPRequest $request)
@@ -722,9 +750,9 @@ namespace {
             return json_encode($data);
         }
 
-        public function user(HTTPRequest $request)
+        public function userPOST(HTTPRequest $request)
         {
-            $token = $_GET['Token'];
+            $token = $request->postVar('Token');
             if (isset($token)) {
                 $user = ApiUserDataHelper::getUserFromToken($token);
 
