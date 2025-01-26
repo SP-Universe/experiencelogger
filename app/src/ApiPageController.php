@@ -8,6 +8,7 @@ namespace {
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
+    use App\ExperienceDatabase\UserAuthToken;
     use App\News\News;
     use App\Overview\LocationPage;
     use App\Ratings\Rating;
@@ -21,28 +22,30 @@ namespace {
     use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 
     /**
-     * Class \PageController
-     *
-     * @property \ApiPage $dataRecord
-     * @method \ApiPage data()
-     * @mixin \ApiPage
-     */
+ * Class \PageController
+ *
+ * @property \ApiPage $dataRecord
+ * @method \ApiPage data()
+ * @mixin \ApiPage
+ */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
             "login",
-            "logout",
             "experiences",
-            "places",
-            "news",
-            "addnewlog",
-            "profile",
-            "user",
             "locationprogress",
             "logCountForExperience",
             "ratingForExperience",
+            "places",
+            "addnewlog",
+            "profile",
             "checkLogin",
             "imagebyid",
+
+            "user",
+            "news",
+            "loginUser",
+            "logoutUser",
         ];
 
         public function logout(HTTPRequest $request)
@@ -51,51 +54,6 @@ namespace {
                 Injector::inst()->get(IdentityStore::class)->logOut($request);
             }
             return $this->redirect('home');
-        }
-
-
-        /*public function login(HTTPRequest $request)
-        {
-            $this->response->addHeader('Access-Control-Allow-Headers', '*');
-            if (!$request->isPOST()) {
-                return 'Ok';
-            }
-
-            $payload = json_decode($request->getBody(), true);
-
-            $user = Member::get()->filter('Email', $payload['Username'])->first();
-
-            Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
-
-            Injector::inst()->get(IdentityStore::class)->logIn($user, false, $request);
-
-            return "ok";
-        }*/
-
-        public function login(HTTPRequest $request)
-        {
-            $this->response->addHeader('Access-Control-Allow-Headers', '*');
-            if (!$request->isPOST()) {
-                $data['LoggedIn'] = false;
-                $data['Error'] = 'No POST request';
-            } else {
-                $username = $request->postVar('Username');
-                $password = $request->postVar('Password');
-                $deviceName = $request->postVar('DeviceName');
-
-                $member = Member::get()->filter('Email', $username)->first();
-
-                if ($member && Injector::inst()->get(MemberAuthenticator::class)->checkPassword($member, $password)->isValid()) {
-                    $data = ApiUserDataHelper::loginUserAndCreateToken($member, $deviceName);
-                    $data['LoggedIn'] = true;
-                } else {
-                    $data['LoggedIn'] = false;
-                    $data['Error'] = 'Invalid credentials';
-                }
-            }
-
-            $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
         }
 
         public function experiences(HTTPRequest $request)
@@ -704,6 +662,11 @@ namespace {
             }
         }
 
+
+
+        //API-Parts for Flutter-App:
+
+        //APICall for getting all news
         public function news(HTTPRequest $request)
         {
             $news = News::get()->sort('Date', 'DESC');
@@ -750,22 +713,78 @@ namespace {
             return json_encode($data);
         }
 
+        //APICall for getting data of a tokenized user
         public function user(HTTPRequest $request)
         {
-            $token = $request->postVar('Token');
-            if (isset($token)) {
-                $user = ApiUserDataHelper::getUserFromToken($token);
-
-                if ($user) {
-                    $data = ApiUserDataHelper::getUserData($user);
-                    $data['LoggedIn'] = true;
-                    $data['Token'] = $token;
-                } else {
-                    $data['Error'] = "Unknown Auth Token";
-                }
+            if (!$request->isPOST()) {
+                $data['Success'] = false;
+                $data['Error'] = 'No POST request';
             } else {
-                $data['LoggedIn'] = false;
-                $data['Error'] = "You need to provide your Auth Token to access this data";
+                $token = $request->postVar('Token');
+                if (isset($token)) {
+                    $user = ApiUserDataHelper::getUserFromToken($token);
+
+                    if ($user) {
+                        $data = ApiUserDataHelper::getUserData($user);
+                        $data['usedtokenid'] = UserAuthToken::get()->filter('Token', $token)->first()->ID;
+                        $data['Success'] = true;
+                        $data['Token'] = $token;
+                    } else {
+                        $data['Error'] = "Unknown Auth Token";
+                    }
+                } else {
+                    $data['Success'] = false;
+                    $data['Error'] = "You need to provide your Auth Token to access this data";
+                }
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
+        }
+
+        public function logoutUser(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            if (!$request->isPOST()) {
+                $data['Success'] = false;
+                $data['Error'] = 'No POST request';
+            } else {
+                $token = $request->postVar('Token');
+
+                $token = UserAuthToken::get()->filter('Token', $token)->first();
+                if ($token) {
+                    $token->delete();
+                    $data['Success'] = true;
+                } else {
+                    $data['Success'] = false;
+                    $data['Error'] = 'Token not found';
+                }
+            }
+
+            $this->response->addHeader('Content-Type', 'application/json');
+            return json_encode($data);
+        }
+
+        public function loginUser(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            if (!$request->isPOST()) {
+                $data['Success'] = false;
+                $data['Error'] = 'No POST request';
+            } else {
+                $username = $request->postVar('Username');
+                $password = $request->postVar('Password');
+                $deviceName = $request->postVar('DeviceName');
+
+                $member = Member::get()->filter('Email', $username)->first();
+
+                if ($member && Injector::inst()->get(MemberAuthenticator::class)->checkPassword($member, $password)->isValid()) {
+                    $data = ApiUserDataHelper::loginUserAndCreateToken($member, $deviceName);
+                    $data['Success'] = true;
+                } else {
+                    $data['Success'] = false;
+                    $data['Error'] = 'Invalid credentials';
+                }
             }
 
             $this->response->addHeader('Content-Type', 'application/json');

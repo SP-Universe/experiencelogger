@@ -13,6 +13,7 @@ use SilverStripe\Security\Permission;
  * @property string $DeviceName
  * @property string $Token
  * @property string $CreationDate
+ * @property string $LastLogin
  * @property int $ParentID
  * @method \SilverStripe\Security\Member Parent()
  */
@@ -22,6 +23,7 @@ class UserAuthToken extends DataObject
         "DeviceName" => "Varchar(255)",
         "Token" => "Varchar(512)",
         "CreationDate" => "Datetime",
+        "LastLogin" => "Datetime",
     ];
 
     private static $has_one = [
@@ -30,16 +32,18 @@ class UserAuthToken extends DataObject
 
     private static $api_access = false;
 
-    private static $default_sort = "DeviceName ASC";
+    private static $default_sort = "LastLogin ASC";
 
     private static $field_labels = [
         "DeviceName" => "Name of device",
         "Token" => "Token",
         "CreationDate" => "Creation Date",
+        "LastLogin" => "Last Login",
     ];
 
     private static $summary_fields = [
         "DeviceName" => "Device",
+        "LastLogin" => "Last Login",
     ];
 
     private static $searchable_fields = [
@@ -67,6 +71,12 @@ class UserAuthToken extends DataObject
         if (!$this->Token) {
             $this->Token = bin2hex(random_bytes(64));
         }
+    }
+
+    public function updateLastLogin()
+    {
+        $this->LastLogin = date("Y-m-d H:i:s");
+        $this->write();
     }
 
     public function getCMSFields()

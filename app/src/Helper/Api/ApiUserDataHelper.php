@@ -20,11 +20,13 @@ class ApiUserDataHelper
         if (!$savedToken) {
             return null;
         }
+
         $user = $savedToken->Parent();
         if (!$user) {
             return null;
         }
         $user->LastOnline = date('Y-m-d H:i:s');
+        $savedToken->updateLastLogin();
         $user->write();
 
         return $user;
@@ -38,8 +40,11 @@ class ApiUserDataHelper
         $token->DeviceName = $deviceName;
         $token->write();
 
+        $token->updateLastLogin();
+
         $data = self::getUserData($user);
         $data['token'] = $token->Token;
+        $data['tokenID'] = $token->ID;
 
         return $data;
     }
@@ -50,6 +55,18 @@ class ApiUserDataHelper
         if (!$user) {
             return null;
         }
+        $tokens = UserAuthToken::get()->filter('ParentID', $user->ID);
+        $loggedInDevices = [];
+        //List all devices where the user is logged in with the token, device name and last login date
+        foreach ($tokens as $token) {
+            $loggedInDevices[] = [
+                'id' => $token->ID,
+                'deviceName' => $token->DeviceName,
+                'creationDate' => $token->CreationDate,
+                'lastLogin' => $token->LastLogin
+            ];
+        }
+
         $userData = [
             'nickname' => $user->Nickname,
             'displayname' => $user->Displayname,
@@ -62,6 +79,7 @@ class ApiUserDataHelper
             'premium' => $user->HasPremium,
             'logCount' => StatisticsHelper::getLogsOfUser($user->ID)->count(),
             'placesCount' => count(StatisticsHelper::getVisitedPlacesOfUser($user->ID)),
+            'loggedInDevices' => $loggedInDevices,
         ];
 
         return $userData;
