@@ -1,6 +1,6 @@
 <?php
 
-namespace {
+namespace App\Api {
 
     use SilverStripe\Control\Cookie;
     use SilverStripe\Control\HTTPRequest;
@@ -22,8 +22,7 @@ namespace {
  */
     class ApiPage extends SiteTree
     {
-        private static $db = [
-        ];
+        private static $db = [];
 
         public function getCMSFields()
         {

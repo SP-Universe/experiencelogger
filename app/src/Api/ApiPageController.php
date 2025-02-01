@@ -1,32 +1,32 @@
 <?php
 
-namespace {
+namespace App\Api {
 
-    use App\Api\Helper\ApiUserDataHelper;
+    use App\Api\ApiActions\ApiAction_authenticateUser;
+    use App\Api\ApiActions\ApiAction_loginUser;
+    use App\Api\ApiActions\ApiAction_logoutUser;
+    use App\Api\ApiActions\ApiAction_registerUser;
+    use App\Api\ApiActions\ApiAction_news;
     use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
     use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
-    use App\ExperienceDatabase\UserAuthToken;
-    use App\News\News;
     use App\Overview\LocationPage;
     use App\Ratings\Rating;
-    use SilverStripe\Security\Member;
     use SilverStripe\Control\HTTPRequest;
     use SilverStripe\Core\Injector\Injector;
     use SilverStripe\Security\IdentityStore;
     use SilverStripe\Security\Security;
     use SilverStripe\CMS\Controllers\ContentController;
     use SilverStripe\ORM\Queries\SQLSelect;
-    use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 
     /**
  * Class \PageController
  *
- * @property \ApiPage $dataRecord
- * @method \ApiPage data()
- * @mixin \ApiPage
+ * @property \App\Api\ApiPage $dataRecord
+ * @method \App\Api\ApiPage data()
+ * @mixin \App\Api\ApiPage
  */
     class ApiPageController extends ContentController
     {
@@ -42,10 +42,11 @@ namespace {
             "checkLogin",
             "imagebyid",
 
-            "user",
+            "authenticateUser",
             "news",
             "loginUser",
             "logoutUser",
+            "registerUser",
         ];
 
         public function logout(HTTPRequest $request)
@@ -669,126 +670,38 @@ namespace {
         //APICall for getting all news
         public function news(HTTPRequest $request)
         {
-            $news = News::get()->sort('Date', 'DESC');
-            $data = [];
-
-            $groupedNews = [];
-
-            //Add each news to the json data array
-            foreach ($news as $newsitem) {
-                if ($newsitem->Date > date("Y-m-d H:i:s")) {
-                    continue;
-                }
-
-                $groupedNews[$newsitem->ID]['ID'] = $newsitem->ID;
-                $groupedNews[$newsitem->ID]['ReleaseDate'] = $newsitem->Date;
-                $groupedNews[$newsitem->ID]['Title'] = $newsitem->Title;
-                $newscontent = $newsitem->Content;
-                $groupedNews[$newsitem->ID]['FormattedContent'] = $newscontent;
-                $filteredContent = strip_tags($newscontent);
-                $filteredContent = preg_replace('/\s+/', ' ', $filteredContent);
-                $groupedNews[$newsitem->ID]['TextContent'] = $filteredContent;
-
-                if ($newsitem->ShortDescription) {
-                    $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
-                } else {
-                    $groupedNews[$newsitem->ID]['Summary'] = substr($filteredContent, 0, 200) . "...";
-                }
-                $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
-                $groupedNews[$newsitem->ID]['Link'] = $newsitem->getLink();
-                if ($newsitem->Image() && $newsitem->Image()->exists()) {
-                    $groupedNews[$newsitem->ID]['Image'] = $newsitem->Image()->FocusFill(2000, 2000)->AbsoluteLink();
-                }
-                $groupedNews[$newsitem->ID]['Categories'] = [];
-                foreach ($newsitem->Category() as $category) {
-                    $groupedNews[$newsitem->ID]['Categories'][] = $category->Title;
-                }
-            }
-
-            foreach ($groupedNews as $newsEntry) {
-                $data[] = $newsEntry;
-            }
-
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
+            return ApiAction_news::news($request);
         }
 
         //APICall for getting data of a tokenized user
-        public function user(HTTPRequest $request)
+        public function authenticateUser(HTTPRequest $request)
         {
-            if (!$request->isPOST()) {
-                $data['Success'] = false;
-                $data['Error'] = 'No POST request';
-            } else {
-                $token = $request->postVar('Token');
-                if (isset($token)) {
-                    $user = ApiUserDataHelper::getUserFromToken($token);
-
-                    if ($user) {
-                        $data = ApiUserDataHelper::getUserData($user);
-                        $data['usedtokenid'] = UserAuthToken::get()->filter('Token', $token)->first()->ID;
-                        $data['Success'] = true;
-                        $data['Token'] = $token;
-                    } else {
-                        $data['Error'] = "Unknown Auth Token";
-                    }
-                } else {
-                    $data['Success'] = false;
-                    $data['Error'] = "You need to provide your Auth Token to access this data";
-                }
-            }
-
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
+            return ApiAction_authenticateUser::authenticateUser($request);
         }
 
         public function logoutUser(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
-            if (!$request->isPOST()) {
-                $data['Success'] = false;
-                $data['Error'] = 'No POST request';
-            } else {
-                $token = $request->postVar('Token');
-
-                $token = UserAuthToken::get()->filter('Token', $token)->first();
-                if ($token) {
-                    $token->delete();
-                    $data['Success'] = true;
-                } else {
-                    $data['Success'] = false;
-                    $data['Error'] = 'Token not found';
-                }
-            }
-
             $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
+            return ApiAction_logoutUser::logoutUser($request);
         }
 
         public function loginUser(HTTPRequest $request)
         {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
-            if (!$request->isPOST()) {
-                $data['Success'] = false;
-                $data['Error'] = 'No POST request';
-            } else {
-                $username = $request->postVar('Username');
-                $password = $request->postVar('Password');
-                $deviceName = $request->postVar('DeviceName');
-
-                $member = Member::get()->filter('Email', $username)->first();
-
-                if ($member && Injector::inst()->get(MemberAuthenticator::class)->checkPassword($member, $password)->isValid()) {
-                    $data = ApiUserDataHelper::loginUserAndCreateToken($member, $deviceName);
-                    $data['Success'] = true;
-                } else {
-                    $data['Success'] = false;
-                    $data['Error'] = 'Invalid credentials';
-                }
-            }
-
             $this->response->addHeader('Content-Type', 'application/json');
-            return json_encode($data);
+            return ApiAction_loginUser::loginUser($request);
+        }
+
+        public function registerUser(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            $this->response->addHeader('Content-Type', 'application/json');
+            return ApiAction_registerUser::registerUser($request);
         }
     }
 }
