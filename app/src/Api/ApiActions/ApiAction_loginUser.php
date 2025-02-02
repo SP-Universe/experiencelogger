@@ -86,7 +86,7 @@ namespace App\Api\ApiActions {
                     }
                 }
 
-                $data['AuthToken'] = $authToken->Token;
+                $data['Token'] = $authToken->Token;
             }
 
             return json_encode($data);
