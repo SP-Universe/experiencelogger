@@ -6,6 +6,7 @@ namespace App\Api {
     use App\Api\ApiActions\ApiAction_loginUser;
     use App\Api\ApiActions\ApiAction_logoutUser;
     use App\Api\ApiActions\ApiAction_registerUser;
+    use App\Api\ApiActions\ApiAction_allexperiences;
     use App\Api\ApiActions\ApiAction_news;
     use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
@@ -22,12 +23,12 @@ namespace App\Api {
     use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
- * Class \PageController
- *
- * @property \App\Api\ApiPage $dataRecord
- * @method \App\Api\ApiPage data()
- * @mixin \App\Api\ApiPage
- */
+     * Class \PageController
+     *
+     * @property \App\Api\ApiPage $dataRecord
+     * @method \App\Api\ApiPage data()
+     * @mixin \App\Api\ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -47,6 +48,7 @@ namespace App\Api {
             "loginUser",
             "logoutUser",
             "registerUser",
+            "allexperiences",
         ];
 
         public function logout(HTTPRequest $request)
@@ -702,6 +704,13 @@ namespace App\Api {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
             return ApiAction_registerUser::registerUser($request);
+        }
+
+        public function allexperiences(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            $this->response->addHeader('Content-Type', 'application/json');
+            return ApiAction_allexperiences::allexperiences($request);
         }
     }
 }
