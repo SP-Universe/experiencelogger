@@ -30,7 +30,7 @@ namespace App\Api\ApiActions {
                     $groupedPlaces[$place->ID]['Description'] = $description;
                 }
                 if ($place->Image && $place->Image()->exists()) {
-                    $groupedPlaces[$place->ID]['ImageLink'] = $place->Image()->Link();
+                    $groupedPlaces[$place->ID]['ImageLink'] = $place->Image()->AbsoluteLink();
                 }
                 $groupedPlaces[$place->ID]['Type'] = $place->Type()->Title;
                 $groupedPlaces[$place->ID]['TypeID'] = $place->TypeID;

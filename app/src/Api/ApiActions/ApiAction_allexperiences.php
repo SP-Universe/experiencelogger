@@ -31,7 +31,7 @@ namespace App\Api\ApiActions {
                     $groupedExperiences[$experience->ID]['Description'] = $description;
                 }
                 if ($experience->PhotoGalleryImages()->count() > 0) {
-                    $groupedExperiences[$experience->ID]['ImageLink'] = $experience->PhotoGalleryImages()->first()->Image()->Link();
+                    $groupedExperiences[$experience->ID]['ImageLink'] = $experience->PhotoGalleryImages()->first()->Image()->AbsoluteLink();
                 }
                 $groupedExperiences[$experience->ID]['LocationTitle'] = $experience->Parent()->Title;
                 $groupedExperiences[$experience->ID]['LocationId'] = $experience->ParentID;
