@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Overview;
 
+use App\User\User;
 use PageController;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
@@ -25,22 +27,24 @@ class LogsPageController extends PageController
 
     public function getLogs()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
-            return GroupedList::create(LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime", "DESC"));
+            return GroupedList::create(LogEntry::get()->filter("NewUserID", $currentUser->ID)->sort("VisitTime", "DESC"));
         }
     }
 
     public function getLogsForMonth($month, $year)
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             $day    = 1;
             $endDay = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
             return GroupedList::create(LogEntry::get()->filter(
                 [
-                    'UserID' => $currentUser->ID,
+                    'NewUserID' => $currentUser->ID,
                     'VisitTime:GreaterThan' => $year . '-' . $month . '-' . $day . ' 00:00:00',
                     'VisitTime:LessThan' => $year . '-' . $month . '-' . $endDay . ' 23:59:59',
                 ]
@@ -50,11 +54,12 @@ class LogsPageController extends PageController
 
     public function getLogsForDay($day, $month, $year)
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return GroupedList::create(LogEntry::get()->filter(
                 [
-                    'UserID' => $currentUser->ID,
+                    'NewUserID' => $currentUser->ID,
                     'VisitTime:GreaterThan' => $year . '-' . $month . '-' . $day . ' 00:00:00',
                     'VisitTime:LessThan' => $year . '-' . $month . '-' . $day . ' 23:59:59',
                 ]
@@ -64,7 +69,8 @@ class LogsPageController extends PageController
 
     public function month()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if ($currentUser) {
             $date = $this->getRequest()->param("ID");
@@ -80,7 +86,8 @@ class LogsPageController extends PageController
 
     public function date()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if ($currentUser) {
             $date = $this->getRequest()->param("ID");
@@ -97,7 +104,8 @@ class LogsPageController extends PageController
 
     public function all()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if ($currentUser) {
             return array(

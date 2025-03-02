@@ -4,6 +4,7 @@ namespace App\ExperienceDatabase;
 
 use App\Food\Food;
 use App\Ratings\Rating;
+use App\User\User;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -28,9 +29,13 @@ use SilverStripe\Security\Permission;
  * @property string $Version
  * @property bool $IsLinkedLogged
  * @property int $UserID
+ * @property int $OldUserID
+ * @property int $NewUserID
  * @property int $FoodID
  * @property int $ExperienceID
  * @method \SilverStripe\Security\Member User()
+ * @method \SilverStripe\Security\Member OldUser()
+ * @method \App\User\User NewUser()
  * @method \App\Food\Food Food()
  * @method \App\ExperienceDatabase\Experience Experience()
  * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
@@ -58,6 +63,8 @@ class LogEntry extends DataObject
 
     private static $has_one = [
         "User" => Member::class,
+        "OldUser" => Member::class,
+        "NewUser" => User::class,
         "Food" => Food::class,
         "Experience" => Experience::class,
     ];

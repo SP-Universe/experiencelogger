@@ -33,6 +33,7 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property string $LastLogDate
  * @property bool $HasPremium
  * @property string $LastOnline
+ * @property int $UserID
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
@@ -53,6 +54,7 @@ class ExperienceMemberExtension extends DataExtension
         "LastLogDate" => "Date",
         "HasPremium" => "Boolean",
         "LastOnline" => "Datetime",
+        "UserID" => "Int",
     ];
 
     private static $has_one = [

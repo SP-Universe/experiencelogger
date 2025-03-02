@@ -9,6 +9,7 @@ namespace App\Api {
     use App\Api\ApiActions\ApiAction_allexperiences;
     use App\Api\ApiActions\ApiAction_allplaces;
     use App\Api\ApiActions\ApiAction_news;
+    use App\Api\ApiActions\ApiAction_alllogs;
     use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
@@ -50,7 +51,8 @@ namespace App\Api {
             "logoutUser",
             "registerUser",
             "allexperiences",
-            "allplaces"
+            "allplaces",
+            "alllogs"
         ];
 
         public function logout(HTTPRequest $request)
@@ -720,6 +722,13 @@ namespace App\Api {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
             return ApiAction_allplaces::allplaces($request);
+        }
+
+        public function alllogs(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            $this->response->addHeader('Content-Type', 'application/json');
+            return ApiAction_alllogs::alllogs($request);
         }
     }
 }

@@ -2,15 +2,14 @@
 
 namespace App\Overview;
 
+use App\User\User;
 use PageController;
 use App\Ratings\Rating;
-use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\Sortable;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ArrayList;
 use App\Helper\ExperienceHelper;
 use App\Helper\StatisticsHelper;
 use SilverStripe\ORM\GroupedList;
-use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
@@ -18,7 +17,6 @@ use SilverStripe\ORM\Queries\SQLSelect;
 use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceType;
 use App\ExperienceDatabase\ExperienceLocation;
-use SilverStripe\ORM\DataList;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -41,14 +39,15 @@ class LocationPageController extends PageController
 
     public function location()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->NewUserID)->first();
         $logs = DataList::create(LogEntry::class);
         $ratings = DataList::create(Rating::class);
         if (!$currentUser) {
             $currentUser = null;
             $logs = null;
         } else {
-            $logs = LogEntry::get()->filter("UserID", $currentUser->ID);
+            $logs = LogEntry::get()->filter("NewUserID", $currentUser->ID);
         }
         $ratings = Rating::get();
 
@@ -326,7 +325,8 @@ class LocationPageController extends PageController
 
     public function finishLog()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if (isset($currentUser)) {
             $title = $this->getRequest()->param("ID");
@@ -399,7 +399,7 @@ class LocationPageController extends PageController
                     $newlogentry->FoodID = $_GET["food"];
                 }
 
-                $newlogentry->UserID = $currentUser->ID;
+                $newlogentry->NewUserID = $currentUser->ID;
                 $hours = $experience->Parent->Timezone - 1;
 
                 if (isset($_GET["date"])) {
@@ -455,7 +455,7 @@ class LocationPageController extends PageController
                     if ($rating > 0) {
                         $newrating = Rating::create();
                         $newrating->ExperienceID = $experience->ID;
-                        $newrating->UserID = $currentUser->ID;
+                        $newrating->NewUserID = $currentUser->ID;
                         $newrating->Stars = $rating;
                         $newrating->LogEntries()->add($newlogentry);
                         $newlogentry->Votings()->add($newrating);
@@ -487,6 +487,6 @@ class LocationPageController extends PageController
 
     public function getUsers()
     {
-        return Member::get();
+        return User::get();
     }
 }
