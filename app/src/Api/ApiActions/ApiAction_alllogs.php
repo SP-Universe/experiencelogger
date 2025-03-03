@@ -4,10 +4,8 @@ namespace App\Api\ApiActions {
 
     use App\User\AuthToken;
 
-    use App\ExperienceDatabase\ExperienceLocation;
     use App\ExperienceDatabase\LogEntry;
     use SilverStripe\Control\HTTPRequest;
-    use SilverStripe\Security\Member;
 
     class ApiAction_alllogs
     {
@@ -38,7 +36,7 @@ namespace App\Api\ApiActions {
                         $data['Success'] = true;
                         $data['Logs'] = [];
 
-                        $logs = LogEntry::get()->filter('LogUserID', $user->ID);
+                        $logs = LogEntry::get()->filter('UserID', $user->ID);
                         foreach ($logs as $log) {
                             $friends = $log->Friends();
 
