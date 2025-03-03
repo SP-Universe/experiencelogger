@@ -30,7 +30,7 @@ class LogsPageController extends PageController
         $currentMember = Security::getCurrentUser();
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
-            return GroupedList::create(LogEntry::get()->filter("NewUserID", $currentUser->ID)->sort("VisitTime", "DESC"));
+            return GroupedList::create(LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime", "DESC"));
         }
     }
 
@@ -44,7 +44,7 @@ class LogsPageController extends PageController
 
             return GroupedList::create(LogEntry::get()->filter(
                 [
-                    'NewUserID' => $currentUser->ID,
+                    'UserID' => $currentUser->ID,
                     'VisitTime:GreaterThan' => $year . '-' . $month . '-' . $day . ' 00:00:00',
                     'VisitTime:LessThan' => $year . '-' . $month . '-' . $endDay . ' 23:59:59',
                 ]
@@ -59,7 +59,7 @@ class LogsPageController extends PageController
         if ($currentUser) {
             return GroupedList::create(LogEntry::get()->filter(
                 [
-                    'NewUserID' => $currentUser->ID,
+                    'UserID' => $currentUser->ID,
                     'VisitTime:GreaterThan' => $year . '-' . $month . '-' . $day . ' 00:00:00',
                     'VisitTime:LessThan' => $year . '-' . $month . '-' . $day . ' 23:59:59',
                 ]

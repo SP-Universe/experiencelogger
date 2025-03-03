@@ -33,7 +33,7 @@ use SilverStripe\Security\Permission;
  * @property int $NewUserID
  * @property int $FoodID
  * @property int $ExperienceID
- * @method \SilverStripe\Security\Member User()
+ * @method \App\User\User User()
  * @method \SilverStripe\Security\Member OldUser()
  * @method \App\User\User NewUser()
  * @method \App\Food\Food Food()
@@ -62,7 +62,7 @@ class LogEntry extends DataObject
     private static $api_access = false;
 
     private static $has_one = [
-        "User" => Member::class,
+        "User" => User::class,
         "OldUser" => Member::class,
         "NewUser" => User::class,
         "Food" => Food::class,

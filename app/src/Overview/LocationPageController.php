@@ -40,14 +40,14 @@ class LocationPageController extends PageController
     public function location()
     {
         $currentMember = Security::getCurrentUser();
-        $currentUser = User::get()->filter("ID", $currentMember->NewUserID)->first();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $logs = DataList::create(LogEntry::class);
         $ratings = DataList::create(Rating::class);
         if (!$currentUser) {
             $currentUser = null;
             $logs = null;
         } else {
-            $logs = LogEntry::get()->filter("NewUserID", $currentUser->ID);
+            $logs = LogEntry::get()->filter("UserID", $currentUser->ID);
         }
         $ratings = Rating::get();
 
@@ -399,7 +399,7 @@ class LocationPageController extends PageController
                     $newlogentry->FoodID = $_GET["food"];
                 }
 
-                $newlogentry->NewUserID = $currentUser->ID;
+                $newlogentry->UserID = $currentUser->ID;
                 $hours = $experience->Parent->Timezone - 1;
 
                 if (isset($_GET["date"])) {
@@ -455,7 +455,7 @@ class LocationPageController extends PageController
                     if ($rating > 0) {
                         $newrating = Rating::create();
                         $newrating->ExperienceID = $experience->ID;
-                        $newrating->NewUserID = $currentUser->ID;
+                        $newrating->UserID = $currentUser->ID;
                         $newrating->Stars = $rating;
                         $newrating->LogEntries()->add($newlogentry);
                         $newlogentry->Votings()->add($newrating);
