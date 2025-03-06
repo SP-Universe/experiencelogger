@@ -17,6 +17,7 @@ namespace App\Api {
     use App\ExperienceDatabase\LogEntry;
     use App\Overview\LocationPage;
     use App\Ratings\Rating;
+    use App\User\User;
     use SilverStripe\Control\HTTPRequest;
     use SilverStripe\Core\Injector\Injector;
     use SilverStripe\Security\IdentityStore;
@@ -25,12 +26,12 @@ namespace App\Api {
     use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
- * Class \PageController
- *
- * @property \App\Api\ApiPage $dataRecord
- * @method \App\Api\ApiPage data()
- * @mixin \App\Api\ApiPage
- */
+     * Class \PageController
+     *
+     * @property \App\Api\ApiPage $dataRecord
+     * @method \App\Api\ApiPage data()
+     * @mixin \App\Api\ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -67,6 +68,11 @@ namespace App\Api {
         {
             $id = $this->getRequest()->param("ID");
 
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
+
             if (isset($_GET['ID'])) {
                 $id = intval($_GET['ID']);
                 $experiences = Experience::get()->filter("ID", $id)->sort('Title', 'ASC');
@@ -100,7 +106,7 @@ namespace App\Api {
                 $data['LastEdited']['Timestamp'] = $lastedited;
 
                 $data["Count"] = count($experiences);
-                $data["LoggedIn"] = Security::getCurrentUser() ? true : false;
+                $data["LoggedIn"] = $currentUser ? true : false;
 
                 foreach ($experiences as $experience) {
                     $key = $experience->Title;
@@ -156,7 +162,8 @@ namespace App\Api {
 
         public function places(HTTPRequest $request)
         {
-            $currentUser = Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
             if (isset($_GET['ParkID'])) {
                 $parkid = intval($_GET['ParkID']);
@@ -335,7 +342,10 @@ namespace App\Api {
             $this->response->addHeader('Content-Type', 'application/json');
 
             //getBody funktioniert auf dem Request
-            $currentUser = Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
 
             if (isset($currentUser)) {
                 $data['UserID'] = $currentUser->ID;
@@ -397,7 +407,10 @@ namespace App\Api {
 
         public function logCountForExperience(HTTPRequest $request)
         {
-            $currentUser = Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
 
             if (!$currentUser) {
                 $data['Status'] = false;
@@ -495,7 +508,15 @@ namespace App\Api {
 
         public function getCurrentUser()
         {
-            return Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
+            if ($currentUser) {
+                return $currentUser;
+            } else {
+                return false;
+            }
         }
 
         protected function init()
@@ -505,21 +526,24 @@ namespace App\Api {
 
         public function profile()
         {
-            if (Security::getCurrentUser()) {
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
+            if ($currentUser) {
                 //get logs with unique experience IDs
-                $logs = LogEntry::get()->filter("UserID", Security::getCurrentUser()->ID)->sort('LastEdited', 'DESC');
+                $logs = LogEntry::get()->filter("UserID", $currentUser->ID)->sort('LastEdited', 'DESC');
                 $experiences = [];
                 foreach ($logs as $log) {
                     $experiences[$log->ExperienceID] = $log->Experience();
                 }
 
-                $member = Security::getCurrentUser();
                 return json_encode([
-                    "ID" => $member->ID,
-                    "Email" => $member->Email,
-                    "FirstName" => $member->FirstName,
-                    "Surname" => $member->Surname,
-                    "Nickname" => $member->Nickname,
+                    "ID" => $currentUser->ID,
+                    "Email" => $currentUser->Email,
+                    "FirstName" => $currentUser->FirstName,
+                    "Surname" => $currentUser->Surname,
+                    "Nickname" => $currentUser->Nickname,
                     "UniqueExperiences" => $experiences
                 ]);
             }
@@ -527,7 +551,10 @@ namespace App\Api {
 
         public function locationprogress(HTTPRequest $request)
         {
-            $currentUser = Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
             if ($currentUser) {
                 $id = $_GET['ID'];
                 $data['API_Title'] = "Experiencelogger API";
@@ -576,7 +603,10 @@ namespace App\Api {
 
         public function CheckLogin(HTTPRequest $request)
         {
-            $currentUser = Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if ($currentMember) {
+                $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            }
 
             if (!$currentUser) {
                 $data['LoggedIn'] = false;

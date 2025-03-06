@@ -21,6 +21,7 @@ use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceTrain;
 use SilverStripe\Forms\GridField\GridField;
 use App\ExperienceDatabase\ExperienceLocation;
+use App\User\User;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
@@ -213,7 +214,8 @@ class Experience extends DataObject
 
     public function getLogs()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return GroupedList::create(LogEntry::get()->filter(
                 [
@@ -226,7 +228,8 @@ class Experience extends DataObject
 
     public function getTotalLogCount()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return LogEntry::get()->filter(
                 [
@@ -445,7 +448,8 @@ class Experience extends DataObject
 
     public function getLatestLog()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return LogEntry::get()->filter([
                 "UserID" => $currentUser->ID,
@@ -577,18 +581,6 @@ class Experience extends DataObject
 
     public function getWillLinkLogArea()
     {
-        /*$currentUser = Security::getCurrentUser();
-        if ($this->AreaID == 0 || !$currentUser) {
-            return false;
-        }
-
-        $lastLoggedArea = $currentUser->LastLoggedArea();
-        $lastLoggedDate = $currentUser->LastLogDate;
-
-        if ($lastLoggedArea && $lastLoggedArea->ID == $this->AreaID && $lastLoggedDate == date("Y-m-d")) {
-            return false;
-        }*/
-
         return ExperienceHelper::getWillLinkLogArea($this, date("Y-m-d"));
     }
 

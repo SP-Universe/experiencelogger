@@ -1,8 +1,6 @@
 import "./helpers.js";
 import "./location.js";
 import "./jsonloader.js";
-import "./ExperienceCard.js";
-//import "./pages/ExperienceListPage.js";
 import "./pages/ExperienceList.js";
 import "./pages/LocationListPage.js";
 import "./pages/LogsListPage.js";

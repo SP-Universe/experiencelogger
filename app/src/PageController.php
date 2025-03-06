@@ -3,10 +3,9 @@
 namespace {
 
     use App\Profile\DashboardPage;
-    use App\Profile\LoginPage;
     use App\Profile\ProfilePage;
     use App\Profile\RegistrationPage;
-    use SilverStripe\Security\Member;
+    use App\User\User;
     use SilverStripe\Control\HTTPRequest;
     use SilverStripe\Core\Injector\Injector;
     use SilverStripe\Security\IdentityStore;
@@ -17,12 +16,12 @@ namespace {
     use SilverStripe\CMS\Controllers\ContentController;
 
     /**
- * Class \PageController
- *
- * @property \Page $dataRecord
- * @method \Page data()
- * @mixin \Page
- */
+     * Class \PageController
+     *
+     * @property \Page $dataRecord
+     * @method \Page data()
+     * @mixin \Page
+     */
     class PageController extends ContentController
     {
         /**
@@ -64,7 +63,12 @@ namespace {
 
         public function getCurrentUser()
         {
-            return Security::getCurrentUser();
+            $currentMember = Security::getCurrentUser();
+            if (!$currentMember) {
+                return null;
+            }
+            $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            return $currentUser;
         }
 
         public function getProfilePage()
