@@ -5,10 +5,10 @@ namespace App\Helper;
 use Exception;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\Security\Member;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
+use App\User\User;
 use SilverStripe\Security\Security;
 
 class StatisticsHelper
@@ -20,7 +20,7 @@ class StatisticsHelper
      */
     public static function getLogsOfUser($id)
     {
-        $checkedUser = Member::get()->byID($id);
+        $checkedUser = User::get()->byID($id);
         if ($checkedUser) {
             return LogEntry::get()->filter([
                 'UserID' => $checkedUser->ID,
@@ -126,7 +126,12 @@ class StatisticsHelper
      */
     public static function getVisitCounterPerYearFromCurrentUser($locationID)
     {
-        $userId = Security::getCurrentUser()->ID;
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+        $userId = $currentUser->ID;
         $experiences = Experience::get()->filter("ParentID", $locationID);
         $logs = self::getLogsOfUser($userId)->filter("ExperienceID", $experiences->column("ID"));
 
@@ -497,7 +502,12 @@ class StatisticsHelper
      */
     public static function getAverageLogCountPerVisitFromCurrentUser($locationID, $accuracy = 2)
     {
-        $userId = Security::getCurrentUser()->ID;
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+        $userId = $currentUser->ID;
         $visitsPerYear = self::getVisitCounterPerYear($userId, $locationID);
         $logs = self::getLogsOfUser($userId)->filter("ExperienceID", Experience::get()->filter("ParentID", $locationID)->column("ID"));
 

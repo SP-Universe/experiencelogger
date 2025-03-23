@@ -3,6 +3,7 @@
 namespace App\Extensions;
 
 use DateTime;
+use App\User\User;
 use App\Profile\ProfilePage;
 use App\Profile\FriendRequest;
 use SilverStripe\Assets\Image;
@@ -114,7 +115,12 @@ class ExperienceMemberExtension extends DataExtension
     public function getLogs($id = 0)
     {
         if ($id == 0) {
-            $id = $this->owner->ID;
+            $currentMember = $this->owner;
+            if (!$currentMember) {
+                return;
+            }
+            $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+            $id = $currentUser->ID;
         }
         return StatisticsHelper::getLogsOfUser($id);
     }
