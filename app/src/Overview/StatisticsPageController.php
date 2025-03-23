@@ -68,10 +68,11 @@ class StatisticsPageController extends PageController
             "ParentID" => $park->ID
         ))->first();
 
-        $currentUser = Security::getCurrentUser();
-        if (!$currentUser) {
-            $currentUser = Member::get()->first();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            $currentMember = Member::get()->first();
         }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         return array(
             "Experience" => $experience,
@@ -86,13 +87,16 @@ class StatisticsPageController extends PageController
 
     public function user()
     {
-        $currentUser = Security::getCurrentUser();
-        $title = $this->getRequest()->param("ID");
-        $user = Member::get()->filter("Nickname", $title)->first();
-
-        if ($user) {
-            $currentUser = $user;
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            $currentMember = Member::get()->first();
         }
+        $title = $this->getRequest()->param("ID");
+        $currentMember = Member::get()->filter("Nickname", $title)->first();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         return array(
             "User" => $currentUser,
