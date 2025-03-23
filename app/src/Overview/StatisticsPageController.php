@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Overview;
 
 use PageController;
@@ -11,6 +12,7 @@ use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceSeat;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\Helper\StatisticsHelper;
+use App\User\User;
 
 /**
  * Class \App\Docs\DocsPageController
@@ -30,7 +32,13 @@ class StatisticsPageController extends PageController
 
     public function location()
     {
-        $currentUserId = Security::getCurrentUser()->ID;
+
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUserId = User::get()->filter("ID", $currentMember->UserID)->first()->ID;
+
         $title = $this->getRequest()->param("ID");
         $location = ExperienceLocation::get()->filter("LinkTitle", $title)->first();
         $visitsPerYear = StatisticsHelper::getVisitCounterPerYear($currentUserId, $location->ID); //returns array with year and visit count
@@ -58,7 +66,7 @@ class StatisticsPageController extends PageController
         $experience = Experience::get()->filter(array(
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-            ))->first();
+        ))->first();
 
         $currentUser = Security::getCurrentUser();
         if (!$currentUser) {
