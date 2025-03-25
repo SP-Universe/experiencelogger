@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Profile;
 
 //use jamesbolitho\frontenduploadfield\UploadField;
@@ -19,6 +20,7 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
+use App\User\User;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use HudhaifaS\Forms\FrontendImageField;
@@ -33,8 +35,7 @@ use HudhaifaS\Forms\FrontendImageField;
 class DashboardPageController extends PageController
 {
 
-    private static $allowed_actions = [
-    ];
+    private static $allowed_actions = [];
 
     public function getUser()
     {
@@ -46,9 +47,12 @@ class DashboardPageController extends PageController
 
     public function getLastLogged()
     {
-        $member = Security::getCurrentUser();
-        if ($member) {
-            $logs = LogEntry::get()->filter("UserID", $member->ID)->sort("VisitTime DESC")->limit(5);
+        $currentMember = Security::getCurrentUser();
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+
+
+        if ($currentUser) {
+            $logs = LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime DESC")->limit(5);
             return $logs;
         }
     }
