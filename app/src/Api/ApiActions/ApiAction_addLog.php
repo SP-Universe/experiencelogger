@@ -55,7 +55,7 @@ namespace App\Api\ApiActions {
 
                 //ADD LOG ENTRY
                 // Get Data from POST
-                $weather = $request->postVar('ExperienceID');
+                $weather = $request->postVar('Weather');
                 $seat = $request->postVar('Seat');
                 $row = $request->postVar('Row');
                 $train = $request->postVar('Train');
