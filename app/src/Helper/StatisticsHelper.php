@@ -464,8 +464,12 @@ class StatisticsHelper
      */
     public static function getAverageVisitsPerYearFromCurrentUser($locationID, $accuracy = 2)
     {
-        $userId = Security::getCurrentUser()->ID;
-        $visitsPerYear = self::getVisitCounterPerYear($userId, $locationID);
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
+        $visitsPerYear = self::getVisitCounterPerYear($currentUser, $locationID);
         $visitsAllTime = 0;
         foreach ($visitsPerYear as $visit) {
             $visitsAllTime += $visit->logs;
