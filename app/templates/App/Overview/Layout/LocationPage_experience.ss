@@ -21,10 +21,10 @@
                         $Image.FocusFill(1000,400)
                     </div>
                 <% end_if %>
-                <% if $CurrentUser %>
+                <% if $Top.CurrentUser %>
                     <div class="experience_log_button">
                         <div class="logcount">
-                            <p>$CurrentUser.LogCount($ID) Log<% if $CurrentUser.LogCount($ID) != 1 %>s<% end_if %></p>
+                            <p>$Top.CurrentUser.LogCount($ID) Log<% if $Top.CurrentUser.LogCount($ID) != 1 %>s<% end_if %></p>
                             <% if $LatestLog %>
                                 <p>Latest log: $LatestLog.FormattedDate</p>
                             <% else %>
@@ -42,7 +42,7 @@
                 <div class="experience_buttons">
                     <% if $ExperienceLink %><a href="$ExperienceLink" class="experience_button" target="_blank">Official Page</a><% end_if %>
                     <a class="experience_button" href="$SeatchartLink">Seatchart & Logs</a>
-                    <% if $Logs.Count > 0 && $CurrentUser %> <a class="experience_button" href="$StatisticsLink">Statistics</a><% end_if %>
+                    <% if $Logs.Count > 0 && $Top.CurrentUser %> <a class="experience_button" href="$StatisticsLink">Statistics</a><% end_if %>
                 </div>
                 <% if $NumberOfRatings %>
                     <div class="experience_ratings">
