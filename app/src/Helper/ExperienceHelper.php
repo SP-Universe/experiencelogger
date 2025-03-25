@@ -9,6 +9,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
+use App\User\User;
 
 class ExperienceHelper
 {
@@ -50,7 +51,7 @@ class ExperienceHelper
      */
     public static function getLogsOfExperienceFromUser($userId, $experienceId)
     {
-        $checkedUser = Member::get()->byID($userId);
+        $checkedUser = User::get()->byID($userId);
         $checkedExperience = self::getExperienceById($experienceId);
         if ($checkedUser && $checkedExperience) {
             return LogEntry::get()->filter([
@@ -69,11 +70,16 @@ class ExperienceHelper
      */
     public static function getLogsOfExperienceFromCurrentUser($experienceId)
     {
-        $checkedUser = Security::getCurrentUser();
+
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $checkedExperience = self::getExperienceById($experienceId);
-        if ($checkedUser && $checkedExperience) {
+        if ($currentUser && $checkedExperience) {
             return LogEntry::get()->filter([
-                'UserID' => $checkedUser->ID,
+                'UserID' => $currentUser->ID,
                 'ExperienceID' => $checkedExperience->ID,
             ]);
         } else {
@@ -89,7 +95,11 @@ class ExperienceHelper
      */
     public static function getWillLinkLogArea($experience, $loggedDate)
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($experience->AreaID == 0 || !$currentUser) {
             return false;
         }
