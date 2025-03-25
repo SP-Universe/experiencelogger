@@ -2,6 +2,8 @@
 
 namespace App\User;
 
+use App\ExperienceDatabase\ExperienceLocation;
+use App\Profile\FriendRequest;
 use App\User\AuthToken;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
@@ -21,6 +23,7 @@ use SilverStripe\Security\Permission;
  * @property int $AvatarID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \SilverStripe\ORM\DataList|\App\User\AuthToken[] AuthTokens()
+ * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
  */
 class User extends DataObject
 {
@@ -45,6 +48,11 @@ class User extends DataObject
 
     private static $owns = [
         'Avatar',
+    ];
+
+    private static $many_many = [
+        "FavouritePlaces" => ExperienceLocation::class,
+        // "Friends" => FriendRequest::class,
     ];
 
     private static $default_sort = "Username ASC";

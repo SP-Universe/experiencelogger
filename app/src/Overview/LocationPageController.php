@@ -284,7 +284,11 @@ class LocationPageController extends PageController
     {
         $title = $this->getRequest()->param("ID");
         $id = ExperienceLocation::get()->filter("LinkTitle", $title)->first()->ID;
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if ($currentUser) {
             if ($currentUser->FavouritePlaces()->filter("ID", $id)->count() > 0) {

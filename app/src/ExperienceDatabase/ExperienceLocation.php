@@ -5,6 +5,7 @@ namespace App\ExperienceDatabase;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use App\Overview\StatisticsPage;
+use App\User\User;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
@@ -87,7 +88,10 @@ class ExperienceLocation extends DataObject
     ];
 
     private static $searchable_fields = [
-        "Title", "Type.Title", "Description", "Experiences.Title"
+        "Title",
+        "Type.Title",
+        "Description",
+        "Experiences.Title"
     ];
 
     private static $table_name = "ExperienceLocation";
@@ -169,9 +173,13 @@ class ExperienceLocation extends DataObject
     //FUNCTIONS
     public function getIsFavourite()
     {
-        $member = Security::getCurrentUser();
-        if ($member) {
-            return $member->FavouritePlaces()->find('ID', $this->ID) ? true : false;
+        $currentmember = Security::getCurrentUser();
+        if (!$currentmember) {
+            return false;
+        }
+        $currentUser = User::get()->filter("ID", $currentmember->UserID)->first();
+        if ($currentUser) {
+            return $currentUser->FavouritePlaces()->find('ID', $this->ID) ? true : false;
         }
         return false;
     }
