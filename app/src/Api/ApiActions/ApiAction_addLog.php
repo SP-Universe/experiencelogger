@@ -113,7 +113,21 @@ namespace App\Api\ApiActions {
                 $logEntry->VisitTime = $datetime->format('Y-m-d H:i:s');
 
                 if ($rating) {
-                    $logEntry->Rating = $rating;
+                    if ($rating > 0) {
+                        $newrating = Rating::create();
+                        $newrating->ExperienceID = $experience->ID;
+                        $newrating->UserID = $user->ID;
+                        $newrating->Stars = $rating;
+                        $newrating->LogEntries()->add($logEntry);
+                        $logEntry->Votings()->add($newrating);
+                        $totalratings = $experience->NumberOfRatings;
+                        $experiencerating = $experience->Rating;
+                        $calculatedrating = (($experiencerating * $totalratings) + $rating) / ($totalratings + 1);
+                        $experience->Rating = $calculatedrating;
+                        $experience->NumberOfRatings = $totalratings + 1;
+                        $experience->write();
+                        $newrating->write();
+                    }
                 }
                 if ($notes) {
                     $logEntry->Notes = $notes;
