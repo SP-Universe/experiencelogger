@@ -24,7 +24,7 @@
                 <% if $CurrentUser %>
                     <div class="experience_log_button">
                         <div class="logcount">
-                            <p>$CurrentUser.LogCount($ID) Count<% if $CurrentUser.LogCount($ID) != 1 %>s<% end_if %></p>
+                            <p>$CurrentUser.LogCount($ID) Log<% if $CurrentUser.LogCount($ID) != 1 %>s<% end_if %></p>
                             <% if $LatestLog %>
                                 <p>Latest log: $LatestLog.FormattedDate</p>
                             <% else %>

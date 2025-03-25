@@ -40,6 +40,9 @@ class LocationPageController extends PageController
     public function location()
     {
         $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $logs = DataList::create(LogEntry::class);
         $ratings = DataList::create(Rating::class);
@@ -234,7 +237,11 @@ class LocationPageController extends PageController
 
         $percentOfLogs = StatisticsHelper::getPercentAsNumber($experience->TotalLogCount, $experience->Logs->Count(), 2);
 
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $averageLogsPerVisit = StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUser->ID, $experience);
 
         return array(
@@ -255,7 +262,11 @@ class LocationPageController extends PageController
         ))->first();
 
         $id = $experience->ID;
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return LogEntry::get()->filter([
                 "ExperienceID" => $id,
@@ -330,6 +341,9 @@ class LocationPageController extends PageController
     public function finishLog()
     {
         $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if (isset($currentUser)) {

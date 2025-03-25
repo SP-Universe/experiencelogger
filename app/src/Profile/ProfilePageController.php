@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Profile;
 
 //use jamesbolitho\frontenduploadfield\UploadField;
@@ -20,6 +21,7 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
+use App\User\User;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use HudhaifaS\Forms\FrontendImageField;
@@ -50,9 +52,9 @@ class ProfilePageController extends PageController
     public function init()
     {
         HTTPCacheControlMiddleware::singleton()
-        ->enableCache()
-        // 1 minute
-        ->setMaxAge(60);
+            ->enableCache()
+            // 1 minute
+            ->setMaxAge(60);
 
         parent::init();
     }
@@ -64,7 +66,11 @@ class ProfilePageController extends PageController
 
     public function getNickname()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return $currentUser->Nickname;
         }
@@ -72,7 +78,11 @@ class ProfilePageController extends PageController
 
     public function getBirthdate()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return $currentUser->DateOfBirth;
         }
@@ -80,7 +90,11 @@ class ProfilePageController extends PageController
 
     public function getFriends()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return $currentUser->Friends();
         }
@@ -88,7 +102,11 @@ class ProfilePageController extends PageController
 
     public function getFavouritePlaces()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return $currentUser->FavouritePlaces();
         }
@@ -96,7 +114,11 @@ class ProfilePageController extends PageController
 
     public function getLogs()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return GroupedList::create(LogEntry::get()->filter("UserID", $currentUser->ID)->sort("VisitTime", "DESC"));
         }
@@ -104,7 +126,11 @@ class ProfilePageController extends PageController
 
     public function EditForm()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             $upload = new FileField('Avatar', 'Avatar');
             $upload->setFolderName('user_avatars');
@@ -146,7 +172,11 @@ class ProfilePageController extends PageController
 
     public function editProfile($data, Form $form)
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             $form->saveInto($currentUser);
 
@@ -165,7 +195,11 @@ class ProfilePageController extends PageController
 
     public function memberlist()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         //Get all members
         /*$memberTable = DB::get_conn()->escapeIdentifier(
@@ -215,7 +249,11 @@ class ProfilePageController extends PageController
 
     public function user()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $viewedUser = Member::get()->filter("Nickname", $this->getRequest()->param("ID"))->first();
 
         if (!$viewedUser) {
@@ -244,7 +282,11 @@ class ProfilePageController extends PageController
 
     public function requestnewfriend()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $requestee = Member::get()->filter("ID", $this->getRequest()->param("ID"))->first();
 
         $existingFriendRequest = FriendRequest::get()->filter(array(
@@ -270,7 +312,11 @@ class ProfilePageController extends PageController
 
     public function acceptfriend()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $friendRequest = FriendRequest::get()->byID($this->getRequest()->param("ID"));
         $requestee = Member::get()->byID($friendRequest->RequesteeID);
         $requester = Member::get()->byID($friendRequest->RequesterID);
@@ -291,7 +337,11 @@ class ProfilePageController extends PageController
 
     public function declinefriend()
     {
-        $currentUser = Security::getCurrentUser();
+        $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
+        $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $friendRequest = FriendRequest::get()->byID($this->getRequest()->param("ID"));
         if ($friendRequest && $currentUser) {
             $requestee = Member::get()->byID($friendRequest->RequesteeID);

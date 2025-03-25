@@ -215,6 +215,9 @@ class Experience extends DataObject
     public function getLogs()
     {
         $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return GroupedList::create(LogEntry::get()->filter(
@@ -229,6 +232,9 @@ class Experience extends DataObject
     public function getTotalLogCount()
     {
         $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return LogEntry::get()->filter(
@@ -449,6 +455,9 @@ class Experience extends DataObject
     public function getLatestLog()
     {
         $currentMember = Security::getCurrentUser();
+        if (!$currentMember) {
+            return;
+        }
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         if ($currentUser) {
             return LogEntry::get()->filter([
