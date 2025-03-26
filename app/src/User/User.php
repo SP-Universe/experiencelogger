@@ -29,6 +29,7 @@ use SilverStripe\Security\Security;
  * @property string $ProfilePrivacy
  * @property string $DateOfBirth
  * @property int $AvatarID
+ * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
  * @method \SilverStripe\ORM\DataList|\App\User\AuthToken[] AuthTokens()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
@@ -48,6 +49,7 @@ class User extends DataObject
 
     private static $has_one = [
         'Avatar' => Image::class,
+        "LastLoggedArea" => Experience::class,
     ];
 
     private static $has_many = [
