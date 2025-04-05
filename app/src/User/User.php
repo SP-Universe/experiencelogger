@@ -25,12 +25,14 @@ use SilverStripe\Security\Security;
  * @property string $Nickname
  * @property string $Password
  * @property bool $HasPremium
+ * @property string $LastLogDate
  * @property bool $LinkedLogging
  * @property string $ProfilePrivacy
  * @property string $DateOfBirth
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()
+ * @method \App\ExperienceDatabase\Experience LastLoggedArea()
  * @method \SilverStripe\ORM\DataList|\App\User\AuthToken[] AuthTokens()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
  */
@@ -42,6 +44,7 @@ class User extends DataObject
         "Nickname" => "Varchar(255)", //The Nickname visible to other users
         "Password" => "Varchar(255)",
         "HasPremium" => "Boolean",
+        "LastLogDate" => "Date",
         "LinkedLogging" => "Boolean",
         'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
         'DateOfBirth' => 'Date',
