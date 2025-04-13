@@ -55,6 +55,7 @@ class ExperienceMemberExtension extends DataExtension
         "LastLogDate" => "Date",
         "HasPremium" => "Boolean",
         "LastOnline" => "Datetime",
+        "LinkedLogging" => "Boolean",
         "UserID" => "Int",
     ];
 

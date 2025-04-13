@@ -42,12 +42,14 @@ class User extends DataObject
         "Email" => "Varchar(255)",
         "Username" => "Varchar(255)", //The Username used to login
         "Nickname" => "Varchar(255)", //The Nickname visible to other users
-        "Password" => "Varchar(255)",
-        "HasPremium" => "Boolean",
-        "LastLogDate" => "Date",
-        "LinkedLogging" => "Boolean",
-        'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")',
-        'DateOfBirth' => 'Date',
+        "Password" => "Varchar(255)", //The Password used to login (hashed)
+        "HasPremium" => "Boolean", //True if the user has a premium account
+        "PremiumUntil" => "Date", //The date until the user has a premium account
+        "LastLogDate" => "Date", //The date of the last log of the user
+        "Bio" => "Text", //The biography of the user
+        'DateOfBirth' => 'Date', //The date of birth of the user
+        "LinkedLogging" => "Boolean", //True if the user has linked logging enabled
+        'ProfilePrivacy' => 'Enum("Public, Friends, Private", "Public")', //The privacy setting of the user profile
     ];
 
     private static $has_one = [
@@ -95,7 +97,6 @@ class User extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-
         return $fields;
     }
 
