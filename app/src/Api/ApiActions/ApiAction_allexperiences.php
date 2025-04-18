@@ -3,6 +3,7 @@
 namespace App\Api\ApiActions {
 
     use App\ExperienceDatabase\Experience;
+    use App\ExperienceDatabase\ExperienceTrain;
     use SilverStripe\Control\HTTPRequest;
 
     class ApiAction_allexperiences
@@ -16,7 +17,6 @@ namespace App\Api\ApiActions {
 
             //Add each news to the json data array
             foreach ($experiences as $experience) {
-
                 $groupedExperiences[$experience->ID]['ID'] = $experience->ID;
                 $groupedExperiences[$experience->ID]['Title'] = $experience->Title;
                 if ($experience->Description != null) {
@@ -54,6 +54,40 @@ namespace App\Api\ApiActions {
 
                 $groupedExperiences[$experience->ID]['LastEdited'] = $experience->LastEdited;
                 $groupedExperiences[$experience->ID]['Created'] = $experience->Created;
+                foreach ($experience->ExperienceTrains() as $train) {
+                    $wagons = [];
+                    foreach ($train->Wagons() as $wagon) {
+                        $rows = [];
+                        foreach ($wagon->Rows() as $row) {
+                            $seats = [];
+                            foreach ($row->Seats() as $seat) {
+                                $seats[] = [
+                                    'Title' => $seat->Title,
+                                    'SortOrder' => $seat->SortOrder,
+                                    'Rotation' => $seat->Rotation,
+                                    'Type' => $seat->Type,
+                                ];
+                            }
+                            $rows[] = [
+                                'Title' => $row->Title,
+                                'SortOrder' => $row->SortOrder,
+                                'Seats' => $seats,
+                            ];
+                        }
+                        $wagons[] = [
+                            'Title' => $wagon->Title,
+                            'Color' => $wagon->Color,
+                            'SortOrder' => $wagon->SortOrder,
+                            'Rows' => $rows,
+                        ];
+                    }
+                    $groupedExperiences[$experience->ID]['Seatchart'][] = [
+                        'Title' => $train->Title,
+                        'Color' => $train->Color,
+                        'SortOrder' => $train->SortOrder,
+                        'Wagons' => $wagons,
+                    ];
+                }
             }
 
             foreach ($groupedExperiences as $experience) {
