@@ -63,6 +63,7 @@ namespace App\Api\ApiActions {
                 $time = $request->postVar('Time');
                 $date = $request->postVar('Date');
                 $rating = $request->postVar('Rating');
+                $score = $request->postVar('Score');
                 $notes = $request->postVar('Notes');
                 $friends = $request->postVar('Friends');
                 $experience = $request->postVar('ExperienceID');
@@ -128,6 +129,9 @@ namespace App\Api\ApiActions {
                         $experience->write();
                         $newrating->write();
                     }
+                }
+                if ($score && $score > 0) {
+                    $logEntry->Score = $score;
                 }
                 if ($notes) {
                     $logEntry->Notes = $notes;
