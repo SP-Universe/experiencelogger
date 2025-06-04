@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a24f2fd998c3f1cd76354fa305c3b18",
+    "content-hash": "5684a81eda7ae13690720e0198879bfd",
     "packages": [
+        {
+            "name": "atwx/silverstripe-vitehelper",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/atwx/silverstripe-vitehelper.git",
+                "reference": "e9caf8da1f289cd92fb1a4a73ae38a193e06e309"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/atwx/silverstripe-vitehelper/zipball/e9caf8da1f289cd92fb1a4a73ae38a193e06e309",
+                "reference": "e9caf8da1f289cd92fb1a4a73ae38a193e06e309",
+                "shasum": ""
+            },
+            "require": {
+                "silverstripe/framework": "^4.0||^5.0"
+            },
+            "type": "silverstripe-vendormodule",
+            "autoload": {
+                "psr-4": {
+                    "Atwx\\ViteHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A helper to use vitejs with silverstripe cms",
+            "keywords": [
+                "cms",
+                "silverstripe"
+            ],
+            "support": {
+                "issues": "https://github.com/atwx/silverstripe-vitehelper/issues",
+                "source": "https://github.com/atwx/silverstripe-vitehelper/tree/v0.3.0"
+            },
+            "time": "2024-09-20T10:52:40+00:00"
+        },
         {
             "name": "colymba/gridfield-bulk-editing-tools",
             "version": "4.0.3",
@@ -7636,8 +7674,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "tractorcow/silverstripe-sliderfield": 20,
-        "stevenpaw/ss5-duplicate-dataobject": 20
+        "stevenpaw/ss5-duplicate-dataobject": 20,
+        "tractorcow/silverstripe-sliderfield": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -7645,6 +7683,6 @@
         "php": "^8.2",
         "ext-json": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

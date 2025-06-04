@@ -25,10 +25,12 @@ use SilverStripe\Security\Security;
  * @property string $Nickname
  * @property string $Password
  * @property bool $HasPremium
+ * @property string $PremiumUntil
  * @property string $LastLogDate
+ * @property string $Bio
+ * @property string $DateOfBirth
  * @property bool $LinkedLogging
  * @property string $ProfilePrivacy
- * @property string $DateOfBirth
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
  * @method \SilverStripe\Assets\Image Avatar()

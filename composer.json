@@ -15,7 +15,8 @@
         "tractorcow/silverstripe-sliderfield": "dev-master",
         "symbiote/silverstripe-gridfieldextensions": "^4.0",
         "symbiote/silverstripe-grouped-cms-menu": "^4.1",
-        "stevenpaw/ss5-duplicate-dataobject": "dev-master"
+        "stevenpaw/ss5-duplicate-dataobject": "dev-master",
+        "atwx/silverstripe-vitehelper": "^0.3.0"
     },
     "repositories": [
         {

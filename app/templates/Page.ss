@@ -14,12 +14,12 @@
         <link rel="mask-icon" href="_resources/app/client/src/images/safari-pinned-tab.svg" color="#266056">
         <meta name="msapplication-TileColor" content="#266056">
         <meta name="theme-color" content="#266056">
-        <link rel="stylesheet" href="$Mix('/css/styles.min.css')">
+        <link rel="stylesheet" href="$Vite('app/client/src/scss/main.scss')">
 
         <!-- iOS Support -->
         <link rel="apple-touch-icon" sizes="180x180" href="_resources/app/client/src/images/apple-touch-icon.png">
         <meta name="apple-mobile-web-app-status-bar" content="#266056">
-        <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script>
+        <%-- <script src="./_resources/app/client/dist/js/jquery-3.6.2.min.js"></script> --%>
     </head>
     <body class="theme--new">
         <div class="loading_screen">
@@ -57,5 +57,6 @@
         <% end_if %>
 
         <script src="$Mix('/js/main.js')"></script>
+        <script type="module" src="$Vite('app/client/src/js/main.js')"></script>
     </body>
 </html>

@@ -305,9 +305,8 @@ class ExperienceMemberExtension extends DataExtension
         }
         if ($this->owner->Nickname == "admin") {
             $validationResult->addFieldError('Nickname', 'This nickname is not allowed.');
-        }
-        if (!ctype_alnum($this->owner->Nickname)) {
-            $validationResult->addFieldError('Nickname', 'Only alphanumeric characters are allowed.');
+            // } else if (!ctype_alnum($this->owner->Nickname)) {
+            //     $validationResult->addFieldError('Nickname', 'Only alphanumeric characters are allowed.');
         }
     }
 
