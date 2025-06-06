@@ -17,21 +17,23 @@ SilverStripe\ORM\Connect\MySQLDatabase:
 
 SilverStripe\Forms\HTMLEditor\TinyMCEConfig:
   editor_css:
-    - 'app/client/dist/css/editor.css'
+    - "app/client/dist/css/editor.css"
 
 SilverStripe\Core\Injector\Injector:
   DataListFilter.FulltextBoolean:
     class: App\ORM\FulltextBooleanFilter
-  MemberLoginForm:
-    App/Extensions/MysiteLoginForm
+  MemberLoginForm: App/Extensions/MysiteLoginForm
 
 SilverStripe\Admin\LeftAndMain:
   menu_groups:
     Other:
-      icon: 'cog'
+      icon: "cog"
       children:
         - SilverStripe-SiteConfig-SiteConfigLeftAndMain
         - SilverStripe-Admin-SecurityAdmin
         - SilverStripe-CampaignAdmin-CampaignAdmin
         - SilverStripe-VersionedAdmin-ArchiveAdmin
         - SilverStripe-Reports-ReportAdmin
+
+Atwx\ViteHelper\Helper\ViteHelper:
+  editor_css: "app/client/src/scss/editor.scss"

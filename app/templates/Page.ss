@@ -7,6 +7,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charset="utf-8">
         <title>$Title - $SiteConfig.Title</title>
+        $ViteClient.RAW
+        <link rel="stylesheet" href="$Vite('app/client/src/scss/main.scss')">
+
         <meta name="description" content="Log all your experiences in one place, organize them and get insights over your visited places.">
         <link rel="icon" type="image/png" sizes="32x32" href="_resources/app/client/src/images/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="_resources/app/client/src/images/favicon-16x16.png">
@@ -14,7 +17,6 @@
         <link rel="mask-icon" href="_resources/app/client/src/images/safari-pinned-tab.svg" color="#266056">
         <meta name="msapplication-TileColor" content="#266056">
         <meta name="theme-color" content="#266056">
-        <link rel="stylesheet" href="$Vite('app/client/src/scss/main.scss')">
 
         <!-- iOS Support -->
         <link rel="apple-touch-icon" sizes="180x180" href="_resources/app/client/src/images/apple-touch-icon.png">
