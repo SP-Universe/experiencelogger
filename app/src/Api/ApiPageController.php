@@ -11,6 +11,7 @@ namespace App\Api {
     use App\Api\ApiActions\ApiAction_news;
     use App\Api\ApiActions\ApiAction_alllogs;
     use App\Api\ApiActions\ApiAction_addLog;
+    use App\Api\ApiActions\ApiAction_ratings;
     use SilverStripe\Assets\Image;
     use App\ExperienceDatabase\Experience;
     use App\ExperienceDatabase\ExperienceData;
@@ -55,7 +56,8 @@ namespace App\Api {
             "allexperiences",
             "allplaces",
             "alllogs",
-            "addLog"
+            "addLog",
+            "ratings"
         ];
 
         public function logout(HTTPRequest $request)
@@ -772,6 +774,13 @@ namespace App\Api {
             $this->response->addHeader('Access-Control-Allow-Headers', '*');
             $this->response->addHeader('Content-Type', 'application/json');
             return ApiAction_addLog::addLog($request);
+        }
+
+        public function ratings(HTTPRequest $request)
+        {
+            $this->response->addHeader('Access-Control-Allow-Headers', '*');
+            $this->response->addHeader('Content-Type', 'application/json');
+            return ApiAction_ratings::ratings($request);
         }
     }
 }
