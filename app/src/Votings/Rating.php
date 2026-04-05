@@ -2,6 +2,7 @@
 
 namespace App\Ratings;
 
+use App\User\User;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use App\ExperienceDatabase\LogEntry;
@@ -15,9 +16,11 @@ use App\ExperienceDatabase\Experience;
  * @property int $Stars
  * @property string $Text
  * @property int $ExperienceID
+ * @property int $LegacyUserID
  * @property int $UserID
  * @method \App\ExperienceDatabase\Experience Experience()
- * @method \SilverStripe\Security\Member User()
+ * @method \SilverStripe\Security\Member LegacyUser()
+ * @method \App\User\User User()
  * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\LogEntry[] LogEntries()
  */
 class Rating extends DataObject
@@ -31,7 +34,8 @@ class Rating extends DataObject
 
     private static $has_one = [
         "Experience" => Experience::class,
-        "User" => Member::class,
+        "LegacyUser" => Member::class,
+        "User" => User::class,
     ];
 
     private static $belongs_many_many = [
