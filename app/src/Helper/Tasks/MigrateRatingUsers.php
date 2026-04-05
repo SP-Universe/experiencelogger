@@ -37,9 +37,24 @@ class MigrateRatingUsers extends BuildTask
 
         $ratings = Rating::get();
         foreach ($ratings as $rating) {
-            // Check if UserID already points to a valid User
-            if ($rating->UserID > 0 && User::get()->byID($rating->UserID)) {
+            // Skip if LegacyUserID is already set
+            if ($rating->LegacyUserID > 0) {
                 $skipped++;
+                continue;
+            }
+
+            // Check if UserID already points to a valid User but LegacyUserID is missing
+            if ($rating->UserID > 0 && User::get()->byID($rating->UserID)) {
+                // Try to find the old Member ID via reverse mapping
+                $oldUserID = array_search($rating->UserID, $mapping);
+                if ($oldUserID !== false) {
+                    $rating->LegacyUserID = $oldUserID;
+                    $rating->write();
+                    echo 'Backfilled LegacyUserID for Rating #' . $rating->ID . ': LegacyUserID ' . $oldUserID . '<br>';
+                    $fixed++;
+                } else {
+                    $skipped++;
+                }
                 continue;
             }
 
@@ -47,9 +62,10 @@ class MigrateRatingUsers extends BuildTask
 
             if (isset($mapping[$oldUserID])) {
                 $newUserID = $mapping[$oldUserID];
+                $rating->LegacyUserID = $oldUserID;
                 $rating->UserID = $newUserID;
                 $rating->write();
-                echo 'Fixed Rating #' . $rating->ID . ': OldUserID ' . $oldUserID . ' → UserID ' . $newUserID . '<br>';
+                echo 'Fixed Rating #' . $rating->ID . ': LegacyUserID ' . $oldUserID . ' → UserID ' . $newUserID . '<br>';
                 $fixed++;
             } else {
                 echo 'No mapping found for Rating #' . $rating->ID . ' (UserID=' . $oldUserID . ')<br>';

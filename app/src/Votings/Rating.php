@@ -46,6 +46,7 @@ class Rating extends DataObject
         "ID" => "ID",
         "Stars" => "Stars",
         "Experience.Title" => "Experience",
+        "User.Username" => "User",
     ];
 
     private static $field_labels = [
