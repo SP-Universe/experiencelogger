@@ -1,0 +1,555 @@
+.section.section--import{
+    margin-top: 90px;
+
+    .import_intro{
+        opacity: 0.7;
+        max-width: $maxWidthInner;
+        margin-bottom: 20px;
+    }
+
+    h2{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .import_count{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 26px;
+        height: 26px;
+        padding: 0 8px;
+        border-radius: 20px;
+        background-color: var(--ColorPrimary);
+        color: $ColorWhite;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    // Upload form (Place dropdown + CSV file field)
+    .import_uploadform{
+        max-width: $maxWidthInner;
+
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field{
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"]{
+            width: auto;
+            min-width: 200px;
+            align-self: flex-start;
+        }
+    }
+
+    .import_block{
+        margin-bottom: 30px;
+    }
+
+    // Conflict resolution table: one header row (Feld / Bisheriger Wert /
+    // Neuer Wert), one heading row per attraction, one row per conflicting
+    // field with two clickable radio-cells (old vs. new).
+    .import_reviewform{
+        .field{
+            margin-bottom: 0;
+        }
+
+        // The default fieldset in forms.scss centers its children and
+        // shrinks them to their content width - override so the tables
+        // below stretch to the full available width instead.
+        fieldset{
+            align-items: stretch;
+        }
+
+        // "Will be created" table: brand new attractions, with a per-row
+        // toggle to opt out of creating them.
+        .import_creates_table{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            margin-bottom: 10px;
+
+            th, td{
+                text-align: left;
+                padding: 10px 12px;
+            }
+
+            thead th{
+                position: sticky;
+                top: 70px;
+                z-index: 10;
+                background-color: var(--ColorPrimaryDark);
+                color: $ColorWhite;
+                font-size: 13px;
+                text-transform: uppercase;
+                padding: 12px;
+            }
+
+            .import_creates_col--title{
+                width: 40%;
+                font-weight: 700;
+                vertical-align: middle;
+            }
+
+            .import_creates_col--meta{
+                width: 25%;
+                vertical-align: middle;
+                font-size: 14px;
+            }
+
+            tbody tr{
+                background-color: var(--ColorPrimary);
+
+                td{
+                    color: $ColorWhite;
+
+                    &:first-child{
+                        border-radius: 8px 0 0 8px;
+                    }
+
+                    &:last-child{
+                        border-radius: 0 8px 8px 0;
+                    }
+                }
+            }
+
+            @include media("<=medium"){
+                thead{
+                    display: none;
+                }
+
+                tbody, tr, td{
+                    display: block;
+                    width: 100%;
+                }
+
+                tr{
+                    border-radius: 8px;
+                    margin-bottom: 6px;
+                    overflow: hidden;
+                }
+
+                td{
+                    padding: 6px 12px;
+
+                    &::before{
+                        content: attr(data-label) ": ";
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        font-size: 11px;
+                        display: block;
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+
+        // Shared per-row checkbox toggle used by the Creates ("Skip"),
+        // AutoFills ("Skip") and Missing ("Mark as defunct") tables.
+        .import_toggle{
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: auto;
+            margin: 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--ColorLightGray);
+            background-color: transparent;
+            color: $ColorWhite;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: none;
+            cursor: pointer;
+            transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+
+            input[type="checkbox"]{
+                width: auto;
+                flex: 0 0 auto;
+                margin: 0;
+                accent-color: var(--ColorPrimaryDark);
+            }
+
+            &:has(input:checked){
+                border-color: $ColorWhite;
+                background-color: var(--ColorPrimaryDark);
+                font-weight: 700;
+            }
+
+            &:has(input:focus-visible){
+                outline: 2px solid $ColorWhite;
+                outline-offset: 2px;
+            }
+        }
+
+        // "Will be auto-filled" table: one header row (Field / New value /
+        // Skip), one heading row per attraction, one row per field with a
+        // toggle to opt out of auto-filling it.
+        .import_autofills_table{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            margin-bottom: 10px;
+
+            th, td{
+                text-align: left;
+                padding: 10px 12px;
+            }
+
+            thead th{
+                position: sticky;
+                top: 70px;
+                z-index: 10;
+                background-color: var(--ColorPrimaryDark);
+                color: $ColorWhite;
+                font-size: 13px;
+                text-transform: uppercase;
+                padding: 12px;
+            }
+
+            .import_autofills_col--field{
+                width: 30%;
+                font-weight: 700;
+                vertical-align: middle;
+            }
+
+            .import_autofills_heading th{
+                background: none;
+                padding: 16px 12px 4px 12px;
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--ColorWhite);
+
+                .theme--dark &{
+                    color: $ColorWhite;
+                }
+            }
+
+            tbody tr:not(.import_autofills_heading){
+                background-color: var(--ColorPrimary);
+
+                td{
+                    color: $ColorWhite;
+
+                    &:first-child{
+                        border-radius: 8px 0 0 8px;
+                    }
+
+                    &:last-child{
+                        border-radius: 0 8px 8px 0;
+                    }
+                }
+            }
+
+            @include media("<=medium"){
+                thead{
+                    display: none;
+                }
+
+                tbody, tr, td{
+                    display: block;
+                    width: 100%;
+                }
+
+                tr:not(.import_autofills_heading){
+                    border-radius: 8px;
+                    margin-bottom: 6px;
+                }
+
+                td{
+                    padding: 6px 12px;
+
+                    &::before{
+                        content: attr(data-label) ": ";
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        font-size: 11px;
+                        display: block;
+                        opacity: 0.7;
+                    }
+
+                    &.import_autofills_col--field::before{
+                        content: none;
+                    }
+                }
+            }
+        }
+
+        // "Missing from import" table: existing attractions not matched by
+        // the uploaded file, with a per-row toggle to mark them as defunct.
+        .import_missing_table{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            margin-bottom: 10px;
+
+            th, td{
+                text-align: left;
+                padding: 10px 12px;
+            }
+
+            thead th{
+                position: sticky;
+                top: 70px;
+                z-index: 10;
+                background-color: var(--ColorPrimaryDark);
+                color: $ColorWhite;
+                font-size: 13px;
+                text-transform: uppercase;
+                padding: 12px;
+            }
+
+            .import_missing_col--title{
+                width: 40%;
+                font-weight: 700;
+                vertical-align: middle;
+            }
+
+            .import_missing_col--state{
+                width: 25%;
+                vertical-align: middle;
+            }
+
+            tbody tr{
+                background-color: var(--ColorPrimary);
+
+                td{
+                    color: $ColorWhite;
+
+                    &:first-child{
+                        border-radius: 8px 0 0 8px;
+                    }
+
+                    &:last-child{
+                        border-radius: 0 8px 8px 0;
+                    }
+                }
+            }
+
+            @include media("<=medium"){
+                thead{
+                    display: none;
+                }
+
+                tbody, tr, td{
+                    display: block;
+                    width: 100%;
+                }
+
+                tr{
+                    border-radius: 8px;
+                    margin-bottom: 6px;
+                    overflow: hidden;
+                }
+
+                td{
+                    padding: 6px 12px;
+
+                    &::before{
+                        content: attr(data-label) ": ";
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        font-size: 11px;
+                        display: block;
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+
+        .import_conflicts_table{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+
+            th, td{
+                text-align: left;
+                padding: 10px 12px;
+            }
+
+            thead{
+                th{
+                    position: sticky;
+                    top: 70px;
+                    z-index: 10;
+                    background-color: var(--ColorPrimaryDark);
+                    color: $ColorWhite;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    padding: 12px;
+                }
+
+                .import_conflicts_col--field{
+                    width: 22%;
+                }
+
+                .import_conflicts_col--old, .import_conflicts_col--new{
+                    width: 39%;
+                }
+            }
+
+            .import_conflicts_heading th{
+                background: none;
+                padding: 16px 12px 4px 12px;
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--ColorWhite);
+
+                .theme--dark &{
+                    color: $ColorWhite;
+                }                
+            }
+
+            tbody tr:not(.import_conflicts_heading){
+                background-color: var(--ColorPrimary);
+
+                td{
+                    color: var(--ColorWhite);
+
+                    &:first-child{
+                        border-radius: 8px 0 0 8px;
+                    }
+
+                    &:last-child{
+                        border-radius: 0 8px 8px 0;
+                    }
+                }
+            }
+
+            .import_conflicts_col--field{
+                font-weight: 700;
+                vertical-align: middle;
+            }
+        }
+
+        .import_conflicts_option{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            margin: 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--ColorLightGray);
+            background-color: transparent;
+            color: var(--ColorWhite);
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: none;
+            cursor: pointer;
+            transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+
+            input[type="radio"]{
+                width: auto;
+                flex: 0 0 auto;
+                margin: 0;
+                accent-color: var(--ColorPrimary);
+            }
+
+            span{
+                word-break: break-word;
+            }
+
+            &:has(input:checked){
+                border-color: var(--ColorPrimary);
+                background-color: var(--ColorPrimaryLight);
+                color: var(--ColorBlack);
+            }
+
+            &:has(input:focus-visible){
+                outline: 2px solid var(--ColorPrimary);
+                outline-offset: 2px;
+            }
+        }
+
+        @include media("<=medium"){
+            .import_conflicts_table{
+                thead{
+                    display: none;
+                }
+
+                tbody, tr, td{
+                    display: block;
+                    width: 100%;
+                }
+
+                tr:not(.import_conflicts_heading){
+                    background-color: var(--ColorWhite);
+                    border-radius: 8px;
+                    padding: 8px 0;
+                    margin-bottom: 6px;
+                }
+
+                td{
+                    padding: 4px 12px;
+
+                    &::before{
+                        content: attr(data-label) ": ";
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        font-size: 11px;
+                        display: block;
+                        opacity: 0.6;
+                    }
+
+                    &.import_conflicts_col--field::before{
+                        content: none;
+                    }
+                }
+            }
+        }
+
+        .Actions{
+            margin-top: 20px;
+
+            input[type="submit"]{
+                width: auto;
+                min-width: 220px;
+            }
+        }
+    }
+
+    // Done / summary page
+    .import_donelist{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0 30px 0;
+    }
+
+    .import_donelist_item{
+        flex: 1 1 200px;
+        background-color: var(--ColorPrimary);
+        color: $ColorWhite;
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+        .theme--dark &{
+            background-color: var(--ColorPrimaryLight);
+            color: var(--ColorBlack);
+        }
+    }
+
+    .import_donelist_value{
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .import_donelist_label{
+        font-size: 13px;
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
+}

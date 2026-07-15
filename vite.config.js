@@ -17,7 +17,7 @@ export default defineConfig(({command}) => {
     },
     // base: (command === 'build') ? '/_resources/app/client/dist/' : '/', // TODO: .env variable, only on build
     base: './',
-        publicDir: 'app/client/public',
+        publicDir: false,
         build: {
           // cssCodeSplit: false,
             outDir: './app/client/dist',
