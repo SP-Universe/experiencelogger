@@ -6,7 +6,6 @@ use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceData;
 use App\ExperienceDatabase\ExperienceDataType;
 use App\ExperienceDatabase\ExperienceLocation;
-use App\ExperienceDatabase\ExperienceTrain;
 use App\ExperienceDatabase\ExperienceType;
 use League\Csv\Reader;
 
@@ -59,6 +58,7 @@ class ExperienceCsvImporter
         'Sponsor' => ['Sponsor', null],
         'Actor' => ['Actor', null],
         'Type' => ['Type', null],
+        'Trains' => ['Trains', null],
     ];
 
     // CSV column => [ExperienceDataType title, unit suffix], value formatted with a thousands separator
@@ -299,7 +299,6 @@ class ExperienceCsvImporter
             'title' => $title,
             'directFields' => $directFields,
             'dataFields' => $this->buildDataFields($row),
-            'trainCount' => $this->parseInt($row['Trains'] ?? ''),
         ];
     }
 
@@ -369,20 +368,6 @@ class ExperienceCsvImporter
         // ExperienceData-backed fields
         foreach ($this->buildDataFields($row) as $dataField) {
             $this->diffDataField($existing, $dataField['typeTitle'], $dataField['value'], $plan);
-        }
-
-        // Trains (additive only, never a conflict)
-        $wantedTrains = $this->parseInt($row['Trains'] ?? '');
-        if ($wantedTrains !== null) {
-            $currentTrains = $existing->ExperienceTrains()->count();
-            if ($wantedTrains > $currentTrains) {
-                $plan['autoFills'][] = [
-                    'experienceId' => $existing->ID,
-                    'title' => $existing->Title,
-                    'field' => 'trains',
-                    'newValue' => $wantedTrains,
-                ];
-            }
         }
     }
 
@@ -552,21 +537,12 @@ class ExperienceCsvImporter
             ]);
             $data->write();
         }
-
-        if ($create['trainCount']) {
-            $this->addTrains($experience, $create['trainCount']);
-        }
     }
 
     private function applyFieldChange(array $change): void
     {
         $experience = Experience::get()->byID($change['experienceId']);
         if (!$experience) {
-            return;
-        }
-
-        if ($change['field'] === 'trains') {
-            $this->addTrains($experience, $change['newValue']);
             return;
         }
 
@@ -595,19 +571,6 @@ class ExperienceCsvImporter
             }
             $data->Description = $change['newValue'];
             $data->write();
-        }
-    }
-
-    private function addTrains(Experience $experience, int $wantedCount): void
-    {
-        $currentCount = $experience->ExperienceTrains()->count();
-        for ($number = $currentCount + 1; $number <= $wantedCount; $number++) {
-            $train = ExperienceTrain::create([
-                'Title' => (string) $number,
-                'SortOrder' => $number,
-                'ParentID' => $experience->ID,
-            ]);
-            $train->write();
         }
     }
 
@@ -658,15 +621,6 @@ class ExperienceCsvImporter
             return (string) (int) $millions;
         }
         return rtrim(rtrim(number_format($millions, 1, '.', ''), '0'), '.');
-    }
-
-    private function parseInt(string $value): ?int
-    {
-        $value = trim($value);
-        if ($value === '' || !is_numeric($value)) {
-            return null;
-        }
-        return (int) $value;
     }
 
     /**

@@ -317,7 +317,6 @@ class ExperienceImportPageController extends PageController
                 'Index' => $index,
                 'Title' => $create['title'],
                 'FieldCount' => count($fields),
-                'TrainCount' => $create['trainCount'] ?? 0,
                 'Fields' => $fieldsList,
             ]));
         }
@@ -358,10 +357,6 @@ class ExperienceImportPageController extends PageController
 
     private function humanizeField(string $field): string
     {
-        if ($field === 'trains') {
-            return 'Trains';
-        }
-
         [$kind, $key] = explode(':', $field, 2) + [null, null];
 
         if ($kind === 'data') {
@@ -376,9 +371,6 @@ class ExperienceImportPageController extends PageController
 
     private function formatDisplayValue($value, string $field): string
     {
-        if ($field === 'trains') {
-            return $value . ' Trains';
-        }
         if (in_array($field, self::BOOLEAN_FIELDS, true)) {
             return $value ? 'Yes' : 'No';
         }
