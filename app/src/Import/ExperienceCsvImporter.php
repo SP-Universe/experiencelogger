@@ -141,13 +141,15 @@ class ExperienceCsvImporter
      * @param array $defunctSelections Missing index (int) => bool, whether to mark as Defunct
      * @param array $skipSelections Create index (int) => bool, whether to skip creating it
      * @param array $autoFillSkipSelections AutoFill index (int) => bool, whether to skip applying it
+     * @param array $createFieldSkipSelections Create index (int) => [field index (int) => bool], individual fields to leave out of an otherwise-created attraction
      */
     public function apply(
         array $plan,
         array $resolutions,
         array $defunctSelections = [],
         array $skipSelections = [],
-        array $autoFillSkipSelections = []
+        array $autoFillSkipSelections = [],
+        array $createFieldSkipSelections = []
     ): array {
         $summary = ['created' => 0, 'skipped' => 0, 'autoFilled' => 0, 'skippedAutoFills' => 0, 'applied' => 0, 'kept' => 0, 'markedDefunct' => 0];
 
@@ -156,7 +158,7 @@ class ExperienceCsvImporter
                 $summary['skipped']++;
                 continue;
             }
-            $this->applyCreate($create, $plan['locationId']);
+            $this->applyCreate($create, $plan['locationId'], $createFieldSkipSelections[$index] ?? []);
             $summary['created']++;
         }
 
@@ -192,6 +194,31 @@ class ExperienceCsvImporter
         }
 
         return $summary;
+    }
+
+    /**
+     * Flat, index-stable list of the individual fields a "will be created"
+     * plan entry would write (Title excluded - it's never skippable). Used
+     * both to render the per-field skip checkboxes in the review UI and to
+     * apply per-field skip selections when writing, so the indices always
+     * line up between the two.
+     */
+    public static function enumerateCreateFields(array $create): array
+    {
+        $fields = [];
+
+        foreach ($create['directFields'] ?? [] as $key => $value) {
+            if ($key === 'Title') {
+                continue;
+            }
+            $fields[] = ['kind' => 'direct', 'key' => $key, 'value' => $value];
+        }
+
+        foreach ($create['dataFields'] ?? [] as $dataField) {
+            $fields[] = ['kind' => 'data', 'key' => $dataField['typeTitle'], 'value' => $dataField['value']];
+        }
+
+        return $fields;
     }
 
     private function findExisting(array $experiences, string $title): ?Experience
@@ -490,12 +517,24 @@ class ExperienceCsvImporter
         return $fields;
     }
 
-    private function applyCreate(array $create, int $locationId): void
+    private function applyCreate(array $create, int $locationId, array $fieldSkips = []): void
     {
-        $directFields = $create['directFields'];
+        $directFields = ['Title' => $create['title']];
+        $dataFields = [];
+        $typeTitle = null;
 
-        $typeTitle = $directFields['TypeTitle'] ?? null;
-        unset($directFields['TypeTitle']);
+        foreach (self::enumerateCreateFields($create) as $index => $field) {
+            if (!empty($fieldSkips[$index])) {
+                continue;
+            }
+            if ($field['kind'] === 'direct' && $field['key'] === 'TypeTitle') {
+                $typeTitle = $field['value'];
+            } elseif ($field['kind'] === 'direct') {
+                $directFields[$field['key']] = $field['value'];
+            } else {
+                $dataFields[] = ['typeTitle' => $field['key'], 'value' => $field['value']];
+            }
+        }
 
         $experience = Experience::create($directFields);
         $experience->ParentID = $locationId;
@@ -504,7 +543,7 @@ class ExperienceCsvImporter
         }
         $experience->write();
 
-        foreach ($create['dataFields'] as $dataField) {
+        foreach ($dataFields as $dataField) {
             $dataType = $this->findOrCreateExperienceDataType($dataField['typeTitle']);
             $data = ExperienceData::create([
                 'ParentID' => $experience->ID,

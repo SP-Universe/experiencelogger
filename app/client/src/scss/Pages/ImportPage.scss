@@ -67,44 +67,151 @@
             align-items: stretch;
         }
 
-        // "Will be created" table: brand new attractions, with a per-row
-        // toggle to opt out of creating them.
-        .import_creates_table{
+        // "Will be created" accordion: brand new attractions. Clicking the
+        // name (inside <summary>) expands the field table; the "skip whole
+        // attraction" toggle sits outside the <details> as a sibling so it
+        // stays visible and clickable regardless of the open/closed state.
+        .import_create{
+            background-color: var(--ColorPrimary);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 10px 12px;
+
+            @include media("<=medium"){
+                padding: 8px 10px;
+            }
+        }
+
+        .import_create_top{
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            // Stack full-width on mobile: the skip toggle (order -1) is
+            // pulled above the name/details block via flex order, so it
+            // always sits above the expanded field table regardless of its
+            // DOM position (kept after <details> so it stays visible - and
+            // clickable - independently of the accordion's open/closed
+            // state).
+            @include media("<=medium"){
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+        }
+
+        .import_create_details{
+            flex: 1 1 auto;
+            min-width: 0;
+
+            @include media("<=medium"){
+                width: 100%;
+            }
+        }
+
+        .import_create_summary{
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: $ColorWhite;
+            cursor: pointer;
+            list-style: none;
+
+            &::-webkit-details-marker{
+                display: none;
+            }
+
+            &::after{
+                content: "▸";
+                flex: 0 0 auto;
+                transition: transform 0.15s ease-in-out;
+            }
+
+            &:hover{
+                opacity: 0.9;
+            }
+
+            @include media("<=medium"){
+                flex-wrap: wrap;
+                gap: 4px 10px;
+            }
+        }
+
+        .import_create_details[open] > .import_create_summary::after{
+            transform: rotate(90deg);
+        }
+
+        .import_create_title{
+            flex: 1 1 auto;
+            font-weight: 700;
+
+            @include media("<=medium"){
+                flex: 1 1 100%;
+                font-size: 15px;
+            }
+        }
+
+        .import_create_meta{
+            flex: 0 0 auto;
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.85;
+
+            @include media("<=medium"){
+                font-size: 12px;
+            }
+        }
+
+        .import_toggle--attraction{
+            flex: 0 0 auto;
+
+            @include media("<=medium"){
+                order: -1;
+                justify-content: center;
+
+                // Compound selector: .import_toggle (declared later in this
+                // file) also sets width, and would win a plain
+                // .import_toggle--attraction rule at equal specificity by
+                // source order.
+                &.import_toggle{
+                    width: 100%;
+                }
+            }
+        }
+
+        .import_create_fields_table{
+            margin-top: 10px;
             width: 100%;
             border-collapse: separate;
             border-spacing: 0 6px;
-            margin-bottom: 10px;
 
             th, td{
                 text-align: left;
-                padding: 10px 12px;
+                padding: 8px 12px;
             }
 
             thead th{
-                position: sticky;
-                top: 70px;
-                z-index: 10;
                 background-color: var(--ColorPrimaryDark);
                 color: $ColorWhite;
                 font-size: 13px;
                 text-transform: uppercase;
-                padding: 12px;
+                padding: 10px 12px;
             }
 
-            .import_creates_col--title{
-                width: 40%;
+            .import_create_fields_col--field{
+                width: 30%;
                 font-weight: 700;
                 vertical-align: middle;
             }
 
-            .import_creates_col--meta{
-                width: 25%;
+            .import_create_fields_col--value{
                 vertical-align: middle;
-                font-size: 14px;
+                word-break: break-word;
+                overflow-wrap: anywhere;
             }
 
             tbody tr{
-                background-color: var(--ColorPrimary);
+                background-color: var(--ColorPrimaryDark);
 
                 td{
                     color: $ColorWhite;
@@ -120,12 +227,25 @@
             }
 
             @include media("<=medium"){
+                // Without this, the <table> element itself still sizes
+                // itself using table layout (min-content of its widest
+                // cell, e.g. a long URL value) even though its rows/cells
+                // are display:block below - causing the whole page to
+                // scroll sideways. display:block makes it a normal box
+                // that respects the flex item's width instead.
+                display: block;
+                width: 100%;
+
                 thead{
                     display: none;
                 }
 
                 tbody, tr, td{
                     display: block;
+                    width: 100%;
+                }
+
+                .import_create_fields_col--field{
                     width: 100%;
                 }
 
@@ -145,6 +265,10 @@
                         font-size: 11px;
                         display: block;
                         opacity: 0.7;
+                    }
+
+                    &.import_create_fields_col--action::before{
+                        content: none;
                     }
                 }
             }
@@ -248,12 +372,19 @@
             }
 
             @include media("<=medium"){
+                display: block;
+                width: 100%;
+
                 thead{
                     display: none;
                 }
 
                 tbody, tr, td{
                     display: block;
+                    width: 100%;
+                }
+
+                .import_autofills_col--field{
                     width: 100%;
                 }
 
@@ -274,7 +405,8 @@
                         opacity: 0.7;
                     }
 
-                    &.import_autofills_col--field::before{
+                    &.import_autofills_col--field::before,
+                    &.import_autofills_col--action::before{
                         content: none;
                     }
                 }
@@ -333,12 +465,23 @@
             }
 
             @include media("<=medium"){
+                display: block;
+                width: 100%;
+
                 thead{
                     display: none;
                 }
 
                 tbody, tr, td{
                     display: block;
+                    width: 100%;
+                }
+
+                // Same specificity as the desktop column-width classes below,
+                // so without repeating them here they'd win by source order
+                // and stay pinned to their desktop percentage instead of
+                // filling the stacked card.
+                .import_missing_col--title, .import_missing_col--state{
                     width: 100%;
                 }
 
@@ -358,6 +501,10 @@
                         font-size: 11px;
                         display: block;
                         opacity: 0.7;
+                    }
+
+                    &.import_missing_col--action::before{
+                        content: none;
                     }
                 }
             }
@@ -470,12 +617,21 @@
 
         @include media("<=medium"){
             .import_conflicts_table{
+                display: block;
+                width: 100%;
+
                 thead{
                     display: none;
                 }
 
                 tbody, tr, td{
                     display: block;
+                    width: 100%;
+                }
+
+                .import_conflicts_col--field,
+                .import_conflicts_col--old,
+                .import_conflicts_col--new{
                     width: 100%;
                 }
 

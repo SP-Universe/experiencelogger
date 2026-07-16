@@ -224,8 +224,15 @@ class ExperienceImportPageController extends PageController
         }
 
         $skipSelections = [];
+        $createFieldSkipSelections = [];
         foreach ($plan['creates'] ?? [] as $index => $create) {
             $skipSelections[$index] = !empty($data['skipCreate_' . $index]);
+
+            foreach (array_keys(ExperienceCsvImporter::enumerateCreateFields($create)) as $fieldIndex) {
+                if (!empty($data['skipCreateField_' . $index . '_' . $fieldIndex])) {
+                    $createFieldSkipSelections[$index][$fieldIndex] = true;
+                }
+            }
         }
 
         $autoFillSkipSelections = [];
@@ -234,7 +241,7 @@ class ExperienceImportPageController extends PageController
         }
 
         $importer = new ExperienceCsvImporter();
-        $summary = $importer->apply($plan, $resolutions, $defunctSelections, $skipSelections, $autoFillSkipSelections);
+        $summary = $importer->apply($plan, $resolutions, $defunctSelections, $skipSelections, $autoFillSkipSelections, $createFieldSkipSelections);
 
         // Redirect (rather than returning the template data directly) so the
         // response is rendered under the "done" action/template - a POST to
@@ -293,12 +300,25 @@ class ExperienceImportPageController extends PageController
     {
         $list = new ArrayList();
         foreach ($creates as $index => $create) {
-            $fieldCount = max(0, count($create['directFields'] ?? []) - 1) + count($create['dataFields'] ?? []);
+            $fields = ExperienceCsvImporter::enumerateCreateFields($create);
+
+            $fieldsList = new ArrayList();
+            foreach ($fields as $fieldIndex => $field) {
+                $fieldKey = $field['kind'] . ':' . $field['key'];
+                $fieldsList->push(ArrayData::create([
+                    'Index' => $index,
+                    'FieldIndex' => $fieldIndex,
+                    'FieldLabel' => $this->humanizeField($fieldKey),
+                    'Value' => $this->formatDisplayValue($field['value'], $fieldKey),
+                ]));
+            }
+
             $list->push(ArrayData::create([
                 'Index' => $index,
                 'Title' => $create['title'],
-                'FieldCount' => $fieldCount,
+                'FieldCount' => count($fields),
                 'TrainCount' => $create['trainCount'] ?? 0,
+                'Fields' => $fieldsList,
             ]));
         }
         return $list;
