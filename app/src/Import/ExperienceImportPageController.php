@@ -371,9 +371,9 @@ class ExperienceImportPageController extends PageController
     }
 
     /**
-     * Formats a stored ISO date (e.g. "2001-04-13") as a human-readable date
-     * (e.g. "13 April 2001") for display. The underlying plan value stays ISO
-     * so it can still be written straight into the Date DB field.
+     * Formats a stored ISO date (e.g. "2001-04-13") as dd.mm.yyyy for
+     * display. The underlying plan value stays ISO so it can still be
+     * written straight into the Date DB field.
      */
     private function formatNiceDate(string $isoDate): string
     {
@@ -384,6 +384,6 @@ class ExperienceImportPageController extends PageController
         if ($timestamp === false) {
             return $isoDate;
         }
-        return date('j F Y', $timestamp);
+        return date('d.m.Y', $timestamp);
     }
 }

@@ -630,6 +630,12 @@ class ExperienceCsvImporter
         return (int) $value;
     }
 
+    /**
+     * Only accepts a fully specified TT.MM.JJJJ date - incomplete dates
+     * (e.g. just a year) are intentionally not parsed here, so they never
+     * end up in the OpeningDate/ClosingDate field. They're still captured
+     * as-is via DATE_DATA_FIELDS.
+     */
     private function parseDate(string $raw): ?string
     {
         if ($raw === '') {
@@ -637,9 +643,6 @@ class ExperienceCsvImporter
         }
         if (preg_match('/^(\d{2})\.(\d{2})\.(\d{4})$/', $raw, $m)) {
             return sprintf('%04d-%02d-%02d', $m[3], $m[2], $m[1]);
-        }
-        if (preg_match('/^\d{4}$/', $raw)) {
-            return $raw . '-01-01';
         }
         return null;
     }
