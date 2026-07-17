@@ -5,6 +5,7 @@ import "./pages/ExperienceList.js";
 import "./pages/LocationListPage.js";
 import "./pages/LogsListPage.js";
 import "./pages/ProfilePage.js";
+import "./pages/ImportPage.js";
 import "./tools/Cookies.js";
 import "./tools/Swiper.js";
 import "./tools/Lightbox.js";

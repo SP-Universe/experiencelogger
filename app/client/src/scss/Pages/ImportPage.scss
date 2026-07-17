@@ -123,6 +123,15 @@
                 }
             }
 
+            // Each sticky th above is its own stacking context, so
+            // .import_addfield_select's z-index (20) only wins against
+            // content inside the same th - it can't outrank a sibling th.
+            // Lower this one's stacking level below the field-name th so
+            // the dropdown isn't hidden under "Skip whole attraction".
+            .import_creates_heading .import_creates_col--action{
+                z-index: 8;
+            }
+
             .import_creates_meta{
                 margin-left: 10px;
                 font-size: 14px;
@@ -160,6 +169,14 @@
                 tbody, tr, th, td{
                     display: block;
                     width: 100%;
+                }
+
+                // The block above would otherwise win over the browser's
+                // default [hidden] rule (author styles always beat the user
+                // agent stylesheet, regardless of specificity), making
+                // not-yet-added extra field rows reappear on mobile.
+                tr[hidden]{
+                    display: none !important;
                 }
 
                 // Same specificity as the desktop .import_creates_col--field
@@ -208,6 +225,108 @@
             }
         }
 
+        // Attraction name in a Creates/AutoFills group heading, clickable to
+        // collapse/expand that group's field rows (see .import_group--collapsed
+        // below and the "import_group_toggle" behaviour in ImportPage.js).
+        .import_group_toggle{
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: auto;
+            padding: 0;
+            border: none;
+            background: none;
+            color: inherit;
+            font: inherit;
+            font-weight: inherit;
+            text-transform: inherit;
+            cursor: pointer;
+
+            &:focus-visible{
+                outline: 2px solid $ColorWhite;
+                outline-offset: 2px;
+            }
+        }
+
+        .import_group_toggle_icon{
+            flex: 0 0 auto;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid currentColor;
+            transition: transform 0.15s ease-in-out;
+        }
+
+        .import_group_toggle[aria-expanded="false"] .import_group_toggle_icon{
+            transform: rotate(-90deg);
+        }
+
+        // Collapsed state for a Creates/AutoFills group - hides every field
+        // row while keeping the heading row (with its field count) visible.
+        tbody.import_group--collapsed{
+            tr:not(.import_creates_heading):not(.import_autofills_heading){
+                display: none;
+            }
+        }
+
+        // "+" control next to a Creates/AutoFills group heading, revealing
+        // one of that group's hidden "extra" field rows (fields the CSV
+        // left blank) to fill in manually.
+        .import_addfield{
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .import_addfield_button{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            padding: 0;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--ColorPrimary);
+            color: $ColorWhite;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out;
+
+            &:hover, &:focus-visible{
+                background-color: var(--ColorPrimaryDark);
+            }
+
+            &:focus-visible{
+                outline: 2px solid $ColorWhite;
+                outline-offset: 2px;
+            }
+        }
+
+        .import_addfield_select{
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+            margin-top: 6px;
+            min-width: 220px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 2px solid var(--ColorLightGray);
+            background-color: var(--ColorBackground);
+            color: var(--ColorWhite);
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: none;
+
+            &[hidden]{
+                display: none;
+            }
+        }
+
         // Editable value controls (Creates, AutoFills, Conflicts "new value")
         // - staff can correct any imported value before confirming.
         .import_edit_input,
@@ -231,9 +350,13 @@
             }
         }
 
+        // Height is set per-textarea by ImportPage.js to match its content
+        // (see autoResizeImportTextarea()) instead of a fixed row count, so
+        // a one-line value like "45 m" doesn't sit in a tall empty box.
         .import_edit_textarea{
-            resize: vertical;
-            min-height: 60px;
+            resize: none;
+            overflow: hidden;
+            min-height: 38px;
         }
 
         // Read-only value display that preserves the line breaks it will
@@ -362,6 +485,11 @@
                 tbody, tr, td{
                     display: block;
                     width: 100%;
+                }
+
+                // See the equivalent comment in .import_creates_table above.
+                tr[hidden]{
+                    display: none !important;
                 }
 
                 .import_autofills_col--field{

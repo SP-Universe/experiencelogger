@@ -130,9 +130,13 @@ class ExperienceImportPageController extends PageController
         $createsTable = $this->customise(['Creates' => $createsList])
             ->renderWith(['type' => 'Includes', 'CreatesTable']);
 
+        $visibleAutoFillCount = count(array_filter($plan['autoFills'] ?? [], static function ($autoFill) {
+            return empty($autoFill['isExtra']);
+        }));
+
         $autoFillsTable = $this->customise([
             'AutoFillGroups' => $autoFillGroups,
-            'AutoFillCount' => count($plan['autoFills'] ?? []),
+            'AutoFillCount' => $visibleAutoFillCount,
         ])->renderWith(['type' => 'Includes', 'AutoFillsTable']);
 
         $missingTable = $this->customise(['MissingItems' => $missingItems])
@@ -339,22 +343,31 @@ class ExperienceImportPageController extends PageController
             $fields = ExperienceCsvImporter::enumerateCreateFields($create);
 
             $fieldsList = new ArrayList();
+            $extraFieldsList = new ArrayList();
             foreach ($fields as $fieldIndex => $field) {
                 $fieldKey = $field['kind'] . ':' . $field['key'];
-                $fieldsList->push(ArrayData::create([
+                $data = ArrayData::create([
                     'Index' => $index,
                     'FieldIndex' => $fieldIndex,
                     'FieldLabel' => $this->humanizeField($fieldKey),
                     'ValueControl' => $this->buildFieldControl('createFieldValue_' . $index . '_' . $fieldIndex, $field['value'], $fieldKey),
                     'DefaultSkip' => $this->isDefaultSkipField($fieldKey),
-                ]));
+                    'RowId' => 'createExtraRow_' . $index . '_' . $fieldIndex,
+                ]);
+
+                if (!empty($field['isExtra'])) {
+                    $extraFieldsList->push($data);
+                } else {
+                    $fieldsList->push($data);
+                }
             }
 
             $list->push(ArrayData::create([
                 'Index' => $index,
                 'Title' => $create['title'],
-                'FieldCount' => count($fields),
+                'FieldCount' => $fieldsList->count(),
                 'Fields' => $fieldsList,
+                'ExtraFields' => $extraFieldsList,
             ]));
         }
         return $list;
@@ -378,16 +391,24 @@ class ExperienceImportPageController extends PageController
                 $currentGroup = ArrayData::create([
                     'Title' => $currentTitle,
                     'Fields' => new ArrayList(),
+                    'ExtraFields' => new ArrayList(),
                 ]);
                 $groups->push($currentGroup);
             }
 
-            $currentGroup->Fields->push(ArrayData::create([
+            $data = ArrayData::create([
                 'Index' => $index,
                 'FieldLabel' => $this->humanizeField($autoFill['field']),
                 'ValueControl' => $this->buildFieldControl('autoFillValue_' . $index, $autoFill['newValue'] ?? '', $autoFill['field']),
                 'DefaultSkip' => $this->isDefaultSkipField($autoFill['field']),
-            ]));
+                'RowId' => 'autoFillExtraRow_' . $index,
+            ]);
+
+            if (!empty($autoFill['isExtra'])) {
+                $currentGroup->ExtraFields->push($data);
+            } else {
+                $currentGroup->Fields->push($data);
+            }
         }
 
         return $groups;
@@ -510,7 +531,7 @@ class ExperienceImportPageController extends PageController
         if ($kind === 'data' || $field === 'direct:Description') {
             $editable = $kind === 'data' ? $this->htmlValueToPlainText((string) $value) : (string) $value;
             return sprintf(
-                '<textarea name="%s" class="import_edit_textarea" rows="3">%s</textarea>',
+                '<textarea name="%s" class="import_edit_textarea" rows="1">%s</textarea>',
                 $escapedName,
                 htmlspecialchars($editable)
             );

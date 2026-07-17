@@ -183,8 +183,11 @@ class ExperienceCsvImporter
             if (isset($autoFillOverrides[$index])) {
                 $autoFill['newValue'] = $autoFillOverrides[$index];
             }
-            $this->applyFieldChange($autoFill);
-            $summary['autoFilled']++;
+            // Blank "fill me in" fields left blank (see buildDataFields())
+            // don't count as an actual auto-fill.
+            if ($this->applyFieldChange($autoFill)) {
+                $summary['autoFilled']++;
+            }
         }
 
         foreach ($plan['conflicts'] as $index => $conflict) {
@@ -230,11 +233,24 @@ class ExperienceCsvImporter
             if ($key === 'Title') {
                 continue;
             }
-            $fields[] = ['kind' => 'direct', 'key' => $key, 'value' => $value];
+            // Text/date direct fields are always present in directFields
+            // (see buildCreate()), even when the CSV left them blank, so
+            // they can be offered as addable "extra" fields the same way
+            // data fields are - a blank value means it's one of those.
+            $fields[] = ['kind' => 'direct', 'key' => $key, 'value' => $value, 'isExtra' => $value === ''];
         }
 
         foreach ($create['dataFields'] ?? [] as $dataField) {
-            $fields[] = ['kind' => 'data', 'key' => $dataField['typeTitle'], 'value' => $dataField['value']];
+            // A blank value here means buildDataFields() added it as one of
+            // the "known but not in this CSV row" fields, not something the
+            // CSV actually provided - the review UI offers these separately
+            // as addable via a "+" control rather than showing them outright.
+            $fields[] = [
+                'kind' => 'data',
+                'key' => $dataField['typeTitle'],
+                'value' => $dataField['value'],
+                'isExtra' => $dataField['value'] === '',
+            ];
         }
 
         return $fields;
@@ -283,11 +299,12 @@ class ExperienceCsvImporter
     {
         $directFields = ['Title' => $title];
 
+        // Text and date fields are always added, even when the CSV left the
+        // column blank for this row (value '' then) - enumerateCreateFields()
+        // marks those as addable "extra" fields, the same as data fields, so
+        // staff can fill them in by hand via the "+" control in the review UI.
         foreach (self::DIRECT_TEXT_FIELDS as $csvColumn => $dbField) {
-            $value = trim($row[$csvColumn] ?? '');
-            if ($value !== '') {
-                $directFields[$dbField] = $value;
-            }
+            $directFields[$dbField] = trim($row[$csvColumn] ?? '');
         }
 
         foreach (self::DIRECT_BOOL_FIELDS as $csvColumn => $dbField) {
@@ -298,10 +315,7 @@ class ExperienceCsvImporter
         }
 
         foreach (self::DIRECT_DATE_FIELDS as $csvColumn => $dbField) {
-            $date = self::parseDate(trim($row[$csvColumn] ?? ''));
-            if ($date !== null) {
-                $directFields[$dbField] = $date;
-            }
+            $directFields[$dbField] = self::parseDate(trim($row[$csvColumn] ?? '')) ?? '';
         }
 
         $state = trim($row['Status'] ?? '');
@@ -338,9 +352,7 @@ class ExperienceCsvImporter
         }
         foreach (self::DIRECT_DATE_FIELDS as $csvColumn => $dbField) {
             $date = self::parseDate(trim($row[$csvColumn] ?? ''));
-            if ($date !== null) {
-                $this->diffDirectField($existing, $dbField, $date, $plan);
-            }
+            $this->diffDirectField($existing, $dbField, $date ?? '', $plan);
         }
 
         // Direct boolean fields - always compared, never "auto-filled" (0 is a real value, not "empty")
@@ -418,10 +430,23 @@ class ExperienceCsvImporter
 
     private function diffDirectField(Experience $existing, string $dbField, string $newValue, array &$plan): void
     {
+        $oldValue = (string) $existing->$dbField;
+
         if ($newValue === '') {
+            // CSV left this column blank for the row - if the existing
+            // record is also blank, still surface it as an addable "extra"
+            // field (see ExtraFields handling) instead of never offering it.
+            if ($this->normalizeText($oldValue) === '') {
+                $plan['autoFills'][] = [
+                    'experienceId' => $existing->ID,
+                    'title' => $existing->Title,
+                    'field' => 'direct:' . $dbField,
+                    'newValue' => '',
+                    'isExtra' => true,
+                ];
+            }
             return;
         }
-        $oldValue = (string) $existing->$dbField;
         if ($this->normalizeText($oldValue) === '') {
             $plan['autoFills'][] = [
                 'experienceId' => $existing->ID,
@@ -453,15 +478,24 @@ class ExperienceCsvImporter
         $oldValue = $existingData ? (string) $existingData->Description : '';
 
         if ($this->normalizeText($oldValue) === '') {
+            // Surfaced as a fillable field even when the CSV didn't provide a
+            // value (newValue may be '') - see allDataFieldTypeTitles() /
+            // buildDataFields(), which enumerate every known data field per
+            // row so staff can fill in ones the CSV left blank. isExtra marks
+            // the latter case, so the review UI can tuck it behind a "+"
+            // control instead of showing it outright.
             $plan['autoFills'][] = [
                 'experienceId' => $existing->ID,
                 'title' => $existing->Title,
                 'field' => 'data:' . $typeTitle,
                 'newValue' => $newValue,
+                'isExtra' => $newValue === '',
             ];
             return;
         }
-        if ($this->normalizeText($oldValue) === $this->normalizeText($newValue)) {
+        // A blank CSV value is "no new data", not "clear the existing
+        // value" - never conflict an existing value against nothing.
+        if ($newValue === '' || $this->normalizeText($oldValue) === $this->normalizeText($newValue)) {
             return;
         }
         $plan['conflicts'][] = [
@@ -544,7 +578,39 @@ class ExperienceCsvImporter
             $fields[] = ['typeTitle' => $typeTitle, 'value' => $this->wrapHtml(self::formatDateForDisplay($value))];
         }
 
+        // Every other known data field is still listed, with a blank value,
+        // so staff can fill in fields the CSV left empty for this row
+        // directly in the review UI instead of only seeing the ones the CSV
+        // already had a value for. Left blank and not written unless staff
+        // actually types something in - see applyCreate()/applyFieldChange().
+        $present = array_column($fields, 'typeTitle');
+        foreach ($this->allDataFieldTypeTitles() as $typeTitle) {
+            if (!in_array($typeTitle, $present, true)) {
+                $fields[] = ['typeTitle' => $typeTitle, 'value' => ''];
+            }
+        }
+
         return $fields;
+    }
+
+    /**
+     * Every ExperienceDataType title the importer knows how to map a CSV
+     * column to. Used by buildDataFields() to always enumerate the full set
+     * of "More Data" fields per row, not just the ones the CSV had a value
+     * for.
+     */
+    private function allDataFieldTypeTitles(): array
+    {
+        $titles = array_column(self::SIMPLE_DATA_FIELDS, 0);
+        $titles = array_merge($titles, array_column(self::THOUSANDS_DATA_FIELDS, 0));
+        $titles[] = 'Ride Time';
+        $titles[] = 'Construction cost';
+        $titles[] = 'Minimum age';
+        $titles[] = 'Minimum body size';
+        foreach (self::DATE_DATA_FIELDS as $typeTitle) {
+            $titles[] = $typeTitle;
+        }
+        return $titles;
     }
 
     private function applyCreate(array $create, int $locationId, array $fieldSkips = [], array $fieldOverrides = []): void
@@ -566,7 +632,13 @@ class ExperienceCsvImporter
             } elseif ($field['kind'] === 'direct' && $field['key'] === 'AreaTitle') {
                 $areaTitle = $field['value'];
             } elseif ($field['kind'] === 'direct') {
-                $directFields[$field['key']] = $field['value'];
+                // Extra text/date fields left blank (see buildCreate()) are
+                // still submitted along with the form - skip writing them so
+                // an untouched "extra" field doesn't overwrite the model
+                // default with an empty string.
+                if ($field['value'] !== '') {
+                    $directFields[$field['key']] = $field['value'];
+                }
             } else {
                 $dataFields[] = ['typeTitle' => $field['key'], 'value' => $field['value']];
             }
@@ -583,6 +655,12 @@ class ExperienceCsvImporter
         $experience->write();
 
         foreach ($dataFields as $dataField) {
+            // Fields the CSV left blank are still listed for staff to fill
+            // in (see buildDataFields()) - if still blank, don't create an
+            // empty "More Data" entry for it.
+            if ($this->isBlankDataValue($dataField['value'])) {
+                continue;
+            }
             $dataType = $this->findOrCreateExperienceDataType($dataField['typeTitle']);
             $data = ExperienceData::create([
                 'ParentID' => $experience->ID,
@@ -593,11 +671,16 @@ class ExperienceCsvImporter
         }
     }
 
-    private function applyFieldChange(array $change): void
+    private function isBlankDataValue(string $value): bool
+    {
+        return trim(strip_tags($value)) === '';
+    }
+
+    private function applyFieldChange(array $change): bool
     {
         $experience = Experience::get()->byID($change['experienceId']);
         if (!$experience) {
-            return;
+            return false;
         }
 
         [$kind, $key] = explode(':', $change['field'], 2) + [null, null];
@@ -605,22 +688,34 @@ class ExperienceCsvImporter
         if ($kind === 'direct' && $key === 'TypeTitle') {
             $experience->TypeID = $this->findOrCreateExperienceType($change['newValue'])->ID;
             $experience->write();
-            return;
+            return true;
         }
 
         if ($kind === 'direct' && $key === 'AreaTitle') {
             $experience->AreaID = $this->findOrCreateArea($change['newValue'], $experience->ParentID)->ID;
             $experience->write();
-            return;
+            return true;
         }
 
         if ($kind === 'direct') {
+            // Extra text/date fields left blank (see diffDirectField()) are
+            // still submitted along with the form - if staff left it blank,
+            // don't overwrite the existing (already blank) value.
+            if ($change['newValue'] === '') {
+                return false;
+            }
             $experience->$key = $change['newValue'];
             $experience->write();
-            return;
+            return true;
         }
 
         if ($kind === 'data') {
+            // Fields the CSV left blank are still offered as fillable
+            // autofills (see buildDataFields()) - if staff left it blank,
+            // don't create an empty "More Data" entry for it.
+            if ($this->isBlankDataValue($change['newValue'])) {
+                return false;
+            }
             $dataType = $this->findOrCreateExperienceDataType($key);
             $data = $experience->ExperienceData()->filter('TypeID', $dataType->ID)->first();
             if (!$data) {
@@ -631,7 +726,10 @@ class ExperienceCsvImporter
             }
             $data->Description = $change['newValue'];
             $data->write();
+            return true;
         }
+
+        return false;
     }
 
     private function findOrCreateExperienceType(string $title): ExperienceType
