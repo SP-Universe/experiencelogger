@@ -44,6 +44,11 @@ class ExperienceImportPageController extends PageController
         'direct:AccessibleToHandicapped',
     ];
 
+    private const DATE_FIELDS = [
+        'direct:OpeningDate',
+        'direct:ClosingDate',
+    ];
+
     public function UploadForm()
     {
         $csvField = new FileField('CsvFile', 'CSV File');
@@ -197,7 +202,7 @@ class ExperienceImportPageController extends PageController
                 'Index' => $index,
                 'FieldLabel' => $this->humanizeField($conflict['field']),
                 'OldValue' => $this->formatDisplayValue($conflict['oldValue'] ?? '', $conflict['field']),
-                'NewValue' => $this->formatDisplayValue($conflict['newValue'] ?? '', $conflict['field']),
+                'NewValueControl' => $this->buildFieldControl('conflictNewValue_' . $index, $conflict['newValue'] ?? '', $conflict['field']),
             ]));
         }
 
@@ -225,23 +230,54 @@ class ExperienceImportPageController extends PageController
 
         $skipSelections = [];
         $createFieldSkipSelections = [];
+        $createFieldOverrides = [];
         foreach ($plan['creates'] ?? [] as $index => $create) {
             $skipSelections[$index] = !empty($data['skipCreate_' . $index]);
 
-            foreach (array_keys(ExperienceCsvImporter::enumerateCreateFields($create)) as $fieldIndex) {
+            foreach (ExperienceCsvImporter::enumerateCreateFields($create) as $fieldIndex => $field) {
                 if (!empty($data['skipCreateField_' . $index . '_' . $fieldIndex])) {
                     $createFieldSkipSelections[$index][$fieldIndex] = true;
+                }
+
+                $submitted = $data['createFieldValue_' . $index . '_' . $fieldIndex] ?? null;
+                if ($submitted !== null) {
+                    $fieldKey = $field['kind'] . ':' . $field['key'];
+                    $createFieldOverrides[$index][$fieldIndex] = $this->parseSubmittedValue($submitted, $fieldKey);
                 }
             }
         }
 
         $autoFillSkipSelections = [];
+        $autoFillOverrides = [];
         foreach ($plan['autoFills'] ?? [] as $index => $autoFill) {
             $autoFillSkipSelections[$index] = !empty($data['skipAutoFill_' . $index]);
+
+            $submitted = $data['autoFillValue_' . $index] ?? null;
+            if ($submitted !== null) {
+                $autoFillOverrides[$index] = $this->parseSubmittedValue($submitted, $autoFill['field']);
+            }
+        }
+
+        $conflictOverrides = [];
+        foreach ($plan['conflicts'] ?? [] as $index => $conflict) {
+            $submitted = $data['conflictNewValue_' . $index] ?? null;
+            if ($submitted !== null) {
+                $conflictOverrides[$index] = $this->parseSubmittedValue($submitted, $conflict['field']);
+            }
         }
 
         $importer = new ExperienceCsvImporter();
-        $summary = $importer->apply($plan, $resolutions, $defunctSelections, $skipSelections, $autoFillSkipSelections, $createFieldSkipSelections);
+        $summary = $importer->apply(
+            $plan,
+            $resolutions,
+            $defunctSelections,
+            $skipSelections,
+            $autoFillSkipSelections,
+            $createFieldSkipSelections,
+            $createFieldOverrides,
+            $autoFillOverrides,
+            $conflictOverrides
+        );
 
         // Redirect (rather than returning the template data directly) so the
         // response is rendered under the "done" action/template - a POST to
@@ -309,7 +345,8 @@ class ExperienceImportPageController extends PageController
                     'Index' => $index,
                     'FieldIndex' => $fieldIndex,
                     'FieldLabel' => $this->humanizeField($fieldKey),
-                    'Value' => $this->formatDisplayValue($field['value'], $fieldKey),
+                    'ValueControl' => $this->buildFieldControl('createFieldValue_' . $index . '_' . $fieldIndex, $field['value'], $fieldKey),
+                    'DefaultSkip' => $this->isDefaultSkipField($fieldKey),
                 ]));
             }
 
@@ -348,7 +385,8 @@ class ExperienceImportPageController extends PageController
             $currentGroup->Fields->push(ArrayData::create([
                 'Index' => $index,
                 'FieldLabel' => $this->humanizeField($autoFill['field']),
-                'NewValue' => $this->formatDisplayValue($autoFill['newValue'] ?? '', $autoFill['field']),
+                'ValueControl' => $this->buildFieldControl('autoFillValue_' . $index, $autoFill['newValue'] ?? '', $autoFill['field']),
+                'DefaultSkip' => $this->isDefaultSkipField($autoFill['field']),
             ]));
         }
 
@@ -365,21 +403,158 @@ class ExperienceImportPageController extends PageController
         if ($key === 'TypeTitle') {
             return 'Type';
         }
+        if ($key === 'AreaTitle') {
+            return 'Area';
+        }
 
         return trim(preg_replace('/(?<!^)[A-Z]/', ' $0', $key));
     }
 
+    /**
+     * Read-only display value (currently only used for a conflict's
+     * "existing value" column, which is never editable - editable values go
+     * through buildFieldControl() instead). Line breaks are kept as real
+     * newlines (rendered via CSS white-space: pre-line in the template) so
+     * multi-line values like the min-size/min-age fields display the same
+     * way they will once saved, instead of being squashed onto one line.
+     */
     private function formatDisplayValue($value, string $field): string
     {
         if (in_array($field, self::BOOLEAN_FIELDS, true)) {
             return $value ? 'Yes' : 'No';
         }
-        if (in_array($field, ['direct:OpeningDate', 'direct:ClosingDate'], true)) {
+        if (in_array($field, self::DATE_FIELDS, true)) {
             return $this->formatNiceDate((string) $value);
         }
 
-        $text = str_replace(['<br>', '<br/>', '<br />'], ' | ', (string) $value);
+        return $this->htmlValueToPlainText((string) $value);
+    }
+
+    /**
+     * Converts a stored value (HTML for "data:" fields, e.g.
+     * "<p>132 cm<br>Under 132 cm only when accompanied by an adult.</p>",
+     * plain text otherwise) into readable plain text with real line breaks,
+     * for read-only display or as the starting content of an edit textarea.
+     */
+    private function htmlValueToPlainText(string $html): string
+    {
+        $text = str_replace(['<br>', '<br/>', '<br />'], "\n", $html);
         return trim(strip_tags($text));
+    }
+
+    /**
+     * Inverse of htmlValueToPlainText() for "data:" fields - turns
+     * staff-edited plain text (one line per <br>-separated part) back into
+     * the "<p>...</p>" shape ExperienceData::Description is stored in.
+     */
+    private function plainTextToHtmlValue(string $text): string
+    {
+        $lines = preg_split('/\r\n|\r|\n/', $text);
+        $lines = array_filter(array_map('trim', $lines), static function ($line) {
+            return $line !== '';
+        });
+        return '<p>' . implode('<br>', $lines) . '</p>';
+    }
+
+    /**
+     * Builds the HTML for the editable form control shown for a single
+     * import field value, so staff can correct the CSV value before
+     * confirming the import - every value written by the importer (create,
+     * auto-fill, or a conflict's "new value") goes through here rather than
+     * being shown as static text.
+     */
+    private function buildFieldControl(string $name, $value, string $field): string
+    {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES);
+
+        if (in_array($field, self::BOOLEAN_FIELDS, true)) {
+            $isYes = (bool) $value;
+            return sprintf(
+                '<select name="%s" class="import_edit_select">'
+                . '<option value="1"%s>Yes</option>'
+                . '<option value="0"%s>No</option>'
+                . '</select>',
+                $escapedName,
+                $isYes ? ' selected' : '',
+                $isYes ? '' : ' selected'
+            );
+        }
+
+        if (in_array($field, self::DATE_FIELDS, true)) {
+            // Same native HTML5 date input SilverStripe's own DateField uses
+            // for OpeningDate/ClosingDate elsewhere in the CMS (see
+            // Experience::getCMSFields()) - value stays ISO (yyyy-mm-dd), the
+            // browser handles displaying/formatting it per locale.
+            return sprintf(
+                '<input type="date" name="%s" value="%s" class="import_edit_input">',
+                $escapedName,
+                htmlspecialchars((string) $value, ENT_QUOTES)
+            );
+        }
+
+        if ($field === 'direct:State') {
+            $options = '';
+            foreach (ExperienceCsvImporter::ALLOWED_STATES as $state) {
+                $options .= sprintf(
+                    '<option value="%s"%s>%s</option>',
+                    htmlspecialchars($state, ENT_QUOTES),
+                    $state === $value ? ' selected' : '',
+                    htmlspecialchars($state)
+                );
+            }
+            return sprintf('<select name="%s" class="import_edit_select">%s</select>', $escapedName, $options);
+        }
+
+        [$kind] = explode(':', $field, 2) + [null, null];
+
+        if ($kind === 'data' || $field === 'direct:Description') {
+            $editable = $kind === 'data' ? $this->htmlValueToPlainText((string) $value) : (string) $value;
+            return sprintf(
+                '<textarea name="%s" class="import_edit_textarea" rows="3">%s</textarea>',
+                $escapedName,
+                htmlspecialchars($editable)
+            );
+        }
+
+        return sprintf(
+            '<input type="text" name="%s" value="%s" class="import_edit_input">',
+            $escapedName,
+            htmlspecialchars((string) $value, ENT_QUOTES)
+        );
+    }
+
+    /**
+     * Converts a raw submitted form value back into the same shape the
+     * importer's parsed plan uses for that field, so it can be passed to
+     * ExperienceCsvImporter::apply() as an override.
+     */
+    private function parseSubmittedValue(string $submitted, string $field): string
+    {
+        if (in_array($field, self::BOOLEAN_FIELDS, true)) {
+            return $submitted === '1' ? '1' : '0';
+        }
+
+        if (in_array($field, self::DATE_FIELDS, true)) {
+            return ExperienceCsvImporter::parseDate(trim($submitted)) ?? '';
+        }
+
+        [$kind] = explode(':', $field, 2) + [null, null];
+        if ($kind === 'data') {
+            return $this->plainTextToHtmlValue($submitted);
+        }
+
+        return trim($submitted);
+    }
+
+    /**
+     * The "internal_notes" CSV column maps to the "Internal Notes"
+     * ExperienceDataType, which staff want left out of the database by
+     * default - so its Skip checkbox starts pre-checked in the review UI,
+     * unlike every other field.
+     */
+    private function isDefaultSkipField(string $field): bool
+    {
+        return $field === 'data:' . ExperienceCsvImporter::INTERNAL_NOTES_TYPE_TITLE;
     }
 
     /**

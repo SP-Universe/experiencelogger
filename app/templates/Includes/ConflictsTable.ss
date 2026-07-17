@@ -26,14 +26,15 @@
                             <td data-label="Existing value" class="import_conflicts_col--old">
                                 <label class="import_conflicts_option">
                                     <input type="radio" name="resolution_{$Index}" value="old" checked>
-                                    <span>$OldValue</span>
+                                    <span class="import_value_multiline">$OldValue</span>
                                 </label>
                             </td>
                             <td data-label="New value (CSV)" class="import_conflicts_col--new">
-                                <label class="import_conflicts_option">
+                                <label class="import_conflicts_option import_conflicts_option--edit">
                                     <input type="radio" name="resolution_{$Index}" value="new">
-                                    <span>$NewValue</span>
+                                    <span>Use this value</span>
                                 </label>
+                                $NewValueControl.RAW
                             </td>
                         </tr>
                     <% end_loop %>

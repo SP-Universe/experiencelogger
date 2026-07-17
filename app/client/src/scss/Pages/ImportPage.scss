@@ -99,6 +99,15 @@
                 vertical-align: middle;
             }
 
+            // Shrink the per-row Skip cell down to its toggle's own width
+            // instead of sharing the leftover space with the Value column -
+            // excludes the heading row, whose action cell spans 2 columns
+            // for the wider "Skip whole attraction" toggle.
+            tbody tr:not(.import_creates_heading) .import_creates_col--action{
+                width: 1%;
+                white-space: nowrap;
+            }
+
             .import_creates_heading th{
                 position: sticky;
                 top: 113px;
@@ -161,6 +170,14 @@
                     width: 100%;
                 }
 
+                // Undo the desktop shrink-to-content width - the stacked
+                // mobile card needs the Skip cell at full width like every
+                // other row.
+                .import_creates_col--action{
+                    width: 100%;
+                    white-space: normal;
+                }
+
                 .import_creates_heading th{
                     position: static;
                     padding: 16px 12px 4px 12px;
@@ -189,6 +206,42 @@
                     }
                 }
             }
+        }
+
+        // Editable value controls (Creates, AutoFills, Conflicts "new value")
+        // - staff can correct any imported value before confirming.
+        .import_edit_input,
+        .import_edit_select,
+        .import_edit_textarea{
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 2px solid var(--ColorLightGray);
+            background-color: var(--ColorBackground);
+            color: var(--ColorWhite);
+            font-size: 14px;
+            font-family: inherit;
+
+            &:focus-visible{
+                outline: 2px solid var(--ColorPrimary);
+                outline-offset: 2px;
+            }
+            &[type="date"]::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+            }
+        }
+
+        .import_edit_textarea{
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        // Read-only value display that preserves the line breaks it will
+        // actually be shown with once saved (e.g. "132 cm" / "Under 132 cm
+        // only when accompanied by an adult." on their own lines) instead of
+        // squashing them onto a single line.
+        .import_value_multiline{
+            white-space: pre-line;
         }
 
         // Shared per-row checkbox toggle used by the Creates ("Skip"),
@@ -260,6 +313,13 @@
                 vertical-align: middle;
             }
 
+            // Shrink the Skip cell down to its toggle's own width instead of
+            // sharing the leftover space with the Value column.
+            .import_autofills_col--action{
+                width: 1%;
+                white-space: nowrap;
+            }
+
             .import_autofills_heading th{
                 position: sticky;
                 top: 113px;
@@ -306,6 +366,14 @@
 
                 .import_autofills_col--field{
                     width: 100%;
+                }
+
+                // Undo the desktop shrink-to-content width - the stacked
+                // mobile card needs the Skip cell at full width like every
+                // other row.
+                .import_autofills_col--action{
+                    width: 100%;
+                    white-space: normal;
                 }
 
                 .import_autofills_heading th{
@@ -540,6 +608,16 @@
                 outline: 2px solid var(--ColorPrimary);
                 outline-offset: 2px;
             }
+        }
+
+        // "Use this value" toggle sitting above the New value edit control -
+        // unlike .import_conflicts_option it doesn't wrap the control itself,
+        // since a label can only meaningfully target one form control.
+        .import_conflicts_option--edit{
+            width: auto;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 13px;
         }
 
         @include media("<=medium"){

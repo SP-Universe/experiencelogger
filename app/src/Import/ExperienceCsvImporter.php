@@ -36,7 +36,13 @@ class ExperienceCsvImporter
         'Closing-Date' => 'ClosingDate',
     ];
 
-    private const ALLOWED_STATES = ['Active', 'In Maintenance', 'InActive', 'Coming Soon', 'Other', 'Defunct'];
+    public const ALLOWED_STATES = ['Active', 'In Maintenance', 'InActive', 'Coming Soon', 'Other', 'Defunct'];
+
+    // ExperienceDataType title that CSV rows' "internal_notes" column maps
+    // to; used by the review UI to default this field's "Skip" checkbox to
+    // checked, since these notes are for the CSV source and not meant to be
+    // imported into the database by default.
+    public const INTERNAL_NOTES_TYPE_TITLE = 'Internal Notes';
 
     // CSV column => [ExperienceDataType title, unit suffix or null], value used as-is
     private const SIMPLE_DATA_FIELDS = [
@@ -59,6 +65,7 @@ class ExperienceCsvImporter
         'Actor' => ['Actor', null],
         'Type' => ['Type', null],
         'Trains' => ['Trains', null],
+        'internal_notes' => [self::INTERNAL_NOTES_TYPE_TITLE, null],
     ];
 
     // CSV column => [ExperienceDataType title, unit suffix], value formatted with a thousands separator
@@ -142,6 +149,9 @@ class ExperienceCsvImporter
      * @param array $skipSelections Create index (int) => bool, whether to skip creating it
      * @param array $autoFillSkipSelections AutoFill index (int) => bool, whether to skip applying it
      * @param array $createFieldSkipSelections Create index (int) => [field index (int) => bool], individual fields to leave out of an otherwise-created attraction
+     * @param array $createFieldOverrides Create index (int) => [field index (int) => string], staff-edited values overriding the parsed CSV value
+     * @param array $autoFillOverrides AutoFill index (int) => string, staff-edited value overriding the parsed CSV value
+     * @param array $conflictOverrides Conflict index (int) => string, staff-edited value overriding the parsed "new" CSV value
      */
     public function apply(
         array $plan,
@@ -149,7 +159,10 @@ class ExperienceCsvImporter
         array $defunctSelections = [],
         array $skipSelections = [],
         array $autoFillSkipSelections = [],
-        array $createFieldSkipSelections = []
+        array $createFieldSkipSelections = [],
+        array $createFieldOverrides = [],
+        array $autoFillOverrides = [],
+        array $conflictOverrides = []
     ): array {
         $summary = ['created' => 0, 'skipped' => 0, 'autoFilled' => 0, 'skippedAutoFills' => 0, 'applied' => 0, 'kept' => 0, 'markedDefunct' => 0];
 
@@ -158,7 +171,7 @@ class ExperienceCsvImporter
                 $summary['skipped']++;
                 continue;
             }
-            $this->applyCreate($create, $plan['locationId'], $createFieldSkipSelections[$index] ?? []);
+            $this->applyCreate($create, $plan['locationId'], $createFieldSkipSelections[$index] ?? [], $createFieldOverrides[$index] ?? []);
             $summary['created']++;
         }
 
@@ -167,6 +180,9 @@ class ExperienceCsvImporter
                 $summary['skippedAutoFills']++;
                 continue;
             }
+            if (isset($autoFillOverrides[$index])) {
+                $autoFill['newValue'] = $autoFillOverrides[$index];
+            }
             $this->applyFieldChange($autoFill);
             $summary['autoFilled']++;
         }
@@ -174,6 +190,9 @@ class ExperienceCsvImporter
         foreach ($plan['conflicts'] as $index => $conflict) {
             $resolution = $resolutions[$index] ?? 'old';
             if ($resolution === 'new') {
+                if (isset($conflictOverrides[$index])) {
+                    $conflict['newValue'] = $conflictOverrides[$index];
+                }
                 $this->applyFieldChange($conflict);
                 $summary['applied']++;
             } else {
@@ -279,7 +298,7 @@ class ExperienceCsvImporter
         }
 
         foreach (self::DIRECT_DATE_FIELDS as $csvColumn => $dbField) {
-            $date = $this->parseDate(trim($row[$csvColumn] ?? ''));
+            $date = self::parseDate(trim($row[$csvColumn] ?? ''));
             if ($date !== null) {
                 $directFields[$dbField] = $date;
             }
@@ -293,6 +312,11 @@ class ExperienceCsvImporter
         $xplType = trim($row['XPL-Type'] ?? '');
         if ($xplType !== '') {
             $directFields['TypeTitle'] = $xplType;
+        }
+
+        $area = trim($row['Area'] ?? '');
+        if ($area !== '') {
+            $directFields['AreaTitle'] = $area;
         }
 
         return [
@@ -313,7 +337,7 @@ class ExperienceCsvImporter
             $this->diffDirectField($existing, $dbField, trim($row[$csvColumn] ?? ''), $plan);
         }
         foreach (self::DIRECT_DATE_FIELDS as $csvColumn => $dbField) {
-            $date = $this->parseDate(trim($row[$csvColumn] ?? ''));
+            $date = self::parseDate(trim($row[$csvColumn] ?? ''));
             if ($date !== null) {
                 $this->diffDirectField($existing, $dbField, $date, $plan);
             }
@@ -361,6 +385,27 @@ class ExperienceCsvImporter
                     'field' => 'direct:TypeTitle',
                     'oldValue' => $currentType,
                     'newValue' => $xplType,
+                ];
+            }
+        }
+
+        $area = trim($row['Area'] ?? '');
+        if ($area !== '') {
+            $currentArea = $existing->Area()->exists() ? $existing->Area()->Title : '';
+            if ($this->normalizeText($currentArea) === '') {
+                $plan['autoFills'][] = [
+                    'experienceId' => $existing->ID,
+                    'title' => $existing->Title,
+                    'field' => 'direct:AreaTitle',
+                    'newValue' => $area,
+                ];
+            } elseif ($this->normalizeText($currentArea) !== $this->normalizeText($area)) {
+                $plan['conflicts'][] = [
+                    'experienceId' => $existing->ID,
+                    'title' => $existing->Title,
+                    'field' => 'direct:AreaTitle',
+                    'oldValue' => $currentArea,
+                    'newValue' => $area,
                 ];
             }
         }
@@ -496,24 +541,30 @@ class ExperienceCsvImporter
             if ($value === '') {
                 continue;
             }
-            $fields[] = ['typeTitle' => $typeTitle, 'value' => $this->wrapHtml($value)];
+            $fields[] = ['typeTitle' => $typeTitle, 'value' => $this->wrapHtml(self::formatDateForDisplay($value))];
         }
 
         return $fields;
     }
 
-    private function applyCreate(array $create, int $locationId, array $fieldSkips = []): void
+    private function applyCreate(array $create, int $locationId, array $fieldSkips = [], array $fieldOverrides = []): void
     {
         $directFields = ['Title' => $create['title']];
         $dataFields = [];
         $typeTitle = null;
+        $areaTitle = null;
 
         foreach (self::enumerateCreateFields($create) as $index => $field) {
             if (!empty($fieldSkips[$index])) {
                 continue;
             }
+            if (isset($fieldOverrides[$index])) {
+                $field['value'] = $fieldOverrides[$index];
+            }
             if ($field['kind'] === 'direct' && $field['key'] === 'TypeTitle') {
                 $typeTitle = $field['value'];
+            } elseif ($field['kind'] === 'direct' && $field['key'] === 'AreaTitle') {
+                $areaTitle = $field['value'];
             } elseif ($field['kind'] === 'direct') {
                 $directFields[$field['key']] = $field['value'];
             } else {
@@ -525,6 +576,9 @@ class ExperienceCsvImporter
         $experience->ParentID = $locationId;
         if ($typeTitle) {
             $experience->TypeID = $this->findOrCreateExperienceType($typeTitle)->ID;
+        }
+        if ($areaTitle) {
+            $experience->AreaID = $this->findOrCreateArea($areaTitle, $locationId)->ID;
         }
         $experience->write();
 
@@ -550,6 +604,12 @@ class ExperienceCsvImporter
 
         if ($kind === 'direct' && $key === 'TypeTitle') {
             $experience->TypeID = $this->findOrCreateExperienceType($change['newValue'])->ID;
+            $experience->write();
+            return;
+        }
+
+        if ($kind === 'direct' && $key === 'AreaTitle') {
+            $experience->AreaID = $this->findOrCreateArea($change['newValue'], $experience->ParentID)->ID;
             $experience->write();
             return;
         }
@@ -583,6 +643,34 @@ class ExperienceCsvImporter
         $type = ExperienceType::create(['Title' => $title, 'PluralName' => $title . 's']);
         $type->write();
         return $type;
+    }
+
+    /**
+     * "Area" is modelled as a self-referential Experience (its own Type is
+     * "Area"), not a plain text field - so importing an Area name means
+     * finding (or creating) that Experience within the same location, the
+     * same way TypeTitle resolves against ExperienceType.
+     */
+    private function findOrCreateArea(string $title, int $locationId): Experience
+    {
+        $areaType = $this->findOrCreateExperienceType('Area');
+
+        $area = Experience::get()->filter([
+            'ParentID' => $locationId,
+            'TypeID' => $areaType->ID,
+            'Title' => $title,
+        ])->first();
+        if ($area) {
+            return $area;
+        }
+
+        $area = Experience::create([
+            'Title' => $title,
+            'ParentID' => $locationId,
+            'TypeID' => $areaType->ID,
+        ]);
+        $area->write();
+        return $area;
     }
 
     private function findOrCreateExperienceDataType(string $title): ExperienceDataType
@@ -624,12 +712,13 @@ class ExperienceCsvImporter
     }
 
     /**
-     * Only accepts a fully specified TT.MM.JJJJ date - incomplete dates
-     * (e.g. just a year) are intentionally not parsed here, so they never
-     * end up in the OpeningDate/ClosingDate field. They're still captured
-     * as-is via DATE_DATA_FIELDS.
+     * Only accepts a fully specified date, either as TT.MM.JJJJ (older CSV
+     * exports) or ISO JJJJ-MM-TT (newer ones) - incomplete dates (e.g. just
+     * a year) are intentionally not parsed here, so they never end up in the
+     * OpeningDate/ClosingDate field. They're still captured as-is via
+     * DATE_DATA_FIELDS.
      */
-    private function parseDate(string $raw): ?string
+    public static function parseDate(string $raw): ?string
     {
         if ($raw === '') {
             return null;
@@ -637,6 +726,26 @@ class ExperienceCsvImporter
         if (preg_match('/^(\d{2})\.(\d{2})\.(\d{4})$/', $raw, $m)) {
             return sprintf('%04d-%02d-%02d', $m[3], $m[2], $m[1]);
         }
+        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $raw, $m)) {
+            return sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]);
+        }
         return null;
+    }
+
+    /**
+     * Renders a parseDate()-compatible date as dd.mm.yyyy for the
+     * DATE_DATA_FIELDS "More Data" entries, so they display consistently
+     * regardless of whether the source CSV used TT.MM.JJJJ or ISO -
+     * anything parseDate() can't fully parse (e.g. just a year) is passed
+     * through unchanged.
+     */
+    private static function formatDateForDisplay(string $raw): string
+    {
+        $iso = self::parseDate($raw);
+        if ($iso === null) {
+            return $raw;
+        }
+        [$year, $month, $day] = explode('-', $iso);
+        return "{$day}.{$month}.{$year}";
     }
 }

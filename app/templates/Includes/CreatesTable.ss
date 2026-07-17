@@ -27,10 +27,10 @@
                     <% loop $Fields %>
                         <tr>
                             <td data-label="Field" class="import_creates_col--field">$FieldLabel</td>
-                            <td data-label="Value" class="import_creates_col--value">$Value</td>
+                            <td data-label="Value" class="import_creates_col--value">$ValueControl.RAW</td>
                             <td data-label="Skip" class="import_creates_col--action">
                                 <label class="import_toggle">
-                                    <input type="checkbox" name="skipCreateField_{$Index}_{$FieldIndex}" value="1">
+                                    <input type="checkbox" name="skipCreateField_{$Index}_{$FieldIndex}" value="1"<% if $DefaultSkip %> checked<% end_if %>>
                                     <span>Skip</span>
                                 </label>
                             </td>
