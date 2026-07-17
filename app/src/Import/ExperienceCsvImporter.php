@@ -558,14 +558,14 @@ class ExperienceCsvImporter
         }
 
         $minSize = trim($row['MinSize'] ?? '');
-        $maxSizeAlone = trim($row['MaxSizeAlone'] ?? '');
-        if ($minSize !== '' || $maxSizeAlone !== '') {
+        $minSizeAlone = trim($row['MinSizeAlone'] ?? '');
+        if ($minSize !== '' || $minSizeAlone !== '') {
             $parts = [];
             if ($minSize !== '') {
                 $parts[] = "{$minSize} cm";
             }
-            if ($maxSizeAlone !== '') {
-                $parts[] = "Under {$maxSizeAlone} cm only when accompanied by an adult.";
+            if ($minSizeAlone !== '') {
+                $parts[] = "Under {$minSizeAlone} cm only when accompanied by an adult.";
             }
             $fields[] = ['typeTitle' => 'Minimum body size', 'value' => $this->wrapHtml(implode('<br>', $parts))];
         }
