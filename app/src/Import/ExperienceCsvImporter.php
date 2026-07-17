@@ -307,11 +307,12 @@ class ExperienceCsvImporter
             $directFields[$dbField] = trim($row[$csvColumn] ?? '');
         }
 
+        // Like the text/date fields above, always added - even blank - so
+        // enumerateCreateFields() can offer a CSV-omitted boolean as an
+        // addable "extra" field the same way it does for text/date ones.
         foreach (self::DIRECT_BOOL_FIELDS as $csvColumn => $dbField) {
             $value = trim($row[$csvColumn] ?? '');
-            if ($value !== '') {
-                $directFields[$dbField] = (bool) ((int) $value);
-            }
+            $directFields[$dbField] = $value !== '' ? (bool) ((int) $value) : '';
         }
 
         foreach (self::DIRECT_DATE_FIELDS as $csvColumn => $dbField) {
@@ -355,10 +356,23 @@ class ExperienceCsvImporter
             $this->diffDirectField($existing, $dbField, $date ?? '', $plan);
         }
 
-        // Direct boolean fields - always compared, never "auto-filled" (0 is a real value, not "empty")
+        // Direct boolean fields - compared when the CSV provides a value (0
+        // is a real value, not "empty"); when it doesn't, still offered as
+        // an addable "extra" field the same way diffDirectField() offers
+        // blank text/date fields, defaulting to the attraction's current
+        // value so leaving it untouched is a no-op (see applyFieldChange()).
         foreach (self::DIRECT_BOOL_FIELDS as $csvColumn => $dbField) {
             $raw = trim($row[$csvColumn] ?? '');
             if ($raw === '') {
+                $oldValue = (int) ((bool) $existing->$dbField);
+                $plan['autoFills'][] = [
+                    'experienceId' => $existing->ID,
+                    'title' => $existing->Title,
+                    'field' => 'direct:' . $dbField,
+                    'newValue' => $oldValue,
+                    'oldValue' => $oldValue,
+                    'isExtra' => true,
+                ];
                 continue;
             }
             $newValue = (int) ((bool) ((int) $raw));
@@ -702,6 +716,18 @@ class ExperienceCsvImporter
             // still submitted along with the form - if staff left it blank,
             // don't overwrite the existing (already blank) value.
             if ($change['newValue'] === '') {
+                return false;
+            }
+            // Extra boolean fields (see diffExisting()) default their
+            // control to the attraction's current value, since a <select>
+            // always submits something and can't represent "left untouched"
+            // the way a blank text input can - skip the write if the
+            // submitted value still matches what was there before.
+            if (
+                in_array($key, self::DIRECT_BOOL_FIELDS, true)
+                && array_key_exists('oldValue', $change)
+                && (string) $change['newValue'] === (string) $change['oldValue']
+            ) {
                 return false;
             }
             $experience->$key = $change['newValue'];

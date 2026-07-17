@@ -101,8 +101,8 @@
 
             // Shrink the per-row Skip cell down to its toggle's own width
             // instead of sharing the leftover space with the Value column -
-            // excludes the heading row, whose action cell spans 2 columns
-            // for the wider "Skip whole attraction" toggle.
+            // excludes the heading row, whose th spans the full row (see
+            // .import_creates_heading_row) and lays out its own Skip toggle.
             tbody tr:not(.import_creates_heading) .import_creates_col--action{
                 width: 1%;
                 white-space: nowrap;
@@ -123,13 +123,19 @@
                 }
             }
 
-            // Each sticky th above is its own stacking context, so
-            // .import_addfield_select's z-index (20) only wins against
-            // content inside the same th - it can't outrank a sibling th.
-            // Lower this one's stacking level below the field-name th so
-            // the dropdown isn't hidden under "Skip whole attraction".
-            .import_creates_heading .import_creates_col--action{
-                z-index: 8;
+            // Attraction title/meta/add-field on the left, "Skip whole
+            // attraction" pinned to the right - the th spans the full row
+            // (colspan 3) so there's always room for both without wrapping.
+            .import_creates_heading_row{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .import_creates_heading_main{
+                display: flex;
+                align-items: center;
             }
 
             .import_creates_meta{
@@ -137,12 +143,6 @@
                 font-size: 14px;
                 font-weight: 400;
                 opacity: 0.85;
-            }
-
-            @include media(">medium"){
-                .import_creates_heading .import_creates_col--action{
-                    text-align: right;
-                }
             }
 
             tbody tr:not(.import_creates_heading){
@@ -198,6 +198,14 @@
                 .import_creates_heading th{
                     position: static;
                     padding: 16px 12px 4px 12px;
+                }
+
+                // Stack the title/meta/add-field group above the "Skip whole
+                // attraction" toggle instead of squeezing both onto one row.
+                .import_creates_heading_row{
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 8px;
                 }
 
                 tr:not(.import_creates_heading){

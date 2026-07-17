@@ -13,29 +13,31 @@
             <% loop $Creates %>
                 <tbody class="import_creates_group">
                     <tr class="import_creates_heading">
-                        <th>
-                            <button type="button" class="import_group_toggle" data-behaviour="import_group_toggle" aria-expanded="true">
-                                <span class="import_group_toggle_icon" aria-hidden="true"></span>
-                                $Title
-                            </button>
-                            <span class="import_creates_meta">$FieldCount fields</span>
-                            <% if $ExtraFields %>
-                                <span class="import_addfield" data-behaviour="import_addfield">
-                                    <button type="button" class="import_addfield_button" title="Feld hinzufügen" aria-label="Feld hinzufügen">+</button>
-                                    <select class="import_addfield_select" hidden>
-                                        <option value="">Feld wählen…</option>
-                                        <% loop $ExtraFields %>
-                                            <option value="{$RowId}">$FieldLabel</option>
-                                        <% end_loop %>
-                                    </select>
+                        <th colspan="3">
+                            <div class="import_creates_heading_row">
+                                <span class="import_creates_heading_main">
+                                    <button type="button" class="import_group_toggle" data-behaviour="import_group_toggle" aria-expanded="true">
+                                        <span class="import_group_toggle_icon" aria-hidden="true"></span>
+                                        $Title
+                                    </button>
+                                    <span class="import_creates_meta">$FieldCount fields</span>
+                                    <% if $ExtraFields %>
+                                        <span class="import_addfield" data-behaviour="import_addfield">
+                                            <button type="button" class="import_addfield_button" title="Feld hinzufügen" aria-label="Feld hinzufügen">+</button>
+                                            <select class="import_addfield_select" hidden>
+                                                <option value="">Feld wählen…</option>
+                                                <% loop $ExtraFields %>
+                                                    <option value="{$RowId}">$FieldLabel</option>
+                                                <% end_loop %>
+                                            </select>
+                                        </span>
+                                    <% end_if %>
                                 </span>
-                            <% end_if %>
-                        </th>
-                        <th class="import_creates_col--action" colspan="2">
-                            <label class="import_toggle">
-                                <input type="checkbox" name="skipCreate_{$Index}" value="1">
-                                <span>Skip whole attraction</span>
-                            </label>
+                                <label class="import_toggle">
+                                    <input type="checkbox" name="skipCreate_{$Index}" value="1">
+                                    <span>Skip whole attraction</span>
+                                </label>
+                            </div>
                         </th>
                     </tr>
                     <% loop $Fields %>

@@ -367,7 +367,8 @@ class ExperienceImportPageController extends PageController
                 'Title' => $create['title'],
                 'FieldCount' => $fieldsList->count(),
                 'Fields' => $fieldsList,
-                'ExtraFields' => $extraFieldsList,
+                // Alphabetised so the "+" dropdown is easy to scan.
+                'ExtraFields' => $extraFieldsList->sort('FieldLabel'),
             ]));
         }
         return $list;
@@ -409,6 +410,11 @@ class ExperienceImportPageController extends PageController
             } else {
                 $currentGroup->Fields->push($data);
             }
+        }
+
+        // Alphabetise each group's "+" dropdown so it's easy to scan.
+        foreach ($groups as $group) {
+            $group->ExtraFields->sort('FieldLabel');
         }
 
         return $groups;
