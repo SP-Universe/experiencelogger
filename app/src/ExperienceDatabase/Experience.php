@@ -264,7 +264,8 @@ class Experience extends DataObject
 
         //Areas and Stages
         $parentID = $this->ParentID;
-        $areatypeID = ExperienceType::get()->filter('Title', 'Area')->first()->ID;
+        $areaType = ExperienceType::get()->filter('Title', 'Area')->first();
+        $areatypeID = $areaType ? $areaType->ID : null;
         if ($areatypeID) {
             $experiencemap = Experience::get()->filter([
                 'TypeID' => $areatypeID,
@@ -274,7 +275,8 @@ class Experience extends DataObject
             $fields->insertAfter('TypeID', new DropdownField('AreaID', 'Area', $experiencemap))->setHasEmptyDefault(true)->setEmptyString("- Not inside Area -");
         }
 
-        $stagetypeID = ExperienceType::get()->filter('Title', 'Stage')->first()->ID;
+        $stageType = ExperienceType::get()->filter('Title', 'Stage')->first();
+        $stagetypeID = $stageType ? $stageType->ID : null;
         if ($stagetypeID) {
             $experiencemap = Experience::get()->filter([
                 'TypeID' => $stagetypeID,
@@ -580,7 +582,8 @@ class Experience extends DataObject
 
     public function getSubShows()
     {
-        $showtypeID = ExperienceType::get()->filter('Title', 'Show')->first()->ID;
+        $showType = ExperienceType::get()->filter('Title', 'Show')->first();
+        $showtypeID = $showType ? $showType->ID : null;
         $experiences = Experience::get()->filter([
             'TypeID' => $showtypeID,
             'StageID' => $this->ID,
