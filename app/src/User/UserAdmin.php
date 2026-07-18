@@ -2,7 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
-use App\Profile\FriendRequest;
+use Override;
 use App\User\User;
 use SilverStripe\Admin\ModelAdmin;
 
@@ -13,14 +13,15 @@ use SilverStripe\Admin\ModelAdmin;
 class UserAdmin extends ModelAdmin
 {
 
-    private static $managed_models = array(
+    private static $managed_models = [
         User::class,
-    );
+    ];
 
     private static $url_segment = "users";
 
     private static $menu_title = "Users";
 
+    #[Override]
     public function init()
     {
         parent::init();

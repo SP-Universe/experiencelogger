@@ -1,6 +1,7 @@
 <?php
 namespace App\ExperienceDatabase;
 
+use Override;
 use App\Profile\FriendRequest;
 use SilverStripe\Admin\ModelAdmin;
 
@@ -11,10 +12,10 @@ use SilverStripe\Admin\ModelAdmin;
 class LogAdmin extends ModelAdmin
 {
 
-    private static $managed_models = array (
+    private static $managed_models =  [
         LogEntry::class,
         FriendRequest::class,
-    );
+    ];
 
     private static $url_segment = "logs";
 
@@ -22,6 +23,7 @@ class LogAdmin extends ModelAdmin
 
     private static $menu_icon = "app/client/icons/admin/LogsAdmin.svg";
 
+    #[Override]
     public function init()
     {
         parent::init();

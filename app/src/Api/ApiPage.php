@@ -2,19 +2,8 @@
 
 namespace App\Api {
 
-    use SilverStripe\Control\Cookie;
-    use SilverStripe\Control\HTTPRequest;
-
-    use SilverStripe\Assets\Image;
-    use SilverStripe\AssetAdmin\Forms\UploadField;
-
-    use SilverStripe\Assets\File;
-    use SilverStripe\Forms\CheckboxField;
-
-    use SilverStripe\Forms\DropdownField;
+    use Override;
     use SilverStripe\CMS\Model\SiteTree;
-    use SilverStripe\Security\Security;
-    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
     /**
  * Class \Page
@@ -22,8 +11,11 @@ namespace App\Api {
  */
     class ApiPage extends SiteTree
     {
+        private static $table_name = 'ApiPage';
+
         private static $db = [];
 
+        #[Override]
         public function getCMSFields()
         {
             $fields = parent::getCMSFields();

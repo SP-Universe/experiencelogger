@@ -1,18 +1,23 @@
 <?php
 namespace App\Helper\Tasks;
 
+use Override;
+use Symfony\Component\Console\Input\InputInterface;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
 use SilverStripe\Dev\BuildTask;
 use App\ExperienceDatabase\Experience;
 
 class RewriteExperiences extends BuildTask
 {
-    private static $segment = 'RewriteExperiences';
+    protected static string $commandName = 'RewriteExperiences';
 
-    protected $title = 'Rewrite all experiences';
-    protected $description = 'A task that will rewrite all experiences in the database.';
+    protected string $title = 'Rewrite all experiences';
+    protected static string $description = 'A task that will rewrite all experiences in the database.';
     protected $enabled = true;
 
-    public function run($request)
+    #[Override]
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $experiences = Experience::get();
         foreach ($experiences as $experience) {
@@ -20,5 +25,6 @@ class RewriteExperiences extends BuildTask
             $experience->write();
         }
         exit('Done run!');
+        return Command::SUCCESS;
     }
 }

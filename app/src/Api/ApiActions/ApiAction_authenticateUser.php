@@ -3,9 +3,6 @@
 namespace App\Api\ApiActions {
 
     use App\User\AuthToken;
-
-    use App\Api\Helper\ApiUserDataHelper;
-    use App\ExperienceDatabase\UserAuthToken;
     use SilverStripe\Control\HTTPRequest;
 
     class ApiAction_authenticateUser

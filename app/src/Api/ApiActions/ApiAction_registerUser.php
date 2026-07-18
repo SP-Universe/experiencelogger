@@ -61,7 +61,7 @@ namespace App\Api\ApiActions {
                 $user->Username = $username;
                 $user->Nickname = $username;
                 $user->Email = $emailadress;
-                $user->Password = md5($password);
+                $user->Password = md5((string) $password);
                 $user->DateOfBirth = $dateOfBirth;
                 $user->LinkedLogging = true;
 

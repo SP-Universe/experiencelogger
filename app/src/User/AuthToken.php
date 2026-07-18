@@ -2,6 +2,7 @@
 
 namespace App\User;
 
+use Override;
 use App\User\User;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
@@ -13,7 +14,7 @@ use SilverStripe\Security\Permission;
  * @property string $LastLogin
  * @property string $DeviceName
  * @property int $ParentID
- * @method \App\User\User Parent()
+ * @method User Parent()
  */
 class AuthToken extends DataObject
 {
@@ -50,6 +51,7 @@ class AuthToken extends DataObject
 
     private static $url_segment = "authtoken";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -58,21 +60,25 @@ class AuthToken extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
@@ -84,6 +90,7 @@ class AuthToken extends DataObject
         $this->write();
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();

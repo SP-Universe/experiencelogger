@@ -5,11 +5,6 @@ namespace App\Api\ApiActions {
     use App\User\AuthToken;
 
     use App\User\User;
-
-    use SilverStripe\Security\Member;
-    use App\ExperienceDatabase\UserAuthToken;
-    use SilverStripe\Core\Injector\Injector;
-    use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
     use SilverStripe\Control\HTTPRequest;
 
     class ApiAction_loginUser
@@ -38,7 +33,7 @@ namespace App\Api\ApiActions {
                     return json_encode($data);
                 }
 
-                $hashedPassword = md5($password);
+                $hashedPassword = md5((string) $password);
                 $user = User::get()->filter(['Username' => $username])->first();
 
                 if (!$user) {

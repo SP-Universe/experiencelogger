@@ -1,6 +1,7 @@
 <?php
 namespace App\Ratings;
 
+use Override;
 use App\Ratings\Rating;
 use SilverStripe\Admin\ModelAdmin;
 
@@ -11,9 +12,9 @@ use SilverStripe\Admin\ModelAdmin;
 class RatingAdmin extends ModelAdmin
 {
 
-    private static $managed_models = array (
+    private static $managed_models =  [
         Rating::class,
-    );
+    ];
 
     private static $url_segment = "ratings";
 
@@ -21,6 +22,7 @@ class RatingAdmin extends ModelAdmin
 
     private static $menu_icon = "app/client/icons/admin/RatingsAdmin.svg";
 
+    #[Override]
     public function init()
     {
         parent::init();

@@ -2,20 +2,23 @@
 
 namespace App\Helper\Tasks;
 
-use App\User\User;
+use Override;
+use Symfony\Component\Console\Input\InputInterface;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
 use SilverStripe\Dev\BuildTask;
-use SilverStripe\Security\Member;
 use App\ExperienceDatabase\LogEntry;
 
 class RewriteLogEntryIDs extends BuildTask
 {
-    private static $segment = 'RewriteLogEntryIDs';
+    protected static string $commandName = 'RewriteLogEntryIDs';
 
-    protected $title = 'Rewrite all LogEntries in the database';
-    protected $description = 'A task that will rewrite all LogEntries in the database.';
+    protected string $title = 'Rewrite all LogEntries in the database';
+    protected static string $description = 'A task that will rewrite all LogEntries in the database.';
     protected $enabled = true;
 
-    public function run($request)
+    #[Override]
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $logentries = LogEntry::get();
         foreach ($logentries as $log) {
@@ -29,5 +32,6 @@ class RewriteLogEntryIDs extends BuildTask
             $log->write();
         }
         exit('Done run!');
+        return Command::SUCCESS;
     }
 }

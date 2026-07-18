@@ -2,12 +2,13 @@
 
 namespace App\ExperienceDatabase;
 
+use Override;
+use SilverStripe\ORM\DataList;
 use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use App\Overview\StatisticsPage;
 use App\User\User;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
@@ -31,10 +32,10 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
  * @property int $TypeID
  * @property int $ImageID
  * @property int $IconID
- * @method \App\ExperienceDatabase\ExperienceLocationType Type()
- * @method \SilverStripe\Assets\Image Image()
- * @method \SilverStripe\Assets\Image Icon()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\Experience[] Experiences()
+ * @method ExperienceLocationType Type()
+ * @method Image Image()
+ * @method Image Icon()
+ * @method DataList|Experience[] Experiences()
  */
 class ExperienceLocation extends DataObject
 {
@@ -116,6 +117,7 @@ class ExperienceLocation extends DataObject
         return $this->Type()->exists() ? $this->Type()->Title : null;
     }
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -157,6 +159,7 @@ class ExperienceLocation extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         if ($this->LinkTitle == "") {
@@ -250,21 +253,25 @@ class ExperienceLocation extends DataObject
 
 
     //PERMISSIONS
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

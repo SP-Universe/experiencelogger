@@ -2,6 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
+use Override;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
@@ -12,7 +13,7 @@ use SilverStripe\Security\Permission;
  * @property string $Title
  * @property string $PluralName
  * @property int $IconID
- * @method \SilverStripe\Assets\Image Icon()
+ * @method Image Icon()
  */
 class ExperienceType extends DataObject
 {
@@ -53,27 +54,32 @@ class ExperienceType extends DataObject
 
     private static $url_segment = "experiencetype";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

@@ -2,6 +2,8 @@
 
 namespace App\Ratings;
 
+use Override;
+use SilverStripe\ORM\ManyManyList;
 use App\User\User;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
@@ -18,10 +20,10 @@ use App\ExperienceDatabase\Experience;
  * @property int $ExperienceID
  * @property int $LegacyUserID
  * @property int $UserID
- * @method \App\ExperienceDatabase\Experience Experience()
- * @method \SilverStripe\Security\Member LegacyUser()
- * @method \App\User\User User()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\LogEntry[] LogEntries()
+ * @method Experience Experience()
+ * @method Member LegacyUser()
+ * @method User User()
+ * @method ManyManyList|LogEntry[] LogEntries()
  */
 class Rating extends DataObject
 {
@@ -63,6 +65,7 @@ class Rating extends DataObject
 
     private static $url_segment = "ratings";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -72,26 +75,31 @@ class Rating extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

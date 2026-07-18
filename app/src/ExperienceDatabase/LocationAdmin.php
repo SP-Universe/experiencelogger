@@ -1,6 +1,7 @@
 <?php
 namespace App\ExperienceDatabase;
 
+use Override;
 use SilverStripe\Admin\ModelAdmin;
 
 /**
@@ -10,9 +11,9 @@ use SilverStripe\Admin\ModelAdmin;
 class LocationAdmin extends ModelAdmin
 {
 
-    private static $managed_models = array (
+    private static $managed_models =  [
         ExperienceLocation::class,
-    );
+    ];
 
     private static $url_segment = "places";
 
@@ -20,6 +21,7 @@ class LocationAdmin extends ModelAdmin
 
     private static $menu_icon = "app/client/icons/admin/PlacesAdmin.svg";
 
+    #[Override]
     public function init()
     {
         parent::init();

@@ -2,32 +2,35 @@
 
 namespace App\News;
 
-use App\Models\School;
+use Override;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\DataObject;
 
 /**
  * Class \SchoolCategory
  *
  * @property string $Title
- * @method \SilverStripe\ORM\ManyManyList|\App\News\News[] News()
+ * @method ManyManyList|News[] News()
  */
-class NewsCategory extends DataObject {
-    private static $db = array(
+class NewsCategory extends DataObject
+{
+    private static $db = [
         "Title" => "Varchar(255)"
-    );
+    ];
 
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         "News" => News::class
-    );
+    ];
 
     private static $singular_name = "News-Kategorie";
     private static $plural_name = "News-Kategorien";
     private static $table_name = "NewsCategory";
 
-    private static $field_labels = array(
+    private static $field_labels = [
         "Title" => "Name"
-    );
+    ];
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

@@ -2,30 +2,30 @@
 
 namespace App\Extensions;
 
+use SilverStripe\Core\Extension;
+use SilverStripe\Model\List\PaginatedList;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Core\Validation\ValidationResult;
+use SilverStripe\ORM\ManyManyList;
 use DateTime;
 use App\User\User;
 use App\Profile\ProfilePage;
 use App\Profile\FriendRequest;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\ArrayList;
 use App\Helper\StatisticsHelper;
 use App\Overview\StatisticsPage;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
-use SilverStripe\ORM\DataExtension;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
-use SilverStripe\ORM\ValidationResult;
 use App\ExperienceDatabase\UserAuthToken;
 use App\ExperienceDatabase\ExperienceLocation;
 
 /**
  * Class \App\Extensions\ExperienceMemberExtension
  *
- * @property \SilverStripe\Security\Member|\App\Extensions\ExperienceMemberExtension $owner
+ * @property Member|ExperienceMemberExtension $owner
  * @property string $DateOfBirth
  * @property string $Nickname
  * @property string $Displayname
@@ -37,13 +37,13 @@ use App\ExperienceDatabase\ExperienceLocation;
  * @property int $UserID
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
- * @method \SilverStripe\Assets\Image Avatar()
- * @method \App\ExperienceDatabase\Experience LastLoggedArea()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\UserAuthToken[] UserAuthTokens()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
- * @method \SilverStripe\ORM\ManyManyList|\App\Profile\FriendRequest[] Friends()
+ * @method Image Avatar()
+ * @method Experience LastLoggedArea()
+ * @method DataList|UserAuthToken[] UserAuthTokens()
+ * @method ManyManyList|ExperienceLocation[] FavouritePlaces()
+ * @method ManyManyList|FriendRequest[] Friends()
  */
-class ExperienceMemberExtension extends DataExtension
+class ExperienceMemberExtension extends Extension
 {
     // define additional properties
     private static $db = [
@@ -154,10 +154,10 @@ class ExperienceMemberExtension extends DataExtension
         $d = 'identicon'; //Default replacement for missing image
         $r = 'g'; //Rating
         $img = false; //Returning full image tag
-        $atts = array(); //Extra attributes to add
+        $atts = []; //Extra attributes to add
 
         $url = 'https://www.gravatar.com/avatar/';
-        $url .= md5(strtolower(trim($this->owner->Email)));
+        $url .= md5(strtolower(trim((string) $this->owner->Email)));
         $url .= "?s=$s&d=$d&r=$r";
         if ($img) {
             $url = '<img src="' . $url . '"';

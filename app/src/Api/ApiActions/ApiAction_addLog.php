@@ -159,12 +159,10 @@ namespace App\Api\ApiActions {
                 $data['Log']['Rating'] = $logEntry->Rating;
                 $data['Log']['Notes'] = $logEntry->Notes;
                 if ($logEntry->Friends()->count() > 0) {
-                    $data['Log']['Friends'] = $logEntry->Friends()->map(function ($friend) {
-                        return [
-                            "ID" => $friend->ID,
-                            "Username" => $friend->Username,
-                        ];
-                    });
+                    $data['Log']['Friends'] = $logEntry->Friends()->map(fn($friend) => [
+                        "ID" => $friend->ID,
+                        "Username" => $friend->Username,
+                    ]);
                 } else {
                     $data['Log']['Friends'] = [];
                 }

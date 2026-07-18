@@ -2,15 +2,13 @@
 
 namespace App\Food;
 
+use Override;
 use App\Food\FoodType;
-use App\Overview\LocationPage;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\Experience;
-use SilverStripe\View\Parsers\URLSegmentFilter;
 
 /**
  * Class \App\Database\Experience
@@ -19,8 +17,8 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
  * @property string $Description
  * @property int $FoodTypeID
  * @property int $ImageID
- * @method \App\Food\FoodType FoodType()
- * @method \SilverStripe\Assets\Image Image()
+ * @method FoodType FoodType()
+ * @method Image Image()
  */
 class Food extends DataObject
 {
@@ -64,6 +62,7 @@ class Food extends DataObject
 
     private static $url_segment = "food";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -73,26 +72,31 @@ class Food extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

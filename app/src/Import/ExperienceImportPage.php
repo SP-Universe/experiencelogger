@@ -2,6 +2,7 @@
 
 namespace App\Import;
 
+use Override;
 use Page;
 use SilverStripe\Security\Permission;
 
@@ -17,14 +18,16 @@ class ExperienceImportPage extends Page
 
     private static $db = [];
 
-    private static $icon = "app/client/icons/admin/PlacesAdmin.svg";
+    private static $cms_icon = "app/client/icons/admin/PlacesAdmin.svg";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

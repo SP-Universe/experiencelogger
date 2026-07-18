@@ -3,7 +3,6 @@
 namespace App\Api\ApiActions {
 
     use App\ExperienceDatabase\Experience;
-    use App\ExperienceDatabase\ExperienceTrain;
     use SilverStripe\Control\HTTPRequest;
 
     class ApiAction_allexperiences

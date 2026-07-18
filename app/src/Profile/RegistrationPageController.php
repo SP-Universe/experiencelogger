@@ -2,7 +2,8 @@
 
 namespace App\Profile;
 
-use SilverStripe\Forms\FieldsValidator;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\Form;
 use App\Form\ValidatedAliasField;
 use App\Form\ValidatedEmailField;
@@ -12,17 +13,15 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Security\Security;
 use App\Form\ValidatedPasswordField;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\ORM\ValidationResult;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Security\Member; // Will be used later when we do register a new member.
 
 /**
  * Class \App\Profile\RegistrationController
  *
- * @property \App\Profile\RegistrationPage $dataRecord
- * @method \App\Profile\RegistrationPage data()
- * @mixin \App\Profile\RegistrationPage
+ * @property RegistrationPage $dataRecord
+ * @method RegistrationPage data()
+ * @mixin RegistrationPage
  */
 class RegistrationPageController extends ContentController
 {
@@ -56,7 +55,7 @@ class RegistrationPageController extends ContentController
             )
         );
 
-        $required = new RequiredFields('alias', 'email', 'password', 'firstname', 'lastname', 'birthday');
+        $required = new RequiredFieldsValidator('alias', 'email', 'password', 'firstname', 'lastname', 'birthday');
 
         $form = new Form($this, 'RegisterForm', $fields, $actions, $required);
 
@@ -70,7 +69,7 @@ class RegistrationPageController extends ContentController
          * If there are errors, then the form will be updated with the errors
          * so the user may correct them.
          */
-        $validationResults = $form->validationResult();
+        $validationResults = $form->validate();
 
         if ($validationResults->isValid()) {
             $member = Member::create();

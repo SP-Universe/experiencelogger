@@ -2,6 +2,10 @@
 
 namespace App\Helper\Tasks;
 
+use Override;
+use Symfony\Component\Console\Input\InputInterface;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
 use App\User\User;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Security\Member;
@@ -9,13 +13,14 @@ use App\ExperienceDatabase\LogEntry;
 
 class TransformMembersToUsers extends BuildTask
 {
-    private static $segment = 'TransformMembersToUsers';
+    protected static string $commandName = 'TransformMembersToUsers';
 
-    protected $title = 'Transform all Members into Users';
-    protected $description = 'A task that will rewrite all LogEntries in the database.';
+    protected string $title = 'Transform all Members into Users';
+    protected static string $description = 'A task that will rewrite all LogEntries in the database.';
     protected $enabled = true;
 
-    public function run($request)
+    #[Override]
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $logentries = LogEntry::get();
         foreach ($logentries as $log) {
@@ -48,5 +53,6 @@ class TransformMembersToUsers extends BuildTask
             $log->write();
         }
         exit('Done run!');
+        return Command::SUCCESS;
     }
 }

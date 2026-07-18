@@ -2,6 +2,8 @@
 
 namespace App\ExperienceDatabase;
 
+use Override;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use Colymba\BulkManager\BulkManager;
 use SilverStripe\Security\Permission;
@@ -18,8 +20,8 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property int $SortOrder
  * @property string $Color
  * @property int $ParentID
- * @method \App\ExperienceDatabase\Experience Parent()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceWagon[] Wagons()
+ * @method Experience Parent()
+ * @method DataList|ExperienceWagon[] Wagons()
  */
 class ExperienceTrain extends DataObject
 {
@@ -68,6 +70,7 @@ class ExperienceTrain extends DataObject
 
     private static $url_segment = "train";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -84,21 +87,25 @@ class ExperienceTrain extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

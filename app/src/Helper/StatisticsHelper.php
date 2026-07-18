@@ -2,9 +2,9 @@
 
 namespace App\Helper;
 
+use SilverStripe\Model\List\ArrayList;
 use Exception;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\ArrayList;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceType;
@@ -65,10 +65,10 @@ class StatisticsHelper
         }
 
         foreach ($yearCounts as $year => $count) {
-            $yearCounts[$year] = array(
+            $yearCounts[$year] = [
                 "year" => $year,
                 "logs" => $count,
-            );
+            ];
         }
 
         return ArrayList::create($yearCounts);
@@ -103,13 +103,13 @@ class StatisticsHelper
             }
         }
 
-        $years = array();
+        $years = [];
         foreach ($uniqueDates as $log) {
             $year = date("Y", strtotime($log));
-            $construction = array(
+            $construction = [
                 "year" => $year,
                 "logs" => $yearCounts[$year],
-            );
+            ];
             if (!in_array($construction, $years)) {
                 array_push($years, $construction);
             }
@@ -152,13 +152,13 @@ class StatisticsHelper
             }
         }
 
-        $years = array();
+        $years = [];
         foreach ($uniqueDates as $log) {
             $year = date("Y", strtotime($log));
-            $construction = array(
+            $construction = [
                 "year" => $year,
                 "logs" => $yearCounts[$year],
-            );
+            ];
             if (!in_array($construction, $years)) {
                 array_push($years, $construction);
             }
@@ -255,7 +255,7 @@ class StatisticsHelper
 
     public static function compareTime($a, $b)
     {
-        return strtotime($a) - strtotime($b);
+        return strtotime((string) $a) - strtotime((string) $b);
     }
 
     /**
@@ -281,7 +281,7 @@ class StatisticsHelper
         }
 
         if ($logsInExperience->Count() <= 0) {
-            return array("score" => 0, "trainname" => null);
+            return ["score" => 0, "trainname" => null];
         }
         $maxScore = "";
         $scoreArray = $logsInExperience->column("Score");
@@ -296,11 +296,11 @@ class StatisticsHelper
                 $maxScore = min($scoreArray);
                 break;
             case "timeHighest":
-                usort($scoreArray, [StatisticsHelper::class, "compareTime"]);
+                usort($scoreArray, StatisticsHelper::compareTime(...));
                 $maxScore = $scoreArray[count($scoreArray) - 1];
                 break;
             case "timeLowest":
-                usort($scoreArray, [StatisticsHelper::class, "compareTime"]);
+                usort($scoreArray, StatisticsHelper::compareTime(...));
                 $maxScore = $scoreArray[0];
                 break;
         }
@@ -308,28 +308,18 @@ class StatisticsHelper
         $log = $logsInExperience->filter(["Score" => $maxScore])->first();
         $trainname = "";
 
-        switch ($experience->ScoreVehicleTitle) {
-            default:
-                $trainname = "";
-                break;
-            case "train":
-                $trainname = "on " . $experience->getTrainName($log->Train);
-                break;
-            case "wagon":
-                $trainname = "on " . $experience->getWagonName($log->Train, $log->Wagon);
-                break;
-            case "row":
-                $trainname = "on " . $experience->getRowName($log->Train, $log->Wagon, $log->Row);
-                break;
-            case "seat":
-                $trainname = "on " . $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat);
-                break;
-        }
+        $trainname = match ($experience->ScoreVehicleTitle) {
+            "train" => "on " . $experience->getTrainName($log->Train),
+            "wagon" => "on " . $experience->getWagonName($log->Train, $log->Wagon),
+            "row" => "on " . $experience->getRowName($log->Train, $log->Wagon, $log->Row),
+            "seat" => "on " . $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat),
+            default => "",
+        };
 
-        $construction = array(
-            "score" => ltrim($maxScore, '0\:'),
+        $construction = [
+            "score" => ltrim((string) $maxScore, '0\:'),
             "trainname" => $trainname,
-        );
+        ];
 
         return $construction;
     }
@@ -359,16 +349,16 @@ class StatisticsHelper
         $sortedLogs = []; // year, all scores
 
         foreach ($logsInExperience as $item) {
-            $year = date('Y', strtotime($item->VisitTime));
+            $year = date('Y', strtotime((string) $item->VisitTime));
 
             if (!isset($sortedLogs[$year])) {
-                $sortedLogs[$year] = array();
+                $sortedLogs[$year] = [];
             }
 
             array_push($sortedLogs[$year], $item->Score);
         }
 
-        $result = array();
+        $result = [];
         foreach ($sortedLogs as $year => $scores) {
             $maxScore = "";
             switch ($experience->HasScore) {
@@ -382,40 +372,30 @@ class StatisticsHelper
                     $maxScore = min($scores);
                     break;
                 case "timeHighest":
-                    usort($scores, [StatisticsHelper::class, "compareTime"]);
+                    usort($scores, StatisticsHelper::compareTime(...));
                     $maxScore = $scores[count($scores) - 1];
                     break;
                 case "timeLowest":
-                    usort($scores, [StatisticsHelper::class, "compareTime"]);
+                    usort($scores, StatisticsHelper::compareTime(...));
                     $maxScore = $scores[0];
                     break;
             }
             $log = $logsInExperience->filter(["Score" => $maxScore])->first();
             $trainname = "";
 
-            switch ($experience->ScoreVehicleTitle) {
-                default:
-                    $trainname = "";
-                    break;
-                case "train":
-                    $trainname = "on " . $experience->getTrainName($log->Train);
-                    break;
-                case "wagon":
-                    $trainname = "on " . $experience->getWagonName($log->Train, $log->Wagon);
-                    break;
-                case "row":
-                    $trainname = "on " . $experience->getRowName($log->Train, $log->Wagon, $log->Row);
-                    break;
-                case "seat":
-                    $trainname = "on " . $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat);
-                    break;
-            }
+            $trainname = match ($experience->ScoreVehicleTitle) {
+                "train" => "on " . $experience->getTrainName($log->Train),
+                "wagon" => "on " . $experience->getWagonName($log->Train, $log->Wagon),
+                "row" => "on " . $experience->getRowName($log->Train, $log->Wagon, $log->Row),
+                "seat" => "on " . $experience->getSeatName($log->Train, $log->Wagon, $log->Row, $log->Seat),
+                default => "",
+            };
 
-            $construction = array(
+            $construction = [
                 "year" => $year,
-                "score" => ltrim($maxScore, '0\:'),
+                "score" => ltrim((string) $maxScore, '0\:'),
                 "trainname" => $trainname,
-            );
+            ];
             if (!in_array($construction, $result)) {
                 array_push($result, $construction);
             }
@@ -572,7 +552,7 @@ class StatisticsHelper
             $year = date('Y', strtotime($item->VisitTime));
 
             if (!isset($sortedLogs[$year])) {
-                $sortedLogs[$year] = array();
+                $sortedLogs[$year] = [];
             }
             $experienceID = $item->ExperienceID;
             if (!isset($sortedLogs[$year][$experienceID])) {
@@ -581,7 +561,7 @@ class StatisticsHelper
             $sortedLogs[$year][$experienceID] += 1;
         }
 
-        $result = array();
+        $result = [];
         foreach ($sortedLogs as $year => $experienceCounts) {
             $maxCount = 0;
             $maxExperienceID = null;
@@ -591,11 +571,11 @@ class StatisticsHelper
                     $maxExperienceID = $experienceID;
                 }
             }
-            $result[$year] = array(
+            $result[$year] = [
                 "year" => $year,
                 "experience" => Experience::get()->byID($maxExperienceID),
                 "count" => $maxCount,
-            );
+            ];
         }
 
         return ArrayList::create($result);
@@ -647,7 +627,7 @@ class StatisticsHelper
             $year = date('Y', strtotime($item->VisitTime));
 
             if (!isset($sortedLogs[$year])) {
-                $sortedLogs[$year] = array();
+                $sortedLogs[$year] = [];
             }
             $experienceID = $item->ExperienceID;
             if (!isset($sortedLogs[$year][$experienceID])) {
@@ -656,7 +636,7 @@ class StatisticsHelper
             $sortedLogs[$year][$experienceID] += 1;
         }
 
-        $result = array();
+        $result = [];
         foreach ($sortedLogs as $year => $experienceCounts) {
             $maxCount = 0;
             $maxExperienceID = null;
@@ -667,11 +647,11 @@ class StatisticsHelper
                 }
             }
 
-            $result[$year] = array(
+            $result[$year] = [
                 "year" => $year,
                 "experience" => Experience::get()->byID($maxExperienceID),
                 "count" => $maxCount
-            );
+            ];
         }
 
         return ArrayList::create($result);
@@ -706,9 +686,7 @@ class StatisticsHelper
         }
 
         // Die Ergebnisse nach Besuchszeit sortieren
-        uasort($result, function ($a, $b) {
-            return $b['VisitTime'] <=> $a['VisitTime'];
-        });
+        uasort($result, fn($a, $b) => $b['VisitTime'] <=> $a['VisitTime']);
 
         return ArrayList::create($result);
     }

@@ -2,24 +2,27 @@
 
 namespace App\Form;
 
+use Override;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Security\Member;
 
 class ValidatedAliasField extends TextField
 {
-    public function validate($validator)
+    #[Override]
+    public function validate(): ValidationResult
     {
-        $alias = $this->Value();
+        $result = ValidationResult::create();
+        $alias = $this->getFormattedValue();
         $member = Member::get()->filter(['Nickname' => $alias])->first();
 
         if ($member) {
-            $validator->validationError(
+            $result->addFieldError(
                 $this->name,
                 'Nickname is already in use',
                 'validation'
             );
-            return false;
         }
-        return true;
+        return $result;
     }
 }

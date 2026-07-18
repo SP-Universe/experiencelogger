@@ -2,6 +2,7 @@
 
 namespace App\Import;
 
+use Override;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
@@ -16,8 +17,8 @@ use SilverStripe\Security\Permission;
  * @property string $Status
  * @property int $LocationID
  * @property int $SubmittedByID
- * @method \App\ExperienceDatabase\ExperienceLocation Location()
- * @method \SilverStripe\Security\Member SubmittedBy()
+ * @method ExperienceLocation Location()
+ * @method Member SubmittedBy()
  */
 class ExperienceCsvImport extends DataObject
 {
@@ -47,21 +48,25 @@ class ExperienceCsvImport extends DataObject
         'Created' => 'Uploaded',
     ];
 
+    #[Override]
     public function canView($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

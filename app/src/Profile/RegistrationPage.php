@@ -2,6 +2,7 @@
 
 namespace App\Profile;
 
+use Override;
 use App\Profile\RegistrationPageController;
 use Page;
 
@@ -13,10 +14,11 @@ class RegistrationPage extends Page
 {
     private static $table_name = 'RegistrationPage';
 
-    private static $db = array();
+    private static $db = [];
 
-    private static $icon = "app/client/icons/profile.svg";
+    private static $cms_icon = "app/client/icons/profile.svg";
 
+    #[Override]
     public function getControllerName()
     {
         return RegistrationPageController::class;

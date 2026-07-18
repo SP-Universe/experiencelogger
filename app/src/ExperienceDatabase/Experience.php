@@ -2,6 +2,10 @@
 
 namespace App\ExperienceDatabase;
 
+use SilverStripe\Model\List\GroupedList;
+use Override;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\ManyManyList;
 use App\Food\Food;
 use App\Overview\LocationPage;
 use App\Helper\ExperienceHelper;
@@ -9,7 +13,6 @@ use App\Overview\StatisticsPage;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Control\Director;
 use SilverStripe\Security\Security;
 use Colymba\BulkManager\BulkManager;
@@ -65,17 +68,17 @@ use StevenPaw\DuplicateDataObject\Forms\GridField\GridFieldDuplicateAction;
  * @property int $TypeID
  * @property int $AreaID
  * @property int $StageID
- * @method \App\ExperienceDatabase\ExperienceLocation Parent()
- * @method \App\ExperienceDatabase\ExperienceType Type()
- * @method \App\ExperienceDatabase\Experience Area()
- * @method \App\ExperienceDatabase\Experience Stage()
- * @method \SilverStripe\ORM\DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceData[] ExperienceData()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceTrain[] ExperienceTrains()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVariant[] Variants()
- * @method \SilverStripe\ORM\DataList|\App\ExperienceDatabase\ExperienceVersion[] Versions()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\Experience[] Characters()
- * @method \SilverStripe\ORM\ManyManyList|\App\Food\Food[] Food()
+ * @method ExperienceLocation Parent()
+ * @method ExperienceType Type()
+ * @method Experience Area()
+ * @method Experience Stage()
+ * @method DataList|\PurpleSpider\BasicGalleryExtension\PhotoGalleryImage[] PhotoGalleryImages()
+ * @method DataList|ExperienceData[] ExperienceData()
+ * @method DataList|ExperienceTrain[] ExperienceTrains()
+ * @method DataList|ExperienceVariant[] Variants()
+ * @method DataList|ExperienceVersion[] Versions()
+ * @method ManyManyList|Experience[] Characters()
+ * @method ManyManyList|Food[] Food()
  * @mixin \PurpleSpider\BasicGalleryExtension\PhotoGalleryExtension
  */
 class Experience extends DataObject
@@ -250,6 +253,7 @@ class Experience extends DataObject
         return GroupedList::create($this->Food())->GroupedBy("FoodTypeID");
     }
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -309,7 +313,7 @@ class Experience extends DataObject
             "HasScore",
             "Entrance",
         ]);
-        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Traintype', 'Train Type', array(
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Traintype', 'Train Type', [
             "None" => "None",
             "Train" => "Train",
             "Boat" => "Boat",
@@ -319,43 +323,43 @@ class Experience extends DataObject
             "Pony" => "Pony",
             "Gondola" => "Gondola",
             "Slide" => "Slide"
-        )));
+        ]));
         $fields->addFieldToTab('Root.Trains & Seats', new TextField('CustomTrainType', 'Custom Train Type Title'));
         $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasWagons', 'Has Wagons'));
         $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasRows', 'Has Rows'));
         $fields->addFieldToTab('Root.Trains & Seats', new CheckboxField('HasSeats', 'Has Seats'));
-        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('SeatOrientation', 'Seat Orientation', array(
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('SeatOrientation', 'Seat Orientation', [
             "Standard",
             "Circular",
             "Wings"
-        )));
-        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Entrance', 'Entrance', array(
+        ]));
+        $fields->addFieldToTab('Root.Trains & Seats', new DropdownField('Entrance', 'Entrance', [
             "None" => "None",
             "Front" => "Front",
             "Back" => "Back",
             "Left" => "Left",
             "Right" => "Right",
-        )));
+        ]));
         $fields->addFieldToTab('Root.Trains & Seats', new TextField('TrainNumberPosition', 'Position of Train Number'));
 
-        $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', array(
+        $fields->addFieldToTab('Root.Other', new DropdownField('HasScore', 'Has Score', [
             "0" => "No Score",
             "numericHighest" => "Numeric Score - Highest",
             "numericLowest" => "Numeric Score - Lowest",
             "text" => "Text Score",
             "timeHighest" => "Time Score - Highest",
             "timeLowest" => "Time Score - Lowest"
-        )));
+        ]));
 
-        $fields->addFieldToTab('Root.Other', new DropdownField('ScoreVehicleTitle', 'Score per', array(
+        $fields->addFieldToTab('Root.Other', new DropdownField('ScoreVehicleTitle', 'Score per', [
             "0" => "None",
             "train" => "Train",
             "wagon" => "Wagon",
             "row" => "Row",
             "seat" => "Seat"
-        )));
+        ]));
 
-        $fields->addFieldToTab('Root.Other', new DropdownField('HasPodest', 'Number of Podest places', array(
+        $fields->addFieldToTab('Root.Other', new DropdownField('HasPodest', 'Number of Podest places', [
             "0" => "No Podest",
             "1" => "1 Position",
             "2" => "2 Positions",
@@ -387,7 +391,7 @@ class Experience extends DataObject
             "28" => "28 Positions",
             "29" => "29 Positions",
             "30" => "30 Positions",
-        )));
+        ]));
 
         $fields->removeByName("ExperienceTrains");
         $gridFieldConfig = GridFieldConfig_RecordEditor::create(200);
@@ -417,6 +421,7 @@ class Experience extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         //Generate Link
@@ -467,21 +472,25 @@ class Experience extends DataObject
         }
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

@@ -2,7 +2,6 @@
 
 namespace App\Profile;
 
-use App\Profile\RegistrationPageController;
 use Page;
 
 /**
@@ -13,7 +12,7 @@ class DashboardPage extends Page
 {
     private static $table_name = 'DashboardPage';
 
-    private static $db = array();
+    private static $db = [];
 
-    private static $icon = "app/client/icons/profile.svg";
+    private static $cms_icon = "app/client/icons/profile.svg";
 }

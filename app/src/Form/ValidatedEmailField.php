@@ -2,24 +2,27 @@
 
 namespace App\Form;
 
+use Override;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Security\Member;
 
 class ValidatedEmailField extends EmailField
 {
-    public function validate($validator)
+    #[Override]
+    public function validate(): ValidationResult
     {
-        $email = $this->Value();
+        $result = ValidationResult::create();
+        $email = $this->getFormattedValue();
         $member = Member::get()->filter(['Email' => $email])->first();
 
         if ($member) {
-            $validator->validationError(
+            $result->addFieldError(
                 $this->name,
                 'Email is already in use',
                 'validation'
             );
-            return false;
         }
-        return true;
+        return $result;
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\ExperienceDatabase;
 
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
+use Override;
+use SilverStripe\ORM\ManyManyList;
 use App\Food\Food;
 use App\Ratings\Rating;
 use App\User\User;
-use SilverStripe\Forms\DatetimeField;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\View\ArrayData;
 use SilverStripe\Security\Member;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\NumericField;
 use SilverStripe\Security\Permission;
 
 /**
@@ -33,13 +35,13 @@ use SilverStripe\Security\Permission;
  * @property int $NewUserID
  * @property int $FoodID
  * @property int $ExperienceID
- * @method \App\User\User User()
- * @method \SilverStripe\Security\Member OldUser()
- * @method \App\User\User NewUser()
- * @method \App\Food\Food Food()
- * @method \App\ExperienceDatabase\Experience Experience()
- * @method \SilverStripe\ORM\ManyManyList|\SilverStripe\Security\Member[] Friends()
- * @method \SilverStripe\ORM\ManyManyList|\App\Ratings\Rating[] Votings()
+ * @method User User()
+ * @method Member OldUser()
+ * @method User NewUser()
+ * @method Food Food()
+ * @method Experience Experience()
+ * @method ManyManyList|Member[] Friends()
+ * @method ManyManyList|Rating[] Votings()
  */
 class LogEntry extends DataObject
 {
@@ -92,8 +94,14 @@ class LogEntry extends DataObject
     ];
 
     private static $searchable_fields = [
-        "ExperienceID" => "ExactMatchFilter",
-        "UserID" => "ExactMatchFilter",
+        "ExperienceID" => [
+            "filter" => "ExactMatchFilter",
+            "field" => NumericField::class,
+        ],
+        "UserID" => [
+            "filter" => "ExactMatchFilter",
+            "field" => NumericField::class,
+        ],
         "VisitTime" => "PartialMatchFilter",
     ];
 
@@ -139,9 +147,9 @@ class LogEntry extends DataObject
             $weathers = new ArrayList();
             foreach ($cutted as $weather) {
                 $weathers->push(new ArrayData(
-                    array(
+                    [
                         "Weather" => $weather,
-                    )
+                    ]
                 ));
             }
             return $weathers;
@@ -150,6 +158,7 @@ class LogEntry extends DataObject
         }
     }
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -189,21 +198,25 @@ class LogEntry extends DataObject
         return $this->Experience()->ExperienceType;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

@@ -17,21 +17,21 @@ use League\Csv\Reader;
  */
 class ExperienceCsvImporter
 {
-    private const DIRECT_TEXT_FIELDS = [
+    private const array DIRECT_TEXT_FIELDS = [
         'Coordinates' => 'Coordinates',
         'Beschreibung' => 'Description',
         'Experience-Link' => 'ExperienceLink',
         'Fastpass-Link' => 'FastpassLink',
     ];
 
-    private const DIRECT_BOOL_FIELDS = [
+    private const array DIRECT_BOOL_FIELDS = [
         'Single-Rider' => 'HasSingleRider',
         'Fastpass' => 'HasFastpass',
         'Onridephoto' => 'HasOnridePhoto',
         'Handicapped' => 'AccessibleToHandicapped',
     ];
 
-    private const DIRECT_DATE_FIELDS = [
+    private const array DIRECT_DATE_FIELDS = [
         'Opening-Date' => 'OpeningDate',
         'Closing-Date' => 'ClosingDate',
     ];
@@ -45,7 +45,7 @@ class ExperienceCsvImporter
     public const INTERNAL_NOTES_TYPE_TITLE = 'Internal Notes';
 
     // CSV column => [ExperienceDataType title, unit suffix or null], value used as-is
-    private const SIMPLE_DATA_FIELDS = [
+    private const array SIMPLE_DATA_FIELDS = [
         'Height' => ['Height', 'm'],
         'Speed' => ['Speed', 'km/h'],
         'Capacity-Ride' => ['Capacity per ride', 'people'],
@@ -69,7 +69,7 @@ class ExperienceCsvImporter
     ];
 
     // CSV column => [ExperienceDataType title, unit suffix], value formatted with a thousands separator
-    private const THOUSANDS_DATA_FIELDS = [
+    private const array THOUSANDS_DATA_FIELDS = [
         'Length' => ['Track length', 'm'],
         'Capacity-Hour' => ['Capacity per hour', 'pph'],
     ];
@@ -78,7 +78,7 @@ class ExperienceCsvImporter
     // matching entry in DIRECT_DATE_FIELDS, using the CSV's own value as-is
     // (already human-readable, e.g. "13.04.2001"), so the date ends up both
     // on the Experience's date field and as a "More Data" entry.
-    private const DATE_DATA_FIELDS = [
+    private const array DATE_DATA_FIELDS = [
         'Opening-Date' => 'Opening',
         'Closing-Date' => 'Closing',
     ];
@@ -274,9 +274,7 @@ class ExperienceCsvImporter
         // diffExisting()). Only matches if exactly one candidate shares the
         // fuzzy key - an ambiguous match is treated as not found.
         $fuzzyNeedle = $this->fuzzyTitleKey($title);
-        $candidates = array_filter($experiences, function ($experience) use ($fuzzyNeedle) {
-            return $this->fuzzyTitleKey($experience->Title) === $fuzzyNeedle;
-        });
+        $candidates = array_filter($experiences, fn($experience) => $this->fuzzyTitleKey($experience->Title) === $fuzzyNeedle);
 
         return count($candidates) === 1 ? reset($candidates) : null;
     }
@@ -285,7 +283,7 @@ class ExperienceCsvImporter
     {
         $title = str_replace(["\xe2\x80\x93", "\xe2\x80\x94"], '-', $title); // en dash / em dash -> hyphen
         $title = preg_replace('/\s+/', ' ', $title);
-        return strtolower(trim($title));
+        return strtolower(trim((string) $title));
     }
 
     private function fuzzyTitleKey(string $title): string
@@ -723,8 +721,7 @@ class ExperienceCsvImporter
             // always submits something and can't represent "left untouched"
             // the way a blank text input can - skip the write if the
             // submitted value still matches what was there before.
-            if (
-                in_array($key, self::DIRECT_BOOL_FIELDS, true)
+            if (in_array($key, self::DIRECT_BOOL_FIELDS, true)
                 && array_key_exists('oldValue', $change)
                 && (string) $change['newValue'] === (string) $change['oldValue']
             ) {
@@ -818,7 +815,7 @@ class ExperienceCsvImporter
         $value = strip_tags($value);
         $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
         $value = preg_replace('/\s+/', ' ', $value);
-        return strtolower(trim($value));
+        return strtolower(trim((string) $value));
     }
 
     private function formatThousands(string $value): string

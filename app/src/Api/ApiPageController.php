@@ -2,6 +2,7 @@
 
 namespace App\Api {
 
+    use Override;
     use App\Api\ApiActions\ApiAction_authenticateUser;
     use App\Api\ApiActions\ApiAction_loginUser;
     use App\Api\ApiActions\ApiAction_logoutUser;
@@ -28,12 +29,12 @@ namespace App\Api {
     use SilverStripe\ORM\Queries\SQLSelect;
 
     /**
- * Class \PageController
- *
- * @property \App\Api\ApiPage $dataRecord
- * @method \App\Api\ApiPage data()
- * @mixin \App\Api\ApiPage
- */
+     * Class \PageController
+     *
+     * @property ApiPage $dataRecord
+     * @method ApiPage data()
+     * @mixin ApiPage
+     */
     class ApiPageController extends ContentController
     {
         private static $allowed_actions = [
@@ -523,6 +524,7 @@ namespace App\Api {
             }
         }
 
+        #[Override]
         protected function init()
         {
             parent::init();
@@ -570,9 +572,9 @@ namespace App\Api {
 
                     if (isset($location)) {
                         //Calculate Defuncts
-                        $defunctExperiences = $location->Experiences()->filter(array(
+                        $defunctExperiences = $location->Experiences()->filter([
                             "State:not" => "Active",
-                        ));
+                        ]);
 
                         $defunctExperienceCount = 0;
                         foreach ($defunctExperiences as $defunctExperience) {

@@ -1,17 +1,17 @@
 <?php
 namespace App\News;
 
+use SilverStripe\Model\List\PaginatedList;
 use App\News\News;
 use PageController;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Control\HTTPRequest;
 
 /**
  * Class \App\Pages\DataPageController
  *
- * @property \App\News\NewsPage $dataRecord
- * @method \App\News\NewsPage data()
- * @mixin \App\News\NewsPage
+ * @property NewsPage $dataRecord
+ * @method NewsPage data()
+ * @mixin NewsPage
  */
 class NewsPageController extends PageController
 {

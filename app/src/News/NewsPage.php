@@ -1,6 +1,7 @@
 <?php
 namespace App\News;
 
+use Override;
 use Page;
 
 /**
@@ -14,6 +15,7 @@ class NewsPage extends Page
 
     private static $table_name = 'NewsPage';
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

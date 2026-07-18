@@ -2,6 +2,7 @@
 
 namespace App\Import;
 
+use Override;
 use SilverStripe\Admin\ModelAdmin;
 
 /**
@@ -23,6 +24,7 @@ class ExperienceCsvImportAdmin extends ModelAdmin
 
     private static $menu_icon_class = "font-icon-upload";
 
+    #[Override]
     public function init()
     {
         parent::init();

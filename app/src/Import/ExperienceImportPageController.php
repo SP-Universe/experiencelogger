@@ -2,6 +2,9 @@
 
 namespace App\Import;
 
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
 use PageController;
 use App\ExperienceDatabase\ExperienceLocation;
 use SilverStripe\Forms\Form;
@@ -11,10 +14,7 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\Security\Security;
-use SilverStripe\View\ArrayData;
 
 /**
  * Frontend controller for ExperienceImportPage. Access is gated entirely via
@@ -22,9 +22,9 @@ use SilverStripe\View\ArrayData;
  * for every action on this controller, so no additional permission checks
  * are needed here.
  *
- * @property \App\Import\ExperienceImportPage $dataRecord
- * @method \App\Import\ExperienceImportPage data()
- * @mixin \App\Import\ExperienceImportPage
+ * @property ExperienceImportPage $dataRecord
+ * @method ExperienceImportPage data()
+ * @mixin ExperienceImportPage
  */
 class ExperienceImportPageController extends PageController
 {
@@ -37,14 +37,14 @@ class ExperienceImportPageController extends PageController
         'done',
     ];
 
-    private const BOOLEAN_FIELDS = [
+    private const array BOOLEAN_FIELDS = [
         'direct:HasSingleRider',
         'direct:HasFastpass',
         'direct:HasOnridePhoto',
         'direct:AccessibleToHandicapped',
     ];
 
-    private const DATE_FIELDS = [
+    private const array DATE_FIELDS = [
         'direct:OpeningDate',
         'direct:ClosingDate',
     ];
@@ -64,7 +64,7 @@ class ExperienceImportPageController extends PageController
             new FormAction('processUpload', 'Start import')
         );
 
-        $validator = new RequiredFields(['LocationID', 'CsvFile']);
+        $validator = new RequiredFieldsValidator(['LocationID', 'CsvFile']);
 
         return new Form($this, 'UploadForm', $fields, $actions, $validator);
     }
@@ -130,9 +130,7 @@ class ExperienceImportPageController extends PageController
         $createsTable = $this->customise(['Creates' => $createsList])
             ->renderWith(['type' => 'Includes', 'CreatesTable']);
 
-        $visibleAutoFillCount = count(array_filter($plan['autoFills'] ?? [], static function ($autoFill) {
-            return empty($autoFill['isExtra']);
-        }));
+        $visibleAutoFillCount = count(array_filter($plan['autoFills'] ?? [], static fn($autoFill) => empty($autoFill['isExtra'])));
 
         $autoFillsTable = $this->customise([
             'AutoFillGroups' => $autoFillGroups,
@@ -434,7 +432,7 @@ class ExperienceImportPageController extends PageController
             return 'Area';
         }
 
-        return trim(preg_replace('/(?<!^)[A-Z]/', ' $0', $key));
+        return trim((string) preg_replace('/(?<!^)[A-Z]/', ' $0', (string) $key));
     }
 
     /**
@@ -477,9 +475,7 @@ class ExperienceImportPageController extends PageController
     private function plainTextToHtmlValue(string $text): string
     {
         $lines = preg_split('/\r\n|\r|\n/', $text);
-        $lines = array_filter(array_map('trim', $lines), static function ($line) {
-            return $line !== '';
-        });
+        $lines = array_filter(array_map(trim(...), $lines), static fn($line) => $line !== '');
         return '<p>' . implode('<br>', $lines) . '</p>';
     }
 

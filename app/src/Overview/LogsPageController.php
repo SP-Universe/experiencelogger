@@ -2,18 +2,18 @@
 
 namespace App\Overview;
 
+use SilverStripe\Model\List\GroupedList;
 use App\User\User;
 use PageController;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\LogsPage $dataRecord
- * @method \App\Overview\LogsPage data()
- * @mixin \App\Overview\LogsPage
+ * @property LogsPage $dataRecord
+ * @method LogsPage data()
+ * @mixin LogsPage
  */
 class LogsPageController extends PageController
 {
@@ -76,11 +76,11 @@ class LogsPageController extends PageController
             $date = $this->getRequest()->param("ID");
             $month = explode("-", $date)[0];
             $year = explode("-", $date)[1];
-            return array(
+            return [
                 "MonthText" => date("F", mktime(0, 0, 0, $month, 10)),
                 "Month" => $month,
                 "Year" => $year,
-            );
+            ];
         }
     }
 
@@ -94,11 +94,11 @@ class LogsPageController extends PageController
             $day = explode("-", $date)[0];
             $month = explode("-", $date)[1];
             $year = explode("-", $date)[2];
-            return array(
+            return [
                 "Day" => $day,
                 "Month" => $month,
                 "Year" => $year,
-            );
+            ];
         }
     }
 
@@ -108,9 +108,9 @@ class LogsPageController extends PageController
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
 
         if ($currentUser) {
-            return array(
+            return [
                 "Logs" => $this->getLogs(),
-            );
+            ];
         }
     }
 }

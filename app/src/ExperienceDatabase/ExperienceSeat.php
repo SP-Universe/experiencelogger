@@ -2,6 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use App\ExperienceDatabase\ExperienceRow;
@@ -14,7 +15,7 @@ use App\ExperienceDatabase\ExperienceRow;
  * @property string $Type
  * @property string $Rotation
  * @property int $ParentID
- * @method \App\ExperienceDatabase\ExperienceRow Parent()
+ * @method ExperienceRow Parent()
  */
 class ExperienceSeat extends DataObject
 {
@@ -56,6 +57,7 @@ class ExperienceSeat extends DataObject
 
     private static $url_segment = "seat";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -63,21 +65,25 @@ class ExperienceSeat extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

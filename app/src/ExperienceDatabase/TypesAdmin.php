@@ -1,6 +1,7 @@
 <?php
 namespace App\ExperienceDatabase;
 
+use Override;
 use SilverStripe\Admin\ModelAdmin;
 use App\Food\FoodType;
 
@@ -11,12 +12,12 @@ use App\Food\FoodType;
 class TypesAdmin extends ModelAdmin
 {
 
-    private static $managed_models = array (
+    private static $managed_models =  [
         ExperienceType::class,
         ExperienceDataType::class,
         ExperienceLocationType::class,
         FoodType::class,
-    );
+    ];
 
     private static $url_segment = "types";
 
@@ -24,6 +25,7 @@ class TypesAdmin extends ModelAdmin
 
     private static $menu_icon = "app/client/icons/admin/TypesAdmin.svg";
 
+    #[Override]
     public function init()
     {
         parent::init();

@@ -2,28 +2,25 @@
 
 namespace {
 
-use SilverStripe\Control\Cookie;
-
-    use SilverStripe\Assets\Image;
+    use SilverStripe\Control\Cookie;
     use SilverStripe\AssetAdmin\Forms\UploadField;
 
     use SilverStripe\Assets\File;
-    use SilverStripe\Forms\CheckboxField;
 
     use SilverStripe\Forms\DropdownField;
     use SilverStripe\CMS\Model\SiteTree;
-    use SilverStripe\Security\Security;
-    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
     /**
- * Class \Page
- *
- * @property string $MenuPosition
- * @property int $MenuIconID
- * @method \SilverStripe\Assets\File MenuIcon()
- */
+     * Class \Page
+     *
+     * @property string $MenuPosition
+     * @property int $MenuIconID
+     * @method File MenuIcon()
+     */
     class Page extends SiteTree
     {
+        private static $table_name = 'Page';
+
         private static $db = [
             "MenuPosition" => "Enum('main, footer, more', 'main')",
         ];
@@ -36,6 +33,7 @@ use SilverStripe\Control\Cookie;
             "MenuIcon",
         ];
 
+        #[Override]
         public function getCMSFields()
         {
             $fields = parent::getCMSFields();

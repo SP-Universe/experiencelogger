@@ -13,6 +13,7 @@ SilverStripe\Admin\LeftAndMain:
   cms_drawer_background: '#22564D'
   cms_drawer_color: 'inherit'
   cms_icon_color: currentColor
+  show_cms_info: true
   menu_groups:
     Other:
       icon_class: 'fa fa-folder' # (optional) Defaults to 'fa fa-folder'

@@ -2,6 +2,7 @@
 
 namespace App\Profile;
 
+use Override;
 use Page;
 
 /**
@@ -12,16 +13,18 @@ class ProfilePage extends Page
 {
     private static $table_name = 'ProfilePage';
 
-    private static $db = array();
+    private static $db = [];
 
-    private static $icon = "app/client/icons/profile.svg";
+    private static $cms_icon = "app/client/icons/profile.svg";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
     }
 
+    #[Override]
     public function getControllerName()
     {
         return ProfilePageController::class;

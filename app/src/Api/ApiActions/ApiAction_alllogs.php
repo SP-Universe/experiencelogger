@@ -56,13 +56,11 @@ namespace App\Api\ApiActions {
                                 "Created" => $log->Created,
                                 "ExperienceID" => $log->ExperienceID,
                                 "FoodID" => $log->FoodID,
-                                "Friends" => $friends->map(function ($friend) {
-                                    return [
-                                        "ID" => $friend->ID,
-                                        "Nickname" => $friend->Nickname,
-                                        "Avatar" => $friend->Avatar,
-                                    ];
-                                }),
+                                "Friends" => $friends->map(fn($friend) => [
+                                    "ID" => $friend->ID,
+                                    "Nickname" => $friend->Nickname,
+                                    "Avatar" => $friend->Avatar,
+                                ]),
                             ];
                         }
 

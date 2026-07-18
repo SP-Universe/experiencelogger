@@ -11,17 +11,16 @@ namespace {
     use SilverStripe\Security\IdentityStore;
 
     use SilverStripe\Security\Security;
-    use Symbiote\MemberProfiles\Pages\MemberProfilePage;
 
     use SilverStripe\CMS\Controllers\ContentController;
 
     /**
- * Class \PageController
- *
- * @property \Page $dataRecord
- * @method \Page data()
- * @mixin \Page
- */
+     * Class \PageController
+     *
+     * @property Page $dataRecord
+     * @method Page data()
+     * @mixin Page
+     */
     class PageController extends ContentController
     {
         /**
@@ -91,6 +90,7 @@ namespace {
             }
         }
 
+        #[Override]
         protected function init()
         {
             parent::init();
@@ -100,7 +100,7 @@ namespace {
 
         public function getLoadingText()
         {
-            $randomLoadingTexts = array(
+            $randomLoadingTexts = [
                 "Waxing the Coaster tracks...",
                 "Preparing Popcorn...",
                 "Cuddling Mascots...",
@@ -133,7 +133,7 @@ namespace {
                 "Preparing Shows...",
                 "Preparing Parades...",
                 "Preparing Fireworks...",
-            );
+            ];
 
             return $randomLoadingTexts[array_rand($randomLoadingTexts)];
         }

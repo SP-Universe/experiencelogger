@@ -12,10 +12,10 @@ use SilverStripe\Admin\ModelAdmin;
  */
 class NewsAdmin extends ModelAdmin
 {
-    private static $managed_models = array (
+    private static $managed_models =  [
             News::class,
             NewsCategory::class
-    );
+    ];
 
     private static $url_segment = "news";
 

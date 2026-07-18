@@ -2,6 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 
@@ -14,7 +15,7 @@ use SilverStripe\Security\Permission;
  * @property int $SortOrder
  * @property bool $Defunct
  * @property int $ParentID
- * @method \App\ExperienceDatabase\Experience Parent()
+ * @method Experience Parent()
  */
 class ExperienceVariant extends DataObject
 {
@@ -54,6 +55,7 @@ class ExperienceVariant extends DataObject
     private static $singular_name = "Variant";
     private static $plural_name = "Variants";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -63,21 +65,25 @@ class ExperienceVariant extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

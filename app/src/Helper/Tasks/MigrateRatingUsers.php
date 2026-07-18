@@ -2,6 +2,10 @@
 
 namespace App\Helper\Tasks;
 
+use Override;
+use Symfony\Component\Console\Input\InputInterface;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
 use App\Ratings\Rating;
 use App\User\User;
 use SilverStripe\Dev\BuildTask;
@@ -9,13 +13,14 @@ use SilverStripe\ORM\DB;
 
 class MigrateRatingUsers extends BuildTask
 {
-    private static $segment = 'MigrateRatingUsers';
+    protected static string $commandName = 'MigrateRatingUsers';
 
-    protected $title = 'Migrate Rating Users';
-    protected $description = 'Sets UserID on all Ratings where the UserID does not match a valid User, by looking up the mapping via LogEntry.OldUserID → NewUserID.';
+    protected string $title = 'Migrate Rating Users';
+    protected static string $description = 'Sets UserID on all Ratings where the UserID does not match a valid User, by looking up the mapping via LogEntry.OldUserID → NewUserID.';
     protected $enabled = true;
 
-    public function run($request)
+    #[Override]
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         // Build a mapping from old Member IDs to new User IDs via LogEntry migration history
         $mappingRows = DB::query('
@@ -23,18 +28,14 @@ class MigrateRatingUsers extends BuildTask
             FROM LogEntry le
             WHERE le.OldUserID > 0 AND le.NewUserID > 0
         ');
-
         $mapping = [];
         foreach ($mappingRows as $row) {
             $mapping[$row['OldUserID']] = $row['NewUserID'];
         }
-
         echo 'Found ' . count($mapping) . ' OldUserID → NewUserID mappings.<br>';
-
         $fixed = 0;
         $skipped = 0;
         $notFound = 0;
-
         $ratings = Rating::get();
         foreach ($ratings as $rating) {
             // Skip if LegacyUserID is already set
@@ -72,7 +73,7 @@ class MigrateRatingUsers extends BuildTask
                 $notFound++;
             }
         }
-
         echo '<br>Done! Fixed: ' . $fixed . ' | Already valid: ' . $skipped . ' | No mapping found: ' . $notFound;
+        return Command::SUCCESS;
     }
 }

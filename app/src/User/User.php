@@ -2,6 +2,11 @@
 
 namespace App\User;
 
+use Override;
+use SilverStripe\Model\List\PaginatedList;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\ManyManyList;
 use App\ExperienceDatabase\Experience;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\ExperienceDatabase\LogEntry;
@@ -11,9 +16,7 @@ use App\Profile\FriendRequest;
 use App\Profile\ProfilePage;
 use App\User\AuthToken;
 use SilverStripe\Assets\Image;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 
@@ -33,10 +36,10 @@ use SilverStripe\Security\Security;
  * @property string $ProfilePrivacy
  * @property int $AvatarID
  * @property int $LastLoggedAreaID
- * @method \SilverStripe\Assets\Image Avatar()
- * @method \App\ExperienceDatabase\Experience LastLoggedArea()
- * @method \SilverStripe\ORM\DataList|\App\User\AuthToken[] AuthTokens()
- * @method \SilverStripe\ORM\ManyManyList|\App\ExperienceDatabase\ExperienceLocation[] FavouritePlaces()
+ * @method Image Avatar()
+ * @method Experience LastLoggedArea()
+ * @method DataList|AuthToken[] AuthTokens()
+ * @method ManyManyList|ExperienceLocation[] FavouritePlaces()
  */
 class User extends DataObject
 {
@@ -96,32 +99,38 @@ class User extends DataObject
 
     private static $url_segment = "user";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function getTitle()
     {
         return $this->Nickname;
@@ -143,7 +152,7 @@ class User extends DataObject
         $d = 'identicon'; //Default replacement for missing image
         $r = 'g'; //Rating
         $img = false; //Returning full image tag
-        $atts = array(); //Extra attributes to add
+        $atts = []; //Extra attributes to add
 
         $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($this->Email)));

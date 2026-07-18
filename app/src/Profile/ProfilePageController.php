@@ -3,38 +3,33 @@
 namespace App\Profile;
 
 //use jamesbolitho\frontenduploadfield\UploadField;
+use Override;
+use SilverStripe\Model\List\GroupedList;
+use SilverStripe\Model\List\PaginatedList;
+use DateTime;
 use PageController;
-use SilverStripe\ORM\DB;
 use SilverStripe\Forms\Form;
-use SilverStripe\Assets\File;
 use App\Profile\FriendRequest;
-use SilverStripe\ORM\ArrayList;
 use App\Overview\StatisticsPage;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Forms\FormAction;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\User\User;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
-use HudhaifaS\Forms\FrontendImageField;
-use SilverStripe\ORM\Queries\SQLSelect;
-use SilverStripe\ORM\Connect\MySQLQuery;
 use SilverStripe\Control\Middleware\HTTPCacheControlMiddleware;
 
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Profile\ProfilePage $dataRecord
- * @method \App\Profile\ProfilePage data()
- * @mixin \App\Profile\ProfilePage
+ * @property ProfilePage $dataRecord
+ * @method ProfilePage data()
+ * @mixin ProfilePage
  */
 class ProfilePageController extends PageController
 {
@@ -49,6 +44,7 @@ class ProfilePageController extends PageController
         'requestnewfriend'
     ];
 
+    #[Override]
     public function init()
     {
         HTTPCacheControlMiddleware::singleton()
@@ -140,11 +136,11 @@ class ProfilePageController extends PageController
             $textFieldEmail = new TextField("Email", "Email");
             $dateFieldBirthdate = new DateField("DateOfBirth", "Birthdate");
             $dateFieldBirthdate->setAttribute("readonly", "readonly")->addExtraClass("readonly");
-            $dropdownFieldProfilePrivacy = new DropdownField("ProfilePrivacy", "Profile Privacy", array(
+            $dropdownFieldProfilePrivacy = new DropdownField("ProfilePrivacy", "Profile Privacy", [
                 "public" => "Public",
                 "friends" => "Friends Only",
                 "private" => "Private"
-            ));
+            ]);
             $dropdownFieldProfilePrivacy->setValue($currentUser->ProfilePrivacy);
             $checkboxFieldLinkedLogging = new CheckboxField("LinkedLogging", "Linked Logging");
             $checkboxFieldLinkedLogging->setValue($currentUser->LinkedLogging);
@@ -225,10 +221,10 @@ class ProfilePageController extends PageController
         $result = $sqlQuery->execute();*/
 
         $members = Member::get()->filter(
-            array(
+            [
                 "ID:not" => $currentUser->ID,
                 "Nickname:not" => "admin"
-            )
+            ]
         );
 
         /*$listOfMembers = new ArrayList();
@@ -242,9 +238,9 @@ class ProfilePageController extends PageController
 
         $memberlist = PaginatedList::create($members, $this->getRequest());
         $memberlist->setPageLength(30);
-        return array(
+        return [
             'MemberList' => $memberlist
-        );
+        ];
     }
 
     public function user()
@@ -257,25 +253,25 @@ class ProfilePageController extends PageController
         $viewedUser = Member::get()->filter("Nickname", $this->getRequest()->param("ID"))->first();
 
         if (!$viewedUser) {
-            return array(
+            return [
                 "CurrentUser" => $currentUser
-            );
+            ];
         }
 
         if ($currentUser) {
-            return array(
+            return [
                 "UserProfile" => $viewedUser,
                 "CurrentUser" => $currentUser
-            );
+            ];
         } else {
             if ($viewedUser->ProfilePrivacy == "public") {
-                return array(
+                return [
                     "UserProfile" => $viewedUser
-                );
+                ];
             } else {
-                return array(
+                return [
                     "Error" => "You need to be logged in to view this page."
-                );
+                ];
             }
         }
     }
@@ -289,13 +285,13 @@ class ProfilePageController extends PageController
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $requestee = Member::get()->filter("ID", $this->getRequest()->param("ID"))->first();
 
-        $existingFriendRequest = FriendRequest::get()->filter(array(
+        $existingFriendRequest = FriendRequest::get()->filter([
             "RequesteeID" => $currentUser->ID,
             "RequesterID" => $requestee->ID
-        ))->first();
+        ])->first();
         if ($existingFriendRequest) {
             $existingFriendRequest->FriendshipStatus = "Accepted";
-            $now = new \DateTime();
+            $now = new DateTime();
             $existingFriendRequest->FriendsSince = $now->format("Y-m-d H:i:s");
             $existingFriendRequest->write();
             return $this->redirect("profile/");
@@ -326,7 +322,7 @@ class ProfilePageController extends PageController
                 $requesterFriendRequest = $requester->Friends()->filter("RequesteeID", $requestee->ID)->first();
                 $requesterFriendRequest->FriendshipStatus = "Accepted";
                 $friendRequest->FriendshipStatus = "Accepted";
-                $now = new \DateTime();
+                $now = new DateTime();
                 $friendRequest->FriendsSince = $now->format("Y-m-d H:i:s");
                 $requesterFriendRequest->write();
                 $friendRequest->write();

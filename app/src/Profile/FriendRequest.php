@@ -2,12 +2,10 @@
 
 namespace App\Profile;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
-use App\ExperienceDatabase\LogEntry;
-use SilverStripe\Forms\LiteralField;
 use SilverStripe\Security\Permission;
-use App\ExperienceDatabase\Experience;
 
 /**
  * Class \App\Database\Experience
@@ -16,8 +14,8 @@ use App\ExperienceDatabase\Experience;
  * @property string $FriendsSince
  * @property int $RequesterID
  * @property int $RequesteeID
- * @method \SilverStripe\Security\Member Requester()
- * @method \SilverStripe\Security\Member Requestee()
+ * @method Member Requester()
+ * @method Member Requestee()
  */
 class FriendRequest extends DataObject
 {
@@ -47,32 +45,38 @@ class FriendRequest extends DataObject
 
     private static $url_segment = "friendrequests";
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         return $fields;
     }
 
+    #[Override]
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

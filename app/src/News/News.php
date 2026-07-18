@@ -2,6 +2,9 @@
 
 namespace App\News;
 
+use Exception;
+use Override;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\ORM\DataObject;
@@ -16,9 +19,9 @@ use SilverStripe\Versioned\Versioned;
  * @property string $Date
  * @property string $Content
  * @property int $ImageID
- * @method \SilverStripe\Assets\Image Image()
- * @method \SilverStripe\ORM\ManyManyList|\App\News\NewsCategory[] Category()
- * @mixin \SilverStripe\Versioned\Versioned
+ * @method Image Image()
+ * @method ManyManyList|NewsCategory[] Category()
+ * @mixin Versioned
  */
 class News extends DataObject
 {
@@ -88,7 +91,7 @@ class News extends DataObject
                     return $thumb->getAbsoluteURL();
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception) {
             // Ignore
         }
         return "";
@@ -102,6 +105,7 @@ class News extends DataObject
         }
     }
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

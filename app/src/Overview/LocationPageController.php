@@ -2,14 +2,14 @@
 
 namespace App\Overview;
 
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\GroupedList;
 use App\User\User;
 use PageController;
 use App\Ratings\Rating;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\ArrayList;
 use App\Helper\ExperienceHelper;
 use App\Helper\StatisticsHelper;
-use SilverStripe\ORM\GroupedList;
 use SilverStripe\Security\Security;
 use App\ExperienceDatabase\LogEntry;
 use App\ExperienceDatabase\Experience;
@@ -21,9 +21,9 @@ use App\ExperienceDatabase\ExperienceLocation;
 /**
  * Class \App\Docs\DocsPageController
  *
- * @property \App\Overview\LocationPage $dataRecord
- * @method \App\Overview\LocationPage data()
- * @mixin \App\Overview\LocationPage
+ * @property LocationPage $dataRecord
+ * @method LocationPage data()
+ * @mixin LocationPage
  */
 class LocationPageController extends PageController
 {
@@ -185,14 +185,14 @@ class LocationPageController extends PageController
             $success = $_GET["success"];
         }
 
-        return array(
+        return [
             "Location" => $location,
             "LocationType" => $locationType,
             "Experiences" => $experiences,
             "GroupedExperiences" => $groupedExperiences,
             "Characters" => $characters,
             "Success" => $success,
-        );
+        ];
     }
 
     public function experience()
@@ -200,14 +200,14 @@ class LocationPageController extends PageController
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
         $title = explode("---", $title)[1];
-        $experience = Experience::get()->filter(array(
+        $experience = Experience::get()->filter([
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-        ))->first();
+        ])->first();
 
-        return array(
+        return [
             "Experience" => $experience,
-        );
+        ];
     }
 
     public function seatchart()
@@ -215,14 +215,14 @@ class LocationPageController extends PageController
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
         $title = explode("---", $title)[1];
-        $experience = Experience::get()->filter(array(
+        $experience = Experience::get()->filter([
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-        ))->first();
+        ])->first();
 
-        return array(
+        return [
             "Experience" => $experience,
-        );
+        ];
     }
 
     public function statistics()
@@ -230,10 +230,10 @@ class LocationPageController extends PageController
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
         $title = explode("---", $title)[1];
-        $experience = Experience::get()->filter(array(
+        $experience = Experience::get()->filter([
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-        ))->first();
+        ])->first();
 
         $percentOfLogs = StatisticsHelper::getPercentAsNumber($experience->TotalLogCount, $experience->Logs->Count(), 2);
 
@@ -244,11 +244,11 @@ class LocationPageController extends PageController
         $currentUser = User::get()->filter("ID", $currentMember->UserID)->first();
         $averageLogsPerVisit = StatisticsHelper::getAverageLogsOfExperiencePerVisit($currentUser->ID, $experience);
 
-        return array(
+        return [
             "Experience" => $experience,
             "PercentOfLogs" => $percentOfLogs,
             "AverageLogsPerVisit" => $averageLogsPerVisit,
-        );
+        ];
     }
 
     public function getLogCountForSeat($train, $wagon, $row, $seat)
@@ -256,10 +256,10 @@ class LocationPageController extends PageController
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
         $title = explode("---", $title)[1];
-        $experience = Experience::get()->filter(array(
+        $experience = Experience::get()->filter([
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-        ))->first();
+        ])->first();
 
         $id = $experience->ID;
         $currentMember = Security::getCurrentUser();
@@ -322,20 +322,20 @@ class LocationPageController extends PageController
         $title = $this->getRequest()->param("ID");
         $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
         $title = explode("---", $title)[1];
-        $experience = Experience::get()->filter(array(
+        $experience = Experience::get()->filter([
             "LinkTitle" => $title,
             "ParentID" => $park->ID
-        ))->first();
+        ])->first();
 
         $now = date("Y-m-d H:i:s");
         $currentDate = date("Y-m-d", strtotime($now));
         $currentTime = date("H:i", strtotime($now));
 
-        return array(
+        return [
             "Experience" => $experience,
             "CurrentDate" => $currentDate,
             "CurrentTime" => $currentTime,
-        );
+        ];
     }
 
     public function finishLog()
@@ -350,10 +350,10 @@ class LocationPageController extends PageController
             $title = $this->getRequest()->param("ID");
             $park = ExperienceLocation::get()->filter("LinkTitle", explode("---", $title)[0])->first();
             $title = explode("---", $title)[1];
-            $experience = Experience::get()->filter(array(
+            $experience = Experience::get()->filter([
                 "LinkTitle" => $title,
                 "ParentID" => $park->ID
-            ))->first();
+            ])->first();
 
             $newlogentry = LogEntry::create();
             $newlogentry->ExperienceID = $experience->ID;

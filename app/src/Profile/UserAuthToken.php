@@ -2,7 +2,7 @@
 
 namespace App\ExperienceDatabase;
 
-use SilverStripe\Assets\Image;
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
@@ -15,7 +15,7 @@ use SilverStripe\Security\Permission;
  * @property string $CreationDate
  * @property string $LastLogin
  * @property int $ParentID
- * @method \SilverStripe\Security\Member Parent()
+ * @method Member Parent()
  */
 class UserAuthToken extends DataObject
 {
@@ -62,6 +62,7 @@ class UserAuthToken extends DataObject
      *
      * @uses DataExtension->onAfterWrite()
      */
+    #[Override]
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
@@ -79,6 +80,7 @@ class UserAuthToken extends DataObject
         $this->write();
     }
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -86,21 +88,25 @@ class UserAuthToken extends DataObject
         return $fields;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return true;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return Permission::check('CMS_ACCESS_NewsAdmin', 'any', $member);

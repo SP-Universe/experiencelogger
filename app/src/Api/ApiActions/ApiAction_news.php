@@ -32,7 +32,7 @@ namespace App\Api\ApiActions {
                 if ($newsitem->ShortDescription) {
                     $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
                 } else {
-                    $groupedNews[$newsitem->ID]['Summary'] = substr($filteredContent, 0, 200) . "...";
+                    $groupedNews[$newsitem->ID]['Summary'] = substr((string) $filteredContent, 0, 200) . "...";
                 }
                 $groupedNews[$newsitem->ID]['Summary'] = $newsitem->ShortDescription;
                 $groupedNews[$newsitem->ID]['Link'] = $newsitem->getLink();
