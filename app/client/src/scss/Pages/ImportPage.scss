@@ -814,6 +814,27 @@
                 min-width: 220px;
             }
         }
+
+        // Marks the single row that failed to save (see
+        // ExperienceImportPageController::ReviewForm() / ImportFieldError)
+        // so staff can see exactly which field to fix instead of only a
+        // generic message at the top of the form.
+        tr.import_row--error{
+            outline: 2px solid #b3261e;
+            outline-offset: -2px;
+
+            td{
+                background-color: rgba(179, 38, 30, 0.55) !important;
+            }
+        }
+
+        .import_field_error{
+            display: block;
+            margin-top: 6px;
+            color: #ffdad6;
+            font-size: 12px;
+            font-weight: 700;
+        }
     }
 
     // Done / summary page

@@ -12,8 +12,11 @@
             </thead>
             <tbody>
                 <% loop $MissingItems %>
-                    <tr>
-                        <td data-label="Attraction" class="import_missing_col--title">$Title</td>
+                    <tr<% if $HasError %> class="import_row--error"<% end_if %>>
+                        <td data-label="Attraction" class="import_missing_col--title">
+                            $Title
+                            <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
+                        </td>
                         <td data-label="Current status" class="import_missing_col--state">$State</td>
                         <td data-label="Mark as defunct" class="import_missing_col--action">
                             <label class="import_toggle">

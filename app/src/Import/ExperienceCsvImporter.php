@@ -8,6 +8,7 @@ use App\ExperienceDatabase\ExperienceDataType;
 use App\ExperienceDatabase\ExperienceLocation;
 use App\ExperienceDatabase\ExperienceType;
 use League\Csv\Reader;
+use SilverStripe\Core\Validation\ValidationException;
 
 /**
  * Parses a "heide-park.csv"-style attraction export, diffs it against the
@@ -85,7 +86,7 @@ class ExperienceCsvImporter
 
     public function parseAndDiff(string $csvPath, ExperienceLocation $location): array
     {
-        $reader = Reader::createFromPath($csvPath, 'r');
+        $reader = Reader::from($csvPath, 'r');
         $reader->setDelimiter(';');
         $reader->setHeaderOffset(0);
 
@@ -171,7 +172,12 @@ class ExperienceCsvImporter
                 $summary['skipped']++;
                 continue;
             }
-            $this->applyCreate($create, $plan['locationId'], $createFieldSkipSelections[$index] ?? [], $createFieldOverrides[$index] ?? []);
+            // Throws ImportFieldError (not caught here) on a field type
+            // validation failure (e.g. "Must be an integer") - apply() stops
+            // at the first bad field so the caller can send the user back to
+            // the review form with that exact field highlighted, rather than
+            // silently skipping it and continuing.
+            $this->applyCreate($create, $plan['locationId'], $createFieldSkipSelections[$index] ?? [], $createFieldOverrides[$index] ?? [], $index);
             $summary['created']++;
         }
 
@@ -183,10 +189,14 @@ class ExperienceCsvImporter
             if (isset($autoFillOverrides[$index])) {
                 $autoFill['newValue'] = $autoFillOverrides[$index];
             }
-            // Blank "fill me in" fields left blank (see buildDataFields())
-            // don't count as an actual auto-fill.
-            if ($this->applyFieldChange($autoFill)) {
-                $summary['autoFilled']++;
+            try {
+                // Blank "fill me in" fields left blank (see buildDataFields())
+                // don't count as an actual auto-fill.
+                if ($this->applyFieldChange($autoFill)) {
+                    $summary['autoFilled']++;
+                }
+            } catch (ValidationException $e) {
+                throw new ImportFieldError('autoFill', $index, null, $autoFill['field'], $this->firstValidationMessage($e));
             }
         }
 
@@ -196,8 +206,12 @@ class ExperienceCsvImporter
                 if (isset($conflictOverrides[$index])) {
                     $conflict['newValue'] = $conflictOverrides[$index];
                 }
-                $this->applyFieldChange($conflict);
-                $summary['applied']++;
+                try {
+                    $this->applyFieldChange($conflict);
+                    $summary['applied']++;
+                } catch (ValidationException $e) {
+                    throw new ImportFieldError('conflict', $index, null, $conflict['field'], $this->firstValidationMessage($e));
+                }
             } else {
                 $summary['kept']++;
             }
@@ -210,12 +224,24 @@ class ExperienceCsvImporter
             $experience = Experience::get()->byID($missing['experienceId']);
             if ($experience) {
                 $experience->State = 'Defunct';
-                $experience->write();
-                $summary['markedDefunct']++;
+                try {
+                    $experience->write();
+                    $summary['markedDefunct']++;
+                } catch (ValidationException $e) {
+                    throw new ImportFieldError('missing', $index, null, 'direct:State', $this->firstValidationMessage($e));
+                }
             }
         }
 
         return $summary;
+    }
+
+    private function firstValidationMessage(ValidationException $e): string
+    {
+        foreach ($e->getResult()->getMessages() as $message) {
+            return $message['message'] ?? $e->getMessage();
+        }
+        return $e->getMessage();
     }
 
     /**
@@ -625,9 +651,10 @@ class ExperienceCsvImporter
         return $titles;
     }
 
-    private function applyCreate(array $create, int $locationId, array $fieldSkips = [], array $fieldOverrides = []): void
+    private function applyCreate(array $create, int $locationId, array $fieldSkips = [], array $fieldOverrides = [], int $planIndex = 0): void
     {
         $directFields = ['Title' => $create['title']];
+        $directFieldIndexes = []; // DB field name => index into enumerateCreateFields(), for error reporting
         $dataFields = [];
         $typeTitle = null;
         $areaTitle = null;
@@ -650,9 +677,10 @@ class ExperienceCsvImporter
                 // default with an empty string.
                 if ($field['value'] !== '') {
                     $directFields[$field['key']] = $field['value'];
+                    $directFieldIndexes[$field['key']] = $index;
                 }
             } else {
-                $dataFields[] = ['typeTitle' => $field['key'], 'value' => $field['value']];
+                $dataFields[] = ['typeTitle' => $field['key'], 'value' => $field['value'], 'fieldIndex' => $index];
             }
         }
 
@@ -664,7 +692,14 @@ class ExperienceCsvImporter
         if ($areaTitle) {
             $experience->AreaID = $this->findOrCreateArea($areaTitle, $locationId)->ID;
         }
-        $experience->write();
+        try {
+            $experience->write();
+        } catch (ValidationException $e) {
+            $dbField = $this->firstValidationFieldName($e);
+            $fieldIndex = $dbField !== null ? ($directFieldIndexes[$dbField] ?? null) : null;
+            $field = $dbField !== null ? 'direct:' . $dbField : null;
+            throw new ImportFieldError('create', $planIndex, $fieldIndex, $field, $this->firstValidationMessage($e));
+        }
 
         foreach ($dataFields as $dataField) {
             // Fields the CSV left blank are still listed for staff to fill
@@ -679,8 +714,20 @@ class ExperienceCsvImporter
                 'TypeID' => $dataType->ID,
                 'Description' => $dataField['value'],
             ]);
-            $data->write();
+            try {
+                $data->write();
+            } catch (ValidationException $e) {
+                throw new ImportFieldError('create', $planIndex, $dataField['fieldIndex'], 'data:' . $dataField['typeTitle'], $this->firstValidationMessage($e));
+            }
         }
+    }
+
+    private function firstValidationFieldName(ValidationException $e): ?string
+    {
+        foreach ($e->getResult()->getMessages() as $message) {
+            return $message['fieldName'] ?? null;
+        }
+        return null;
     }
 
     private function isBlankDataValue(string $value): bool

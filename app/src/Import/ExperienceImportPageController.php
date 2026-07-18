@@ -121,11 +121,19 @@ class ExperienceImportPageController extends PageController
             return null;
         }
 
+        // Set by confirmImport() when a field fails validation on write (e.g.
+        // "Must be an integer") - read once so the offending row can be
+        // highlighted, then cleared so a later reload of this same page
+        // doesn't keep reshowing it.
+        $session = $this->getRequest()->getSession();
+        $fieldError = $session->get('ExperienceImportFieldError');
+        $session->clear('ExperienceImportFieldError');
+
         $plan = json_decode($import->PlanJSON, true) ?: [];
-        $createsList = $this->buildCreatesList($plan['creates'] ?? []);
-        $autoFillGroups = $this->buildAutoFillGroups($plan['autoFills'] ?? []);
-        $missingItems = $this->buildMissingList($plan['missing'] ?? []);
-        $conflictGroups = $this->buildConflictGroups($plan['conflicts'] ?? []);
+        $createsList = $this->buildCreatesList($plan['creates'] ?? [], $fieldError);
+        $autoFillGroups = $this->buildAutoFillGroups($plan['autoFills'] ?? [], $fieldError);
+        $missingItems = $this->buildMissingList($plan['missing'] ?? [], $fieldError);
+        $conflictGroups = $this->buildConflictGroups($plan['conflicts'] ?? [], $fieldError);
 
         $createsTable = $this->customise(['Creates' => $createsList])
             ->renderWith(['type' => 'Includes', 'CreatesTable']);
@@ -164,17 +172,36 @@ class ExperienceImportPageController extends PageController
      * Experiences that exist for this place but weren't matched by any row
      * in the uploaded file (produced by ExperienceCsvImporter::parseAndDiff()).
      */
-    private function buildMissingList(array $missing): ArrayList
+    private function buildMissingList(array $missing, ?array $fieldError = null): ArrayList
     {
         $list = new ArrayList();
         foreach ($missing as $index => $item) {
+            $hasError = $this->matchesFieldError($fieldError, 'missing', $index);
             $list->push(ArrayData::create([
                 'Index' => $index,
                 'Title' => $item['title'],
                 'State' => $item['state'],
+                'HasError' => $hasError,
+                'ErrorMessage' => $hasError ? $fieldError['message'] : null,
             ]));
         }
         return $list;
+    }
+
+    /**
+     * Whether a field error stored by confirmImport() (see ReviewForm())
+     * belongs to the given plan section/index, so the matching row can be
+     * highlighted instead of just showing a generic top-of-form message.
+     */
+    private function matchesFieldError(?array $fieldError, string $section, int $planIndex, ?int $fieldIndex = null): bool
+    {
+        if (!$fieldError || $fieldError['section'] !== $section || $fieldError['planIndex'] !== $planIndex) {
+            return false;
+        }
+        if ($fieldIndex !== null && $fieldError['fieldIndex'] !== $fieldIndex) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -184,7 +211,7 @@ class ExperienceImportPageController extends PageController
      * fields - so the attraction title can be rendered once as a heading
      * instead of being repeated for every conflicting field.
      */
-    private function buildConflictGroups(array $conflicts): ArrayList
+    private function buildConflictGroups(array $conflicts, ?array $fieldError = null): ArrayList
     {
         $groups = new ArrayList();
         $currentGroup = null;
@@ -200,11 +227,14 @@ class ExperienceImportPageController extends PageController
                 $groups->push($currentGroup);
             }
 
+            $hasError = $this->matchesFieldError($fieldError, 'conflict', $index);
             $currentGroup->Fields->push(ArrayData::create([
                 'Index' => $index,
                 'FieldLabel' => $this->humanizeField($conflict['field']),
                 'OldValue' => $this->formatDisplayValue($conflict['oldValue'] ?? '', $conflict['field']),
                 'NewValueControl' => $this->buildFieldControl('conflictNewValue_' . $index, $conflict['newValue'] ?? '', $conflict['field']),
+                'HasError' => $hasError,
+                'ErrorMessage' => $hasError ? $fieldError['message'] : null,
             ]));
         }
 
@@ -269,17 +299,35 @@ class ExperienceImportPageController extends PageController
         }
 
         $importer = new ExperienceCsvImporter();
-        $summary = $importer->apply(
-            $plan,
-            $resolutions,
-            $defunctSelections,
-            $skipSelections,
-            $autoFillSkipSelections,
-            $createFieldSkipSelections,
-            $createFieldOverrides,
-            $autoFillOverrides,
-            $conflictOverrides
-        );
+        try {
+            $summary = $importer->apply(
+                $plan,
+                $resolutions,
+                $defunctSelections,
+                $skipSelections,
+                $autoFillSkipSelections,
+                $createFieldSkipSelections,
+                $createFieldOverrides,
+                $autoFillOverrides,
+                $conflictOverrides
+            );
+        } catch (ImportFieldError $e) {
+            // A field failed SilverStripe's type validation (e.g. "Must be
+            // an integer") - send the user back to the review form with that
+            // exact field highlighted (see ReviewForm()) instead of applying
+            // the rest of the plan and hiding which entry was the problem.
+            // The import stays Pending so it can simply be resubmitted once
+            // the value is fixed.
+            $this->getRequest()->getSession()->set('ExperienceImportFieldError', [
+                'section' => $e->section,
+                'planIndex' => $e->planIndex,
+                'fieldIndex' => $e->fieldIndex,
+                'field' => $e->field,
+                'message' => $e->getMessage(),
+            ]);
+            $form->sessionMessage('Could not save "' . $this->fieldErrorTitle($plan, $e) . '": ' . $e->getMessage() . '. Please correct the highlighted field below.', 'bad');
+            return $this->redirect($this->Link('review/' . $import->ID));
+        }
 
         // Redirect (rather than returning the template data directly) so the
         // response is rendered under the "done" action/template - a POST to
@@ -310,6 +358,22 @@ class ExperienceImportPageController extends PageController
         ];
     }
 
+    /**
+     * The attraction title a caught ImportFieldError relates to, for the
+     * top-of-form error message (see confirmImport()).
+     */
+    private function fieldErrorTitle(array $plan, ImportFieldError $e): string
+    {
+        $section = match ($e->section) {
+            'create' => 'creates',
+            'autoFill' => 'autoFills',
+            'conflict' => 'conflicts',
+            'missing' => 'missing',
+        };
+
+        return $plan[$section][$e->planIndex]['title'] ?? '';
+    }
+
     private function getPendingImport(int $id): ?ExperienceCsvImport
     {
         $import = ExperienceCsvImport::get()->byID($id);
@@ -334,7 +398,7 @@ class ExperienceImportPageController extends PageController
         return (int) $this->getRequest()->requestVar('ImportID');
     }
 
-    private function buildCreatesList(array $creates): ArrayList
+    private function buildCreatesList(array $creates, ?array $fieldError = null): ArrayList
     {
         $list = new ArrayList();
         foreach ($creates as $index => $create) {
@@ -344,6 +408,7 @@ class ExperienceImportPageController extends PageController
             $extraFieldsList = new ArrayList();
             foreach ($fields as $fieldIndex => $field) {
                 $fieldKey = $field['kind'] . ':' . $field['key'];
+                $hasError = $this->matchesFieldError($fieldError, 'create', $index, $fieldIndex);
                 $data = ArrayData::create([
                     'Index' => $index,
                     'FieldIndex' => $fieldIndex,
@@ -351,6 +416,8 @@ class ExperienceImportPageController extends PageController
                     'ValueControl' => $this->buildFieldControl('createFieldValue_' . $index . '_' . $fieldIndex, $field['value'], $fieldKey),
                     'DefaultSkip' => $this->isDefaultSkipField($fieldKey),
                     'RowId' => 'createExtraRow_' . $index . '_' . $fieldIndex,
+                    'HasError' => $hasError,
+                    'ErrorMessage' => $hasError ? $fieldError['message'] : null,
                 ]);
 
                 if (!empty($field['isExtra'])) {
@@ -378,7 +445,7 @@ class ExperienceImportPageController extends PageController
      * moving to the next) into one entry per attraction, so the title can be
      * shown once as a heading instead of being repeated for every field.
      */
-    private function buildAutoFillGroups(array $autoFills): ArrayList
+    private function buildAutoFillGroups(array $autoFills, ?array $fieldError = null): ArrayList
     {
         $groups = new ArrayList();
         $currentGroup = null;
@@ -395,12 +462,15 @@ class ExperienceImportPageController extends PageController
                 $groups->push($currentGroup);
             }
 
+            $hasError = $this->matchesFieldError($fieldError, 'autoFill', $index);
             $data = ArrayData::create([
                 'Index' => $index,
                 'FieldLabel' => $this->humanizeField($autoFill['field']),
                 'ValueControl' => $this->buildFieldControl('autoFillValue_' . $index, $autoFill['newValue'] ?? '', $autoFill['field']),
                 'DefaultSkip' => $this->isDefaultSkipField($autoFill['field']),
                 'RowId' => 'autoFillExtraRow_' . $index,
+                'HasError' => $hasError,
+                'ErrorMessage' => $hasError ? $fieldError['message'] : null,
             ]);
 
             if (!empty($autoFill['isExtra'])) {

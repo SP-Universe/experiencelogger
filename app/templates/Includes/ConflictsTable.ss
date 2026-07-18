@@ -21,7 +21,7 @@
                         <th colspan="3">$Title</th>
                     </tr>
                     <% loop $Fields %>
-                        <tr>
+                        <tr<% if $HasError %> class="import_row--error"<% end_if %>>
                             <td data-label="Field" class="import_conflicts_col--field">$FieldLabel</td>
                             <td data-label="Existing value" class="import_conflicts_col--old">
                                 <label class="import_conflicts_option">
@@ -35,6 +35,7 @@
                                     <span>Use this value</span>
                                 </label>
                                 $NewValueControl.RAW
+                                <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
                             </td>
                         </tr>
                     <% end_loop %>

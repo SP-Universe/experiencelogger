@@ -181,8 +181,8 @@ class Experience extends DataObject
     private static $defaults = [
         "State" => "Active",
         "HasGeneralSeats" => false,
-        "HasScore" => false,
-        "HasPodest" => false,
+        "HasScore" => "0",
+        "HasPodest" => 0,
         "HasWagons" => false,
         "HasRows" => false,
         "HasSeats" => false,

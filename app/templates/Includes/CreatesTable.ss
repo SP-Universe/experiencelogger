@@ -41,9 +41,12 @@
                         </th>
                     </tr>
                     <% loop $Fields %>
-                        <tr>
+                        <tr<% if $HasError %> class="import_row--error"<% end_if %>>
                             <td data-label="Field" class="import_creates_col--field">$FieldLabel</td>
-                            <td data-label="Value" class="import_creates_col--value">$ValueControl.RAW</td>
+                            <td data-label="Value" class="import_creates_col--value">
+                                $ValueControl.RAW
+                                <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
+                            </td>
                             <td data-label="Skip" class="import_creates_col--action">
                                 <label class="import_toggle">
                                     <input type="checkbox" name="skipCreateField_{$Index}_{$FieldIndex}" value="1"<% if $DefaultSkip %> checked<% end_if %>>
@@ -53,9 +56,12 @@
                         </tr>
                     <% end_loop %>
                     <% loop $ExtraFields %>
-                        <tr id="{$RowId}" class="import_creates_extra_row" hidden>
+                        <tr id="{$RowId}" class="import_creates_extra_row<% if $HasError %> import_row--error<% end_if %>"<% if not $HasError %> hidden<% end_if %>>
                             <td data-label="Field" class="import_creates_col--field">$FieldLabel</td>
-                            <td data-label="Value" class="import_creates_col--value">$ValueControl.RAW</td>
+                            <td data-label="Value" class="import_creates_col--value">
+                                $ValueControl.RAW
+                                <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
+                            </td>
                             <td data-label="Skip" class="import_creates_col--action">
                                 <label class="import_toggle">
                                     <input type="checkbox" name="skipCreateField_{$Index}_{$FieldIndex}" value="1"<% if $DefaultSkip %> checked<% end_if %>>

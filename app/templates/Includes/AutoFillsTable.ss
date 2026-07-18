@@ -32,9 +32,12 @@
                         </th>
                     </tr>
                     <% loop $Fields %>
-                        <tr>
+                        <tr<% if $HasError %> class="import_row--error"<% end_if %>>
                             <td data-label="Field" class="import_autofills_col--field">$FieldLabel</td>
-                            <td data-label="New value" class="import_autofills_col--new">$ValueControl.RAW</td>
+                            <td data-label="New value" class="import_autofills_col--new">
+                                $ValueControl.RAW
+                                <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
+                            </td>
                             <td data-label="Skip" class="import_autofills_col--action">
                                 <label class="import_toggle">
                                     <input type="checkbox" name="skipAutoFill_{$Index}" value="1"<% if $DefaultSkip %> checked<% end_if %>>
@@ -44,9 +47,12 @@
                         </tr>
                     <% end_loop %>
                     <% loop $ExtraFields %>
-                        <tr id="{$RowId}" class="import_autofills_extra_row" hidden>
+                        <tr id="{$RowId}" class="import_autofills_extra_row<% if $HasError %> import_row--error<% end_if %>"<% if not $HasError %> hidden<% end_if %>>
                             <td data-label="Field" class="import_autofills_col--field">$FieldLabel</td>
-                            <td data-label="New value" class="import_autofills_col--new">$ValueControl.RAW</td>
+                            <td data-label="New value" class="import_autofills_col--new">
+                                $ValueControl.RAW
+                                <% if $HasError %><span class="import_field_error">$ErrorMessage</span><% end_if %>
+                            </td>
                             <td data-label="Skip" class="import_autofills_col--action">
                                 <label class="import_toggle">
                                     <input type="checkbox" name="skipAutoFill_{$Index}" value="1"<% if $DefaultSkip %> checked<% end_if %>>
