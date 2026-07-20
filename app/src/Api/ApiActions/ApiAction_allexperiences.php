@@ -34,6 +34,7 @@ namespace App\Api\ApiActions {
             foreach ($experiences as $experience) {
                 $groupedExperiences[$experience->ID]['ID'] = $experience->ID;
                 $groupedExperiences[$experience->ID]['Title'] = $experience->Title;
+                $groupedExperiences[$experience->ID]['ExperienceLink'] = $experience->AbsoluteLink();
                 if ($experience->Description != null) {
                     $groupedExperiences[$experience->ID]['Description'] = self::cleanText($experience->Description);
                 }
