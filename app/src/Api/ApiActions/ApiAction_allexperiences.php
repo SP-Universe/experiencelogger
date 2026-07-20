@@ -39,7 +39,16 @@ namespace App\Api\ApiActions {
                     $groupedExperiences[$experience->ID]['Description'] = self::cleanText($experience->Description);
                 }
                 if ($experience->PhotoGalleryImages()->count() > 0) {
-                    $groupedExperiences[$experience->ID]['ImageLink'] = $experience->PhotoGalleryImages()->first()->Image()->AbsoluteLink();
+                    $galleryImages = $experience->PhotoGalleryImages();
+                    $groupedExperiences[$experience->ID]['ImageLink'] = $galleryImages->first()->Image()->AbsoluteLink();
+
+                    $groupedExperiences[$experience->ID]['GalleryImages'] = [];
+                    foreach ($galleryImages as $index => $galleryImage) {
+                        if ($index === 0) {
+                            continue;
+                        }
+                        $groupedExperiences[$experience->ID]['GalleryImages'][] = $galleryImage->Image()->AbsoluteLink();
+                    }
                 }
                 $groupedExperiences[$experience->ID]['LocationTitle'] = $experience->Parent()->Title;
                 $groupedExperiences[$experience->ID]['LocationId'] = $experience->ParentID;
