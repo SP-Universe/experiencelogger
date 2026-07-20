@@ -20,6 +20,23 @@ namespace App\Api\ApiActions {
             return $text;
         }
 
+        private static function mapVariantOrVersion($item)
+        {
+            $data = [
+                'ID' => $item->ID,
+                'Title' => $item->Title,
+                'SortOrder' => $item->SortOrder,
+                'Defunct' => (bool) $item->Defunct,
+            ];
+            if ($item->Description != null && $item->Description != "") {
+                $data['Description'] = self::cleanText($item->Description);
+            }
+            if ($item->OfficialWebsite != null && $item->OfficialWebsite != "") {
+                $data['OfficialWebsite'] = $item->OfficialWebsite;
+            }
+            return $data;
+        }
+
         public static function allexperiences(HTTPRequest $request)
         {
             $experiences = Experience::get()->sort('ID ASC');
@@ -98,6 +115,20 @@ namespace App\Api\ApiActions {
                 $groupedExperiences[$experience->ID]['HasOnridePhoto'] = (bool) $experience->HasOnridePhoto;
                 $groupedExperiences[$experience->ID]['AccessibleToHandicapped'] = (bool) $experience->AccessibleToHandicapped;
 
+                $performance = [];
+                if ($experience->HasScore != null && $experience->HasScore != "0" && $experience->HasScore != "") {
+                    $performance['HasScore'] = $experience->HasScore;
+                }
+                if ($experience->ScoreVehicleTitle != null && $experience->ScoreVehicleTitle != "0" && $experience->ScoreVehicleTitle != "") {
+                    $performance['ScorePer'] = $experience->ScoreVehicleTitle;
+                }
+                if ($experience->HasPodest != null && $experience->HasPodest != 0) {
+                    $performance['NumberOfPodestPlaces'] = (int) $experience->HasPodest;
+                }
+                if (count($performance) > 0) {
+                    $groupedExperiences[$experience->ID]['Performance'] = $performance;
+                }
+
                 $groupedExperiences[$experience->ID]['ExperienceData'] = [];
                 foreach ($experience->ExperienceData() as $experienceData) {
                     $data = [
@@ -122,6 +153,20 @@ namespace App\Api\ApiActions {
                         $data['SourceLink'] = $experienceData->SourceLink;
                     }
                     $groupedExperiences[$experience->ID]['ExperienceData'][] = $data;
+                }
+
+                if ($experience->Variants()->count() > 0) {
+                    $groupedExperiences[$experience->ID]['Variants'] = [];
+                    foreach ($experience->Variants() as $variant) {
+                        $groupedExperiences[$experience->ID]['Variants'][] = self::mapVariantOrVersion($variant);
+                    }
+                }
+
+                if ($experience->Versions()->count() > 0) {
+                    $groupedExperiences[$experience->ID]['Versions'] = [];
+                    foreach ($experience->Versions() as $version) {
+                        $groupedExperiences[$experience->ID]['Versions'][] = self::mapVariantOrVersion($version);
+                    }
                 }
 
                 foreach ($experience->ExperienceTrains() as $train) {
