@@ -56,11 +56,11 @@ namespace App\Api\ApiActions {
                                 "Created" => $log->Created,
                                 "ExperienceID" => $log->ExperienceID,
                                 "FoodID" => $log->FoodID,
-                                "Friends" => $friends->map(fn($friend) => [
+                                "Friends" => array_map(fn($friend) => [
                                     "ID" => $friend->ID,
                                     "Nickname" => $friend->Nickname,
                                     "Avatar" => $friend->Avatar,
-                                ]),
+                                ], $friends->toArray()),
                             ];
                         }
 
@@ -69,6 +69,7 @@ namespace App\Api\ApiActions {
                 } else {
                     $data['Success'] = false;
                     $data['Error'] = "You need to provide your Auth Token to access this data";
+                    return json_encode($data);
                 }
             }
         }
